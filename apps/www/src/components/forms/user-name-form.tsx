@@ -1,14 +1,12 @@
 "use client";
 
-import type { FormData } from "@/actions/update-user-name";
+import type { FormData } from "@/actions/Dingify/update-user-name";
 import type { User } from "@prisma/client";
 import { useTransition } from "react";
-import { updateUserName } from "@/actions/update-user-name";
-import { Icons } from "@/components/shared/icons";
-import { cn } from "@/lib/utils";
-import { userNameSchema } from "@/lib/validations/user";
+import { updateUserName } from "@/actions/Dingify/update-user-name";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { buttonVariants } from "@dingify/ui/components/button";
 import {
@@ -21,7 +19,10 @@ import {
 } from "@dingify/ui/components/card";
 import { Input } from "@dingify/ui/components/input";
 import { Label } from "@dingify/ui/components/label";
-import { toast } from "sonner";
+
+import { cn } from "@/lib/utils";
+import { userNameSchema } from "@/lib/validations/user";
+import { Icons } from "@/components/shared/icons";
 
 interface UserNameFormProps {
   user: Pick<User, "id" | "name">;

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createEvent } from "@/actions/create-event"; // Import the createEvent action
-import { getUserData } from "@/actions/get-user-details";
+import { createEvent } from "@/actions/Dingify/create-event"; // Import the createEvent action
+import { getUserData } from "@/actions/Dingify/get-user-details";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";

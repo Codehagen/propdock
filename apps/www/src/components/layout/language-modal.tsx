@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateUserLanguage } from "@/actions/update-language";
-import { Modal } from "@/components/shared/modal";
-import { useLanguageModal } from "@/hooks/use-language-modal";
+import { updateUserLanguage } from "@/actions/Dingify/update-language";
 
 import { Button } from "@dingify/ui/components/button";
 import {
@@ -15,6 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@dingify/ui/components/select";
+
+import { useLanguageModal } from "@/hooks/use-language-modal";
+import { Modal } from "@/components/shared/modal";
 
 // Add any additional imports for user feedback or styling
 

@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Bell,
   BrainCircuit,
+  Building,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -66,6 +67,7 @@ export const Icons = {
   party: PartyPopper,
   piecart: PieChart,
   bell: Bell,
+  building: Building,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

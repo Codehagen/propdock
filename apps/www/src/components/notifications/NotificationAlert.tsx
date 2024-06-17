@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { updateNotificationSettings } from "@/actions/change-notification-settings";
-import { testWebhook } from "@/actions/testwebhook";
+import { updateNotificationSettings } from "@/actions/Dingify/change-notification-settings";
+import { testWebhook } from "@/actions/Dingify/testwebhook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ExternalLinkIcon } from "lucide-react";
 import { useForm } from "react-hook-form";

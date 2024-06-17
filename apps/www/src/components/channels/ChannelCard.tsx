@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { deleteEvent } from "@/actions/delete-event";
+import { deleteEvent } from "@/actions/Dingify/delete-event";
 import {
   ChevronDownIcon,
   CircleIcon,

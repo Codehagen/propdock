@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { changeCustomerDetails } from "@/actions/change-customer-details";
+import { changeCustomerDetails } from "@/actions/Dingify/change-customer-details";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil, StarIcon, User, UserCog } from "lucide-react";
 import { useForm } from "react-hook-form";

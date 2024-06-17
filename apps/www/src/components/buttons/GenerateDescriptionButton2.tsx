@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { generateDescription } from "@/actions/generate-description";
-import { updatePropertyDescription } from "@/actions/update-property-description";
-import { updatePropertyStatus } from "@/actions/update-property-status";
+import { generateDescription } from "@/actions/Dingify/generate-description";
+import { updatePropertyDescription } from "@/actions/Dingify/update-property-description";
+import { updatePropertyStatus } from "@/actions/Dingify/update-property-status";
 import { Loader2 as Spinner } from "lucide-react";
 
 import { Button } from "@dingify/ui/components/button";
@@ -20,14 +20,14 @@ const GenerateDescriptionButton2 = ({ propertyId, onDescriptionGenerated }) => {
       // Update the property description
       const updateproperty = await updatePropertyDescription(
         propertyId,
-        description
+        description,
       );
 
       // If description update is successful, update the status to DONE
       if (updateproperty.success) {
         const statusUpdateResult = await updatePropertyStatus(
           propertyId,
-          "DONE"
+          "DONE",
         );
         console.log("Status updated to DONE:", statusUpdateResult);
       }

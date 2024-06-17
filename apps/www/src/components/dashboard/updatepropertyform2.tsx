@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { updatePropertyDetails } from "@/actions/update-property-form";
+import { updatePropertyDetails } from "@/actions/Dingify/update-property-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 as Spinner } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Input } from "@dingify/ui/components//input";
@@ -19,7 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@dingify/ui/components/card";
-import { toast } from "sonner";
 
 // Define your schema as per your requirements
 const propertyFormSchema = z.object({

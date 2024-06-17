@@ -2,10 +2,11 @@
 
 import type { SubscriptionPlan, UserSubscriptionPlan } from "@/types";
 import { useTransition } from "react";
-import { generateUserStripe } from "@/actions/generate-user-stripe";
-import { Icons } from "@/components/shared/icons";
+import { generateUserStripe } from "@/actions/Dingify/generate-user-stripe";
 
 import { Button } from "@dingify/ui/components/button";
+
+import { Icons } from "@/components/shared/icons";
 
 interface BillingFormButtonProps {
   offer: SubscriptionPlan;
@@ -22,7 +23,7 @@ export function BillingFormButton({
   const generateUserStripeSession = generateUserStripe.bind(
     null,
     // @ts-expect-error
-    offer.stripeIds[year ? "yearly" : "monthly"]
+    offer.stripeIds[year ? "yearly" : "monthly"],
   );
 
   const stripeSessionAction = () =>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { deleteEvent } from "@/actions/delete-event";
+import { deleteEvent } from "@/actions/Dingify/delete-event";
 import { format } from "date-fns";
 import { File, Pencil, Trash } from "lucide-react";
 import { toast } from "sonner";

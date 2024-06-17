@@ -1,4 +1,4 @@
-import { getChannelDetails } from "@/actions/get-channel-details";
+import { getChannelDetails } from "@/actions/Dingify/get-channel-details";
 
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";

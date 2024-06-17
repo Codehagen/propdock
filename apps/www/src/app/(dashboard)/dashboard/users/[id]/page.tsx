@@ -1,4 +1,4 @@
-import { getCustomerDetails } from "@/actions/get-customer-details";
+import { getCustomerDetails } from "@/actions/Dingify/get-customer-details";
 
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";

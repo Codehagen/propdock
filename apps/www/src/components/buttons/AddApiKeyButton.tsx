@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { generateAndSaveApiKey } from "@/actions/generate-api-key";
+import { generateAndSaveApiKey } from "@/actions/Dingify/generate-api-key";
+import { toast } from "sonner";
 
 import { Button } from "@dingify/ui/components/button";
 import {
@@ -21,7 +22,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@dingify/ui/components/tooltip";
-import { toast } from "sonner";
 
 export function AddApiKeyButton() {
   const [apiKey, setApiKey] = useState("");
@@ -45,7 +45,7 @@ export function AddApiKeyButton() {
 
     if (response.success) {
       setApiKey(response.apiKey as string);
-      
+
       toast.success("Your new API key has been generated successfully.");
     } else {
       console.error(response.error);

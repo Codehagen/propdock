@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { generateDescription } from "@/actions/generate-description";
+import { generateDescription } from "@/actions/Dingify/generate-description";
 
 import { Button } from "@dingify/ui/components/button";
 

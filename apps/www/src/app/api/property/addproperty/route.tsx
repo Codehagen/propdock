@@ -1,10 +1,11 @@
 import type { NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { getUserCredits } from "@/actions/get-credits";
-import { getCurrentUser } from "@/lib/session";
+import { getUserCredits } from "@/actions/Dingify/get-credits";
 
 import { prisma } from "@dingify/db";
+
+import { getCurrentUser } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
     console.error("Bad request: Address is required.");
     return new NextResponse(
       JSON.stringify({ message: "Address is required" }),
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -36,7 +37,7 @@ export async function POST(request: NextRequest) {
     if (availableCredits <= 0) {
       return new NextResponse(
         JSON.stringify({ message: "Insufficient credits" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
     console.error("Internal server error:", error);
     return new NextResponse(
       JSON.stringify({ message: "Error creating property" }),
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

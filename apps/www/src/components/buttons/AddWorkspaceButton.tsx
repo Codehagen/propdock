@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProjectAndChannel } from "@/actions/Dingify/create-project-and-channel";
+import { createWorkspace } from "@/actions/create-workspace";
 import { toast } from "sonner";
 
 import { Button } from "@dingify/ui/components/button";
@@ -18,8 +18,8 @@ import {
 import { Input } from "@dingify/ui/components/input";
 import { Label } from "@dingify/ui/components/label";
 
-export function AddProjectButton() {
-  const [projectName, setProjectName] = useState("");
+export function AddWorkspaceButton() {
+  const [workspaceName, setWorkspaceName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -28,15 +28,13 @@ export function AddProjectButton() {
     setIsLoading(true);
 
     try {
-      const result = await createProjectAndChannel(projectName);
+      const result = await createWorkspace(workspaceName);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to add project");
+        throw new Error(result.error || "Failed to add workspace");
       }
 
-      toast.success(`Project "${projectName}" created successfully.`);
-
-      // router.push(`/project/${result.project?.id}`);
+      toast.success(`Workspace "${workspaceName}" created successfully.`);
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -49,30 +47,29 @@ export function AddProjectButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="default" disabled={isLoading}>
-          Add New Project
+          Add New Workspace
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Add new project</DialogTitle>
+            <DialogTitle>Add new workspace</DialogTitle>
             <DialogDescription>
-              Enter the name of the new project and a channel will be created
-              automatically.
+              Enter the name of the new workspace.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 pt-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="projectName" className="col-span-1 text-right">
-                Project Name
+              <Label htmlFor="workspaceName" className="col-span-1 text-right">
+                Workspace Name
               </Label>
               <Input
-                id="projectName"
-                name="projectName"
-                placeholder="Project Name..."
+                id="workspaceName"
+                name="workspaceName"
+                placeholder="Workspace Name..."
                 className="col-span-3"
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
+                value={workspaceName}
+                onChange={(e) => setWorkspaceName(e.target.value)}
                 required
                 disabled={isLoading}
               />
@@ -84,7 +81,7 @@ export function AddProjectButton() {
               disabled={isLoading}
               className="w-full sm:w-auto"
             >
-              {isLoading ? "Saving..." : "Save new project"}
+              {isLoading ? "Saving..." : "Save new workspace"}
             </Button>
           </DialogFooter>
         </form>
