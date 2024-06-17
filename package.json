@@ -1,5 +1,5 @@
 {
-	"name": "dingify",
+	"name": "propdock",
 	"version": "0.1.0",
 	"private": true,
 	"author": {
@@ -7,7 +7,7 @@
 		"url": "https://twitter.com/Codehagen"
 	},
 	"engines": {
-		"node": "20.10.0"
+		"node": "20.9.0"
 	},
 	"packageManager": "pnpm@8.15.5",
 	"prettier": "@dingify/prettier-config",

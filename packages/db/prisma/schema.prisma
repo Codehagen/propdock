@@ -67,6 +67,9 @@ model User {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
+  workspaceId   Int?
+  workspace     Workspace?  @relation(fields: [workspaceId], references: [id])
+
   @@map(name: "users")
 }
 
@@ -166,6 +169,152 @@ enum NotificationType {
   DISCORD
   SLACK
   MOBILE
+}
+
+model Workspace {
+  id            Int        @id @default(autoincrement())
+  name          String
+  users         User[]
+  properties    Property[]
+  buildings     Building[]
+  contracts     Contract[]
+}
+
+model Property {
+  id            Int       @id @default(autoincrement())
+  name          String
+  workspaceId   Int
+  workspace     Workspace  @relation(fields: [workspaceId], references: [id])
+  buildings     Building[]
+  tenants       Tenant[]
+  contracts     Contract[]
+  analysis      FinancialAnalysisProperty[]
+}
+
+model Building {
+  id            Int       @id @default(autoincrement())
+  name          String
+  address       String
+  gnr           Int
+  bnr           Int 
+  snr           Int 
+  fnr           Int
+  workspaceId   Int
+  workspace     Workspace  @relation(fields: [workspaceId], references: [id])
+  propertyId    Int
+  property      Property   @relation(fields: [propertyId], references: [id])
+  floors        Floor[]
+  tenants       Tenant[]
+  contracts     Contract[]
+  analysis      FinancialAnalysisBuilding[]
+}
+
+model Floor {
+  id            Int       @id @default(autoincrement())
+  number        Int
+  buildingId    Int
+  building      Building  @relation(fields: [buildingId], references: [id])
+  maxTotalKvm   Int
+  maxOfficeKvm  Int
+  maxCommonKvm  Int
+  officeSpaces  OfficeSpace[]
+  tenants       Tenant[]
+  commonAreas   CommonArea[]
+  contracts     Contract[]
+}
+
+model OfficeSpace {
+  id            Int       @id @default(autoincrement())
+  name          String
+  sizeKvm       Float
+  floorId       Int
+  floor         Floor     @relation(fields: [floorId], references: [id])
+  tenants       Tenant[]
+  contract      Contract?
+  isRented      Boolean
+}
+
+model CommonArea {
+  id            Int       @id @default(autoincrement())
+  name          String
+  sizeKvm       Float
+  floorId       Int
+  floor         Floor     @relation(fields: [floorId], references: [id])
+  priceWeight   Float
+}
+
+model Tenant {
+  id            Int            @id @default(autoincrement())
+  name          String
+  orgnr         Int?
+  numEmployees  Int            @default(0)
+  buildingId    Int
+  building      Building       @relation(fields: [buildingId], references: [id])
+  floorId       Int?
+  floor         Floor?         @relation(fields: [floorId], references: [id])
+  officeSpaceId Int?
+  officeSpace   OfficeSpace?   @relation(fields: [officeSpaceId], references: [id])
+  contacts      ContactPerson[]
+  contracts     Contract[]
+  propertyId    Int
+  property      Property   @relation(fields: [propertyId], references: [id])
+}
+
+model Contract {
+  id              Int           @id @default(autoincrement())
+  tenantId        Int
+  tenant          Tenant        @relation(fields: [tenantId], references: [id])
+  buildingId      Int
+  building        Building      @relation(fields: [buildingId], references: [id])
+  contractType    ContractType
+  startDate       DateTime
+  endDate         DateTime
+  negotiationDate DateTime
+  baseRent        Float
+  indexationType  IndexationType
+  indexValue      Float?
+  workspaceId     Int
+  workspace       Workspace      @relation(fields: [workspaceId], references: [id])
+  propertyId      Int
+  property        Property       @relation(fields: [propertyId], references: [id])
+  floorId         Int?
+  floor           Floor?         @relation(fields: [floorId], references: [id])
+  officeSpaceId   Int?           @unique
+  officeSpace     OfficeSpace?   @relation(fields: [officeSpaceId], references: [id])
+}
+
+enum ContractType {
+  LEASE
+  SUBLEASE
+  INTERNAL
+}
+
+enum IndexationType {
+  MARKET
+  CPI
+  MANUAL
+}
+
+model ContactPerson {
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String  @unique
+  phone     String?
+  fnr       Int?
+  tenantId  Int
+  tenant    Tenant  @relation(fields: [tenantId], references: [id])
+}
+
+model FinancialAnalysisBuilding {
+  id           Int     @id @default(autoincrement())
+  buildingId   Int
+  building     Building @relation(fields: [buildingId], references: [id])
+}
+
+model FinancialAnalysisProperty {
+  id           Int     @id @default(autoincrement())
+  propertyId   Int
+  property     Property   @relation(fields: [propertyId], references: [id])
 }
 
 // if we need full reset : npx prisma db push --force-reset

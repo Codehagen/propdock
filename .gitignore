@@ -46,6 +46,8 @@ next-env.d.ts
 
 .vscode
 .contentlayer
+package-lock.json
+pnpm-lock.yaml
 
 #API
 .wrangler.toml
