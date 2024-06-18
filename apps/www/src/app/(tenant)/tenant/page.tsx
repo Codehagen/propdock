@@ -3,13 +3,12 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
+import { AddChannelButton } from "@/components/buttons/AddChannelButton";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
-
-import PropertyList from "./__components_deletelater/PropertyList";
 
 export const metadata = {
   title: "Dingify Dashboard - Your Alerts Overview",
@@ -21,7 +20,7 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect(authOptions.pages?.signIn ?? "/login");
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   // Fetch workspace associated with the user
@@ -71,11 +70,12 @@ export default async function DashboardPage() {
       createdAt: "desc",
     },
   });
+  console.log(properties);
 
   return (
     <DashboardShell>
       <DashboardHeader heading="Dashboard" text="asdasd">
-        <AddPropertyButton />
+        <AddChannelButton />
       </DashboardHeader>
       <div>
         {properties.length === 0 ? (
@@ -90,7 +90,8 @@ export default async function DashboardPage() {
             <AddPropertyButton />
           </EmptyPlaceholder>
         ) : (
-          <PropertyList properties={properties} />
+          // <EventsDashboard events={events} eventStats={eventStats} />
+          "hello world"
         )}
       </div>
     </DashboardShell>
