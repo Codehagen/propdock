@@ -1,14 +1,15 @@
 import type { NextAuthOptions } from "next-auth";
-import sendOnboardingEmail from "@/actions/send-onboarding-email";
-import { siteConfig } from "@/config/site";
+import sendOnboardingEmail from "@/actions/Dingify/send-onboarding-email";
 import MagicLinkEmail from "@/emails/magic-link-email";
-import { env } from "@/env";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 
-import { resend } from "./email";
+import { env } from "@/env";
+import { siteConfig } from "@/config/site";
+
 import { prisma } from "./db";
+import { resend } from "./email";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

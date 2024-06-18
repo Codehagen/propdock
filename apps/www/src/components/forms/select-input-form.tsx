@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { selectOption } from "@/actions/select-option";
+import { selectOption } from "@/actions/Dingify/select-option";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import {
@@ -23,7 +24,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@dingify/ui/components/card";
-import { toast } from "sonner";
 
 export function SelectInputForm({ options, image }) {
   const router = useRouter();
@@ -86,7 +86,7 @@ export function SelectInputForm({ options, image }) {
                 {
                   (image.selectedOption = image.selectedOption.replace(
                     /^\d+\.\s*/,
-                    ""
+                    "",
                   ))
                 }
               </CardContent>

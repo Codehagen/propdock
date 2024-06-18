@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { deleteCustomer } from "@/actions/delete-customer";
+import { deleteCustomer } from "@/actions/Dingify/delete-customer";
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { CircleIcon, Tag, TrashIcon } from "lucide-react";

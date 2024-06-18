@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getMetricsForUser } from "@/actions/get-metrics-user";
+import { getMetricsForUser } from "@/actions/Dingify/get-metrics-user";
 
 import {
   Card,

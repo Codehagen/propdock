@@ -1,21 +1,11 @@
-import React, { useState } from "react";
-import Generatedtext from "@/components/dashboard/generatedtext";
+import Link from "next/link";
+import { getPropertyDetails } from "@/actions/get-property-details";
+
+import { AddBuildingButton } from "@/components/buttons/AddBuildingButton";
+import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
-import { InputRightSideTest } from "@/components/dashboard/test";
-import { UpdatePropertyForm2 } from "@/components/dashboard/updatepropertyform2";
-import { UpdatePropertyForm } from "@/components/forms/update-property-form";
-import NoPhotoPlaceholder from "@/components/properties/NoPhotoPlaceholder copy";
-
-import { prisma } from "@dingify/db";
-
-export const metadata = {
-  title: "Property Details - Propwrite Dashboard",
-  description:
-    "View and edit your property details, add images, and customize listings to attract potential buyers. Your one-stop destination for managing individual real estate listings on Propwrite.",
-};
-
-export const maxDuration = 50;
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function PropertyPage({
   params,
@@ -23,69 +13,76 @@ export default async function PropertyPage({
   params: { id: string };
 }) {
   const propertyId = params.id;
-  const propertyData = await getPropertyData();
-  const hasPhotos = propertyData?.images && propertyData.images.length > 0;
 
-  async function getPropertyData() {
-    try {
-      // Fetch the property data including images using Prisma
-      const propertyData = await prisma.property.findUnique({
-        where: { id: propertyId },
-        include: { images: true }, // Include the images in the response
-      });
-      return propertyData;
-    } catch (error) {
-      console.error("Error fetching property:", error);
-      return null;
-    }
-  }
-
-  // Extract the default values from the property data
-  const defaultFormValues = {
-    address: propertyData?.address || "",
-    description: propertyData?.description || "",
-    p_rom: propertyData?.p_rom || "",
-    bra: propertyData?.bra || "",
-    soverom: propertyData?.soverom || "",
-    pris: propertyData?.pris || "",
-    takst_text: propertyData?.takst_text || "",
-  };
-
-  if (!hasPhotos) {
+  if (!propertyId) {
     return (
       <DashboardShell>
         <DashboardHeader
-          heading={propertyData ? propertyData.address : "Property"}
-          text="Add images to start"
-        ></DashboardHeader>
-        <div>
-          <NoPhotoPlaceholder slug={params.id} propertyId={propertyId} />
-        </div>
+          heading="Property not found"
+          text="Invalid property ID."
+        />
       </DashboardShell>
     );
   }
 
-  return (
-    <DashboardShell>
-      <DashboardHeader
-        heading={propertyData ? propertyData.address : "Property"}
-        text="Let's start working on your property"
-      ></DashboardHeader>
-      <div className="flex flex-col justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-        <div className="flex-1">
-          <Generatedtext
-            propertyId={propertyId}
-            descriptionData={propertyData.detailedDescription}
+  try {
+    const propertyDetails = await getPropertyDetails(propertyId);
+
+    if (!propertyDetails) {
+      return (
+        <DashboardShell>
+          <DashboardHeader
+            heading="Property not found"
+            text="We couldn't find the property you're looking for."
           />
+        </DashboardShell>
+      );
+    }
+
+    return (
+      <DashboardShell>
+        <DashboardHeader
+          heading={propertyDetails.name}
+          text="Detaljer om eiendommen."
+        >
+          <AddBuildingSheet propertyId={propertyId} />
+        </DashboardHeader>
+        <div>
+          {propertyDetails.buildings.length === 0 ? (
+            <EmptyPlaceholder>
+              <EmptyPlaceholder.Icon name="building" />
+              <EmptyPlaceholder.Title>
+                Legg til bygninger på eiendommen
+              </EmptyPlaceholder.Title>
+              <EmptyPlaceholder.Description>
+                Legg til hvordan bygninger som er tilknyttet eiendommen.
+              </EmptyPlaceholder.Description>
+              <AddBuildingButton propertyId={propertyId} />
+            </EmptyPlaceholder>
+          ) : (
+            <div>
+              <h4>Buildings:</h4>
+              <ul>
+                {propertyDetails.buildings.map((building) => (
+                  <li key={building.id}>
+                    <Link
+                      href={`/property/${propertyId}/building/${building.id}`}
+                    >
+                      {building.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-        <div className="flex-1">
-          <UpdatePropertyForm2
-            propertyId={propertyId}
-            defaultValues={defaultFormValues}
-          />
-          <div></div>
-        </div>
-      </div>
-    </DashboardShell>
-  );
+      </DashboardShell>
+    );
+  } catch (error) {
+    return (
+      <DashboardShell>
+        <DashboardHeader heading="Error" text={error.message} />
+      </DashboardShell>
+    );
+  }
 }

@@ -2,12 +2,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createProjectAndChannel } from "@/actions/create-project-and-channel"; // Import the function
+import { createProjectAndChannel } from "@/actions/Dingify/create-project-and-channel"; // Import the function
 
+import { generateApiKey } from "@/lib/crypto";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
-
-import { generateApiKey } from "../lib/crypto";
 
 export async function generateAndSaveApiKey() {
   const user = await getCurrentUser();

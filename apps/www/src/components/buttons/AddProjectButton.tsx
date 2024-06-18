@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProjectAndChannel } from "@/actions/create-project-and-channel";
+import { createProjectAndChannel } from "@/actions/Dingify/create-project-and-channel";
+import { toast } from "sonner";
 
 import { Button } from "@dingify/ui/components/button";
 import {
@@ -16,7 +17,6 @@ import {
 } from "@dingify/ui/components/dialog";
 import { Input } from "@dingify/ui/components/input";
 import { Label } from "@dingify/ui/components/label";
-import { toast } from "sonner";
 
 export function AddProjectButton() {
   const [projectName, setProjectName] = useState("");

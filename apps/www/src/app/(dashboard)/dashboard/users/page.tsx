@@ -1,5 +1,5 @@
-import { getChannelDetails } from "@/actions/get-channel-details";
-import { getAllCustomersForUser } from "@/actions/get-customers-all";
+import { getChannelDetails } from "@/actions/Dingify/get-channel-details";
+import { getAllCustomersForUser } from "@/actions/Dingify/get-customers-all";
 
 import { ChannelCard } from "@/components/channels/ChannelCard";
 import { DashboardHeader } from "@/components/dashboard/header";

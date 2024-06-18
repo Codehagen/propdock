@@ -2,7 +2,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { deleteCustomer } from "@/actions/delete-customer";
+import { deleteCustomer } from "@/actions/Dingify/delete-customer";
 import { toast } from "sonner";
 
 import { Button } from "@dingify/ui/components/button";

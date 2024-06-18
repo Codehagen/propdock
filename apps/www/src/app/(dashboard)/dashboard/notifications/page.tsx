@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getMetricsForUser } from "@/actions/get-metrics-user";
-import { getNotificationSettings } from "@/actions/get-notification-settings";
+import { getMetricsForUser } from "@/actions/Dingify/get-metrics-user";
+import { getNotificationSettings } from "@/actions/Dingify/get-notification-settings";
 
 import {
   Card,

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getUserChannels } from "@/actions/get-channels";
+import { getUserChannels } from "@/actions/Dingify/get-channels";
 
 import { dashboardConfig } from "@/config/dashboard";
 import { getCurrentUser } from "@/lib/session";
@@ -20,14 +20,14 @@ export default async function DashboardLayout({
     return notFound();
   }
 
-  const userChannels = await getUserChannels();
+  // const userChannels = await getUserChannels();
 
   const sidebarNavItems = [
     ...dashboardConfig.sidebarNav,
-    ...userChannels.map((channel) => ({
-      title: channel.name,
-      href: `/dashboard/channels/${channel.id}`, // Use ID instead of name
-    })),
+    // ...userChannels.map((channel) => ({
+    //   title: channel.name,
+    //   href: `/dashboard/channels/${channel.id}`,
+    // })),
   ];
 
   return (

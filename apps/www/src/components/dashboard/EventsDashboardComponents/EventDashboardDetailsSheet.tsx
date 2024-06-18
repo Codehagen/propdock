@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { createEvent } from "@/actions/create-event";
+import { createEvent } from "@/actions/Dingify/create-event";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@dingify/ui/components/button";
@@ -28,7 +29,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@dingify/ui/components/sheet";
-import { toast } from "sonner";
 
 // Define the validation schema
 const FormSchema = z.object({
@@ -66,7 +66,8 @@ export function EventDashboardDetailsSheet() {
                 {JSON.stringify(data, null, 2)}
               </code>
             </pre>
-          </div>);
+          </div>,
+        );
         console.log("Event created:", result.event); // Log the created event
         // Optionally refresh the page or clear the form
         form.reset();

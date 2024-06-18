@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getUserCredits } from "@/actions/get-credits";
+import { getUserCredits } from "@/actions/Dingify/get-credits";
 import { getEventStats } from "@/actions/stats/get-events-stats";
 
 import { authOptions } from "@/lib/auth";
@@ -7,8 +7,8 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton";
 import { AddChannelButton } from "@/components/buttons/AddChannelButton";
-import { AddProjectButton } from "@/components/buttons/AddProjectButton";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import EventsDashboard from "@/components/dashboard/EventsDashboard";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
@@ -29,114 +29,75 @@ export default async function DashboardPage() {
     redirect(authOptions.pages?.signIn || "/login");
   }
 
-  // Fetch projects associated with the user
-  const projects = await prisma.project.findMany({
+  // Fetch workspace associated with the user
+  const userWorkspace = await prisma.workspace.findFirst({
     where: {
-      userId: user.id,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  // Extract project IDs
-  const projectIds = projects.map((project) => project.id);
-
-  // Fetch customers associated with the user's projects
-  const customers = await prisma.customer.findMany({
-    where: {
-      projectId: {
-        in: projectIds,
-      },
-    },
-  });
-  console.log(customers);
-
-  // Fetch channels for the user's projects
-  const channels = await prisma.channel.findMany({
-    where: {
-      projectId: {
-        in: projectIds,
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      createdAt: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  // Extract channel IDs
-  const channelIds = channels.map((channel) => channel.id);
-
-  // Fetch events for the user's channels with project and channel names
-  const events = await prisma.event.findMany({
-    where: {
-      channelId: {
-        in: channelIds,
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      channelId: true,
-      userId: true,
-      icon: true,
-      tags: true,
-      notify: true,
-      createdAt: true,
-      customerId: true,
-      channel: {
-        select: {
-          name: true,
-          project: {
-            select: {
-              name: true,
-            },
-          },
+      users: {
+        some: {
+          id: user.id,
         },
       },
     },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!userWorkspace) {
+    return (
+      <DashboardShell>
+        <DashboardHeader heading="Dashboard" text="">
+          <AddWorkspaceButton />
+        </DashboardHeader>
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="user" />
+          <EmptyPlaceholder.Title>Finn ditt workspace</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Du har ikke lagt til et workspace ennå. Legg til et workspace for å
+            komme i gang.
+          </EmptyPlaceholder.Description>
+          <AddWorkspaceButton />
+        </EmptyPlaceholder>
+      </DashboardShell>
+    );
+  }
+
+  // Fetch properties associated with the user's workspace
+  const properties = await prisma.property.findMany({
+    where: {
+      workspaceId: userWorkspace.id,
+    },
+    select: {
+      id: true,
+      name: true,
+      createdAt: true,
+    },
     orderBy: {
       createdAt: "desc",
     },
   });
-
-  // Ensure userCredits.credits is defined, default to 0 if undefined
-  const availableCredits = userCredits.credits ?? 0;
+  console.log(properties);
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Dashboard" text="Your analytics dashboard">
-        {userCredits.success && availableCredits > 0 ? (
-          <AddProjectButton />
-        ) : (
-          // <Button disabled variant="outline">
-          //   Add Credits to Add Channel
-          // </Button>
-          // <AddProjectButton />
-          <AddChannelButton />
-        )}
+      <DashboardHeader heading="Dashboard" text="asdasd">
+        <AddChannelButton />
       </DashboardHeader>
       <div>
-        {channels.length === 0 ? (
-          // Render EmptyPlaceholder if there are no channels
+        {properties.length === 0 ? (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Icon name="building" />
             <EmptyPlaceholder.Title>
-              There are no channels
+              Legg til din første eiendom
             </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You need to generate an API key first
+              Skriv noe her hvorfor vi trenger de å legge til første eiendom.
             </EmptyPlaceholder.Description>
-            <AddApiKeyButton />
+            <AddPropertyButton />
           </EmptyPlaceholder>
         ) : (
-          // Render EventsTable if there are Events
-          <EventsDashboard events={events} eventStats={eventStats} />
+          // <EventsDashboard events={events} eventStats={eventStats} />
+          "hello world"
         )}
       </div>
     </DashboardShell>

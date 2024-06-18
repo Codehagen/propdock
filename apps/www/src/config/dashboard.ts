@@ -19,24 +19,19 @@ export const dashboardConfig: DashboardConfig = {
       icon: "home",
     },
     {
-      title: "Analytics",
-      href: "/dashboard/analytics",
-      icon: "piechart",
+      title: "Eiendommer",
+      href: "/property",
+      icon: "building",
     },
     {
-      title: "Users",
+      title: "Leietakere",
       href: "/dashboard/users",
       icon: "user",
     },
     {
-      title: "Notifications",
-      href: "/dashboard/notifications",
-      icon: "bell",
-    },
-    {
-      title: "Billing",
-      href: "/dashboard/billing",
-      icon: "billing",
+      title: "Analyser",
+      href: "/dashboard/analytics",
+      icon: "piechart",
     },
     {
       title: "Settings",

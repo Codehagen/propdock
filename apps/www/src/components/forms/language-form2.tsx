@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { updateUserLanguage } from "@/actions/update-language";
-import { Icons } from "@/components/shared/icons";
+import { updateUserLanguage } from "@/actions/Dingify/update-language";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button, buttonVariants } from "@dingify/ui/components/button";
@@ -22,7 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@dingify/ui/components/select";
-import { toast } from "sonner";
+
+import { Icons } from "@/components/shared/icons";
 
 const languageSchema = z.object({
   language: z.string({
@@ -32,7 +33,7 @@ const languageSchema = z.object({
 
 export function LanguageForm2({ user }) {
   const [selectedLanguage, setSelectedLanguage] = useState(
-    user.language || "english"
+    user.language || "english",
   );
   const [isPending, setPending] = useState(false);
   const form = useForm({
