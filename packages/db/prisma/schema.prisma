@@ -54,10 +54,8 @@ model User {
   language            String?   @default("english")
   onboardingEmailSent Boolean   @default(false)
 
-  accounts             Account[]
-  sessions             Session[]
-  projects             Project[]
-  notificationSettings NotificationSetting[]
+  accounts Account[]
+  sessions Session[]
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
@@ -67,8 +65,8 @@ model User {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
-  workspaceId   Int?
-  workspace     Workspace?  @relation(fields: [workspaceId], references: [id])
+  workspaceId Int?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
 
   @@map(name: "users")
 }
@@ -82,190 +80,124 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
-model Project {
-  id     String @id @default(cuid())
-  name   String
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  channels  Channel[]
-  metrics   Metrics[]
-  customers Customer[]
-
-  createdAt DateTime @default(now())
-
-  @@map(name: "projects")
-}
-
-model Channel {
-  id        String   @id @default(cuid())
-  name      String
-  projectId String
-  project   Project  @relation(fields: [projectId], references: [id])
-  events    Event[]
-  createdAt DateTime @default(now())
-
-  @@unique([projectId, name])
-  @@map(name: "channels")
-}
-
-model Event {
-  id         String    @id @default(cuid())
-  name       String
-  channelId  String
-  channel    Channel   @relation(fields: [channelId], references: [id])
-  userId     String
-  customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  icon       String
-  notify     Boolean
-  tags       Json
-  createdAt  DateTime  @default(now())
-
-  @@map(name: "events")
-}
-
-model Metrics {
-  id            String  @id @default(cuid())
-  projectId     String  @unique
-  logsUsed      Int     @default(0)
-  logsLimit     Int     @default(1000)
-  channelsUsed  Int     @default(1)
-  channelsLimit Int     @default(3)
-  seatsUsed     Int     @default(1)
-  projectsUsed  Int     @default(1)
-  project       Project @relation(fields: [projectId], references: [id])
-
-  @@map(name: "metrics")
-}
-
-model Customer {
-  id        String   @id @default(cuid())
-  projectId String
-  userId    String
-  name      String?
-  email     String?
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  events    Event[]
-
-  @@unique([userId, projectId])
-  @@map(name: "customers")
-}
-
-model NotificationSetting {
-  id        String           @id @default(cuid())
-  userId    String
-  user      User             @relation(fields: [userId], references: [id])
-  type      NotificationType @default(DISCORD)
-  details   Json // Details like webhook URL, mobile number, etc.
-  enabled   Boolean          @default(true)
-  createdAt DateTime         @default(now())
-
-  @@map(name: "notification_settings")
-}
-
-enum NotificationType {
-  DISCORD
-  SLACK
-  MOBILE
-}
-
 model Workspace {
-  id            Int        @id @default(autoincrement())
-  name          String
-  users         User[]
-  properties    Property[]
-  buildings     Building[]
-  contracts     Contract[]
+  id         Int        @id @default(autoincrement())
+  name       String
+  orgnr      Int
+  address    String
+  postalCode String
+  city       String
+  users      User[]
+  properties Property[]
+  buildings  Building[]
+  contracts  Contract[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Property {
-  id            Int       @id @default(autoincrement())
-  name          String
-  workspaceId   Int
-  workspace     Workspace  @relation(fields: [workspaceId], references: [id])
-  buildings     Building[]
-  tenants       Tenant[]
-  contracts     Contract[]
-  analysis      FinancialAnalysisProperty[]
+  id          Int                         @id @default(autoincrement())
+  name        String
+  workspaceId Int
+  workspace   Workspace                   @relation(fields: [workspaceId], references: [id])
+  buildings   Building[]
+  tenants     Tenant[]
+  contracts   Contract[]
+  analysis    FinancialAnalysisProperty[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Building {
-  id            Int       @id @default(autoincrement())
-  name          String
-  address       String
-  gnr           Int
-  bnr           Int 
-  snr           Int 
-  fnr           Int
-  workspaceId   Int
-  workspace     Workspace  @relation(fields: [workspaceId], references: [id])
-  propertyId    Int
-  property      Property   @relation(fields: [propertyId], references: [id])
-  floors        Floor[]
-  tenants       Tenant[]
-  contracts     Contract[]
-  analysis      FinancialAnalysisBuilding[]
+  id          Int                         @id @default(autoincrement())
+  name        String
+  address     String
+  gnr         Int
+  bnr         Int
+  snr         Int
+  fnr         Int
+  workspaceId Int
+  workspace   Workspace                   @relation(fields: [workspaceId], references: [id])
+  propertyId  Int
+  property    Property                    @relation(fields: [propertyId], references: [id])
+  floors      Floor[]
+  tenants     Tenant[]
+  contracts   Contract[]
+  analysis    FinancialAnalysisBuilding[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Floor {
-  id            Int       @id @default(autoincrement())
-  number        Int
-  buildingId    Int
-  building      Building  @relation(fields: [buildingId], references: [id])
-  maxTotalKvm   Int
-  maxOfficeKvm  Int
-  maxCommonKvm  Int
-  officeSpaces  OfficeSpace[]
-  tenants       Tenant[]
-  commonAreas   CommonArea[]
-  contracts     Contract[]
+  id           Int           @id @default(autoincrement())
+  number       Int
+  buildingId   Int
+  building     Building      @relation(fields: [buildingId], references: [id])
+  maxTotalKvm  Int
+  maxOfficeKvm Int
+  maxCommonKvm Int
+  officeSpaces OfficeSpace[]
+  tenants      Tenant[]
+  commonAreas  CommonArea[]
+  contracts    Contract[]
 }
 
 model OfficeSpace {
-  id            Int       @id @default(autoincrement())
-  name          String
-  sizeKvm       Float
-  floorId       Int
-  floor         Floor     @relation(fields: [floorId], references: [id])
-  tenants       Tenant[]
-  contract      Contract?
-  isRented      Boolean
+  id       Int       @id @default(autoincrement())
+  name     String
+  sizeKvm  Float
+  floorId  Int
+  floor    Floor     @relation(fields: [floorId], references: [id])
+  tenants  Tenant[]
+  contract Contract?
+  isRented Boolean
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model CommonArea {
-  id            Int       @id @default(autoincrement())
-  name          String
-  sizeKvm       Float
-  floorId       Int
-  floor         Floor     @relation(fields: [floorId], references: [id])
-  priceWeight   Float
+  id          Int    @id @default(autoincrement())
+  name        String
+  sizeKvm     Float
+  floorId     Int
+  floor       Floor  @relation(fields: [floorId], references: [id])
+  priceWeight Float
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Tenant {
-  id            Int            @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   name          String
   orgnr         Int?
-  numEmployees  Int            @default(0)
+  numEmployees  Int          @default(0)
   buildingId    Int
-  building      Building       @relation(fields: [buildingId], references: [id])
+  building      Building     @relation(fields: [buildingId], references: [id])
   floorId       Int?
-  floor         Floor?         @relation(fields: [floorId], references: [id])
+  floor         Floor?       @relation(fields: [floorId], references: [id])
   officeSpaceId Int?
-  officeSpace   OfficeSpace?   @relation(fields: [officeSpaceId], references: [id])
-  contacts      ContactPerson[]
-  contracts     Contract[]
+  officeSpace   OfficeSpace? @relation(fields: [officeSpaceId], references: [id])
   propertyId    Int
-  property      Property   @relation(fields: [propertyId], references: [id])
+  property      Property     @relation(fields: [propertyId], references: [id])
+
+  contacts  ContactPerson[]
+  contracts Contract[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Contract {
-  id              Int           @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   tenantId        Int
-  tenant          Tenant        @relation(fields: [tenantId], references: [id])
+  tenant          Tenant         @relation(fields: [tenantId], references: [id])
   buildingId      Int
-  building        Building      @relation(fields: [buildingId], references: [id])
+  building        Building       @relation(fields: [buildingId], references: [id])
   contractType    ContractType
   startDate       DateTime
   endDate         DateTime
@@ -281,6 +213,9 @@ model Contract {
   floor           Floor?         @relation(fields: [floorId], references: [id])
   officeSpaceId   Int?           @unique
   officeSpace     OfficeSpace?   @relation(fields: [officeSpaceId], references: [id])
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 enum ContractType {
@@ -296,25 +231,34 @@ enum IndexationType {
 }
 
 model ContactPerson {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  phone     String?
-  fnr       Int?
-  tenantId  Int
-  tenant    Tenant  @relation(fields: [tenantId], references: [id])
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  phone    String?
+  fnr      Int?
+  tenantId Int
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model FinancialAnalysisBuilding {
-  id           Int     @id @default(autoincrement())
-  buildingId   Int
-  building     Building @relation(fields: [buildingId], references: [id])
+  id         Int      @id @default(autoincrement())
+  buildingId Int
+  building   Building @relation(fields: [buildingId], references: [id])
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model FinancialAnalysisProperty {
-  id           Int     @id @default(autoincrement())
-  propertyId   Int
-  property     Property   @relation(fields: [propertyId], references: [id])
+  id         Int      @id @default(autoincrement())
+  propertyId Int
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 // if we need full reset : npx prisma db push --force-reset
