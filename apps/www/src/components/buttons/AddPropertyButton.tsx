@@ -37,7 +37,7 @@ export function AddPropertyButton() {
       toast.success(`Eiendommen "${propertyName}" ble lagt til.`);
 
       // Optionally, you can refresh the page or navigate to the new property
-      router.push(`/dashboard/properties/${result.property?.id}`);
+      router.push(`/property/${result.property?.id}`);
     } catch (error) {
       toast.error(error.message);
       console.error(error);

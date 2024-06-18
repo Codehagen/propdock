@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+import { Pool, PrismaClient, PrismaNeon } from "@dingify/db";
 
 import { env } from "@/env";
-import { Pool, PrismaClient, PrismaNeon } from "@dingify/db";
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
