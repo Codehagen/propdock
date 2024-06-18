@@ -83,10 +83,10 @@ model VerificationToken {
 model Workspace {
   id         Int        @id @default(autoincrement())
   name       String
-  orgnr      Int
-  address    String
-  postalCode String
-  city       String
+  orgnr      Int?
+  address    String?
+  postalCode String?
+  city       String?
   users      User[]
   properties Property[]
   buildings  Building[]

@@ -31,10 +31,10 @@ export function AddWorkspaceButton() {
       const result = await createWorkspace(workspaceName);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to add workspace");
+        throw new Error(result.error || "Feil ved oppretting av workspace.");
       }
 
-      toast.success(`Workspace "${workspaceName}" created successfully.`);
+      toast.success(`Workspace "${workspaceName}" ble lagt til.`);
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -47,26 +47,24 @@ export function AddWorkspaceButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="default" disabled={isLoading}>
-          Add New Workspace
+          Legg til workspace
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Add new workspace</DialogTitle>
+            <DialogTitle>Legg til nytt workspace</DialogTitle>
             <DialogDescription>
-              Enter the name of the new workspace.
+              Skriv inn navnet på det nye workspace
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 pt-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="workspaceName" className="col-span-1 text-right">
-                Workspace Name
-              </Label>
+              <Label htmlFor="workspaceName">Navn</Label>
               <Input
                 id="workspaceName"
                 name="workspaceName"
-                placeholder="Workspace Name..."
+                placeholder="Navn..."
                 className="col-span-3"
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
@@ -81,7 +79,7 @@ export function AddWorkspaceButton() {
               disabled={isLoading}
               className="w-full sm:w-auto"
             >
-              {isLoading ? "Saving..." : "Save new workspace"}
+              {isLoading ? "Lagrer..." : "Legg til workspace"}
             </Button>
           </DialogFooter>
         </form>

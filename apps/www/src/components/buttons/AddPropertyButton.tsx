@@ -31,10 +31,10 @@ export function AddPropertyButton() {
       const result = await createProperty(propertyName);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to add property");
+        throw new Error(result.error || "Feil ved oppretting av eiendom.");
       }
 
-      toast.success(`Property "${propertyName}" created successfully.`);
+      toast.success(`Eiendommen "${propertyName}" ble lagt til.`);
 
       // Optionally, you can refresh the page or navigate to the new property
       router.push(`/dashboard/properties/${result.property?.id}`);
@@ -50,26 +50,26 @@ export function AddPropertyButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="default" disabled={isLoading}>
-          Add New Property
+          Legg til eiendom
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Add new property</DialogTitle>
+            <DialogTitle>Legg til eiendom</DialogTitle>
             <DialogDescription>
-              Enter the name of the new property.
+              Skriv inn navnet på den nye eiendommen eller bygningen
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 pt-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="propertyName" className="col-span-1 text-right">
-                Property Name
+                Navn
               </Label>
               <Input
                 id="propertyName"
                 name="propertyName"
-                placeholder="Property Name..."
+                placeholder="Hva kaller du byggningen..."
                 className="col-span-3"
                 value={propertyName}
                 onChange={(e) => setPropertyName(e.target.value)}
@@ -84,7 +84,7 @@ export function AddPropertyButton() {
               disabled={isLoading}
               className="w-full sm:w-auto"
             >
-              {isLoading ? "Saving..." : "Save new property"}
+              {isLoading ? "Lagrer..." : "Lagre ny bygning"}
             </Button>
           </DialogFooter>
         </form>

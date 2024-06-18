@@ -20,14 +20,14 @@ export default async function DashboardLayout({
     return notFound();
   }
 
-  const userChannels = await getUserChannels();
+  // const userChannels = await getUserChannels();
 
   const sidebarNavItems = [
     ...dashboardConfig.sidebarNav,
-    ...userChannels.map((channel) => ({
-      title: channel.name,
-      href: `/dashboard/channels/${channel.id}`, // Use ID instead of name
-    })),
+    // ...userChannels.map((channel) => ({
+    //   title: channel.name,
+    //   href: `/dashboard/channels/${channel.id}`, // Use ID instead of name
+    // })),
   ];
 
   return (

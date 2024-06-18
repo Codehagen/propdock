@@ -7,7 +7,6 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton";
 import { AddChannelButton } from "@/components/buttons/AddChannelButton";
-import { AddProjectButton } from "@/components/buttons/AddProjectButton";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import EventsDashboard from "@/components/dashboard/EventsDashboard";
@@ -44,35 +43,29 @@ export default async function DashboardPage() {
     },
   });
 
-  // Fetch projects associated with the user
-  const projects = await prisma.project.findMany({
-    where: {
-      userId: user.id,
-    },
-    select: {
-      id: true,
-    },
-  });
+  if (!userWorkspace) {
+    return (
+      <DashboardShell>
+        <DashboardHeader heading="Dashboard" text="">
+          <AddWorkspaceButton />
+        </DashboardHeader>
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="user" />
+          <EmptyPlaceholder.Title>Finn ditt workspace</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Du har ikke lagt til et workspace ennå. Legg til et workspace for å
+            komme i gang.
+          </EmptyPlaceholder.Description>
+          <AddWorkspaceButton />
+        </EmptyPlaceholder>
+      </DashboardShell>
+    );
+  }
 
-  // Extract project IDs
-  const projectIds = projects.map((project) => project.id);
-
-  // Fetch customers associated with the user's projects
-  const customers = await prisma.customer.findMany({
+  // Fetch properties associated with the user's workspace
+  const properties = await prisma.property.findMany({
     where: {
-      projectId: {
-        in: projectIds,
-      },
-    },
-  });
-  console.log(customers);
-
-  // Fetch channels for the user's projects
-  const channels = await prisma.channel.findMany({
-    where: {
-      projectId: {
-        in: projectIds,
-      },
+      workspaceId: userWorkspace.id,
     },
     select: {
       id: true,
@@ -83,84 +76,28 @@ export default async function DashboardPage() {
       createdAt: "desc",
     },
   });
-
-  // Extract channel IDs
-  const channelIds = channels.map((channel) => channel.id);
-
-  // Fetch events for the user's channels with project and channel names
-  const events = await prisma.event.findMany({
-    where: {
-      channelId: {
-        in: channelIds,
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      channelId: true,
-      userId: true,
-      icon: true,
-      tags: true,
-      notify: true,
-      createdAt: true,
-      customerId: true,
-      channel: {
-        select: {
-          name: true,
-          project: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  // Ensure userCredits.credits is defined, default to 0 if undefined
-  const availableCredits = userCredits.credits ?? 0;
+  console.log(properties);
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Dashboard" text="">
-        {userWorkspace ? (
-          availableCredits > 0 ? (
-            <AddProjectButton />
-          ) : (
-            <AddChannelButton />
-          )
-        ) : (
-          <AddWorkspaceButton />
-        )}
+      <DashboardHeader heading="Dashboard" text="asdasd">
+        <AddChannelButton />
       </DashboardHeader>
       <div>
-        {userWorkspace ? (
-          channels.length === 0 ? (
-            <EmptyPlaceholder>
-              <EmptyPlaceholder.Icon name="building" />
-              <EmptyPlaceholder.Title>
-                Legg til din første eiendom
-              </EmptyPlaceholder.Title>
-              <EmptyPlaceholder.Description>
-                Skriv noe her hvorfor vi trenger de å legge til første eiendom.
-              </EmptyPlaceholder.Description>
-              <AddPropertyButton />
-            </EmptyPlaceholder>
-          ) : (
-            <EventsDashboard events={events} eventStats={eventStats} />
-          )
-        ) : (
+        {properties.length === 0 ? (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="user" />
-            <EmptyPlaceholder.Title>No Workspace Found</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Icon name="building" />
+            <EmptyPlaceholder.Title>
+              Legg til din første eiendom
+            </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You need to create a workspace to get started.
+              Skriv noe her hvorfor vi trenger de å legge til første eiendom.
             </EmptyPlaceholder.Description>
-            <AddWorkspaceButton />
+            <AddPropertyButton />
           </EmptyPlaceholder>
+        ) : (
+          // <EventsDashboard events={events} eventStats={eventStats} />
+          "hello world"
         )}
       </div>
     </DashboardShell>
