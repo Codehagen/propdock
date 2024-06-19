@@ -55,14 +55,12 @@ export const authOptions: NextAuthOptions = {
               mailType: userVerified ? "login" : "register",
               siteName: siteConfig.name,
             }),
-            // Set this to prevent Gmail from threading emails.
-            // More info: https://resend.com/changelog/custom-email-headers
             headers: {
               "X-Entity-Ref-ID": new Date().getTime() + "",
             },
           });
 
-          // console.log(result)
+          console.log(result);
         } catch (error) {
           throw new Error("Failed to send verification email.");
         }
@@ -88,7 +86,6 @@ export const authOptions: NextAuthOptions = {
       });
 
       if (dbUser && !dbUser.onboardingEmailSent) {
-        // Ensure email and name are not null before sending
         if (dbUser.email && dbUser.name) {
           await sendOnboardingEmail(dbUser.email, dbUser.name);
 
@@ -110,7 +107,6 @@ export const authOptions: NextAuthOptions = {
           token.id = user.id!;
           token.email = user.email!;
           token.name = user.name!;
-          // Add other necessary token assignments
         }
         return token;
       }
