@@ -22,8 +22,6 @@ export const metadata = {
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
-  const userCredits = await getUserCredits();
-  const eventStats = await getEventStats();
 
   if (!user) {
     redirect(authOptions.pages?.signIn || "/login");
@@ -80,8 +78,8 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Dashboard" text="asdasd">
-        <AddChannelButton />
+      <DashboardHeader heading="Dashboard" text="Generell oversikt">
+        <AddPropertyButton />
       </DashboardHeader>
       <div>
         {properties.length === 0 ? (

@@ -8,11 +8,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@dingify/ui/components/button";
-import { Checkbox } from "@dingify/ui/components/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,7 +19,6 @@ import {
 import { Input } from "@dingify/ui/components/input";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,

@@ -1,10 +1,7 @@
-import { getChannelDetails } from "@/actions/Dingify/get-channel-details";
 import { getAllCustomersForUser } from "@/actions/Dingify/get-customers-all";
 
-import { ChannelCard } from "@/components/channels/ChannelCard";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
-import NoPhotoPlaceholder from "@/components/properties/NoPhotoPlaceholder copy";
 import { AllUsersCards } from "@/components/users/AllUsersCard";
 
 export default async function UsersPage({

@@ -74,7 +74,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Dashboard" text="asdasd">
+      <DashboardHeader heading="Dashboard" text="Dine eiendommer">
         <AddPropertyButton />
       </DashboardHeader>
       <div>

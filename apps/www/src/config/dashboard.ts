@@ -25,7 +25,7 @@ export const dashboardConfig: DashboardConfig = {
     },
     {
       title: "Leietakere",
-      href: "/dashboard/users",
+      href: "/tenant",
       icon: "user",
     },
     {
