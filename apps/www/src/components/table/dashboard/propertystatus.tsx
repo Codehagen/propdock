@@ -1,11 +1,7 @@
 import {
-  CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
-  PersonIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon,
-} from "@radix-ui/react-icons";
+  CheckCircledIcon, CrossCircledIcon, QuestionMarkCircledIcon,
+  StopwatchIcon
+} from "@radix-ui/react-icons"
 
 export const propertyStatuses = [
   {
@@ -39,23 +35,23 @@ export const propertyStatuses = [
 
 export const propertyLabels = [
   {
-    label: "Apartment",
-    value: "APARTMENT",
+    label: "Leilighet",
+    value: "leilighet",
     // icon: ApartmentIcon, // Optional, if you have an icon to represent this label
   },
   {
-    label: "House",
-    value: "HOUSE",
+    label: "Hus",
+    value: "hus",
     // icon: HouseIcon, // Optional
   },
   {
-    label: "Cabin",
-    value: "CABIN",
+    label: "Hytte",
+    value: "hytte",
     // icon: CabinIcon, // Optional
   },
   {
-    label: "Awaiting Details",
-    value: "PROPERTY",
+    label: "Eiendom",
+    value: "eiendom",
     // icon: PropertyIcon, // Optional
   },
   // ... other labels if you have more

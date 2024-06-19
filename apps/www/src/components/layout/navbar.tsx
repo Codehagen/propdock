@@ -1,16 +1,14 @@
 "use client";
 
-import type { MainNavItem } from "@/types";
-import type { User } from "next-auth";
-import Link from "next/link";
-import useScroll from "@/hooks/use-scroll";
-import { useSigninModal } from "@/hooks/use-signin-modal";
-import { cn } from "@/lib/utils";
+import type { MainNavItem } from "@/types"
+import type { User } from "next-auth"
+import useScroll from "@/hooks/use-scroll"
+import { useSigninModal } from "@/hooks/use-signin-modal"
 
-import { Button, buttonVariants } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 
-import { MainNav } from "./main-nav";
-import { UserAccountNav } from "./user-account-nav";
+import { MainNav } from "./main-nav"
+import { UserAccountNav } from "./user-account-nav"
 
 interface NavBarProps {
   user: Pick<User, "name" | "image" | "email"> | undefined;
@@ -41,18 +39,6 @@ export function NavBar({
 
         <div className="flex items-center space-x-3">
           {rightElements}
-
-          {/* {!user ? (
-              <Link
-                href="/login"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" })
-                )}
-              >
-                Login Page
-              </Link>
-            ) : null} */}
-
           {user ? (
             <UserAccountNav user={user} />
           ) : (

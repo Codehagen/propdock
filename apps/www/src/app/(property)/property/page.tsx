@@ -1,15 +1,16 @@
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
-import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
-import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/db"
+import { getCurrentUser } from "@/lib/session"
+import { AddPropertyButton } from "@/components/buttons/AddPropertyButton"
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
-import PropertyList from "./__components_deletelater/PropertyList";
+import { PropertyColumns } from "@/components/table/dashboard/columns"
+import { DataTable } from "@/components/table/dashboard/data-table"
 
 export const metadata = {
   title: "Dingify Dashboard - Your Alerts Overview",
@@ -17,7 +18,7 @@ export const metadata = {
     "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
 };
 
-export default async function DashboardPage() {
+export default async function PropertyPage() {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -58,7 +59,7 @@ export default async function DashboardPage() {
   }
 
   // Fetch properties associated with the user's workspace
-  const properties = await prisma.property.findMany({
+  const properties: any = await prisma.property.findMany({
     where: {
       workspaceId: userWorkspace.id,
     },
@@ -90,7 +91,7 @@ export default async function DashboardPage() {
             <AddPropertyButton />
           </EmptyPlaceholder>
         ) : (
-          <PropertyList properties={properties} />
+          <DataTable columns={PropertyColumns} data={properties}/>
         )}
       </div>
     </DashboardShell>

@@ -1,15 +1,27 @@
-import { DashboardConfig } from "@/types";
+import type { DashboardConfig } from "@/types"
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: "Docs",
-      href: "https://docs.dingify.io/",
+      title: "Dashboard",
+      href: "/dashboard",
     },
     {
-      title: "Support",
-      href: "/support",
-      disabled: true,
+      title: "Eiendommer",
+      href: "/property",
+      // disabled: true,
+    },
+    {
+      title: "Leietakere",
+      href: "/tenant"
+    },
+    {
+      title: "Analyser",
+      href: "/analytics"
+    },
+    {
+      title: "Innstillinger",
+      href: "/settings"
     },
   ],
   sidebarNav: [
@@ -38,17 +50,5 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/settings",
       icon: "settings",
     },
-    // {
-    //   title: "Placeholder Names",
-    //   href: "/dashboard/channels",
-    // },
-    // {
-    //   title: "Marketing",
-    //   href: "/dashboard/channels/marketing",
-    // },
-    // {
-    //   title: "Sales",
-    //   href: "/dashboard/channels/sales",
-    // },
   ],
 };

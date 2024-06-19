@@ -52,10 +52,10 @@ export default async function PropertyPage({
             <EmptyPlaceholder>
               <EmptyPlaceholder.Icon name="building" />
               <EmptyPlaceholder.Title>
-                Legg til bygninger på eiendommen
+                Ingen bygg
               </EmptyPlaceholder.Title>
               <EmptyPlaceholder.Description>
-                Legg til hvordan bygninger som er tilknyttet eiendommen.
+                Legg til bygninger som er tilknyttet eiendommen.
               </EmptyPlaceholder.Description>
               <AddBuildingButton propertyId={propertyId} />
             </EmptyPlaceholder>
