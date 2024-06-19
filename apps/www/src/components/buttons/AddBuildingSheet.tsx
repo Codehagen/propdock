@@ -31,10 +31,10 @@ import {
 const BuildingSchema = z.object({
   name: z.string().min(1, "Building Name is required"),
   address: z.string().optional(),
-  gnr: z.number().optional(),
-  bnr: z.number().optional(),
-  snr: z.number().optional(),
-  fnr: z.number().optional(),
+  gnr: z.string().optional(),
+  bnr: z.string().optional(),
+  snr: z.string().optional(),
+  fnr: z.string().optional(),
 });
 
 export function AddBuildingSheet({ propertyId }) {
@@ -54,8 +54,17 @@ export function AddBuildingSheet({ propertyId }) {
   const onSubmit = async (data) => {
     setIsLoading(true);
 
+    // Convert string inputs to numbers
+    const convertedData = {
+      ...data,
+      gnr: data.gnr ? parseInt(data.gnr, 10) : undefined,
+      bnr: data.bnr ? parseInt(data.bnr, 10) : undefined,
+      snr: data.snr ? parseInt(data.snr, 10) : undefined,
+      fnr: data.fnr ? parseInt(data.fnr, 10) : undefined,
+    };
+
     try {
-      const result = await createBuilding(propertyId, data);
+      const result = await createBuilding(propertyId, convertedData);
 
       if (!result.success) {
         throw new Error(result.error || "Failed to save building.");
