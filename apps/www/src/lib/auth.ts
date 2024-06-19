@@ -124,4 +124,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
   // debug: process.env.NODE_ENV !== "production"
+  // if you want to see the debug logs in the console
 };
