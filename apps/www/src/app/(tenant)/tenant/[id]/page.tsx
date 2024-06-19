@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getTenantDetails } from "@/actions/get-tenant-details";
 
+import { Button } from "@dingify/ui/components/button";
+
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
@@ -58,6 +60,16 @@ export default async function TenantDetailsPage({
                 ? tenantDetails.officeSpace.name
                 : "N/A"}
             </li>
+            <p>
+              <Button>
+                <Link
+                  className="text-bold underline"
+                  href={`/tenant/${tenantDetails.id}/contract/`}
+                >
+                  BRUK DENNE FOR Å KOMME TIL KONTRAKT
+                </Link>
+              </Button>
+            </p>
           </ul>
         </div>
       </DashboardShell>
