@@ -1,12 +1,11 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Badge } from "@dingify/ui/components/badge";
 import { Button } from "@dingify/ui/components/button";
-import { Checkbox } from "@dingify/ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,42 +18,36 @@ import {
 
 import { propertyLabels, propertyStatuses } from "./propertystatus";
 
-export type Payment = {
+export interface Property {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+  name: string;
+  status?: "NOT_STARTED" | "IN_PROGRESS" | "DONE" | "CANCELED";
+  label?: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY";
+  createdAt?: Date
+}
 
-export type Property = {
-  id: string;
-  address: string;
-  status: "NOT_STARTED" | "IN_PROGRESS" | "DONE" | "CANCELED";
-  label: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY";
-};
-
-export const columns: ColumnDef<Property>[] = [
+export const PropertyColumns: ColumnDef<Property>[] = [
   {
-    accessorKey: "address",
+    accessorKey: "name",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Address
+        Navn
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
       const propertyLabel = propertyLabels.find(
-        (label) => label.value === row.original.label
+        (label) => label.value === row.original.label,
       );
 
       return (
         <div className="flex w-full space-x-2 md:w-[500px]">
-          <Badge variant="outline">{propertyLabel?.label}</Badge>
+          <Badge variant="outline">{propertyLabel?.label ?? "Eiendom"}</Badge>
           <Link href={`/property/${row.original.id}`}>
-            <span className="truncate font-medium">{row.original.address}</span>
+            <span className="truncate font-medium">{row.original.name}</span>
           </Link>
         </div>
       );
@@ -65,7 +58,7 @@ export const columns: ColumnDef<Property>[] = [
     header: () => <div className="hidden md:block">Status</div>,
     cell: ({ row }) => {
       const status = propertyStatuses.find(
-        (status) => status.value === row.getValue("status")
+        (status) => status.value === row.getValue("status"),
       );
 
       if (!status) {
@@ -85,7 +78,7 @@ export const columns: ColumnDef<Property>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const name = row.original.name;
 
       return (
         <div className="hidden md:block">
@@ -97,12 +90,12 @@ export const columns: ColumnDef<Property>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuLabel>Valg</DropdownMenuLabel>
+              <DropdownMenuItem>Endre</DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
+                onClick={() => navigator.clipboard.writeText(name)}
               >
-                Copy payment ID
+                Kopier navn
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>View customer</DropdownMenuItem>

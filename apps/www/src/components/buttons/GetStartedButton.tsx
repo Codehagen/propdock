@@ -31,7 +31,7 @@ export function GetStartedButton() {
       )}
       onClick={handleClick}
     >
-      <span>Get Started for free </span>
+      <span>Start gratis nå</span>
       <ArrowRightIcon className="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
     </Button>
   );

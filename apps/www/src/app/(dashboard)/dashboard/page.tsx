@@ -9,13 +9,16 @@ import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton";
 import { AddChannelButton } from "@/components/buttons/AddChannelButton";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
+import DashboardCardsTop from "@/components/dashboard/DashboardCardsTop";
+import DashboardMainDashboard from "@/components/dashboard/DashboardMainDashboard";
 import EventsDashboard from "@/components/dashboard/EventsDashboard";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import UserCard from "@/components/users/UserCard";
 
 export const metadata = {
-  title: "Dingify Dashboard - Your Alerts Overview",
+  title: "Propdock Dashboard - Your Alerts Overview",
   description:
     "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
 };
@@ -95,7 +98,7 @@ export default async function DashboardPage() {
           </EmptyPlaceholder>
         ) : (
           // <EventsDashboard events={events} eventStats={eventStats} />
-          "hello world"
+          <DashboardMainDashboard properties={properties} />
         )}
       </div>
     </DashboardShell>

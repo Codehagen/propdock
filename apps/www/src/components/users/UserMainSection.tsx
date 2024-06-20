@@ -62,25 +62,28 @@ import {
   TooltipTrigger,
 } from "@dingify/ui/components/tooltip";
 
+import UserChangeStatusCard from "./UserChangeStatusCard";
 import { UserChartActivity } from "./UserChartActivity";
 import UserEmailCard from "./UserEmailCard";
 import { UserGridActivity } from "./UserGridActivity";
-import { UserPowerCard } from "./UserPowerCard";
+import { UserFinancialCard } from "./UserPowerCard";
 import UsersDashboardTable from "./UsersDashboardTable";
 
-export function UserMainSection({ customerDetails }) {
-  console.log(customerDetails)
+export function UserMainSection({ tenantDetails }) {
+  console.log(tenantDetails);
   return (
     <div className="">
       <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-          <UsersDashboardTable customerDetails={customerDetails} />
+          <UsersDashboardTable tenantDetails={tenantDetails} />
           <UserChartActivity />
         </div>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-          <UserPowerCard customerDetails={customerDetails} />
-          <UserGridActivity dings={customerDetails.events} />
-          <UserEmailCard customerDetails={customerDetails} />
+          <UserChangeStatusCard tenantDetails={tenantDetails} />
+
+          <UserFinancialCard tenantDetails={tenantDetails} />
+          {/* <UserGridActivity dings={tenantDetails.events} /> */}
+          <UserEmailCard tenantDetails={tenantDetails} />
         </div>
       </div>
     </div>

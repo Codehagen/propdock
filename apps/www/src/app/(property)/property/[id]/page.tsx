@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getPropertyDetails } from "@/actions/get-property-details";
 
-import { AddBuildingButton } from "@/components/buttons/AddBuildingButton";
 import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
@@ -52,12 +51,12 @@ export default async function PropertyPage({
             <EmptyPlaceholder>
               <EmptyPlaceholder.Icon name="building" />
               <EmptyPlaceholder.Title>
-                Legg til bygninger på eiendommen
+                Ingen bygg
               </EmptyPlaceholder.Title>
               <EmptyPlaceholder.Description>
-                Legg til hvordan bygninger som er tilknyttet eiendommen.
+                Legg til bygninger som er tilknyttet eiendommen.
               </EmptyPlaceholder.Description>
-              <AddBuildingButton propertyId={propertyId} />
+              <AddBuildingSheet propertyId={propertyId} />
             </EmptyPlaceholder>
           ) : (
             <div>

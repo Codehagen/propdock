@@ -1,13 +1,12 @@
 "use client";
 
-import type { SidebarNavItem } from "@/types";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import type { SidebarNavItem } from "@/types"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
-import { Separator } from "@dingify/ui/components/separator";
 
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/shared/icons"
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -45,20 +44,6 @@ export function DashboardNav({ items, slug }: DashboardNavProps) {
                 <span>{item.title}</span>
               </span>
             </Link>
-            {item.title === "Settings" && (
-              <>
-                <Separator key={`separator-${item.href}`} />
-                <div
-                  className={cn(
-                    "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                    "text-foreground/60",
-                    "cursor-default px-3 py-2",
-                  )}
-                >
-                  Your Channels
-                </div>
-              </>
-            )}
           </div>
         );
       })}

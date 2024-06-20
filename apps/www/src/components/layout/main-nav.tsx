@@ -3,7 +3,7 @@
 import type { MainNavItem } from "@/types";
 import * as React from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Icons } from "@/components/shared/icons";
 import { siteConfig } from "@/config/site";
@@ -15,7 +15,7 @@ interface MainNavProps {
 }
 
 export function MainNav({ items, children }: MainNavProps) {
-  const segment = useSelectedLayoutSegment();
+  const path = usePathname()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
   const toggleMobileMenu = () => {
@@ -23,7 +23,7 @@ export function MainNav({ items, children }: MainNavProps) {
   };
 
   React.useEffect(() => {
-    const closeMobileMenuOnClickOutside = (event: MouseEvent) => {
+    const closeMobileMenuOnClickOutside = () => {
       if (showMobileMenu) {
         setShowMobileMenu(false);
       }
@@ -46,13 +46,14 @@ export function MainNav({ items, children }: MainNavProps) {
       </Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
-          {items.map((item, index) => (
-            <Link
+          {items.map((item, index) => {
+            return (
+              <Link
               key={index}
               href={item.disabled ? "#" : item.href}
               className={cn(
                 "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                item.href.startsWith(`/${segment}`)
+                path.includes(item.href)
                   ? "text-foreground"
                   : "text-foreground/60",
                 item.disabled && "cursor-not-allowed opacity-80"
@@ -60,7 +61,8 @@ export function MainNav({ items, children }: MainNavProps) {
             >
               {item.title}
             </Link>
-          ))}
+            )
+          })}
         </nav>
       ) : null}
       <button
