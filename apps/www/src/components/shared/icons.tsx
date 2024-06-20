@@ -47,7 +47,7 @@ export const Icons = {
   ellipsis: MoreVertical,
   help: HelpCircle,
   laptop: Laptop,
-  logo: Rss,
+  logo: Building,
   media: Image,
   moon: Moon,
   page: File,

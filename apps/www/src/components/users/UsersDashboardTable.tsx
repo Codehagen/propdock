@@ -17,7 +17,7 @@ import {
 
 // TODO Only show the 5 first events
 
-export default function UsersDashboardTable({ customerDetails }) {
+export default function UsersDashboardTable({ tenantDetails }) {
   return (
     <Card x-chunk="dashboard-05-chunk-3">
       <CardHeader className="px-7">
@@ -35,7 +35,7 @@ export default function UsersDashboardTable({ customerDetails }) {
             <TableHead className="hidden md:table-cell">Icon</TableHead>
           </TableRow>
           <TableBody>
-            {customerDetails.events.slice(0, 5).map((event) => (
+            {/* {tenantDetails.events.slice(0, 5).map((event) => (
               <TableRow key={event.id}>
                 <TableCell>
                   {format(new Date(event.createdAt), "dd.MM.yy HH.mm")}
@@ -48,7 +48,7 @@ export default function UsersDashboardTable({ customerDetails }) {
                   {event.icon}
                 </TableCell>
               </TableRow>
-            ))}
+            ))} */}
           </TableBody>
         </Table>
       </CardContent>

@@ -6,6 +6,7 @@ import { Button } from "@dingify/ui/components/button";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import UserCard from "@/components/users/UserCard";
 
 export default async function TenantDetailsPage({
   params,
@@ -42,35 +43,13 @@ export default async function TenantDetailsPage({
           heading={tenantDetails.name}
           text="Detaljer om leietaker."
         >
-          {/* Add any action buttons or sheets here if needed */}
+          {" "}
+          <Button>
+            <Link href={`/tenant/${tenantDetails.id}/contract/`}>Kontrakt</Link>
+          </Button>
         </DashboardHeader>
         <div>
-          <h4>Tenant Details:</h4>
-          <ul>
-            <li>Name: {tenantDetails.name}</li>
-            <li>Organization Number: {tenantDetails.orgnr}</li>
-            <li>Number of Employees: {tenantDetails.numEmployees}</li>
-            <li>Building: {tenantDetails.building?.name || "N/A"}</li>
-            <li>
-              Floor: {tenantDetails.floor ? tenantDetails.floor.number : "N/A"}
-            </li>
-            <li>
-              Office Space:{" "}
-              {tenantDetails.officeSpace
-                ? tenantDetails.officeSpace.name
-                : "N/A"}
-            </li>
-            <p>
-              <Button>
-                <Link
-                  className="text-bold underline"
-                  href={`/tenant/${tenantDetails.id}/contract/`}
-                >
-                  BRUK DENNE FOR Å KOMME TIL KONTRAKT
-                </Link>
-              </Button>
-            </p>
-          </ul>
+          <UserCard tenantDetails={tenantDetails} />
         </div>
       </DashboardShell>
     );

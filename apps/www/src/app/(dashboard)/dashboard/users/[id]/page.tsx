@@ -54,9 +54,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
           heading={customerDetails.name || "Unnamed Customer"}
           text="Customer details and events"
         />
-        <div>
-          <UserCard customerDetails={customerDetails} />
-        </div>
+        <div></div>
       </DashboardShell>
     );
   } catch (error) {
