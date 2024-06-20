@@ -16,13 +16,13 @@ export function BeamSection() {
           </h4> */}
 
           <h2 className="text-5xl font-bold tracking-tight text-black dark:text-white sm:text-6xl">
-            Easy to integrate
+            Oversikten du trenger
           </h2>
 
           <p className="mt-6 text-xl leading-8 text-black/80 dark:text-white">
-            It only takes a <strong>single</strong> HTTP request to get started.
-            Integrate seamlessly with your our SDK and tools to simplify the
-            process.
+            Ta styringen på dine <strong>finansielle</strong> beslutninger.
+            Propdock gjør det enkelt å holde oversikt over dine eiendommer og ta
+            de rette besluttningene.
           </p>
         </div>
       </div>

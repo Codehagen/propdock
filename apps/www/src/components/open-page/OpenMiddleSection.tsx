@@ -11,7 +11,7 @@ export default function OpenMiddleSection() {
           Funding
         </h2>
         <p className="text-large font-medium text-muted-foreground">
-          We dont have done any funding runs yet, should we?
+          Vi har ikke noe funding, bør vi?
         </p>
       </div>
       <Separator />

@@ -24,15 +24,15 @@ export default function EventsSectionLanding() {
   return (
     <section className="relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8">
       <h2 className="translate-y-[-1rem] animate-fade-in text-balance bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent opacity-0 [--animation-delay:200ms] dark:from-white dark:to-white/40 sm:text-6xl md:text-7xl lg:text-8xl">
-        The information you need
-        <br className="hidden md:block" /> when you need it.
+        Informasjonen du trenger
+        <br className="hidden md:block" /> når du trenger den
       </h2>
       <div
         ref={ref}
         className="relative mx-auto mt-20 w-full max-w-[80%] animate-fade-up opacity-0 [--animation-delay:800ms]"
       >
         <BentoCard
-          name=""
+          name="Søk raskt og finn informasjonen enkelt"
           className="h-[500px] w-full" // Adjust the height here
           Icon={FileInputIcon}
           description=""
@@ -42,14 +42,14 @@ export default function EventsSectionLanding() {
             <Command className="absolute right-10 top-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
               <CommandInput placeholder="Type a command or search..." />
               <CommandList>
-                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandEmpty>Ingen resultat.</CommandEmpty>
                 <CommandGroup heading="Suggestions">
-                  <CommandItem>User-123</CommandItem>
-                  <CommandItem>Most used events</CommandItem>
-                  <CommandItem>Analytics</CommandItem>
-                  <CommandItem>All events</CommandItem>
-                  <CommandItem>keys.gpg</CommandItem>
-                  <CommandItem>seed.txt</CommandItem>
+                  <CommandItem>Dronningens gate 18</CommandItem>
+                  <CommandItem>Kontrakt If Skadeforsriking</CommandItem>
+                  <CommandItem>Analyse Akersgata 16</CommandItem>
+                  <CommandItem>Send faktura til Biltema</CommandItem>
+                  <CommandItem>Se alle leietakere</CommandItem>
+                  <CommandItem>Send tilbud til Gjensidige</CommandItem>
                 </CommandGroup>
               </CommandList>
             </Command>
@@ -57,9 +57,9 @@ export default function EventsSectionLanding() {
         />
       </div>
       <p className="mb-12 mt-12 translate-y-[-1rem] animate-fade-in text-balance text-lg tracking-tight text-gray-400 opacity-0 [--animation-delay:400ms] md:text-xl">
-        Unlock the power of real-time alerts and monitoring
-        <br className="hidden md:block" /> Monitor potential issues and
-        opportunities
+        Unlock the power of Propdock
+        <br className="hidden md:block" /> All informasjonen du trenger på en
+        plass
       </p>
     </section>
   );

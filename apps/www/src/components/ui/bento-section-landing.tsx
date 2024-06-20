@@ -19,24 +19,24 @@ import Marquee from "./marquee";
 
 const files = [
   {
-    name: "First seen",
-    body: "The first time a user was seen in the app. This is the first event that was recorded for the user.",
+    name: "Karl Johans gate 5",
+    body: "Karl Johans gate 5 er en eiendom som ligger i hjertet av Oslo. Denne eiendommen er kjent for sin historiske betydning.",
   },
   {
-    name: "Most used event",
-    body: "The event that the user has triggered the most. This is the event that the user has triggered the most.",
+    name: "Akersgata 16",
+    body: "Akersgata 16 er en moderne eiendom i Oslo. Den er kjent for sin arkitektoniske stil og sentrale beliggenhet.",
   },
   {
-    name: "Last Seen",
-    body: "The last time a user was seen in the app. This is the last event that was recorded for the user.",
+    name: "Storgata 10",
+    body: "Storgata 10 er en eiendom som ligger i et livlig område av Oslo. Denne eiendommen er populær blant både lokale og turister.",
   },
   {
-    name: "Events over time",
-    body: "The number of events that the user has triggered over time. This is the number of events that the user has triggered over time.",
+    name: "Prinsens gate 8",
+    body: "Prinsens gate 8 er en historisk eiendom i Oslo. Denne eiendommen er kjent for sin gamle verden sjarm og eleganse.",
   },
   {
-    name: "Customer status",
-    body: "The status of the customer. How many time has the customer used your application",
+    name: "Rådhusgata 2",
+    body: "Rådhusgata 2 er en eiendom som ligger i nærheten av Oslo rådhus. Denne eiendommen er kjent for sin nærhet til byens viktigste landemerker.",
   },
 ];
 
@@ -51,10 +51,10 @@ interface Item {
 const features = [
   {
     Icon: MapIcon,
-    name: "See users journey",
-    description: "Understand how users interact with your app.",
+    name: "Se alle dine eiendommer",
+    description: "Få bedre oversikt over dine eiendommer",
     href: "/",
-    cta: "Learn more",
+    cta: "Les mer",
     className: "col-span-3 lg:col-span-1",
     background: (
       <Marquee
@@ -86,23 +86,23 @@ const features = [
   },
   {
     Icon: InputIcon,
-    name: "Get the information you need",
-    description: "Search through all your events fast",
+    name: "Få informasjonen du trenger",
+    description: "Se over leiekontrakter, fakturaer og finansielle analyser",
     href: "/",
-    cta: "Learn more",
+    cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
       <Command className="absolute right-10 top-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>Ingen resultat.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem>User-123</CommandItem>
-            <CommandItem>Most used events</CommandItem>
-            <CommandItem>Analytics</CommandItem>
-            <CommandItem>All events</CommandItem>
-            <CommandItem>keys.gpg</CommandItem>
-            <CommandItem>seed.txt</CommandItem>
+            <CommandItem>Dronningens gate 18</CommandItem>
+            <CommandItem>Kontrakt If Skadeforsriking</CommandItem>
+            <CommandItem>Analyse Akersgata 16</CommandItem>
+            <CommandItem>Send faktura til Biltema</CommandItem>
+            <CommandItem>Se alle leietakere</CommandItem>
+            <CommandItem>Send tilbud til Gjensidige</CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
@@ -110,10 +110,10 @@ const features = [
   },
   {
     Icon: Share2Icon,
-    name: "Integrations",
-    description: "Supports 100+ integrations and counting.",
+    name: "Integrasjoner",
+    description: "Kan integrere med over 100+ integrasjoner and counting.",
     href: "/",
-    cta: "Learn more",
+    cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
       <AnimatedBeamMultipleOutputDemo className="absolute right-2 top-4 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
@@ -121,11 +121,11 @@ const features = [
   },
   {
     Icon: BellIcon,
-    name: "Notifications",
-    description: "Get notified when somone uses your SDK",
+    name: "Varslinger",
+    description: "Få varslinger på viktige hendelser",
     className: "col-span-3 lg:col-span-1",
     href: "/",
-    cta: "Learn more",
+    cta: "Se mer",
     background: (
       <AnimatedListLanding className="absolute right-2 top-4 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105 md:h-[150px] md:w-[300px]" />
     ),
