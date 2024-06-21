@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useState } from "react";
+import * as React from "react"
+import { useState } from "react"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,25 +13,25 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table";
-import { format } from "date-fns";
-import { nb } from "date-fns/locale";
+} from "@tanstack/react-table"
+import { format } from "date-fns"
+import { nb } from "date-fns/locale"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Input } from "@dingify/ui/components/input";
+} from "@dingify/ui/components/dropdown-menu"
+import { Input } from "@dingify/ui/components/input"
 import {
   Table,
   TableBody,
@@ -39,31 +39,31 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table";
+} from "@dingify/ui/components/table"
 
-import type { Property } from "./columns";
+import type { Property } from "./columns"
 
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbar } from "./data-table-toolbar"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
 }
 
 interface selectedProp {
-  id: string;
-  index: number;
-  original: any;
+  id: string
+  index: number
+  original: any
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
     data,
@@ -82,8 +82,9 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  });
-  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"));
+  })
+
+  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"))
 
   return (
     <div className="grid gap-8 lg:grid-cols-4">
@@ -104,7 +105,7 @@ export function DataTable<TData, TValue>({
                               header.getContext(),
                             )}
                       </TableHead>
-                    );
+                    )
                   })}
                 </TableRow>
               ))}
@@ -113,10 +114,7 @@ export function DataTable<TData, TValue>({
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                    onClick={() => {
-                      setSelected(row);
-                      console.log(table.getRow("0"));
-                    }}
+                    onClick={() => setSelected(row)}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
@@ -163,7 +161,7 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <Card>
-        <CardHeader className="bg-muted py-4 mb-5">
+        <CardHeader className="mb-5 bg-muted py-4">
           <CardTitle>{selected.original.name}</CardTitle>
           <CardDescription>
             {format(selected.original.createdAt, "PPP", { locale: nb })}{" "}
@@ -173,5 +171,5 @@ export function DataTable<TData, TValue>({
         <CardContent>Some content</CardContent>
       </Card>
     </div>
-  );
+  )
 }
