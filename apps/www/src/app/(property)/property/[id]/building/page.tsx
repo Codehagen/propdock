@@ -65,7 +65,7 @@ export default async function PropertyPage({
               <AddBuildingSheet propertyId={propertyId} />
             </EmptyPlaceholder>
           ) : (
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
               {propertyDetails.buildings.map((building) => (
                 <Card key={building.id}>
                   <CardHeader className="mb-5 bg-gradient-to-b from-muted/50 to-muted/10">

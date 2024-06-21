@@ -21,7 +21,7 @@ export function DashboardNav({ items, slug }: DashboardNavProps) {
   }
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className="grid max-md:grid-flow-col items-start gap-2">
       {items.map((item) => {
         const Icon = Icons[item.icon || "arrowRight"];
         return (
