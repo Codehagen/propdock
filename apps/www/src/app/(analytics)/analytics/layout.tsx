@@ -23,11 +23,10 @@ export default async function DashboardLayout({
   // const userChannels = await getUserChannels();
 
   const sidebarNavItems = [
-    ...dashboardConfig.sidebarNav,
-    // ...userChannels.map((channel) => ({
-    //   title: channel.name,
-    //   href: `/dashboard/channels/${channel.id}`, // Use ID instead of name
-    // })),
+    {
+      title: "Oversikt",
+      href: "/analytics"
+    }
   ];
 
   return (
