@@ -1,18 +1,19 @@
 "use client"
 
-import * as React from "react"
 import { useState } from "react"
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
+  SortingState,
+  VisibilityState
+} from "@tanstack/react-table"
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+  useReactTable
 } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
@@ -26,13 +27,6 @@ import {
   CardTitle,
 } from "@dingify/ui/components/card"
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
-import { Input } from "@dingify/ui/components/input"
-import {
   Table,
   TableBody,
   TableCell,
@@ -41,7 +35,6 @@ import {
   TableRow,
 } from "@dingify/ui/components/table"
 
-import type { Property } from "./columns"
 
 import { DataTableToolbar } from "./data-table-toolbar"
 
