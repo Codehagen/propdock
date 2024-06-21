@@ -12,7 +12,7 @@ export function UserFinancialCard({ tenantDetails }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Finanisell informasjon</CardTitle>
+        <CardTitle>Finansiell informasjon</CardTitle>
         <CardDescription>Kort oversikt over leietakeren</CardDescription>
       </CardHeader>
       <CardContent>
@@ -20,7 +20,7 @@ export function UserFinancialCard({ tenantDetails }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
               <p className="text-sm font-medium leading-none">
-                Total Rent Paid{" "}
+                Totalt betalt leie
               </p>
             </div>
             <p className="text-sm font-medium text-muted-foreground">
@@ -29,7 +29,7 @@ export function UserFinancialCard({ tenantDetails }) {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">Taxes Paid</p>
+              <p className="text-sm font-medium leading-none">Kostnader</p>
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               81.000,-
@@ -37,7 +37,9 @@ export function UserFinancialCard({ tenantDetails }) {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">Utilities Paid</p>
+              <p className="text-sm font-medium leading-none">
+                Betalt skatt og avgifter
+              </p>
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               81.000,-
@@ -45,7 +47,7 @@ export function UserFinancialCard({ tenantDetails }) {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">Net Income</p>
+              <p className="text-sm font-medium leading-none">Nettoinntekt</p>
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               81.000,-

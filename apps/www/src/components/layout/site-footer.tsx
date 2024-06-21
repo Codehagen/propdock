@@ -9,7 +9,7 @@ import { Icons } from "@/components/shared/icons";
 
 const footerNavs = [
   {
-    label: "Product",
+    label: "Produkter",
     items: [
       {
         href: "/",
@@ -17,7 +17,7 @@ const footerNavs = [
       },
       {
         href: "/pricing",
-        name: "Pricing",
+        name: "Priser",
       },
       {
         href: "/open",
@@ -96,10 +96,12 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             <Link href="/" className="flex items-center gap-2">
               <Icons.logo className="h-8 w-8 text-primary" />
               <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-                Dingify
+                Propdock
               </span>
             </Link>
-            <p className="max-w-xs">Unlock real time alerts</p>
+            <p className="max-w-xs">
+              Ta styring på dine finasielle besluttninger
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
             {footerNavs.map((nav) => (

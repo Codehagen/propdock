@@ -44,7 +44,7 @@ export default function UserCardsSection({ tenantDetails }) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Last Seen</CardTitle>
+          <CardTitle className="text-sm font-medium">KPI regulering</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -66,7 +66,9 @@ export default function UserCardsSection({ tenantDetails }) {
                 })
               : "N/A"}
           </div>
-          <p className="text-xs text-muted-foreground">Since last activity</p>
+          <p className="text-xs text-muted-foreground">
+            Avtalte KPI reguleringen
+          </p>
         </CardContent>
       </Card>
 
@@ -98,7 +100,7 @@ export default function UserCardsSection({ tenantDetails }) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Events</CardTitle>
+          <CardTitle className="text-sm font-medium">Sendte faktura</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -116,7 +118,7 @@ export default function UserCardsSection({ tenantDetails }) {
           <div className="text-2xl font-bold">
             {tenantDetails.events ? tenantDetails.events.length : "N/A"}
           </div>
-          <p className="text-xs text-muted-foreground">Total events logged</p>
+          <p className="text-xs text-muted-foreground">Totalt sendte faktura</p>
         </CardContent>
       </Card>
     </div>
