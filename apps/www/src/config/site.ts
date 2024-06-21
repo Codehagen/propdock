@@ -1,10 +1,11 @@
 import type { SiteConfig } from "@/types";
+
 import { env } from "@/env";
 
 const site_url = env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
-  name: "Dingify",
+  name: "Propdock",
   description:
     "Dingify revolutionizes alearts and notifications for developers and businesses",
   url: site_url,
@@ -13,5 +14,5 @@ export const siteConfig: SiteConfig = {
     twitter: "https://twitter.com/codehagen",
     github: "https://github.com/meglerhagen",
   },
-  mailSupport: "christer@sailsdock.com",
+  mailSupport: "Christer@propdock.no",
 };

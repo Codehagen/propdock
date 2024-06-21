@@ -16,27 +16,36 @@ import {
   CardTitle,
 } from "@dingify/ui/components/card";
 
+import { nFormatter } from "@/lib/utils";
+
 const lineChartData = [
-  { month: "Jan", events: 400, users: 240 },
-  { month: "Feb", events: 300, users: 139 },
-  { month: "Mar", events: 200, users: 980 },
-  { month: "Apr", events: 278, users: 390 },
-  { month: "May", events: 189, users: 480 },
-  { month: "Jun", events: 239, users: 380 },
-  { month: "Jul", events: 349, users: 430 },
-  { month: "Aug", events: 430, users: 210 },
-  { month: "Sep", events: 480, users: 340 },
-  { month: "Oct", events: 390, users: 460 },
-  { month: "Nov", events: 139, users: 220 },
-  { month: "Dec", events: 240, users: 190 },
+  { month: "Jan", revenue: 400000, costs: 240000 },
+  { month: "Feb", revenue: 300000, costs: 139000 },
+  { month: "Mar", revenue: 200000, costs: 98000 },
+  { month: "Apr", revenue: 278000, costs: 39000 },
+  { month: "Mai", revenue: 189000, costs: 48000 },
+  { month: "Jun", revenue: 239000, costs: 38000 },
+  { month: "Jul", revenue: 349000, costs: 43000 },
+  { month: "Aug", revenue: 430000, costs: 21000 },
+  { month: "Sep", revenue: 480000, costs: 34000 },
+  { month: "Okt", revenue: 390000, costs: 46000 },
+  { month: "Nov", revenue: 139000, costs: 22000 },
+  { month: "Des", revenue: 240000, costs: 19000 },
 ];
+
+// Add net income to each data point
+lineChartData.forEach((data) => {
+  data.netIncome = data.revenue - data.costs;
+});
 
 export function UserChartActivity() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Events Over Time</CardTitle>
-        <CardDescription>Tracking the number of events month.</CardDescription>
+        <CardTitle>Inntekter og Kostnader Over Tid</CardTitle>
+        <CardDescription>
+          Sporing av inntekter og kostnader per måned.
+        </CardDescription>
       </CardHeader>
       <CardContent className="pb-4">
         <div className="h-[200px]">
@@ -60,10 +69,14 @@ export function UserChartActivity() {
                             {payload[0]?.payload.month}
                           </span>
                           <span className="font-bold">
-                            Events: {payload[0]?.value}
+                            Inntekter: {nFormatter(payload[0]?.payload.revenue)}
                           </span>
                           <span className="font-bold">
-                            Users: {payload[1]?.value}
+                            Kostnader: {nFormatter(payload[0]?.payload.costs)}
+                          </span>
+                          <span className="font-bold">
+                            Netto Inntekt:{" "}
+                            {nFormatter(payload[0]?.payload.netIncome)}
                           </span>
                         </div>
                       </div>
@@ -75,15 +88,21 @@ export function UserChartActivity() {
               />
               <Line
                 type="monotone"
-                dataKey="events"
+                dataKey="revenue"
                 strokeWidth={2}
                 stroke="#8884d8"
               />
               <Line
                 type="monotone"
-                dataKey="users"
+                dataKey="costs"
                 strokeWidth={2}
                 stroke="#82ca9d"
+              />
+              <Line
+                type="monotone"
+                dataKey="netIncome"
+                strokeWidth={2}
+                stroke="#ff7300"
               />
             </LineChart>
           </ResponsiveContainer>

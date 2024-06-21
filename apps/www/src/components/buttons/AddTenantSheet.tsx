@@ -127,12 +127,12 @@ export function AddTenantSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add New Tenant</Button>
+        <Button variant="outline">Legg til leietaker</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Add New Tenant</SheetTitle>
-          <SheetDescription>Add details for the new tenant.</SheetDescription>
+          <SheetTitle>Legg til ny leietaker</SheetTitle>
+          <SheetDescription>Skriv detaljer om leietakeren</SheetDescription>
         </SheetHeader>
 
         <Form {...form}>

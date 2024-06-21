@@ -7,12 +7,12 @@ import {
   CardTitle,
 } from "@dingify/ui/components/card";
 
-export default function UserCardsSection({ customerDetails }) {
+export default function UserCardsSection({ tenantDetails }) {
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">First Seen</CardTitle>
+          <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -31,20 +31,20 @@ export default function UserCardsSection({ customerDetails }) {
         <CardContent>
           <div className="text-xl font-bold">
             {" "}
-            {customerDetails.firstSeen
-              ? formatDistanceToNow(new Date(customerDetails.firstSeen), {
+            {tenantDetails.firstSeen
+              ? formatDistanceToNow(new Date(tenantDetails.firstSeen), {
                   addSuffix: true,
                 })
               : "N/A"}
           </div>
           <p className="text-xs text-muted-foreground">
-            Since the user was made
+            Totale leieinntekter for dette året
           </p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Last Seen</CardTitle>
+          <CardTitle className="text-sm font-medium">KPI regulering</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -60,19 +60,23 @@ export default function UserCardsSection({ customerDetails }) {
         </CardHeader>
         <CardContent>
           <div className="text-xl font-bold">
-            {customerDetails.lastSeen
-              ? formatDistanceToNow(new Date(customerDetails.lastSeen), {
+            {tenantDetails.lastSeen
+              ? formatDistanceToNow(new Date(tenantDetails.lastSeen), {
                   addSuffix: true,
                 })
               : "N/A"}
           </div>
-          <p className="text-xs text-muted-foreground">Since last activity</p>
+          <p className="text-xs text-muted-foreground">
+            Avtalte KPI reguleringen
+          </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Most Used Event</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Leiekontraken går ut
+          </CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -89,16 +93,14 @@ export default function UserCardsSection({ customerDetails }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {customerDetails.mostUsedFeature || "N/A"}
+            {tenantDetails.mostUsedFeature || "N/A"}
           </div>
-          <p className="text-xs text-muted-foreground">
-            Most frequently used event
-          </p>
+          <p className="text-xs text-muted-foreground">igjen av leietiden</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Events</CardTitle>
+          <CardTitle className="text-sm font-medium">Sendte faktura</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -114,9 +116,9 @@ export default function UserCardsSection({ customerDetails }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {customerDetails.events ? customerDetails.events.length : "N/A"}
+            {tenantDetails.events ? tenantDetails.events.length : "N/A"}
           </div>
-          <p className="text-xs text-muted-foreground">Total events logged</p>
+          <p className="text-xs text-muted-foreground">Totalt sendte faktura</p>
         </CardContent>
       </Card>
     </div>

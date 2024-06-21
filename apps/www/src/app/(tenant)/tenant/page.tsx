@@ -5,6 +5,7 @@ import { getTenants } from "@/actions/get-tenants";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
+import AddTenantDropdownButton from "@/components/buttons/AddTenantDropdownButton";
 import { AddTenantSheet } from "@/components/buttons/AddTenantSheet";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import { DashboardHeader } from "@/components/dashboard/header";
@@ -72,6 +73,7 @@ export default async function DashboardPage() {
     <DashboardShell>
       <DashboardHeader heading="Leietakere" text="Dine leietakere">
         <AddTenantSheet />
+        <AddTenantDropdownButton />
       </DashboardHeader>
       <div>
         {tenants.length === 0 ? (

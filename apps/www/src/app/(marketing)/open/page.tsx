@@ -12,9 +12,9 @@ import OpenUsersFunding from "@/components/open-page/OpenUsersFunding";
 import OpenUsersText from "@/components/open-page/OpenUsersText";
 
 export const metadata = {
-  title: "Badget Open - Everything open",
+  title: "Propdock Open - Alt åpent for alle",
   description:
-    "All our metrics, finances, and learnings are public. We believe in transparency.",
+    "Vi viser alt for vi har ingenting å skjule - Våre finanser, metrics og læring, alt i offentligheten.",
 };
 
 export default async function PricingPage() {

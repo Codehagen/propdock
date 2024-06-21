@@ -41,42 +41,57 @@ const data: SalaryBand[] = [
     id: "1",
     title: "Software Engineer - Intern",
     seniority: "Intern",
-    salary: "$30,000",
+    salary: "300,000 NOK",
   },
   {
     id: "2",
     title: "Software Engineer - I",
     seniority: "Junior",
-    salary: "$60,000",
+    salary: "600,000 NOK",
   },
   {
     id: "3",
     title: "Software Engineer - II",
     seniority: "Mid",
-    salary: "$80,000",
+    salary: "800,000 NOK",
   },
   {
     id: "4",
     title: "Software Engineer - III",
     seniority: "Senior",
-    salary: "$100,000",
+    salary: "1,000,000 NOK",
   },
   {
     id: "5",
     title: "Software Engineer - IV",
     seniority: "Principal",
-    salary: "$120,000",
+    salary: "1,200,000 NOK",
   },
-  { id: "6", title: "Designer - III", seniority: "Senior", salary: "$100,000" },
+  {
+    id: "6",
+    title: "Designer - III",
+    seniority: "Senior",
+    salary: "1,000,000 NOK",
+  },
   {
     id: "7",
     title: "Designer - IV",
     seniority: "Principal",
-    salary: "$120,000",
+    salary: "1,200,000 NOK",
   },
-  { id: "8", title: "Marketer - I", seniority: "Junior", salary: "$50,000" },
-  { id: "9", title: "Marketer - II", seniority: "Mid", salary: "$65,000" },
-  { id: "10", title: "Marketer - III", seniority: "Senior", salary: "$80,000" },
+  {
+    id: "8",
+    title: "Marketer - I",
+    seniority: "Junior",
+    salary: "500,000 NOK",
+  },
+  { id: "9", title: "Marketer - II", seniority: "Mid", salary: "650,000 NOK" },
+  {
+    id: "10",
+    title: "Marketer - III",
+    seniority: "Senior",
+    salary: "800,000 NOK",
+  },
 ];
 
 export type SalaryBand = {
@@ -89,17 +104,17 @@ export type SalaryBand = {
 export const columns: ColumnDef<SalaryBand>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Tittel",
     cell: ({ row }) => <div>{row.getValue("title")}</div>,
   },
   {
     accessorKey: "seniority",
-    header: "Seniority",
+    header: "Erfaringsnivå",
     cell: ({ row }) => <div>{row.getValue("seniority")}</div>,
   },
   {
     accessorKey: "salary",
-    header: "Salary",
+    header: "Lønn",
     cell: ({ row }) => <div>{row.getValue("salary")}</div>,
   },
 ];
@@ -136,7 +151,7 @@ export function OpenSalaryTable() {
     <section className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-4xl">
         <h2 className="mb-4 text-left font-heading text-xl leading-[1.1]">
-          Global Salary Bands
+          Globale Lønnsnivåer
         </h2>
         <div className="rounded-md border">
           <Table>
@@ -181,7 +196,7 @@ export function OpenSalaryTable() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Ingen resultater.
                   </TableCell>
                 </TableRow>
               )}

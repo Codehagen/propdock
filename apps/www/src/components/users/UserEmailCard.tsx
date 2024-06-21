@@ -8,9 +8,9 @@ import {
 
 import EmailButton from "./EmailButton"; // Adjust the import path as necessary
 
-export default function UserEmailCard({ customerDetails }) {
-  const email = customerDetails.email || "example@example.com";
-  const name = customerDetails.name || "[Customer Name]";
+export default function UserEmailCard({ tenantDetails }) {
+  const email = tenantDetails.email || "example@example.com";
+  const name = tenantDetails.name || "[Customer Name]";
   const subject = "Checking In: How's Your Experience with [Your Product]?";
   const body = `
   Hi ${name},
@@ -30,9 +30,9 @@ export default function UserEmailCard({ customerDetails }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Follow up a customer</CardTitle>
+        <CardTitle>Følg opp kunden</CardTitle>
         <CardDescription>
-          Stay in touch with your customers. Send them an email.
+          Er det lenge siden du har pratet med kunden? Send de en epost.
         </CardDescription>
       </CardHeader>
       <CardContent>
