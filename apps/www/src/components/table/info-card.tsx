@@ -8,7 +8,8 @@ export default function InfoCard({data, type}: {
         name: string,
         createdAt: Date,
         building: { name: string },
-        floor: number | string | null
+        floor: number | string | null,
+        officeSpace: number | string | null
     },
     type: "property" | "tenant"
 }) {
