@@ -1,11 +1,10 @@
-"use client";
+"use client"
 
-import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import type { ColumnDef } from "@tanstack/react-table"
+import Link from "next/link"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
-import { Badge } from "@dingify/ui/components/badge";
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,18 +13,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
+} from "@dingify/ui/components/dropdown-menu"
 
-import { propertyLabels, propertyStatuses } from "./propertystatus";
-
-export interface Property {
-  id: string;
-  name: string;
-  label?: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY";
-  createdAt?: Date
+export interface tenants {
+  name: string
+  id: number
+  building: {
+    name: string
+  }
+  floor: {
+    number: number
+  } | null
+  officeSpace: {
+    name: string
+  } | null
+  orgnr: number | null
+  numEmployees: number
 }
 
-export const PropertyColumns: ColumnDef<Property>[] = [
+export const TenantColumns: ColumnDef<tenants>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -38,24 +44,19 @@ export const PropertyColumns: ColumnDef<Property>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const propertyLabel = propertyLabels.find(
-        (label) => label.value === row.original.label,
-      );
-
       return (
         <div className="flex w-full space-x-2 md:w-[500px]">
-          <Badge variant="outline">{propertyLabel?.label ?? "Eiendom"}</Badge>
-          <Link href={`/property/${row.original.id}`}>
+          <Link href={`/tenant/${row.original.id}`}>
             <span className="truncate font-medium">{row.original.name}</span>
           </Link>
         </div>
-      );
+      )
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const name = row.original.name;
+      const name = row.original.name
 
       return (
         <div className="hidden md:block">
@@ -84,7 +85,7 @@ export const PropertyColumns: ColumnDef<Property>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      );
+      )
     },
   },
-];
+]

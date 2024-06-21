@@ -90,7 +90,7 @@ export default async function PropertyPage() {
             <AddPropertyButton />
           </EmptyPlaceholder>
         ) : (
-          <DataTable columns={PropertyColumns} data={properties} />
+          <DataTable type="property" columns={PropertyColumns} data={properties} />
         )}
       </div>
     </DashboardShell>

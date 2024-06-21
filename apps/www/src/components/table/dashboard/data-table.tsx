@@ -37,10 +37,12 @@ import {
 
 
 import { DataTableToolbar } from "./data-table-toolbar"
+import InfoCard from "../info-card"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  type: "property" | "tenant"
 }
 
 interface selectedProp {
@@ -52,6 +54,7 @@ interface selectedProp {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  type
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -153,16 +156,7 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-      <Card>
-        <CardHeader className="mb-5 bg-muted py-4">
-          <CardTitle>{selected.original.name}</CardTitle>
-          <CardDescription>
-            {format(selected.original.createdAt, "PPP", { locale: nb })}{" "}
-            {/* FILLER FOR ADDRESS? */}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>Some content</CardContent>
-      </Card>
+      <InfoCard type={type} data={selected.original}/>
     </div>
   )
 }

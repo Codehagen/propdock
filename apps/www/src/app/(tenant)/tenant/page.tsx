@@ -11,6 +11,8 @@ import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { DataTable } from "@/components/table/dashboard/data-table"
+import { TenantColumns } from "@/components/table/tenant/columns"
 
 export const metadata = {
   title: "Dingify Dashboard - Your Alerts Overview",
@@ -90,29 +92,7 @@ export default async function DashboardPage() {
           </EmptyPlaceholder>
         ) : (
           <div>
-            <h2 className="text-bold mb-4">Velg leietaker</h2>
-            <ul>
-              {tenants.map((tenant) => (
-                <li key={tenant.id}>
-                  <p>
-                    <Link
-                      className="text-bold underline"
-                      href={`/tenant/${tenant.id}`}
-                    >
-                      {tenant.name}
-                    </Link>
-                  </p>
-                  <p>Organization Number: {tenant.orgnr}</p>
-                  <p>Number of Employees: {tenant.numEmployees}</p>
-                  <p>Building: {tenant.building?.name || "N/A"}</p>
-                  <p>Floor: {tenant.floor ? tenant.floor.number : "N/A"}</p>
-                  <p>
-                    Office Space:{" "}
-                    {tenant.officeSpace ? tenant.officeSpace.name : "N/A"}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <DataTable type="tenant" data={tenants} columns={TenantColumns}/>
           </div>
         )}
       </div>
