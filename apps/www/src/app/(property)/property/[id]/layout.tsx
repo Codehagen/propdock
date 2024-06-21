@@ -23,6 +23,10 @@ export default async function DashboardLayout({
       title: "Oversikt",
       href: `/property/${params.id}`,
     },
+    {
+      title: "Bygg",
+      href: `/property/${params.id}/building`,
+    },
   ];
 
   return (
