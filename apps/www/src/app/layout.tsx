@@ -11,6 +11,7 @@ import { Analytics } from "@/components/analytics";
 import { ModalProvider } from "@/components/modal-provider";
 import { Providers } from "@/components/providers";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import GlobalSearch from "@/components/command-window"
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ModalProvider />
           <TailwindIndicator />
         </Providers>
+        <GlobalSearch/> 
       </body>
     </html>
   );
