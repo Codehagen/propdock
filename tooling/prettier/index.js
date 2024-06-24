@@ -13,7 +13,7 @@ const config = {
   ),
   bracketSpacing: true,
   endOfLine: "lf",
-  semi: true,
+  semi: false,
   singleQuote: false,
   tabWidth: 2,
   trailingComma: "all",
