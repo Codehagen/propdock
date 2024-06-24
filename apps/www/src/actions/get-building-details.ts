@@ -6,7 +6,11 @@ export async function getBuildingDetails(buildingId: string) {
     const building = await prisma.building.findUnique({
       where: { id: parseInt(buildingId) },
       include: {
-        floors: true,
+        floors: {
+          include: {
+            officeSpaces: true,
+          },
+        },
         // Add other related models if needed, e.g., tenants, contracts, etc.
       },
     });

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createOfficeSpace } from "@/actions/create-office-space";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,22 +26,23 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@dingify/ui/components/sheet";
+import { updateOfficeSpace } from "@/actions/update-office-space";
 
 // Define the validation schema
-const OfficeSpaceSchema = z.object({
+const EditOfficeSpaceSchema = z.object({
   name: z.string().min(1, "Office space name is required"),
   sizeKvm: z.number().min(1, "Size in KVM is required"),
   isRented: z.boolean(),
 });
 
-export function AddOfficeSpaceSheet({ floorId }) {
+export function EditOfficeSpaceSheet({ officeId, currentName, currentSizeKvm, currentIsRented }) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
-    resolver: zodResolver(OfficeSpaceSchema),
+    resolver: zodResolver(EditOfficeSpaceSchema),
     defaultValues: {
-      name: "",
-      sizeKvm: "",
-      isRented: false,
+      name: currentName,
+      sizeKvm: currentSizeKvm,
+      isRented: currentIsRented,
     },
   });
 
@@ -50,21 +50,15 @@ export function AddOfficeSpaceSheet({ floorId }) {
     setIsLoading(true);
 
     try {
-      // Convert sizeKvm to a number
-      const formData = {
-        ...data,
-        sizeKvm: Number(data.sizeKvm),
-      };
-
-      const result = await createOfficeSpace(floorId, formData);
+      const result = await updateOfficeSpace(officeId, data.name, data.sizeKvm, data.isRented);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save office space.");
+        throw new Error(result.error || "Failed to update office space.");
       }
 
-      toast.success(`Office space "${formData.name}" was saved.`);
+      toast.success(`Office space was updated.`);
       form.reset();
-      // Optionally, refresh the page or update the state to show the new office space
+      // Optionally, refresh the page or update the state to show the updated office space
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -76,13 +70,13 @@ export function AddOfficeSpaceSheet({ floorId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Legg til nytt kontor</Button>
+        <Button variant="ghost">Endre navn</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Legg til nytt kontor</SheetTitle>
+          <SheetTitle>Endre kontornavn</SheetTitle>
           <SheetDescription>
-            Fyll ut informasjonen for det nye kontoret.
+            Endre informasjonen om det valgte kontoret.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -94,7 +88,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
                 <FormItem>
                   <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Navn til kontoret.." {...field} />
+                    <Input placeholder="Kontornavn.." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,7 +99,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
               name="sizeKvm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Størrelse</FormLabel>
+                  <FormLabel>Størrelse (KVM)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -123,7 +117,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
               name="isRented"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Is Rented</FormLabel>
+                  <FormLabel>Er utleid</FormLabel>
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -140,7 +134,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Saving..." : "Save new office space"}
+                {isLoading ? "Lagrer..." : "Lagre"}
               </Button>
             </SheetFooter>
           </form>
