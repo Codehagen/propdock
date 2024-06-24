@@ -95,12 +95,12 @@ export function AddFloorSheet({ buildingId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add New Floor</Button>
+        <Button variant="outline">Legg til ny etasje</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Add New Floor</SheetTitle>
-          <SheetDescription>Add details for the new floor.</SheetDescription>
+          <SheetTitle>Legg til ny etasje</SheetTitle>
+          <SheetDescription>Hvor mange etasjer ønsker du å legge inn? </SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form
