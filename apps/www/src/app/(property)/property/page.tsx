@@ -57,6 +57,8 @@ export default async function PropertyPage() {
     );
   }
 
+  //TODO - Make function to fetch properties somewhere else
+  //TODO Make types for properties
   // Fetch properties associated with the user's workspace
   const properties: any = await prisma.property.findMany({
     where: {
@@ -66,6 +68,37 @@ export default async function PropertyPage() {
       id: true,
       name: true,
       createdAt: true,
+      buildings: {
+        select: {
+          id: true,
+          name: true,
+          address: true,
+          floors: {
+            select: {
+              maxTotalKvm: true,
+            },
+          },
+        },
+      },
+      tenants: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      contracts: {
+        select: {
+          id: true,
+          startDate: true,
+          endDate: true,
+        },
+      },
+      analysis: {
+        select: {
+          id: true,
+          // Add fields related to financial analysis
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
@@ -90,7 +123,11 @@ export default async function PropertyPage() {
             <AddPropertyButton />
           </EmptyPlaceholder>
         ) : (
-          <DataTable type="property" columns={PropertyColumns} data={properties} />
+          <DataTable
+            type="property"
+            columns={PropertyColumns}
+            data={properties}
+          />
         )}
       </div>
     </DashboardShell>
