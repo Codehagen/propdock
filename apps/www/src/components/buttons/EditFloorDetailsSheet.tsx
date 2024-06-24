@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { updateOfficeSpace } from "@/actions/update-office-space";
+import { useParams } from "next/navigation";
+import { updateFloorDetails } from "@/actions/update-floor-details";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@dingify/ui/components/button";
-import { Checkbox } from "@dingify/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -29,46 +29,46 @@ import {
 } from "@dingify/ui/components/sheet";
 
 // Define the validation schema
-const EditOfficeSpaceSchema = z.object({
-  name: z.string().min(1, "Office space name is required"),
-  sizeKvm: z.number().min(1, "Size in KVM is required"),
-  isRented: z.boolean(),
+const EditFloorDetailsSchema = z.object({
+  number: z.number().min(1, "Floor number is required"),
+  maxTotalKvm: z.number().min(1, "Total KVM is required"),
 });
 
-export function EditOfficeSpaceSheet({
-  officeId,
-  currentName,
-  currentSizeKvm,
-  currentIsRented,
+export function EditFloorDetailsSheet({
+  floorId,
+  currentNumber,
+  currentMaxTotalKvm,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
-    resolver: zodResolver(EditOfficeSpaceSchema),
+    resolver: zodResolver(EditFloorDetailsSchema),
     defaultValues: {
-      name: currentName,
-      sizeKvm: currentSizeKvm,
-      isRented: currentIsRented,
+      number: currentNumber,
+      maxTotalKvm: currentMaxTotalKvm,
     },
   });
+  const params = useParams();
+  const propertyId = Array.isArray(params.propertyId)
+    ? params.propertyId[0]
+    : params.propertyId;
+  const buildingId = Array.isArray(params.buildingId)
+    ? params.buildingId[0]
+    : params.buildingId;
+  const currentPath = `/property/${propertyId}/building/${buildingId}`;
 
   const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
-      const result = await updateOfficeSpace(
-        officeId,
-        data.name,
-        data.sizeKvm,
-        data.isRented,
-      );
+      const result = await updateFloorDetails(floorId, data, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to update office space.");
+        throw new Error(result.error || "Failed to update floor details.");
       }
 
-      toast.success(`Office space was updated.`);
+      toast.success(`Floor details updated.`);
       form.reset();
-      // Optionally, refresh the page or update the state to show the updated office space
+      // Optionally, refresh the page or update the state to show the updated floor details
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -80,40 +80,25 @@ export function EditOfficeSpaceSheet({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost">Endre navn</Button>
+        <Button variant="ghost">Endre etasje</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Endre kontornavn</SheetTitle>
-          <SheetDescription>
-            Endre informasjonen om det valgte kontoret.
-          </SheetDescription>
+          <SheetTitle>Endre etasje</SheetTitle>
+          <SheetDescription>Endre detaljer for etasjen.</SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
+              name="number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Navn</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Kontornavn.." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sizeKvm"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Størrelse (KVM)</FormLabel>
+                  <FormLabel>Floor Number</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Hvor mange kvm er kontoret..."
+                      placeholder="Floor number.."
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -124,14 +109,16 @@ export function EditOfficeSpaceSheet({
             />
             <FormField
               control={form.control}
-              name="isRented"
+              name="maxTotalKvm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Er utleid</FormLabel>
+                  <FormLabel>Total KVM</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Input
+                      type="number"
+                      placeholder="Total KVM.."
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -144,7 +131,7 @@ export function EditOfficeSpaceSheet({
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Lagrer..." : "Lagre"}
+                {isLoading ? "Saving..." : "Save"}
               </Button>
             </SheetFooter>
           </form>

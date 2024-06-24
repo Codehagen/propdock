@@ -1,14 +1,14 @@
-// actions/get-tenants.ts
+// actions/get-tenants-combo-box.ts
 "use server";
 
 import { prisma } from "@/lib/db";
 
-export async function getTenants(workspaceId: number) {
+export async function getTenantsComboBox(workspaceId: number) {
   try {
     const tenants = await prisma.tenant.findMany({
       where: {
         property: {
-          workspaceId,
+          workspaceId: workspaceId,
         },
       },
       select: {

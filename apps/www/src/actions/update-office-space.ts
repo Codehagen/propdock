@@ -1,8 +1,13 @@
-"use server"
+"use server";
 
 import { prisma } from "@/lib/db";
 
-export async function updateOfficeSpace(officeId: number, newName: string, sizeKvm: number, isRented: boolean) {
+export async function updateOfficeSpace(
+  officeId: number,
+  newName: string,
+  sizeKvm: number,
+  isRented: boolean,
+) {
   try {
     const updatedOffice = await prisma.officeSpace.update({
       where: { id: officeId },
