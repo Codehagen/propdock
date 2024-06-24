@@ -1,29 +1,65 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@dingify/ui/components/card";
 import { format } from "date-fns";
-import { nb } from "date-fns/locale";
+import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react";
+
 import { Badge } from "@dingify/ui/components/badge";
 import { Button } from "@dingify/ui/components/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@dingify/ui/components/dropdown-menu";
-import { MoveVerticalIcon, Pencil, File, Trash } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@dingify/ui/components/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@dingify/ui/components/dropdown-menu";
 import { Separator } from "@dingify/ui/components/separator";
 
-export default function InfoCard({ data, type }: {
+export default function InfoCard({
+  data,
+  type,
+}: {
   data?: {
-    id: number,
-    name: string,
-    createdAt: Date,
-    building: { name: string },
-    floor: number | string | null,
-    officeSpace: number | string | null
-  },
-  type: "property" | "tenant"
+    id: number;
+    name: string;
+    createdAt: Date;
+    buildings?: {
+      name: string;
+      address: string;
+      floors: { maxTotalKvm: number }[];
+    }[];
+    floor?: number | string | null;
+    officeSpace?: number | string | null;
+  };
+  type: "property" | "tenant";
 }) {
   const handleDelete = () => {
     // Handle delete action
   };
 
+  // Calculate maxTotalKvm
+  const maxTotalKvm =
+    type === "property" && data?.buildings
+      ? data.buildings
+          .reduce((acc, building) => {
+            return (
+              acc +
+              building.floors.reduce(
+                (floorAcc, floor) => floorAcc + floor.maxTotalKvm,
+                0,
+              )
+            );
+          }, 0)
+          .toString()
+      : "Legg til areal";
+
   return (
-    <Card className="overflow-hidden" >
+    <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-start bg-muted/50">
         <div className="grid gap-0.5">
           <CardTitle className="group flex items-center gap-2 text-lg">
@@ -39,10 +75,17 @@ export default function InfoCard({ data, type }: {
           </CardTitle>
           <CardDescription>
             {type === "property" ? (
-              data?.createdAt ? format(data.createdAt, "MM/dd/yyyy") : "Placeholder Date"
+              data?.createdAt ? (
+                format(data.createdAt, "MM/dd/yyyy")
+              ) : (
+                "Placeholder Date"
+              )
             ) : (
               <>
-                {data?.building.name || "Placeholder Building"}{data?.floor && " - " + data?.floor}
+                {data?.buildings?.[0]?.name
+                  ? data.buildings[0].name
+                  : "Placeholder Building"}
+                {data?.floor && " - " + data.floor}
               </>
             )}
           </CardDescription>
@@ -81,15 +124,19 @@ export default function InfoCard({ data, type }: {
               <span className="text-muted-foreground">Navn</span>
               <span>{data?.name || "Placeholder Name"}</span>
             </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">Adresse</span>
-              <span>{data?.name || "Placeholder Adresse"}</span>
-            </li>
             {type === "tenant" && (
               <>
                 <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Adresse</span>
+                  <span>{data?.name || "Placeholder Adresse"}</span>
+                </li>
+                <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Building</span>
-                  <span>{data?.building.name || "Placeholder Building"}</span>
+                  <span>
+                    {data?.buildings?.[0]?.name
+                      ? data.buildings[0].name
+                      : "Placeholder Building"}
+                  </span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Floor</span>
@@ -101,42 +148,78 @@ export default function InfoCard({ data, type }: {
                 </li>
               </>
             )}
+            {type === "property" && (
+              <>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Adresse</span>
+                  <span>
+                    {data?.buildings?.[0]?.address
+                      ? data.buildings[0].address
+                      : "Placeholder Adresse"}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Type bygg</span>
+                  <span>
+                    {data?.buildings?.[0]?.name
+                      ? data.buildings[0].name
+                      : "Placeholder Building"}
+                  </span>
+                </li>
+              </>
+            )}
           </ul>
           <Separator className="my-2" />
-          {type === "tenant" && (
-            <ul className="grid gap-3">
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Navn</span>
-                <span>Christer Hagen</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Epost</span>
-                <span>Christer.hagen@gmail.com</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Telefon</span>
-                <span>98453571</span>
-              </li>
-            </ul>
-          )}
           {type === "property" && (
             <ul className="grid gap-3">
+              <div className="font-semibold">Byggninger</div>
+
               <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Type</span>
-                <span>Property</span>
+                <span className="text-muted-foreground">Størrelse</span>
+                <span>{maxTotalKvm} kvm</span>
               </li>
               <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">xxx</span>
-                <span>Placeholder Icon</span>
+                <span className="text-muted-foreground">Ledig areal</span>
+                <span>1800 kvm</span>
               </li>
-              <li className="flex items-center justify-between font-semibold">
-                <span className="text-muted-foreground">Notify</span>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Ledig kontorer</span>
+                <span>9 enheter</span>
+              </li>
+              <li className="flex items-center justify-between ">
+                <span className="text-muted-foreground">Ledighet i %</span>
                 <span>
                   <Badge className="text-xs" variant="outline">
-                    Placeholder Notify
+                    14%
                   </Badge>
                 </span>
               </li>
+            </ul>
+          )}
+          {type === "tenant" && (
+            <ul className="grid gap-3">
+              <div className="font-semibold">Placeholder</div>
+
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Placeholder</span>
+                <span>Placeholder</span>
+              </li>
+              {/* <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Ledig areal</span>
+                <span>1800 kvm</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Ledig kontorer</span>
+                <span>9 enheter</span>
+              </li>
+              <li className="flex items-center justify-between ">
+                <span className="text-muted-foreground">Ledighet i %</span>
+                <span>
+                  <Badge className="text-xs" variant="outline">
+                    14%
+                  </Badge>
+                </span>
+              </li> */}
             </ul>
           )}
         </div>
@@ -174,13 +257,21 @@ export default function InfoCard({ data, type }: {
         )}
         {type === "property" && (
           <div className="grid gap-3">
-            <div className="font-semibold">Leietakere</div>
+            <div className="font-semibold">Økonomi</div>
             <dl className="grid gap-3">
               <div className="flex items-center justify-between">
-                <dt className="text-muted-foreground">Leietakere</dt>
+                <dt className="text-muted-foreground">Verdsettelse</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    14
+                    52 MNOK
+                  </Badge>
+                </dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-muted-foreground">Leie pr kvm</dt>
+                <dd>
+                  <Badge className="text-xs" variant="secondary">
+                    2870 kr
                   </Badge>
                 </dd>
               </div>
@@ -198,7 +289,7 @@ export default function InfoCard({ data, type }: {
       </CardContent>
       <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
         <div className="text-xs text-muted-foreground">
-          Updated
+          {/* Oppdatert */}
           {/* <time dateTime={new Date(data?.createdAt).toISOString()}>
             {" "}
             {new Date(data?.createdAt).toLocaleDateString()}
