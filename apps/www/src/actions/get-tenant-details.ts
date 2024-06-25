@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db"
 
 export async function getTenantDetails(tenantId: number) {
   try {
@@ -8,12 +8,13 @@ export async function getTenantDetails(tenantId: number) {
         building: true,
         floor: true,
         officeSpace: true,
+        contacts: true,
       },
-    });
+    })
 
-    return tenant;
+    return tenant
   } catch (error) {
-    console.error("Error fetching tenant details:", error);
-    return null;
+    console.error("Error fetching tenant details:", error)
+    return null
   }
 }

@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
 import {
   ChevronLeft,
   Home,
@@ -13,20 +13,21 @@ import {
   ShoppingCart,
   Upload,
   Users2,
-} from "lucide-react";
+} from "lucide-react"
 
-import { Badge } from "@dingify/ui/components/badge";
-import { Button } from "@dingify/ui/components/button";
+import { Badge } from "@dingify/ui/components/badge"
+import { Button } from "@dingify/ui/components/button"
 
-import UserChangeStatusCard from "./UserChangeStatusCard";
-import { UserChartActivity } from "./UserChartActivity";
-import UserEmailCard from "./UserEmailCard";
-import { UserGridActivity } from "./UserGridActivity";
-import { UserFinancialCard } from "./UserPowerCard";
-import UsersDashboardTable from "./UsersDashboardTable";
+import UserChangeStatusCard from "./UserChangeStatusCard"
+import { UserChartActivity } from "./UserChartActivity"
+import UserContactPerson from "./UserContactPerson"
+import UserEmailCard from "./UserEmailCard"
+import { UserGridActivity } from "./UserGridActivity"
+import { UserFinancialCard } from "./UserPowerCard"
+import UsersDashboardTable from "./UsersDashboardTable"
 
 export function UserMainSection({ tenantDetails }) {
-  console.log(tenantDetails);
+  console.log(tenantDetails)
   return (
     <div className="">
       <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -35,6 +36,7 @@ export function UserMainSection({ tenantDetails }) {
           <UsersDashboardTable tenantDetails={tenantDetails} />
         </div>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+          <UserContactPerson tenantDetails={tenantDetails} />
           <UserChangeStatusCard tenantDetails={tenantDetails} />
 
           <UserFinancialCard tenantDetails={tenantDetails} />
@@ -43,5 +45,5 @@ export function UserMainSection({ tenantDetails }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
