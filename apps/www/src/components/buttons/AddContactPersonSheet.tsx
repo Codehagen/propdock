@@ -19,6 +19,7 @@ import {
 import { Input } from "@dingify/ui/components/input"
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -32,16 +33,26 @@ const ContactPersonSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
+  fnr: z
+    .string()
+    .optional()
+    .refine((data) => !data || /^\d{11}$/.test(data), {
+      message: "fnr must be exactly 11 digits",
+    })
+    .nullable(),
 })
 
-export function AddContactPersonSheet({ tenantId }) {
+export function AddContactPersonSheet({ tenantId, currentPath }) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+
   const form = useForm({
     resolver: zodResolver(ContactPersonSchema),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
+      fnr: "",
     },
   })
 
@@ -49,7 +60,7 @@ export function AddContactPersonSheet({ tenantId }) {
     setIsLoading(true)
 
     try {
-      const result = await createContactPerson(tenantId, data)
+      const result = await createContactPerson(tenantId, data, currentPath)
 
       if (!result.success) {
         throw new Error(result.error || "Failed to save contact person.")
@@ -57,7 +68,8 @@ export function AddContactPersonSheet({ tenantId }) {
 
       toast.success(`Kontaktperson "${data.name}" ble lagret.`)
       form.reset()
-      // Optionally, refresh the page or update the state to show the new contact person
+      setIsOpen(false) // Close the sheet on success
+      // Revalidate the path to refresh the page or update the state to show the new contact person
     } catch (error) {
       toast.error(error.message)
       console.error(error)
@@ -67,7 +79,7 @@ export function AddContactPersonSheet({ tenantId }) {
   }
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="outline">Legg til ny kontaktperson</Button>
       </SheetTrigger>
@@ -119,7 +131,20 @@ export function AddContactPersonSheet({ tenantId }) {
                 </FormItem>
               )}
             />
-            <SheetFooter>
+            <FormField
+              control={form.control}
+              name="fnr"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>FNR</FormLabel>
+                  <FormControl>
+                    <Input placeholder="FNR..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <SheetFooter className="flex justify-end">
               <Button
                 type="submit"
                 disabled={isLoading}

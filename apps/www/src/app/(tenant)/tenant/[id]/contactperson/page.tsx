@@ -40,9 +40,22 @@ export default async function ContactPerson({
       return (
         <DashboardShell>
           <DashboardHeader
-            heading="Contact Person not found"
-            text="We couldn't find the contact person you're looking for."
+            heading="Legg til kontaktpersoner"
+            text="Du må først legge til kontatpersoner før du kan se dem her."
           />
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="user" />
+            <EmptyPlaceholder.Title>
+              Ingen kontaktpersoner
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Legg til kontaktpersoner tilknyttet leietakeren.
+            </EmptyPlaceholder.Description>
+            <AddContactPersonSheet
+              tenantId={tenantDetails?.id}
+              currentPath={`/tenant/${tenantId}/contacts`}
+            />
+          </EmptyPlaceholder>
         </DashboardShell>
       )
     }
@@ -53,7 +66,10 @@ export default async function ContactPerson({
           heading={tenantDetails.name}
           text="Detaljer om kontaktpersonene."
         >
-          <AddContactPersonSheet tenantId={tenantDetails.id} />
+          <AddContactPersonSheet
+            tenantId={tenantDetails.id}
+            currentPath={`/tenant/${tenantId}/contacts`}
+          />
         </DashboardHeader>
         <div>
           {tenantDetails.contacts.length === 0 ? (
@@ -65,43 +81,60 @@ export default async function ContactPerson({
               <EmptyPlaceholder.Description>
                 Legg til kontaktpersoner tilknyttet leietakeren.
               </EmptyPlaceholder.Description>
-              <AddContactPersonSheet tenantId={tenantDetails.id} />
+              <AddContactPersonSheet
+                tenantId={tenantDetails.id}
+                currentPath={`/tenant/${tenantId}/contacts`}
+              />
             </EmptyPlaceholder>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {tenantDetails.contacts.map((contactPerson) => (
                 <Card key={contactPerson.id} className="overflow-hidden">
                   <CardHeader className="flex flex-row items-start bg-muted/50">
-                    <div className="grid gap-0.5">
-                      <CardTitle className="group flex items-center gap-2 text-lg">
+                    <div className="flex w-full items-center justify-between">
+                      <CardTitle className="text-lg">
                         {contactPerson.name}
-                        <EditContactPersonSheet
-                          contactPersonId={contactPerson.id}
-                          initialValues={{
-                            name: contactPerson.name,
-                            email: contactPerson.email,
-                            phone: contactPerson.phone,
-                          }}
-                          currentPath={`/tenant/${tenantId}/contacts`}
-                        />
+                      </CardTitle>
+                      <EditContactPersonSheet
+                        contactPersonId={contactPerson.id}
+                        initialValues={{
+                          name: contactPerson.name,
+                          email: contactPerson.email,
+                          phone: contactPerson.phone,
+                          fnr: contactPerson.fnr || "",
+                        }}
+                        currentPath={`/tenant/${tenantId}/contacts`}
+                      >
                         <Button className="h-8 w-8" size="icon" variant="ghost">
                           <Settings className="h-3.5 w-3.5" />
                           <span className="sr-only">More</span>
                         </Button>
-                      </CardTitle>
+                      </EditContactPersonSheet>
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 text-sm">
                     <div className="grid gap-3">
                       <ul className="grid gap-3">
                         <li className="flex items-center justify-between">
-                          <span className="text-muted-foreground">Email</span>
+                          <span className="text-muted-foreground">Navn</span>
+                          <span>{contactPerson.name}</span>
+                        </li>
+                        <li className="flex items-center justify-between">
+                          <span className="text-muted-foreground">Epost</span>
                           <span>{contactPerson.email}</span>
                         </li>
                         <li className="flex items-center justify-between">
-                          <span className="text-muted-foreground">Phone</span>
+                          <span className="text-muted-foreground">Telefon</span>
                           <span>{contactPerson.phone}</span>
                         </li>
+                        {contactPerson.fnr && (
+                          <li className="flex items-center justify-between">
+                            <span className="text-muted-foreground">
+                              Fødselsnummer
+                            </span>
+                            <span>{contactPerson.fnr}</span>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   </CardContent>

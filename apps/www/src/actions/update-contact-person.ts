@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 
 import { prisma } from "@/lib/db"
 
-export async function updateContactPerson(contactPersonId, data) {
+export async function updateContactPerson(contactPersonId, data, currentPath) {
   try {
     const updatedContactPerson = await prisma.contactPerson.update({
       where: { id: contactPersonId },
@@ -12,10 +12,11 @@ export async function updateContactPerson(contactPersonId, data) {
         name: data.name,
         email: data.email,
         phone: data.phone,
+        fnr: parseInt(data.fnr), // Ensure fnr is parsed to integer
       },
     })
 
-    // revalidatePath(currentPath)
+    revalidatePath(currentPath)
 
     return { success: true, contactPerson: updatedContactPerson }
   } catch (error) {
