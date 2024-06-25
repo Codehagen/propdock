@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { createContactPerson } from "@/actions/create-contact-person"
+import { updateContactPerson } from "@/actions/update-contact-person" // Ensure this function is implemented
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -34,30 +34,30 @@ const ContactPersonSchema = z.object({
   phone: z.string().optional(),
 })
 
-export function AddContactPersonSheet({ tenantId }) {
+export function EditContactPersonSheet({
+  contactPersonId,
+  initialValues,
+  currentPath,
+}) {
   const [isLoading, setIsLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(ContactPersonSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-    },
+    defaultValues: initialValues,
   })
 
   const onSubmit = async (data) => {
     setIsLoading(true)
 
     try {
-      const result = await createContactPerson(tenantId, data)
+      const result = await updateContactPerson(contactPersonId, data)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save contact person.")
+        throw new Error(result.error || "Failed to update contact person.")
       }
 
-      toast.success(`Kontaktperson "${data.name}" ble lagret.`)
+      toast.success(`Kontaktperson "${data.name}" ble oppdatert.`)
       form.reset()
-      // Optionally, refresh the page or update the state to show the new contact person
+      // Optionally, refresh the page or update the state to show the updated contact person
     } catch (error) {
       toast.error(error.message)
       console.error(error)
@@ -69,13 +69,13 @@ export function AddContactPersonSheet({ tenantId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Legg til ny kontaktperson</Button>
+        <Button variant="outline">Oppdater kontaktperson</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Legg til ny kontaktperson</SheetTitle>
+          <SheetTitle>Oppdater kontaktperson</SheetTitle>
           <SheetDescription>
-            Legg til en ny kontaktperson for leietakeren
+            Oppdater informasjonen for kontaktpersonen
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -125,7 +125,7 @@ export function AddContactPersonSheet({ tenantId }) {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Lagrer..." : "Lagre ny kontaktperson"}
+                {isLoading ? "Lagrer..." : "Oppdater kontaktperson"}
               </Button>
             </SheetFooter>
           </form>
