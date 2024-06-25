@@ -29,7 +29,6 @@ export default function BottomSectionLanding() {
         <br className="hidden md:block" /> Available today.
       </h2>
       <div className="mt-10 space-x-4">
-        {/* <GetStartedButton /> */}
         <GetStartedButton />
       </div>
     </section>

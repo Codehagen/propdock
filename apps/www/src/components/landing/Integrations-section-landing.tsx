@@ -14,55 +14,55 @@ import { Confetti } from "../ui/confetti";
 const cardImage = [
   {
     id: 1,
-    title: "Tom",
+    title: "Karl Johans gate 5",
     link: "#",
     image: "https://avatar.vercel.sh/tom",
   },
   {
     id: 2,
-    title: "Emily",
+    title: "Akersgata 16",
     link: "#",
     image: "https://avatar.vercel.sh/emily",
   },
   {
     id: 3,
-    title: "Chris",
+    title: "Storgata 10",
     link: "#",
     image: "https://avatar.vercel.sh/chris",
   },
   {
     id: 4,
-    title: "Sophie",
+    title: "Prinsens gate 8",
     link: "#",
     image: "https://avatar.vercel.sh/sophie",
   },
   {
     id: 5,
-    title: "Scott",
+    title: "Rådhusgata 2",
     link: "#",
     image: "https://avatar.vercel.sh/scott",
   },
   {
     id: 6,
-    title: "Olivia",
+    title: "Dronningens gate 16",
     link: "#",
     image: "https://avatar.vercel.sh/olivia",
   },
   {
     id: 7,
-    title: "Evan",
+    title: "Kirkegata 15",
     link: "#",
     image: "https://avatar.vercel.sh/evan",
   },
   {
     id: 8,
-    title: "Grace",
+    title: "Torggata 21",
     link: "#",
     image: "https://avatar.vercel.sh/grace",
   },
   {
     id: 9,
-    title: "Van",
+    title: "Bislettgata 12",
     link: "#",
     image: "https://avatar.vercel.sh/van",
   },
@@ -89,13 +89,13 @@ export function IntegrationsSectionLanding() {
     <div className="flex h-full transform-gpu  flex-col items-center justify-between gap-5 rounded-lg border border-neutral-200 bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] xl:flex-row">
       <div className="flex w-full flex-col items-start justify-between gap-y-10 p-10 xl:h-full xl:w-1/2">
         <h2 className="text-3xl font-semibold">
-          Dingify makes it easy to track the journey of your users
+          Propdock gjør det enkelt å ha finasiell oversikt over dine eiendommer{" "}
         </h2>
         <a
           href="/dashboard"
           className="text-base font-normal text-gray-500 underline-offset-4 transition-all hover:underline"
         >
-          Get started for free
+          Start gratis nå
         </a>
       </div>
       <div className="relative w-full overflow-hidden xl:w-1/2">
@@ -139,7 +139,7 @@ export function IntegrationsSectionLanding() {
                   onClick={handleConfettiClick}
                   className="rounded-md border border-neutral-700/50 bg-neutral-600 p-2 py-0.5 text-white shadow-xl drop-shadow-lg hover:bg-neutral-500 dark:border-neutral-400/20 dark:bg-gray-500"
                 >
-                  Website
+                  Se mer
                 </a>
               </motion.div>
             ))}

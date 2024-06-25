@@ -61,7 +61,7 @@ const properties = [
 
 export default function DashboardTableBestProperties() {
   return (
-    <Card>
+    <Card className="overflow-auto">
       <CardHeader>
         <CardTitle>Mest lønnsome eiendommer</CardTitle>
         <CardDescription>
@@ -72,7 +72,7 @@ export default function DashboardTableBestProperties() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Eiendom</TableHead>
+              <TableHead>Eiendom</TableHead>
               <TableHead>Belegg</TableHead>
               <TableHead>Inntekter</TableHead>
               <TableHead>Utgifter</TableHead>

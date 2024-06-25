@@ -66,7 +66,7 @@ const leaseExpirationData = [
 
 export default function DashboardTableLeaseExpiration() {
   return (
-    <Card>
+    <Card className="overflow-auto">
       <CardHeader>
         <CardTitle>Leiekontrakter som utgår</CardTitle>
         <CardDescription>

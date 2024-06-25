@@ -7,6 +7,7 @@ import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import FloorsTable from "@/components/table/floors/floors-table";
 
 export default async function BuildingPage({ params }) {
   const { buildingId } = params;
@@ -58,17 +59,7 @@ export default async function BuildingPage({ params }) {
               <AddFloorSheet buildingId={buildingId} />
             </EmptyPlaceholder>
           ) : (
-            <div>
-              <h4>Floors:</h4>
-              <ul>
-                {buildingDetails.floors.map((floor) => (
-                  <li key={floor.id}>
-                    {floor.number} - {floor.maxTotalKvm} KVM
-                    <AddOfficeSpaceSheet floorId={floor.id} />
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <FloorsTable floors={buildingDetails.floors} />
           )}
         </div>
       </DashboardShell>

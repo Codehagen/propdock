@@ -1,29 +1,28 @@
-"use client";
+"use client"
 
 import type { SidebarNavItem } from "@/types"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/shared/icons"
 
 interface DashboardNavProps {
-  items: SidebarNavItem[];
-  slug?: string;
+  items: SidebarNavItem[]
+  slug?: string
 }
 
 export function DashboardNav({ items, slug }: DashboardNavProps) {
-  const path = usePathname();
+  const path = usePathname()
 
   if (!items.length) {
-    return null;
+    return null
   }
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className="grid items-start gap-2 max-md:grid-flow-col">
       {items.map((item) => {
-        const Icon = Icons[item.icon || "arrowRight"];
+        const Icon = Icons[item.icon || "arrowRight"]
         return (
           <div key={item.href}>
             <Link
@@ -45,8 +44,8 @@ export function DashboardNav({ items, slug }: DashboardNavProps) {
               </span>
             </Link>
           </div>
-        );
+        )
       })}
     </nav>
-  );
+  )
 }

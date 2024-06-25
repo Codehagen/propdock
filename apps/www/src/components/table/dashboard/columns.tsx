@@ -21,7 +21,6 @@ import { propertyLabels, propertyStatuses } from "./propertystatus";
 export interface Property {
   id: string;
   name: string;
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "DONE" | "CANCELED";
   label?: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY";
   createdAt?: Date
 }
@@ -49,28 +48,6 @@ export const PropertyColumns: ColumnDef<Property>[] = [
           <Link href={`/property/${row.original.id}`}>
             <span className="truncate font-medium">{row.original.name}</span>
           </Link>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: () => <div className="hidden md:block">Status</div>,
-    cell: ({ row }) => {
-      const status = propertyStatuses.find(
-        (status) => status.value === row.getValue("status"),
-      );
-
-      if (!status) {
-        return null;
-      }
-
-      return (
-        <div className="hidden items-center md:flex">
-          {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{status.label}</span>
         </div>
       );
     },

@@ -41,20 +41,20 @@ const data: TeamMember[] = [
     id: "1",
     name: "Christer Hagen",
     role: "Founder, CEO",
-    salary: "$0",
+    salary: "0 kr",
     engagement: "Full-Time",
-    location: "Norway",
-    joinDate: "February 4th, 2024",
+    location: "Fauske, Norge",
+    joinDate: "10 Juni 2024",
   },
-  // {
-  //   id: "2",
-  //   name: "Lucas Smith",
-  //   role: "Co-Founder, CTO",
-  //   salary: "$95,000",
-  //   engagement: "Full-Time",
-  //   location: "Australia",
-  //   joinDate: "April 19th, 2023",
-  // },
+  {
+    id: "2",
+    name: "Vegard Soraas",
+    role: "CTO",
+    salary: "0 kr",
+    engagement: "Full-Time",
+    location: "Bodø, Norge",
+    joinDate: "20 Juni 2024",
+  },
 ];
 
 export type TeamMember = {
@@ -70,17 +70,17 @@ export type TeamMember = {
 export const columns: ColumnDef<TeamMember>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Navn",
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "role",
-    header: "Role",
+    header: "Rolle",
     cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>,
   },
   {
     accessorKey: "salary",
-    header: "Salary",
+    header: "Lønn",
     cell: ({ row }) => <div>{row.getValue("salary")}</div>,
   },
   {
@@ -90,7 +90,7 @@ export const columns: ColumnDef<TeamMember>[] = [
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: "Lokasjon",
     cell: ({ row }) => <div>{row.getValue("location")}</div>,
   },
   {

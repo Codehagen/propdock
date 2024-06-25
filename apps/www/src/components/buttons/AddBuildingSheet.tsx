@@ -84,7 +84,7 @@ export function AddBuildingSheet({ propertyId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add New Building</Button>
+        <Button variant="outline">Legg til ny byggning</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

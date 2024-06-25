@@ -9,7 +9,7 @@ export default function OpenStartupSection() {
           Everything Open!
         </h2>
         <p className="text-large font-medium text-muted-foreground">
-          We want to make everything open, so lets share everything we have.
+          Vi ønsker å gjøre alt i det åpne, så la oss dele alt vi har.
         </p>
       </div>
     </section>

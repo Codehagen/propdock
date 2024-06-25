@@ -42,12 +42,7 @@ export default async function TenantDetailsPage({
         <DashboardHeader
           heading={tenantDetails.name}
           text="Detaljer om leietaker."
-        >
-          {" "}
-          <Button>
-            <Link href={`/tenant/${tenantDetails.id}/contract/`}>Kontrakt</Link>
-          </Button>
-        </DashboardHeader>
+        ></DashboardHeader>
         <div>
           <UserCard tenantDetails={tenantDetails} />
         </div>

@@ -8,10 +8,10 @@ export default function OpenUsersText() {
           Open startup
         </p> */}
         <h2 className="font-heading text-3xl leading-[1.1] md:text-5xl">
-          Our users
+          Våre brukere
         </h2>
         <p className="text-large font-medium text-muted-foreground">
-          How is the growth?
+          Hvordan er veksten?
         </p>
       </div>
     </section>

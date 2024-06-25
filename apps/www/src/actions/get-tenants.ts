@@ -1,4 +1,6 @@
 // actions/get-tenants.ts
+"use server";
+
 import { prisma } from "@/lib/db";
 
 export async function getTenants(workspaceId: number) {

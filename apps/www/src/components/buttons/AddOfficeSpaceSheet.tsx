@@ -41,7 +41,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
     resolver: zodResolver(OfficeSpaceSchema),
     defaultValues: {
       name: "",
-      sizeKvm: 0,
+      sizeKvm: "",
       isRented: false,
     },
   });
@@ -50,13 +50,19 @@ export function AddOfficeSpaceSheet({ floorId }) {
     setIsLoading(true);
 
     try {
-      const result = await createOfficeSpace(floorId, data);
+      // Convert sizeKvm to a number
+      const formData = {
+        ...data,
+        sizeKvm: Number(data.sizeKvm),
+      };
+
+      const result = await createOfficeSpace(floorId, formData);
 
       if (!result.success) {
         throw new Error(result.error || "Failed to save office space.");
       }
 
-      toast.success(`Office space "${data.name}" was saved.`);
+      toast.success(`Office space "${formData.name}" was saved.`);
       form.reset();
       // Optionally, refresh the page or update the state to show the new office space
     } catch (error) {
@@ -70,13 +76,13 @@ export function AddOfficeSpaceSheet({ floorId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add New Office Space</Button>
+        <Button variant="outline">Legg til nytt kontor</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Add New Office Space</SheetTitle>
+          <SheetTitle>Legg til nytt kontor</SheetTitle>
           <SheetDescription>
-            Add details for the new office space.
+            Fyll ut informasjonen for det nye kontoret.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -86,9 +92,9 @@ export function AddOfficeSpaceSheet({ floorId }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Office Space Name</FormLabel>
+                  <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Office Space Name..." {...field} />
+                    <Input placeholder="Navn til kontoret.." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,12 +105,13 @@ export function AddOfficeSpaceSheet({ floorId }) {
               name="sizeKvm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size in KVM</FormLabel>
+                  <FormLabel>Størrelse</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Size in KVM..."
+                      placeholder="Hvor mange kvm er kontoret..."
                       {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />

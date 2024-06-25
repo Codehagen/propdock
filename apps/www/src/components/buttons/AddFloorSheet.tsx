@@ -95,12 +95,14 @@ export function AddFloorSheet({ buildingId }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add New Floor</Button>
+        <Button variant="outline">Legg til ny etasje</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Add New Floor</SheetTitle>
-          <SheetDescription>Add details for the new floor.</SheetDescription>
+          <SheetTitle>Legg til ny etasje</SheetTitle>
+          <SheetDescription>
+            Hvor mange etasjer ønsker du å legge inn?{" "}
+          </SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form
@@ -136,11 +138,11 @@ export function AddFloorSheet({ buildingId }) {
               name="floors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Number of Floors</FormLabel>
+                  <FormLabel>Hvor mange etasjer</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Floors..."
+                      placeholder="Etasjer..."
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -161,7 +163,7 @@ export function AddFloorSheet({ buildingId }) {
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel>Split KVM among floors</FormLabel>
+                    <FormLabel>Skal vi dele inn etasjene?</FormLabel>
                   </div>
                 </FormItem>
               )}
@@ -172,7 +174,7 @@ export function AddFloorSheet({ buildingId }) {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Saving..." : "Save new floor"}
+                {isLoading ? "Lagrer..." : "Lag ny etasje"}
               </Button>
             </SheetFooter>
           </form>

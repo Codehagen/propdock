@@ -10,12 +10,12 @@ export default function DashboardMainDashboard({ properties }) {
       <div className="col-span-full">
         <DashboardCardsTop properties={properties} />
       </div>
-      <div className="col-span-full grid auto-rows-max items-start gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-        <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+      <div className="col-span-full grid auto-rows-max items-start gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">
           <DashboardRevenueChart properties={properties} />
           <DashboardTableLeaseExpiration />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="grid auto-rows-max col-span-full items-start gap-4 md:gap-4 xl:col-span-2">
           <DashboardTableBestProperties />
           <DashboardRentedChart />
           {/* Add more blocks as needed */}

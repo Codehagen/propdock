@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion";
 import {
   BarChart,
+  Building,
   ChevronRight,
   File,
   Globe,
@@ -178,13 +179,13 @@ export default function CallToActionSection() {
             </Marquee>
             <div className="absolute z-10">
               <div className="mx-auto size-24 rounded-[2rem] border bg-white/10 p-3 shadow-2xl backdrop-blur-md dark:bg-black/10 lg:size-32">
-                <Rss className="mx-auto size-16 text-black dark:text-white lg:size-24" />
+                <Building className="mx-auto size-16 text-black dark:text-white lg:size-24" />
               </div>
               <div className="z-10 mt-4 flex flex-col items-center text-center text-primary">
                 <h1 className="text-3xl font-bold lg:text-4xl">
-                  Track every user interaction with ease
+                  Spor all data du har av eiendommen
                 </h1>
-                <p className="mt-2">No credit card required.</p>
+                <p className="mt-2">Prøv Propdock nå.</p>
                 <Link
                   href="/dashboard"
                   className={cn(
@@ -195,7 +196,7 @@ export default function CallToActionSection() {
                     "group mt-4 rounded-[2rem] px-6",
                   )}
                 >
-                  Get Started for free
+                  Prøv gratis nå
                   <ChevronRight className="ml-1 size-4 transition-all duration-300 ease-out group-hover:translate-x-1" />
                 </Link>
               </div>
