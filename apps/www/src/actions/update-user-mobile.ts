@@ -5,13 +5,13 @@ import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
-import { userNameSchema } from "@/lib/validations/user"
+import { userMobileSchema } from "@/lib/validations/user"
 
 export interface FormData {
-  name: string
+  phone: string
 }
 
-export async function updateUserName(userId: string, data: FormData) {
+export async function updateUserMobile(userId: string, data: FormData) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -19,15 +19,15 @@ export async function updateUserName(userId: string, data: FormData) {
       throw new Error("Unauthorized")
     }
 
-    const { name } = userNameSchema.parse(data)
+    const { phone } = userMobileSchema.parse(data) // Use the new schema
 
-    // Update the user name.
+    // Update the user mobile number.
     await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        name: name,
+        phone: phone,
       },
     })
 

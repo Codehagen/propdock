@@ -1,9 +1,8 @@
 "use client"
 
-import type { FormData } from "@/actions/Dingify/update-user-name"
 import type { User } from "@prisma/client"
 import { useTransition } from "react"
-import { updateUserName } from "@/actions/Dingify/update-user-name"
+import { updateUserMobile } from "@/actions/update-user-mobile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -21,36 +20,40 @@ import { Input } from "@dingify/ui/components/input"
 import { Label } from "@dingify/ui/components/label"
 
 import { cn } from "@/lib/utils"
-import { userNameSchema } from "@/lib/validations/user"
+import { userMobileSchema } from "@/lib/validations/user"
 import { Icons } from "@/components/shared/icons"
 
-interface UserNameFormProps {
-  user: Pick<User, "id" | "name">
+interface UserMobileFormProps {
+  user: Pick<User, "id" | "phone">
 }
 
-export function UserNameForm({ user }: UserNameFormProps) {
+interface FormData {
+  phone: string
+}
+
+export function UserMobileForm({ user }: UserMobileFormProps) {
   const [isPending, startTransition] = useTransition()
-  const updateUserNameWithId = updateUserName.bind(null, user.id)
+  const updateUserMobileWithId = updateUserMobile.bind(null, user.id)
 
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(userNameSchema),
+    resolver: zodResolver(userMobileSchema),
     defaultValues: {
-      name: user.name || "",
+      phone: user.phone || "",
     },
   })
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
-      const { status } = await updateUserNameWithId(data)
+      const { status } = await updateUserMobileWithId(data)
 
       if (status !== "success") {
-        toast.error("Your name was not updated. Please try again.")
+        toast.error("Ditt mobilnummer ble ikke oppdatert. Vennligst prøv igjen")
       } else {
-        toast.success("Your name has been updated.")
+        toast.success("Mobil nummeret ditt har blitt oppdatert")
       }
     })
   })
@@ -59,24 +62,24 @@ export function UserNameForm({ user }: UserNameFormProps) {
     <form onSubmit={onSubmit}>
       <Card>
         <CardHeader>
-          <CardTitle>Navnet ditt</CardTitle>
-          <CardDescription>
-            Dette navnet vil bli brukt på alle dokumenter.
-          </CardDescription>
+          <CardTitle>Mobilnummer</CardTitle>
+          <CardDescription>Skriv inn ditt telefonnummer</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="name">
-              Navn
+            <Label className="sr-only" htmlFor="phone">
+              Mobilnummer
             </Label>
             <Input
-              id="name"
+              id="phone"
               className="w-[400px]"
               size={32}
-              {...register("name")}
+              {...register("phone")}
             />
-            {errors.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
+            {errors.phone && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.phone.message}
+              </p>
             )}
           </div>
         </CardContent>

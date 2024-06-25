@@ -25,19 +25,19 @@ export default async function DashboardLayout({
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
-      title: "Generell innstillinger",
-      href: "/analytics",
+      title: "Oversikt",
+      href: "/settings",
       icon: "home",
     },
     {
       title: "Import",
-      href: "/analytics/maps",
-      icon: "map",
+      href: "/settings/",
+      icon: "refresh",
     },
     {
-      title: "API nøkkel",
+      title: "Api-nøkkel",
       href: "/analytics/1",
-      icon: "piechart",
+      icon: "key",
     },
   ]
 

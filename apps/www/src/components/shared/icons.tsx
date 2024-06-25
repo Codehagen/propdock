@@ -1,3 +1,4 @@
+import type { LucideIcon, LucideProps } from "lucide-react"
 import {
   AlertTriangle,
   ArrowRight,
@@ -11,30 +12,34 @@ import {
   CreditCard,
   File,
   FileText,
+  FileTextIcon,
   HelpCircle,
   Home,
   Image,
+  Key,
   Laptop,
+  LineChart,
   Loader2,
-  LucideIcon,
-  LucideProps,
+  Map,
   Moon,
   MoreVertical,
   PartyPopper,
   PieChart,
   Plus,
   Puzzle,
+  RefreshCcw,
   Rss,
   Search,
   Settings,
   SunMedium,
   Trash,
   Ungroup,
+  Upload,
   User,
   X,
-} from "lucide-react";
+} from "lucide-react"
 
-export type Icon = LucideIcon;
+export type Icon = LucideIcon
 
 export const Icons = {
   add: Plus,
@@ -68,6 +73,12 @@ export const Icons = {
   piecart: PieChart,
   bell: Bell,
   building: Building,
+  filetext: FileTextIcon,
+  map: Map,
+  linechart: LineChart,
+  key: Key,
+  upload: Upload,
+  refresh: RefreshCcw,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
@@ -120,4 +131,4 @@ export const Icons = {
       />
     </svg>
   ),
-};
+}
