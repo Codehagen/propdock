@@ -1,8 +1,8 @@
-import { format } from "date-fns";
-import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react";
+import { format } from "date-fns"
+import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react"
 
-import { Badge } from "@dingify/ui/components/badge";
-import { Button } from "@dingify/ui/components/button";
+import { Badge } from "@dingify/ui/components/badge"
+import { Button } from "@dingify/ui/components/button"
 import {
   Card,
   CardContent,
@@ -10,37 +10,37 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Separator } from "@dingify/ui/components/separator";
+} from "@dingify/ui/components/dropdown-menu"
+import { Separator } from "@dingify/ui/components/separator"
 
 export default function InfoCard({
   data,
   type,
 }: {
   data?: {
-    id: number;
-    name: string;
-    createdAt: Date;
+    id: number
+    name: string
+    createdAt: Date
     buildings?: {
-      name: string;
-      address: string;
-      floors: { maxTotalKvm: number }[];
-    }[];
-    floor?: number | string | null;
-    officeSpace?: number | string | null;
-  };
-  type: "property" | "tenant";
+      name: string
+      address: string
+      floors: { maxTotalKvm: number }[]
+    }[]
+    floor?: number | string | null
+    officeSpace?: number | string | null
+  }
+  type: "property" | "tenant"
 }) {
   const handleDelete = () => {
     // Handle delete action
-  };
+  }
 
   // Calculate maxTotalKvm
   const maxTotalKvm =
@@ -53,10 +53,10 @@ export default function InfoCard({
                 (floorAcc, floor) => floorAcc + floor.maxTotalKvm,
                 0,
               )
-            );
+            )
           }, 0)
           .toString()
-      : "Legg til areal";
+      : "Legg til areal"
 
   return (
     <Card className="overflow-hidden">
@@ -69,7 +69,6 @@ export default function InfoCard({
               size="icon"
               variant="outline"
             >
-              {/* <CopyIcon className="h-3 w-3" /> */}
               <span className="sr-only">Copy Event ID</span>
             </Button>
           </CardTitle>
@@ -128,23 +127,25 @@ export default function InfoCard({
               <>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Adresse</span>
-                  <span>{data?.name || "Placeholder Adresse"}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Building</span>
                   <span>
-                    {data?.buildings?.[0]?.name
-                      ? data.buildings[0].name
-                      : "Placeholder Building"}
+                    {/* {data?.buildings?.[0]?.address || "Placeholder Adresse"} */}
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Building</span>
+                  {/* <span>
+                    {data?.buildings?.[0]?.name
+                      ? data.buildings[0].name
+                      : "Placeholder Building"}
+                  </span> */}
+                </li>
+                <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Floor</span>
-                  <span>{data?.floor || "Placeholder Floor"}</span>
+                  {/* <span>{data?.floor || "Placeholder Floor"}</span> */}
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Office Space</span>
-                  <span>{data?.officeSpace || "Placeholder Office Space"}</span>
+                  {/* <span>{data?.officeSpace || "Placeholder Office Space"}</span> */}
                 </li>
               </>
             )}
@@ -204,22 +205,6 @@ export default function InfoCard({
                 <span className="text-muted-foreground">Placeholder</span>
                 <span>Placeholder</span>
               </li>
-              {/* <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Ledig areal</span>
-                <span>1800 kvm</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Ledig kontorer</span>
-                <span>9 enheter</span>
-              </li>
-              <li className="flex items-center justify-between ">
-                <span className="text-muted-foreground">Ledighet i %</span>
-                <span>
-                  <Badge className="text-xs" variant="outline">
-                    14%
-                  </Badge>
-                </span>
-              </li> */}
             </ul>
           )}
         </div>
@@ -297,5 +282,5 @@ export default function InfoCard({
         </div>
       </CardFooter>
     </Card>
-  );
+  )
 }
