@@ -9,6 +9,7 @@ export async function getTenantDetails(tenantId: number) {
         floor: true,
         officeSpace: true,
         contacts: true,
+        contracts: true,
       },
     })
 

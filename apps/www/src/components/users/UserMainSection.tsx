@@ -27,7 +27,6 @@ import { UserFinancialCard } from "./UserPowerCard"
 import UsersDashboardTable from "./UsersDashboardTable"
 
 export function UserMainSection({ tenantDetails }) {
-  console.log(tenantDetails)
   return (
     <div className="">
       <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
