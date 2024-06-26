@@ -57,19 +57,24 @@ const ContractSchema = z.object({
   }),
   baseRent: z
     .string()
-    .refine((val) => !isNaN(parseFloat(val)), {
+    .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
       message: "Base Rent must be a positive number",
     })
-    .transform((val) => parseFloat(val)),
+    .transform((val) => parseFloat(val.replace(/\s/g, ""))),
   indexationType: z.enum(["MARKET", "CPI", "MANUAL"]),
   indexValue: z
     .string()
     .optional()
     .nullable()
-    .refine((val) => val === null || val === "" || !isNaN(parseFloat(val)), {
-      message: "Index Value must be a number",
-    })
-    .transform((val) => (val === null || val === "" ? null : parseFloat(val))),
+    .refine(
+      (val) => val === null || val === "" || !isNaN(parseFloat(val || "0")),
+      {
+        message: "Index Value must be a number",
+      },
+    )
+    .transform((val) =>
+      val === null || val === "" ? null : parseFloat(val || "0"),
+    ),
 })
 
 export function EditContractSheet({
@@ -82,19 +87,31 @@ export function EditContractSheet({
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
+  // Convert dates to ISO strings if they are Date objects
+  const formatDateString = (date) =>
+    date instanceof Date ? date.toISOString().split("T")[0] : date
+
   const form = useForm({
     resolver: zodResolver(ContractSchema),
     defaultValues: {
       ...initialValues,
-      startDate: initialValues.startDate.toISOString().split("T")[0],
-      endDate: initialValues.endDate.toISOString().split("T")[0],
-      negotiationDate: initialValues.negotiationDate
-        .toISOString()
-        .split("T")[0],
+      startDate: formatDateString(initialValues.startDate),
+      endDate: formatDateString(initialValues.endDate),
+      negotiationDate: formatDateString(initialValues.negotiationDate),
       baseRent: initialValues.baseRent.toString(),
       indexValue: initialValues.indexValue?.toString() || "",
     },
   })
+
+  const formatBaseRent = (value) => {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+  }
+
+  const handleBaseRentChange = (e) => {
+    const { value } = e.target
+    const formattedValue = formatBaseRent(value.replace(/\s/g, ""))
+    form.setValue("baseRent", formattedValue)
+  }
 
   const onSubmit = async (data) => {
     setIsLoading(true)
@@ -134,10 +151,8 @@ export function EditContractSheet({
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit Contract</SheetTitle>
-          <SheetDescription>
-            Update the details of the contract.
-          </SheetDescription>
+          <SheetTitle>Øknomi</SheetTitle>
+          <SheetDescription>Endre vilkårene for leietakeren.</SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -157,9 +172,9 @@ export function EditContractSheet({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="LEASE">LEASE</SelectItem>
-                      <SelectItem value="SUBLEASE">SUBLEASE</SelectItem>
-                      <SelectItem value="INTERNAL">INTERNAL</SelectItem>
+                      <SelectItem value="LEASE">Leie</SelectItem>
+                      <SelectItem value="SUBLEASE">Fremleie</SelectItem>
+                      <SelectItem value="INTERNAL">Internleie</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -171,7 +186,7 @@ export function EditContractSheet({
               name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Start Date</FormLabel>
+                  <FormLabel>Startdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -184,7 +199,7 @@ export function EditContractSheet({
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Velg en dato</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -193,9 +208,13 @@ export function EditContractSheet({
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={parseISO(field.value)}
+                        selected={
+                          field.value ? parseISO(field.value) : undefined
+                        }
                         onSelect={(date) =>
-                          field.onChange(date.toISOString().split("T")[0])
+                          field.onChange(
+                            date ? date.toISOString().split("T")[0] : "",
+                          )
                         }
                         initialFocus
                       />
@@ -210,7 +229,7 @@ export function EditContractSheet({
               name="endDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>End Date</FormLabel>
+                  <FormLabel>Sluttdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -223,7 +242,7 @@ export function EditContractSheet({
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Velg en dato</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -232,9 +251,13 @@ export function EditContractSheet({
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={parseISO(field.value)}
+                        selected={
+                          field.value ? parseISO(field.value) : undefined
+                        }
                         onSelect={(date) =>
-                          field.onChange(date.toISOString().split("T")[0])
+                          field.onChange(
+                            date ? date.toISOString().split("T")[0] : "",
+                          )
                         }
                         initialFocus
                       />
@@ -249,7 +272,7 @@ export function EditContractSheet({
               name="negotiationDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Negotiation Date</FormLabel>
+                  <FormLabel>Forhandlingsdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -262,7 +285,7 @@ export function EditContractSheet({
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Velg en dato</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -271,9 +294,13 @@ export function EditContractSheet({
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={parseISO(field.value)}
+                        selected={
+                          field.value ? parseISO(field.value) : undefined
+                        }
                         onSelect={(date) =>
-                          field.onChange(date.toISOString().split("T")[0])
+                          field.onChange(
+                            date ? date.toISOString().split("T")[0] : "",
+                          )
                         }
                         initialFocus
                       />
@@ -288,14 +315,14 @@ export function EditContractSheet({
               name="baseRent"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Base Rent</FormLabel>
+                  <FormLabel>Leieinntekter</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      step="0.01"
+                      type="text"
                       placeholder="Base Rent..."
                       {...field}
-                      onChange={(e) => field.onChange(e.target.value)}
+                      value={field.value}
+                      onChange={handleBaseRentChange}
                     />
                   </FormControl>
                   <FormMessage />
@@ -307,7 +334,7 @@ export function EditContractSheet({
               name="indexationType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Indexation Type</FormLabel>
+                  <FormLabel>KPI regulering</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -318,9 +345,9 @@ export function EditContractSheet({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="MARKET">MARKET</SelectItem>
-                      <SelectItem value="CPI">CPI</SelectItem>
-                      <SelectItem value="MANUAL">MANUAL</SelectItem>
+                      <SelectItem value="MARKET">Marked</SelectItem>
+                      <SelectItem value="CPI">KPI</SelectItem>
+                      <SelectItem value="MANUAL">Manuell</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -332,7 +359,7 @@ export function EditContractSheet({
               name="indexValue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Index Value</FormLabel>
+                  <FormLabel>KPI verdi (%)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -352,7 +379,7 @@ export function EditContractSheet({
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Updating..." : "Update Contract"}
+                {isLoading ? "Lagrer..." : "Oppdater"}
               </Button>
             </SheetFooter>
           </form>

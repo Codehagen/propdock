@@ -37,6 +37,22 @@ export async function updateContractDetails(
       return { success: false, error: "No workspace found for this user." }
     }
 
+    const tenant = await prisma.tenant.findUnique({
+      where: { id: data.tenantId },
+      include: {
+        building: true,
+        property: true,
+      },
+    })
+
+    if (!tenant || !tenant.building || !tenant.property) {
+      console.error("Tenant or associated building/property not found.")
+      return {
+        success: false,
+        error: "Tenant or associated building/property not found.",
+      }
+    }
+
     let contract
 
     if (contractId && contractId !== 0) {
@@ -65,9 +81,9 @@ export async function updateContractDetails(
           baseRent: data.baseRent,
           indexationType: data.indexationType,
           indexValue: data.indexValue,
-          buildingId: data.buildingId,
+          buildingId: tenant.building.id,
           workspaceId: userWorkspace.id,
-          propertyId: data.propertyId,
+          propertyId: tenant.property.id,
         },
       })
     }

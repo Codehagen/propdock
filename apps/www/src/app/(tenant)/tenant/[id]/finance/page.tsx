@@ -1,4 +1,5 @@
 import { getContractDetails } from "@/actions/get-contract-details"
+import { format } from "date-fns"
 import { Settings } from "lucide-react"
 
 import { Button } from "@dingify/ui/components/button"
@@ -79,15 +80,9 @@ export default async function EconomySettings({
                         contractId={contract.id}
                         initialValues={{
                           contractType: contract.contractType,
-                          startDate: new Date(contract.startDate)
-                            .toISOString()
-                            .split("T")[0],
-                          endDate: new Date(contract.endDate)
-                            .toISOString()
-                            .split("T")[0],
-                          negotiationDate: new Date(contract.negotiationDate)
-                            .toISOString()
-                            .split("T")[0],
+                          startDate: contract.startDate,
+                          endDate: contract.endDate,
+                          negotiationDate: contract.negotiationDate,
                           baseRent: contract.baseRent,
                           indexationType: contract.indexationType,
                           indexValue: contract.indexValue || 0,
@@ -110,7 +105,7 @@ export default async function EconomySettings({
                             Start Date
                           </span>
                           <span>
-                            {new Date(contract.startDate).toLocaleDateString()}
+                            {format(new Date(contract.startDate), "dd.MM.yyyy")}
                           </span>
                         </li>
                         <li className="flex items-center justify-between">
@@ -118,14 +113,16 @@ export default async function EconomySettings({
                             End Date
                           </span>
                           <span>
-                            {new Date(contract.endDate).toLocaleDateString()}
+                            {format(new Date(contract.endDate), "dd.MM.yyyy")}
                           </span>
                         </li>
                         <li className="flex items-center justify-between">
                           <span className="text-muted-foreground">
                             Base Rent
                           </span>
-                          <span>{contract.baseRent} NOK</span>
+                          <span>
+                            {contract.baseRent.toLocaleString("no-NO")} NOK
+                          </span>
                         </li>
                         <li className="flex items-center justify-between">
                           <span className="text-muted-foreground">

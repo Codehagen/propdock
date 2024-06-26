@@ -26,6 +26,11 @@ export default async function DashboardLayout({
       icon: "home",
     },
     {
+      title: "Bygg",
+      href: `/tenant/${params.id}/building`,
+      icon: "building",
+    },
+    {
       title: "Kontaktperson",
       href: `/tenant/${params.id}/contactperson`,
       icon: "user",
