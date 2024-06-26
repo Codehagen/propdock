@@ -20,7 +20,10 @@ export default function UserContactPerson({ tenantDetails }) {
         <EmptyPlaceholder.Description>
           Det er ingen kontaktperson lagt til for denne leietakeren.
         </EmptyPlaceholder.Description>
-        <AddContactPersonSheet tenantId={tenantDetails.id} />
+        <AddContactPersonSheet
+          tenantId={tenantDetails.id}
+          currentPath={`/tenant/${tenantDetails.id}/`}
+        />
       </EmptyPlaceholder>
     )
   }
