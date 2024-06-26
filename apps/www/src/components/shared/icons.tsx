@@ -27,6 +27,7 @@ import {
   PieChart,
   Plus,
   Puzzle,
+  Receipt,
   RefreshCcw,
   Rss,
   Search,
@@ -79,6 +80,7 @@ export const Icons = {
   key: Key,
   upload: Upload,
   refresh: RefreshCcw,
+  receipt: Receipt,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

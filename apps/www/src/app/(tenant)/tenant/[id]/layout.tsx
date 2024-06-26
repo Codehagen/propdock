@@ -31,6 +31,11 @@ export default async function DashboardLayout({
       icon: "user",
     },
     {
+      title: "Økonomi",
+      href: `/tenant/${params.id}/finance`,
+      icon: "piechart",
+    },
+    {
       title: "Kontrakt",
       href: `/tenant/${params.id}/contract`,
       icon: "filetext",
@@ -39,11 +44,6 @@ export default async function DashboardLayout({
       title: "Faktura",
       href: `/tenant/${params.id}/invoice`,
       icon: "billing",
-    },
-    {
-      title: "Økonomi",
-      href: `/tenant/${params.id}/finance`,
-      icon: "piechart",
     },
   ]
 
