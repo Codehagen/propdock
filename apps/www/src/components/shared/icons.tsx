@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Coins,
+  CoinsIcon,
   CreditCard,
   File,
   FileText,
@@ -83,6 +84,7 @@ export const Icons = {
   upload: Upload,
   refresh: RefreshCcw,
   receipt: Receipt,
+  coins: CoinsIcon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

@@ -87,7 +87,7 @@ export default function UserCardsSection({ tenantDetails }) {
         </Card>
       ) : (
         <EmptyPlaceholder className="min-h-[100px]">
-          <EmptyPlaceholder.Icon name="coin" />
+          <EmptyPlaceholder.Icon name="coins" />
           <EmptyPlaceholder.Title>Ingen leieinntekter</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
             Det er ingen leieinntekter registrert for denne leietakeren.
