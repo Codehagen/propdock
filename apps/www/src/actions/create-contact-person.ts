@@ -15,6 +15,7 @@ interface ContactPersonData {
 export async function createContactPerson(
   tenantId: number,
   data: ContactPersonData,
+  currentPath: string,
 ) {
   const user = await getCurrentUser()
   const userId = user?.id
@@ -33,6 +34,8 @@ export async function createContactPerson(
         tenantId: tenantId,
       },
     })
+
+    revalidatePath(currentPath)
 
     console.log(
       `Created contact person with ID: ${newContactPerson.id} for tenant ID: ${tenantId}.`,
