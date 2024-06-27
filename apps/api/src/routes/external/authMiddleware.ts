@@ -6,7 +6,7 @@ import { verifyApiKey } from "../../auth/handler";
 import { User } from "@prisma/client";
 
 //const ENV_DEBUG: string | undefined = process.env?.DEBUG_MODE; // TODO: investigate if this can be made to work with wrangler
-const DEBUG: boolean = true; // NB! Change to false before committing.
+const DEBUG: boolean = false; // NB! Change to false before committing.
 
 
 export default async function authMiddleware(
