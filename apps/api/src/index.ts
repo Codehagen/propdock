@@ -1,14 +1,10 @@
-import { Hono } from "hono";
 import { Env, zEnv } from "./env";
-import { CustomContext } from "./types";
 import internal from "./routes/internal";
 import external from "./routes/external";
+import { honoFactory } from "./lib/hono";
 
 
-const app = new Hono<{
-  Bindings: Env;
-  Variables: CustomContext;
-}>();
+const app = honoFactory();
 
 // Main-level routes
 app.route("/api/external", external);

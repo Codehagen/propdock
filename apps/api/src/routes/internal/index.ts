@@ -1,14 +1,9 @@
-import { Hono } from "hono";
-import { Env } from "../../env";
-import { CustomContext } from "../../types";
 import internalAuthMiddleware from "../../routes/internal/authMiddleware";
 import { createAPIKey } from "../../auth/unkey";
+import { honoFactory } from "../../lib/hono";
 
 
-const internal = new Hono<{
-  Bindings: Env;
-  Variables: CustomContext;
-}>();
+const internal = honoFactory();
 
 internal.use(internalAuthMiddleware);
 

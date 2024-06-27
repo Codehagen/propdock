@@ -1,17 +1,12 @@
-import { Hono } from "hono";
-import { Env } from "../../env";
-import { CustomContext } from "../../types";
 import authMiddleware from "./authMiddleware";
 import users from "../../routes/users";
 import { createProperty } from "../../models/properties";
 import { createBuilding } from "../../models/buildings";
 import { User } from "@prisma/client"
+import { honoFactory } from "../../lib/hono";
 
 
-const external = new Hono<{
-  Bindings: Env;
-  Variables: CustomContext;
-}>();
+const external = honoFactory();
 
 external.use(authMiddleware);
 
@@ -19,8 +14,7 @@ external.use(authMiddleware);
 external.route("/users", users);
 
 external.all('/test', (c) => {
-  //console.debug("Middleware debug - checking if middleware was able to set variables for the external route handlers:", c.get("test"))
-  return c.text('GET /api/external/test')
+  return c.text('GET /api/external/test 200')
 })
 
 // **********
