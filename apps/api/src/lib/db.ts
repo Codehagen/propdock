@@ -16,7 +16,7 @@ const createPrismaClient = (env: Env): PrismaClient => {
 		adapter: adapter(env),
 		log:
 			env.ENVIRONMENT === "development"
-				? ["query", "error", "warn"]
+				? ["error", "warn"]
 				: ["error"],
 		errorFormat: "pretty",
 	});
