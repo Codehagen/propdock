@@ -49,8 +49,6 @@ export default async function authMiddleware(
     where: { apiKey },
   });
 
-  if (DEBUG) { console.debug("Middleware debug - db response:", JSON.stringify(res)) }
-
   if (!res) {
     return
   }
@@ -64,6 +62,17 @@ export default async function authMiddleware(
 
   // Insert the user object into request context
   c.set("user", user) 
+
+  // Insert any paths that require a user but not a workspace below
+
+  // <--
+
+  // Require the user to have a workspace before giving access
+  const workspaceId = user.workspaceId
+  if (workspaceId == null || workspaceId == undefined) {
+    return c.json({ ok: false, message: "You must belong to a workspace in order to access this endpoint." }, 400);
+  }
+
 
   // Proceed to the route handler
   return next();
