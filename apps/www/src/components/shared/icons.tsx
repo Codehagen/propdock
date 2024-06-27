@@ -9,10 +9,13 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Coins,
+  CoinsIcon,
   CreditCard,
   File,
   FileText,
   FileTextIcon,
+  HandIcon,
   HelpCircle,
   Home,
   Image,
@@ -27,6 +30,7 @@ import {
   PieChart,
   Plus,
   Puzzle,
+  Receipt,
   RefreshCcw,
   Rss,
   Search,
@@ -79,6 +83,8 @@ export const Icons = {
   key: Key,
   upload: Upload,
   refresh: RefreshCcw,
+  receipt: Receipt,
+  coins: CoinsIcon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

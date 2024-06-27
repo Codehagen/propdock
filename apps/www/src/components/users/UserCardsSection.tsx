@@ -1,126 +1,206 @@
-import { format, formatDistanceToNow } from "date-fns";
+import { differenceInDays, format, formatDistanceToNow } from "date-fns"
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
+
+import { EmptyPlaceholder } from "../shared/empty-placeholder"
 
 export default function UserCardsSection({ tenantDetails }) {
+  const totalBaseRent = tenantDetails.contracts.reduce(
+    (sum, contract) => sum + contract.baseRent,
+    0,
+  )
+
+  const indexValues = tenantDetails.contracts
+    .map((contract) => contract.indexValue)
+    .join(", ")
+
+  const getRemainingDays = (contracts) => {
+    if (contracts.length === 0) {
+      return null
+    }
+
+    const currentDate = new Date()
+
+    const futureContracts = contracts.filter(
+      (contract) => new Date(contract.endDate) > currentDate,
+    )
+
+    if (futureContracts.length > 0) {
+      const activeContract = futureContracts.reduce((latest, contract) => {
+        return new Date(contract.endDate) > new Date(latest.endDate)
+          ? contract
+          : latest
+      })
+      console.log("Active Contract:", activeContract)
+      return differenceInDays(new Date(activeContract.endDate), currentDate)
+    }
+
+    const latestContract = contracts.reduce((latest, contract) => {
+      return new Date(contract.endDate) > new Date(latest.endDate)
+        ? contract
+        : latest
+    }, contracts[0])
+
+    if (!latestContract ?? !latestContract.endDate) {
+      return null
+    }
+
+    return differenceInDays(new Date(latestContract.endDate), currentDate)
+  }
+
+  const remainingDays = getRemainingDays(tenantDetails.contracts)
+
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-xl font-bold">
-            {" "}
-            {tenantDetails.firstSeen
-              ? formatDistanceToNow(new Date(tenantDetails.firstSeen), {
-                  addSuffix: true,
-                })
-              : "N/A"}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Totale leieinntekter for dette året
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">KPI regulering</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-xl font-bold">
-            {tenantDetails.lastSeen
-              ? formatDistanceToNow(new Date(tenantDetails.lastSeen), {
-                  addSuffix: true,
-                })
-              : "N/A"}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Avtalte KPI reguleringen
-          </p>
-        </CardContent>
-      </Card>
+      {totalBaseRent > 0 ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 1 0 1 1 0 7.75" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">
+              {new Intl.NumberFormat("no-NO").format(totalBaseRent)} NOK
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Totale leieinntekter for dette året
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <EmptyPlaceholder className="min-h-[100px]">
+          <EmptyPlaceholder.Icon name="coins" />
+          <EmptyPlaceholder.Title>Ingen leieinntekter</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Det er ingen leieinntekter registrert for denne leietakeren.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Leiekontraken går ut
-          </CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <rect width="20" height="14" x="2" y="5" rx="2" />
-            <path d="M2 10h20" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {tenantDetails.mostUsedFeature || "N/A"}
-          </div>
-          <p className="text-xs text-muted-foreground">igjen av leietiden</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Sendte faktura</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {tenantDetails.events ? tenantDetails.events.length : "N/A"}
-          </div>
-          <p className="text-xs text-muted-foreground">Totalt sendte faktura</p>
-        </CardContent>
-      </Card>
+      {indexValues ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              KPI regulering
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">{indexValues}</div>
+            <p className="text-xs text-muted-foreground">
+              Avtalte KPI reguleringen
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <EmptyPlaceholder className="min-h-[100px]">
+          <EmptyPlaceholder.Icon name="linechart" />
+          <EmptyPlaceholder.Title>Ingen KPI regulering</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Det er ingen KPI regulering registrert for denne leietakeren.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
+
+      {remainingDays !== null ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Leiekontrakten går ut
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <rect width="20" height="14" x="2" y="5" rx="2" />
+              <path d="M2 10h20" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{remainingDays} dager</div>
+            <p className="text-xs text-muted-foreground">igjen av leietiden</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <EmptyPlaceholder className="min-h-[100px]">
+          <EmptyPlaceholder.Icon name="map" />
+          <EmptyPlaceholder.Title>Ingen leiekontrakt</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Det er ingen aktiv leiekontrakt registrert for denne leietakeren.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
+
+      {indexValues ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Sendte faktura
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{indexValues}</div>
+            <p className="text-xs text-muted-foreground">
+              Totalt sendte faktura
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <EmptyPlaceholder className="min-h-[100px]">
+          <EmptyPlaceholder.Icon name="piechart" />
+          <EmptyPlaceholder.Title>Ingen faktura sendt</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Det er ingen faktura sendt for denne leietakeren.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
     </div>
-  );
+  )
 }
