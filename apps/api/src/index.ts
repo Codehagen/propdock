@@ -1,43 +1,18 @@
 import { Hono } from "hono";
-
 import { Env, zEnv } from "./env";
-import { prisma } from "./lib/db";
-import channels from "./routes/channels";
-import events from "./routes/events";
-import projects from "./routes/projects";
-import users from "./routes/users";
+import { CustomContext } from "./types";
+import internal from "./routes/internal";
+import external from "./routes/external";
+
 
 const app = new Hono<{
   Bindings: Env;
+  Variables: CustomContext;
 }>();
 
-app.use("/api/*", async (c, next) => {
-  // Skip API key check for user registration endpoint
-  if (c.req.path === "/api/users" && c.req.method === "POST") {
-    return next();
-  }
-
-  const apiKey = c.req.header("x-api-key");
-  if (!apiKey) {
-    return c.json({ ok: false, message: "API key is required" }, 401);
-  }
-
-  const user = await prisma(c.env).user.findUnique({
-    where: { apiKey },
-  });
-
-  if (!user) {
-    return c.json({ ok: false, message: "Invalid API key" }, 401);
-  }
-
-  return next();
-});
-
-// Routes //
-app.route("/api/users", users);
-app.route("/api/projects", projects);
-app.route("/api/channels", channels);
-app.route("/api/events", events);
+// Main-level routes
+app.route("/api/external", external);
+app.route("/api/internal", internal)
 
 export default {
   fetch: (req: Request, env: Env, exCtx: ExecutionContext) => {
