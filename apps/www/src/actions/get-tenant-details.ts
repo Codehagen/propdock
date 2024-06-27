@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
-export async function getTenantDetails(tenantId: number) {
+export async function getTenantDetails(tenantId) {
   const user = await getCurrentUser()
   const userId = user?.id
 
@@ -71,7 +71,21 @@ export async function getTenantDetails(tenantId: number) {
       return null
     }
 
-    return tenant
+    // Fetch available floors and office spaces
+    const floors = await prisma.floor.findMany({
+      where: {
+        buildingId: building.id,
+      },
+      include: {
+        officeSpaces: {
+          where: {
+            isRented: false,
+          },
+        },
+      },
+    })
+
+    return { ...tenant, floors }
   } catch (error) {
     console.error("Error fetching tenant details:", error)
     return null
