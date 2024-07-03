@@ -1,6 +1,7 @@
 import internalAuthMiddleware from "../../routes/internal/authMiddleware";
 import { createAPIKey } from "../../auth/unkey";
 import { honoFactory } from "../../lib/hono";
+import { POInternalApp } from "./oauth/poweroffice";
 
 
 const internal = honoFactory();
@@ -11,6 +12,10 @@ internal.use(internalAuthMiddleware);
 internal.all('/test', (c) => {
   return c.text('GET /api/internal/test')
 })
+
+// OAuth
+internal.route("/oauth/poweroffice", POInternalApp)
+
 
 // API key management
 internal.post('/workspace/api/create', async (c) => {

@@ -3,7 +3,7 @@ import { Workspace } from "@prisma/client"
 
 
 
-function saveAPIKey(workspaceId: string, key: string, serviceName: string): void {
+async function saveAPIKey(workspaceId: string, key: string, serviceName: string): Promise<void> {
     // TODO:
 }
 

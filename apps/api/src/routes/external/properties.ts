@@ -27,7 +27,7 @@ app.post("/", async (c) => {
         const property = await createProperty(user, name, type, c.env)
         return c.json({ ok: true, details: property }, 201);
     } catch(error) {
-        return c.json({ ok: false, message: error}, 500)
+        return c.json({ ok: false, message: error }, 500)
     }
 })
 
