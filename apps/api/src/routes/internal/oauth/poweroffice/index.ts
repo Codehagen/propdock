@@ -1,6 +1,8 @@
 import { honoFactory } from "@/lib/hono";
 import { getOnboardingHeaders, getOnboardingBody, PO_ONBOARDING_START, exchangeCodeForKey } from "@/lib/poweroffice";
 import { saveAPIKey } from "@/models/workspace";
+import { prisma } from "@/lib/db";
+import { Env } from "@/env";
 
 
 const app = honoFactory();
@@ -36,6 +38,7 @@ app.get("/onboarding-start", async (c) => {
 
 app.post("/onboarding-finalize", async(c) => {
     const body = await c.req.json()
+    const db = prisma(c.env)
 
     // Get request.body params
     let workspaceId, code, serviceName
@@ -52,7 +55,7 @@ app.post("/onboarding-finalize", async(c) => {
         clientKey = await exchangeCodeForKey(code)
 
         // Save key to db
-        await saveAPIKey(workspaceId, clientKey, serviceName)
+        await saveAPIKey(db, workspaceId, clientKey, serviceName)
     } catch(error) {
         console.error(`Error: ${error}`)
         return c.json({ ok: false, error: error}, 500)
