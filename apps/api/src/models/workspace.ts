@@ -1,11 +1,16 @@
-import { prisma } from "../lib/db";
-import { Workspace } from "@prisma/client"
+import { PrismaClient } from "@dingify/db";
 
 
-
-async function saveAPIKey(workspaceId: string, key: string, serviceName: string): Promise<void> {
-    // TODO:
+async function saveAPIKey(db: PrismaClient, workspaceId: string, key: string, serviceName: string): Promise<void> {
+    await db.wSApiKey.create({
+        data: {
+            workspaceId: workspaceId,
+            serviceName: serviceName,
+            secret: key,
+        },
+    });
 }
+
 
 export {
     saveAPIKey
