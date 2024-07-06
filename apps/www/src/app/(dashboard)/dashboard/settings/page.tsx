@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
-import { getMetricsForUser } from "@/actions/Dingify/get-metrics-user";
+import { redirect } from "next/navigation"
+import { getMetricsForUser } from "@/actions/Dingify/get-metrics-user"
 
 import {
   Card,
@@ -8,33 +8,33 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 
-import { authOptions } from "@/lib/auth";
-import { getCurrentUser } from "@/lib/session";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { LanguageForm2 } from "@/components/forms/language-form2";
-import { UserNameForm } from "@/components/forms/user-name-form";
+import { authOptions } from "@/lib/auth"
+import { getCurrentUser } from "@/lib/session"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import { LanguageForm2 } from "@/components/forms/language-form2"
+import { UserNameForm } from "@/components/forms/user-name-form"
 
 export const metadata = {
-  title: "Dingify Settings - Customize Your Experience",
+  title: "Propdock innstillinger",
   description:
     "Adjust your Dingify account settings for a personalized real-time monitoring experience. Manage language preferences, account details, and more.",
-};
+}
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login");
+    redirect(authOptions.pages?.signIn || "/login")
   }
 
-  const metrics = await getMetricsForUser();
+  const metrics = await getMetricsForUser()
 
   const formatNumber = (number) => {
-    return new Intl.NumberFormat("en-US").format(number);
-  };
+    return new Intl.NumberFormat("en-US").format(number)
+  }
 
   return (
     <DashboardShell>
@@ -87,7 +87,7 @@ export default async function SettingsPage() {
         <UserNameForm user={{ id: user.id, name: user.name || "" }} />
       </div>
     </DashboardShell>
-  );
+  )
 }
 
 function FolderIcon(props) {
@@ -106,7 +106,7 @@ function FolderIcon(props) {
     >
       <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
     </svg>
-  );
+  )
 }
 
 function LayersIcon(props) {
@@ -127,7 +127,7 @@ function LayersIcon(props) {
       <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
       <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
     </svg>
-  );
+  )
 }
 
 function UsersIcon(props) {
@@ -149,5 +149,5 @@ function UsersIcon(props) {
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
-  );
+  )
 }
