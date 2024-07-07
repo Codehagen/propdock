@@ -48,7 +48,7 @@ model User {
   email               String?   @unique
   emailVerified       DateTime?
   phone               String?
-  apiKey              String?   @unique
+  apiKeys             UserApiKey[]
   plan                String    @default("basic")
   credits             Int       @default(3)
   image               String?
@@ -281,6 +281,20 @@ model WSApiKey {
 
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model UserApiKey {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  validTo     DateTime?
+  isActive    Boolean   @default(true)
+  serviceName String
+  secret      String    @unique
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model TenantCommunications {
