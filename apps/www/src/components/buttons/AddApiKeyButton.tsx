@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 import { createApiKey } from "@/actions/create-api-key"
 import { toast } from "sonner"
 
@@ -25,10 +24,10 @@ import {
 
 export function AddApiKeyButton() {
   const [apiKey, setApiKey] = useState("")
+  const [serviceName, setServiceName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [hasCopied, setHasCopied] = useState(false)
   const [showKey, setShowKey] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -42,7 +41,7 @@ export function AddApiKeyButton() {
     setIsLoading(true)
 
     try {
-      const response = await createApiKey()
+      const response = await createApiKey(serviceName)
       if (response.success) {
         setApiKey(response.apiKey || "")
         toast.success("Your new API key has been generated successfully.")
@@ -71,77 +70,134 @@ export function AddApiKeyButton() {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="default" disabled={isLoading}>
-          Add new API key
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <DialogHeader>
-            <DialogTitle>Create a new API key</DialogTitle>
-            <DialogDescription>
-              Generate a new API key to get some Dings.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="apiKey">API Key</Label>
-              <div className="relative">
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="default" disabled={isLoading}>
+            Add new API key
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <DialogHeader>
+              <DialogTitle>Create a new API key</DialogTitle>
+              <DialogDescription>
+                Generate a new API key for your workspace.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="serviceName">Service Name</Label>
                 <Input
-                  id="apiKey"
-                  readOnly
-                  type={showKey ? "text" : "password"}
-                  value={apiKey}
+                  id="serviceName"
+                  type="text"
+                  placeholder="Service Name"
+                  value={serviceName}
+                  onChange={(e) => setServiceName(e.target.value)}
+                  required
                 />
-                <Button
-                  className="absolute right-8 top-1/2 -translate-y-1/2"
-                  variant="ghost"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setShowKey(!showKey)
-                  }}
-                >
-                  {showKey ? (
-                    <EyeIcon className="h-4 w-4" />
-                  ) : (
-                    <EyeSlashIcon className="h-4 w-4" />
-                  )}
-                  <span className="sr-only">Toggle API key visibility</span>
-                </Button>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      variant="ghost"
-                      onClick={handleCopy}
-                    >
-                      {hasCopied ? (
-                        <CheckIcon className="h-4 w-4" />
-                      ) : (
-                        <CopyIcon className="h-4 w-4" />
-                      )}
-                      <span className="sr-only">Copy API key</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Copy API key</TooltipContent>
-                </Tooltip>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="apiKey">API Key</Label>
+                <div className="relative">
+                  <Input
+                    id="apiKey"
+                    readOnly
+                    type={showKey ? "text" : "password"}
+                    value={apiKey}
+                  />
+                  <Button
+                    className="absolute right-8 top-1/2 -translate-y-1/2"
+                    variant="ghost"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setShowKey(!showKey)
+                    }}
+                  >
+                    {showKey ? (
+                      <EyeIcon className="h-4 w-4" />
+                    ) : (
+                      <EyeSlashIcon className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">Toggle API key visibility</span>
+                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                        variant="ghost"
+                        onClick={handleCopy}
+                      >
+                        {hasCopied ? (
+                          <CheckIcon className="h-4 w-4" />
+                        ) : (
+                          <CopyIcon className="h-4 w-4" />
+                        )}
+                        <span className="sr-only">Copy API key</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Copy API key</TooltipContent>
+                  </Tooltip>
+                </div>
               </div>
             </div>
-          </div>
-          <DialogFooter>
+            <DialogFooter>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full sm:w-auto"
+              >
+                {isLoading ? "Loading..." : "Create API key"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      {apiKey && (
+        <div className="mt-4">
+          <Label>Your existing API key:</Label>
+          <div className="relative mt-2">
+            <Input
+              readOnly
+              type={showKey ? "text" : "password"}
+              value={apiKey}
+            />
             <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full sm:w-auto"
+              className="absolute right-8 top-1/2 -translate-y-1/2"
+              variant="ghost"
+              onClick={(e) => {
+                e.preventDefault()
+                setShowKey(!showKey)
+              }}
             >
-              {isLoading ? "Loading..." : "Create API key"}
+              {showKey ? (
+                <EyeIcon className="h-4 w-4" />
+              ) : (
+                <EyeSlashIcon className="h-4 w-4" />
+              )}
+              <span className="sr-only">Toggle API key visibility</span>
             </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="absolute right-2 top-1/2 -translate-y-1/2"
+                  variant="ghost"
+                  onClick={handleCopy}
+                >
+                  {hasCopied ? (
+                    <CheckIcon className="h-4 w-4" />
+                  ) : (
+                    <CopyIcon className="h-4 w-4" />
+                  )}
+                  <span className="sr-only">Copy API key</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Copy API key</TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

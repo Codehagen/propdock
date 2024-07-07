@@ -7,7 +7,7 @@ import { Unkey } from "@unkey/api"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
-export async function createApiKey() {
+export async function createApiKey(serviceName) {
   const user = await getCurrentUser()
   const userId = user?.id
 
@@ -50,9 +50,12 @@ export async function createApiKey() {
   console.log(`Generated API key for user ID: ${userId}. API Key: ${apiKey}`)
 
   try {
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: { apiKey },
+    const newApiKey = await prisma.userApiKey.create({
+      data: {
+        userId,
+        serviceName,
+        secret: apiKey,
+      },
     })
     console.log(`API key saved successfully for user ID: ${userId}.`)
 
@@ -60,8 +63,7 @@ export async function createApiKey() {
 
     return {
       success: true,
-      user: updatedUser,
-      apiKey,
+      apiKey: newApiKey.secret,
     }
   } catch (error) {
     console.error(`Error saving API key for user ID: ${userId}`, error)
