@@ -12,72 +12,74 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from "@react-email/components"
 
-import Footer from "./components/footer";
+import Footer from "./components/footer"
 
 export default function WelcomeEmail({
   name = "John Doe",
   email = "welcome@propwrite.com",
 }: {
-  name: string | null;
-  email: string;
+  name: string | null
+  email: string
 }) {
   return (
     <Html>
       <Head />
-      <Preview>Welcome to Propwrite </Preview>
+      <Preview>Velkommen til Propdock </Preview>
       <Tailwind>
         <Body className="m-auto bg-white font-sans">
           <Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
             <Section className="mt-8"></Section>
             <Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-              Welcome to Propwrite
+              Velkommen til Propdock
             </Heading>
 
             <Text className="text-sm leading-6 text-black">
-              Thank you for joining us{name && `, ${name}`}!
+              Takk for at du ønsker være med på laget {name && `, ${name}`}!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              I'm Christer, the creator of Propwrite, your new AI assistant for
-              real estate listings. Excited to have you on board!
+              Jeg er Christer, personen som laget Propdock. Vi ønsker å gjøre
+              det enkelt for eiendomsbesittere å håndere sine verdier og
+              leietakere. I'm Christer, the creator of P, your new AI assistant
+              for Vi er glad for å ha deg med!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              Here's what you can start doing:
+              Her er noen ting du kan starte med:
             </Text>
             <Text className="ml-1 text-sm leading-4 text-black">
-              ◆ Generate your first{" "}
+              ◆ Legg til{" "}
               <Link
-                href="https://propwrite.com/dashboard"
+                href="https://propdock.no/dashboard"
                 className="font-medium text-blue-600 no-underline"
               >
-                AI-powered property listing
+                din første eiendom
               </Link>
             </Text>
             <Text className="ml-1 text-sm leading-4 text-black">
-              ◆ Manage your{" "}
+              ◆ Importer inn{" "}
               <Link
-                href="https://propwrite.com/dashboard"
+                href="https://propdock.no/dashboard"
                 className="font-medium text-blue-600 no-underline"
               >
-                property portfolio
+                eksiterende bygg
               </Link>
             </Text>
             <Text className="ml-1 text-sm leading-4 text-black">
-              ◆ Connect with us on{" "}
+              ◆ Bla gjennom vårt{" "}
               <Link
-                href="https://discord.gg/wadg6fNX"
+                href="https://propdock.no/dashboard"
                 className="font-medium text-blue-600 no-underline"
               >
-                Twitter
+                hjelpesenter
               </Link>
             </Text>
             <Text className="text-sm leading-6 text-black">
-              If you have any questions or feedback, feel free to reach out.
-              We're here to help!
+              Har du spørsmål eller feedback, er det bare å ta kontakt. Vi er
+              her for å hjelpe deg!
             </Text>
             <Text className="text-sm font-light leading-6 text-gray-400">
-              Christer from Propwrite
+              Christer fra Propdock
             </Text>
 
             <Footer email={email} marketing />
@@ -85,5 +87,5 @@ export default function WelcomeEmail({
         </Body>
       </Tailwind>
     </Html>
-  );
+  )
 }

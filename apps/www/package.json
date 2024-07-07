@@ -32,6 +32,7 @@
     "@tiptap/react": "^2.4.0",
     "@tiptap/starter-kit": "^2.4.0",
     "@typescript-eslint/parser": "^6.9.0",
+    "@unkey/api": "^0.20.2",
     "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.5.20",
     "axios": "^1.6.7",

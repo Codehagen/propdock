@@ -36,7 +36,7 @@ export default async function DashboardLayout({
     },
     {
       title: "Api-nøkkel",
-      href: "/analytics/1",
+      href: "/settings/api",
       icon: "key",
     },
   ]

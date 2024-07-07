@@ -21,17 +21,17 @@ export default async function DashboardLayout({
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
-      title: "Oversikt",
-      href: `/tenant/${params.id}`,
+      title: "Eiendom",
+      href: `/tenant/${params.id}/contract2/building`,
       icon: "home",
     },
     {
-      title: "Bygg",
-      href: `/tenant/${params.id}/building`,
+      title: "Leietaker",
+      href: `/tenant/${params.id}/contract2/tenant`,
       icon: "building",
     },
     {
-      title: "Kontaktperson",
+      title: "Utleie",
       href: `/tenant/${params.id}/contactperson`,
       icon: "user",
     },
@@ -41,13 +41,8 @@ export default async function DashboardLayout({
       icon: "piechart",
     },
     {
-      title: "Kontrakt",
+      title: "Vilkår",
       href: `/tenant/${params.id}/contract`,
-      icon: "filetext",
-    },
-    {
-      title: "Kontrakt v2",
-      href: `/tenant/${params.id}/contract2`,
       icon: "filetext",
     },
     {
