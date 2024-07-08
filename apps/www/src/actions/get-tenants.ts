@@ -1,9 +1,8 @@
-// actions/get-tenants.ts
-"use server";
+"use server"
 
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db"
 
-export async function getTenants(workspaceId: number) {
+export async function getTenants(workspaceId: string) {
   try {
     const tenants = await prisma.tenant.findMany({
       where: {
@@ -35,11 +34,11 @@ export async function getTenants(workspaceId: number) {
       orderBy: {
         name: "asc",
       },
-    });
+    })
 
-    return { success: true, tenants };
+    return { success: true, tenants }
   } catch (error) {
-    console.error("Error fetching tenants:", error);
-    return { success: false, error: error.message };
+    console.error("Error fetching tenants:", error)
+    return { success: false, error: error.message }
   }
 }

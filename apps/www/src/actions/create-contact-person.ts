@@ -1,4 +1,3 @@
-// actions/create-contact-person.ts
 "use server"
 
 import { revalidatePath } from "next/cache"
@@ -13,7 +12,7 @@ interface ContactPersonData {
 }
 
 export async function createContactPerson(
-  tenantId: number,
+  tenantId: string,
   data: ContactPersonData,
   currentPath: string,
 ) {

@@ -97,7 +97,7 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Navn</FormLabel>
                   <FormControl>
                     <Input placeholder="Name..." {...field} />
                   </FormControl>
@@ -123,7 +123,7 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>Telefon</FormLabel>
                   <FormControl>
                     <Input placeholder="Phone..." {...field} />
                   </FormControl>
@@ -136,7 +136,7 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
               name="fnr"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>FNR</FormLabel>
+                  <FormLabel>Fødselnummer</FormLabel>
                   <FormControl>
                     <Input placeholder="FNR..." {...field} />
                   </FormControl>

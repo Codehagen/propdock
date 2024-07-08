@@ -19,9 +19,9 @@ export default async function BuildingTenant({
 }: {
   params: { id: string }
 }) {
-  const tenantId = parseInt(params.id)
+  const tenantId = params.id
 
-  if (isNaN(tenantId)) {
+  if (!tenantId) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Tenant not found" text="Invalid tenant ID." />
@@ -90,7 +90,6 @@ export default async function BuildingTenant({
                     <span className="text-muted-foreground">Adresse</span>
                     <span>{tenantDetails.building.address}</span>
                   </li>
-                  {/* Add more building details as needed */}
                   <li className="flex items-center justify-between">
                     <span className="text-muted-foreground">Opprettet</span>
                     <span>{formattedCreationDate}</span>
@@ -122,7 +121,6 @@ export default async function BuildingTenant({
                     <span className="text-muted-foreground">Navn</span>
                     <span>{tenantDetails.property.name}</span>
                   </li>
-                  {/* Add more property details as needed */}
                 </ul>
               </div>
             </CardContent>

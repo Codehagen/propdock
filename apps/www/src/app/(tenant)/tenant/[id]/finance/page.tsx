@@ -1,37 +1,37 @@
-import { getContractDetails } from "@/actions/get-contract-details"
-import { format } from "date-fns"
-import { Settings } from "lucide-react"
+import { getContractDetails } from "@/actions/get-contract-details";
+import { format } from "date-fns";
+import { Settings } from "lucide-react";
 
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@dingify/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@dingify/ui/components/card";
 
-import { EditContractSheet } from "@/components/buttons/EditContractDetails"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { EditContractSheet } from "@/components/buttons/EditContractDetails";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function EconomySettings({
   params,
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = parseInt(params.id)
+  const tenantId = params.id;
 
-  if (isNaN(tenantId)) {
+  if (!tenantId) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Tenant not found" text="Invalid tenant ID." />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const contractDetails = await getContractDetails(tenantId)
+    const contractDetails = await getContractDetails(tenantId);
 
     return (
       <DashboardShell>
@@ -109,17 +109,13 @@ export default async function EconomySettings({
                           </span>
                         </li>
                         <li className="flex items-center justify-between">
-                          <span className="text-muted-foreground">
-                            End Date
-                          </span>
+                          <span className="text-muted-foreground">End Date</span>
                           <span>
                             {format(new Date(contract.endDate), "dd.MM.yyyy")}
                           </span>
                         </li>
                         <li className="flex items-center justify-between">
-                          <span className="text-muted-foreground">
-                            Base Rent
-                          </span>
+                          <span className="text-muted-foreground">Base Rent</span>
                           <span>
                             {contract.baseRent.toLocaleString("no-NO")} NOK
                           </span>
@@ -147,12 +143,12 @@ export default async function EconomySettings({
           )}
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

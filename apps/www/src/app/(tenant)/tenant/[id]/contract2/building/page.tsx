@@ -1,26 +1,29 @@
-import React, { useState } from "react"
+import React from "react"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
 import { Card } from "@dingify/ui/components/card"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
-import { generateContractContent } from "@/components/editor/contractTemplate"
-import Editor from "@/components/editor/editor"
-import { initialContent } from "@/components/editor/initialContent"
-import TenantEditor from "@/components/editor/TenantEditor"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 import { BuildingFormContract } from "./_components/BuildingFormContract"
-import { ReusableFormTemplate } from "./_components/ReusableFormTemplate"
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const tenantId = parseInt(params.id)
+  const tenantId = params.id
 
   try {
     const tenantDetails = await getTenantDetails(tenantId)
 
-    if (tenantDetails?.name && parseInt(tenantDetails.name) > 0) {
+    if (!tenantDetails) {
+      return (
+        <DashboardShell>
+          <DashboardHeader heading="Error" text="Tenant details not found." />
+        </DashboardShell>
+      )
+    }
+
+    if (tenantDetails.name && parseInt(tenantDetails.name) > 0) {
       return (
         <DashboardShell>
           <DashboardHeader
@@ -45,7 +48,6 @@ export default async function Home({ params }: { params: { id: string } }) {
           text="Hvordan byggning skal leietakeren inn i?"
         />
         <BuildingFormContract tenantDetails={tenantDetails} />
-        {/* <ReusableFormTemplate /> */}
       </DashboardShell>
     )
   } catch (error) {
