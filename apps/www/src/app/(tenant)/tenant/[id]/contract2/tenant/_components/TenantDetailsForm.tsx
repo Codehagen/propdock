@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { updateContract } from "@/actions/update-contract" // Import the update function
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -32,9 +33,9 @@ import {
   SelectValue,
 } from "@dingify/ui/components/select"
 
-// Definer valideringsskjemaet
+// Define validation schema
 const ContactSchema = z.object({
-  contactId: z.string().min(1, "Kontakt er påkrevd"),
+  contactId: z.string().optional(),
   name: z.string().min(1, "Navn er påkrevd"),
   email: z.string().min(1, "E-post er påkrevd").email("Ugyldig e-postadresse"),
   phone: z.string().min(1, "Telefon er påkrevd"),
@@ -42,35 +43,30 @@ const ContactSchema = z.object({
 
 export function TenantDetailsForm({ tenantDetails }) {
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedContact, setSelectedContact] = useState(null)
 
   const form = useForm({
     resolver: zodResolver(ContactSchema),
     defaultValues: {
-      contactId: "",
-      name: "",
-      email: "",
-      phone: "",
+      name: tenantDetails.contracts[0]?.contactName || "",
+      email: tenantDetails.contracts[0]?.contactEmail || "",
+      phone: tenantDetails.contracts[0]?.contactPhone || "",
     },
   })
-
-  useEffect(() => {
-    if (selectedContact) {
-      form.setValue("name", selectedContact.name)
-      form.setValue("email", selectedContact.email)
-      form.setValue("phone", selectedContact.phone)
-    }
-  }, [selectedContact, form.setValue])
 
   const onSubmit = async (data) => {
     setIsLoading(true)
 
     try {
-      const result = await submitContactInfo(data)
+      const result = await updateContract(tenantDetails.contracts[0].id, {
+        contactId: data.contactId ? parseInt(data.contactId) : undefined,
+        contactName: data.name,
+        contactEmail: data.email,
+        contactPhone: data.phone,
+      })
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke sende inn kontaktinformasjon.",
+          result.error || "Kunne ikke oppdatere kontaktinformasjonen.",
         )
       }
 
@@ -87,8 +83,10 @@ export function TenantDetailsForm({ tenantDetails }) {
     const contact = tenantDetails.contacts.find(
       (contact) => contact.id.toString() === value,
     )
-    setSelectedContact(contact)
     form.setValue("contactId", value)
+    form.setValue("name", contact?.name || "")
+    form.setValue("email", contact?.email || "")
+    form.setValue("phone", contact?.phone || "")
   }
 
   return (
@@ -114,7 +112,7 @@ export function TenantDetailsForm({ tenantDetails }) {
                         field.onChange(value)
                         handleContactChange(value)
                       }}
-                      defaultValue={field.value}
+                      value={field.value}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Velg kontakt" />
@@ -184,14 +182,4 @@ export function TenantDetailsForm({ tenantDetails }) {
       </Form>
     </Card>
   )
-}
-
-// Dummy function to simulate form submission
-async function submitContactInfo(data) {
-  // Simuler en forsinkelse
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true })
-    }, 1000)
-  })
 }

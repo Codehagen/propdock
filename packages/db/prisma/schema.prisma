@@ -43,32 +43,32 @@ model Session {
 }
 
 model User {
-  id                  String    @id @default(cuid())
+  id                  String       @id @default(cuid())
   name                String?
-  email               String?   @unique
+  email               String?      @unique
   emailVerified       DateTime?
   phone               String?
   apiKeys             UserApiKey[]
-  plan                String    @default("basic")
-  credits             Int       @default(3)
+  plan                String       @default("basic")
+  credits             Int          @default(3)
   image               String?
-  language            String?   @default("english")
-  onboardingEmailSent Boolean   @default(false)
+  language            String?      @default("english")
+  onboardingEmailSent Boolean      @default(false)
 
-  accounts            Account[]
-  sessions            Session[]
-  communications      TenantCommunications[]
+  accounts       Account[]
+  sessions       Session[]
+  communications TenantCommunications[]
 
-  createdAt           DateTime  @default(now()) @map(name: "created_at")
-  updatedAt           DateTime  @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
-  workspaceId            String?
-  workspace              Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
 
   @@map(name: "users")
 }
@@ -96,30 +96,30 @@ model Workspace {
   invoices   CustomerInvoice[]
   apiKeys    WSApiKey[]
 
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Property {
-  id          String                      @id @default(cuid())
-  name        String
-  type        String
+  id   String @id @default(cuid())
+  name String
+  type String
 
-  orgnr       Int?
+  orgnr Int?
 
   workspaceId String
-  workspace   Workspace                   @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
 
-  buildings   Building[]
-  tenants     Tenant[]
-  contracts   Contract[]
-  analysis    FinancialAnalysisProperty[]
+  buildings Building[]
+  tenants   Tenant[]
+  contracts Contract[]
+  analysis  FinancialAnalysisProperty[]
 
-  accountingId Int
+  accountingId Int?
   accounting   BalancedAccounts?
 
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Building {
@@ -179,79 +179,83 @@ model CommonArea {
   floor       Floor  @relation(fields: [floorId], references: [id])
   priceWeight Float
 
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Tenant {
-  id             String       @id @default(cuid())
-  name           String
-  orgnr          Int?
-  numEmployees   Int          @default(0)
-  buildingId     String
-  building       Building     @relation(fields: [buildingId], references: [id])
-  floorId        String?
-  floor          Floor?       @relation(fields: [floorId], references: [id])
-  officeSpaceId  String?
-  officeSpace    OfficeSpace? @relation(fields: [officeSpaceId], references: [id])
-  propertyId     String
-  property       Property     @relation(fields: [propertyId], references: [id])
+  id            String       @id @default(cuid())
+  name          String
+  orgnr         Int?
+  numEmployees  Int          @default(0)
+  buildingId    String
+  building      Building     @relation(fields: [buildingId], references: [id])
+  floorId       String?
+  floor         Floor?       @relation(fields: [floorId], references: [id])
+  officeSpaceId String?
+  officeSpace   OfficeSpace? @relation(fields: [officeSpaceId], references: [id])
+  propertyId    String
+  property      Property     @relation(fields: [propertyId], references: [id])
 
   contacts       ContactPerson[]
   contracts      Contract[]
   communications TenantCommunications[]
   invoices       CustomerInvoice[]
 
-  createdAt      DateTime @default(now()) @map(name: "created_at")
-  updatedAt      DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Contract {
-  id               String    @id @default(cuid())
-  workspaceId      String
-  workspace        Workspace @relation(fields: [workspaceId], references: [id])
-  tenantId         String
-  tenant           Tenant    @relation(fields: [tenantId], references: [id])
-  landlordOrgnr    Int
-  landlordName     String    // Utleier
+  id            String    @id @default(cuid())
+  workspaceId   String
+  workspace     Workspace @relation(fields: [workspaceId], references: [id])
+  tenantId      String
+  tenant        Tenant    @relation(fields: [tenantId], references: [id])
+  landlordOrgnr Int?
+  landlordName  String? // Utleier
 
   // TODO: Hvor langt har vi kommet i kontrakten? Stage/step?
 
-  contractType     ContractType
+  contractType ContractType?
 
-  propertyId       String
-  property         Property @relation(fields: [propertyId], references: [id])
-  buildingId       String
-  building         Building @relation(fields: [buildingId], references: [id])
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
 
-  floors           Floor[]
-  officeSpaces     OfficeSpace[]
+  floors       Floor[]
+  officeSpaces OfficeSpace[]
 
-  contactId        Int
-  contact          ContactPerson @relation(fields: [contactId], references: [id])
+  contactId Int
+  contact   ContactPerson @relation(fields: [contactId], references: [id])
 
-  startDate        DateTime
-  endDate          DateTime
-  negotiationDate  DateTime
-  isRenewable      Boolean   @map(name: "is_renewable")     // Kan forlenges?
-  renewablePeriod  DateTime  @map(name: "renewable_period") // Lengde på forlengelsesadgang
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+
+  startDate       DateTime?
+  endDate         DateTime?
+  negotiationDate DateTime?
+  isRenewable     Boolean?  @map(name: "is_renewable") // Kan forlenges?
+  renewablePeriod DateTime? @map(name: "renewable_period") // Lengde på forlengelsesadgang
 
   // Flyttingsoppfordring ikke tatt med foreløpig
 
-  indexationType   IndexationType
-  indexValue       Float?
-  indexationDate   DateTime       // Kontraktsindeks (tidl. dato for leieregulering)
-  baseRent         Float 
-  rentPeriod       Int            // Forfallsperiode
+  indexationType IndexationType?
+  indexValue     Float?
+  indexationDate DateTime? // Kontraktsindeks (tidl. dato for leieregulering)
+  baseRent       Float?
+  rentPeriod     Int? // Forfallsperiode
 
-  vatTerms         String         // Vilkår for MVA
+  vatTerms String? // Vilkår for MVA
 
-  businessCategory String         // Leietakers virksomhet
+  businessCategory String? // Leietakers virksomhet
 
-  collateral       Boolean        // Sikkerhetsstillelse
+  collateral Boolean? // Sikkerhetsstillelse
 
-  createdAt        DateTime @default(now()) @map(name: "created_at")
-  updatedAt        DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 enum ContractType {
@@ -267,13 +271,13 @@ enum IndexationType {
 }
 
 model ContactPerson {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String
-  phone     String?
-  fnr       String?
-  tenantId  String
-  tenant    Tenant  @relation(fields: [tenantId], references: [id])
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String
+  phone    String?
+  fnr      String?
+  tenantId String
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
 
   contracts Contract[]
 
@@ -281,49 +285,47 @@ model ContactPerson {
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
-model BalancedAccounts {    // Balanseregnskap
-  id          Int      @id @default(autoincrement())
+model BalancedAccounts {
+  id Int @id @default(autoincrement())
 
-  propertyId  String   @unique
-  property    Property @relation(fields: [propertyId], references: [id])
+  propertyId String   @unique
+  property   Property @relation(fields: [propertyId], references: [id])
 
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
-
-
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model FinancialAnalysisBuilding {
-  id               Int      @id @default(autoincrement())
-  buildingId       String
-  building         Building @relation(fields: [buildingId], references: [id])
+  id         Int      @id @default(autoincrement())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
 
-  createdAt        DateTime @default(now()) @map(name: "created_at")
-  updatedAt        DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  name             String
+  name String
 
   // 1. 
-  rentableArea     Int       // Utleibart areal        : Summér fra alle bygningens officespaces ELLER la bruker inputte manuelt
-  ratioAreaOffice  Float?    // Andel areal kontor
-  ratioAreaMerch   Float?    // Andel areal handel
-  ratioAreaMisc    Float?    // Andel areal annet
-  rentPerArea      Int       // Leiepris per kvm per år: Summér fra alle bygningens kontrakter ELLER la bruker inputte manuelt
-  avgExpiryPeriod  Int       // Tid til markedsleie/kontraktsutløp
-  appreciationDate DateTime  // Verdsettelsesdato
-  lastDayOfYear    DateTime  // Siste dag inneværende år
-  lastBalanceDate  DateTime  // Siste tilgjengelige balansedato
-  numMonthsOfYear  Int       // Antall måneder igjen av inneværende år
-  vacancyPerYear   Json?     // Ledighet (per år): { "2024": "10.5", "2025": "9.8"}
+  rentableArea     Int // Utleibart areal        : Summér fra alle bygningens officespaces ELLER la bruker inputte manuelt
+  ratioAreaOffice  Float? // Andel areal kontor
+  ratioAreaMerch   Float? // Andel areal handel
+  ratioAreaMisc    Float? // Andel areal annet
+  rentPerArea      Int // Leiepris per kvm per år: Summér fra alle bygningens kontrakter ELLER la bruker inputte manuelt
+  avgExpiryPeriod  Int // Tid til markedsleie/kontraktsutløp
+  appreciationDate DateTime // Verdsettelsesdato
+  lastDayOfYear    DateTime // Siste dag inneværende år
+  lastBalanceDate  DateTime // Siste tilgjengelige balansedato
+  numMonthsOfYear  Int // Antall måneder igjen av inneværende år
+  vacancyPerYear   Json? // Ledighet (per år): { "2024": "10.5", "2025": "9.8"}
 
   // KPI
-  kpi1             Float
-  kpi2             Float
-  kpi3             Float
-  kpi4             Float
+  kpi1 Float
+  kpi2 Float
+  kpi3 Float
+  kpi4 Float
 
-  sumValueNow      Int       // Sum nåverdi
-  sumValueExit     Int       // Exit verdi
+  sumValueNow  Int // Sum nåverdi
+  sumValueExit Int // Exit verdi
 
   // 2. Eierkostnader
   ownerCostsMethod Boolean
@@ -332,42 +334,42 @@ model FinancialAnalysisBuilding {
   ownerCostsManual Float?
 
   // Alt 2
-  costMaintenance  Float?  // Vedlikehold
-  costInsurance    Float?  // Forsikrings
-  costRevision     Float?  // Revision
-  costAdm          Float?  // Administrasjon/forvaltning
-  costOther        Float?  // Andre driftskostnader
-  costNegotiation  Float?  // Megling/utleie
-  costLegalFees    Float?  // Juridiske honorarer
-  costConsultFees  Float?  // Honorar konsulenter (arkitekt, byggeledelse, osv)
-  costAssetMgmt    Float?  // Asset management
-  costSum          Float?  // Estimerte totale eierkostnader per kvm
+  costMaintenance Float? // Vedlikehold
+  costInsurance   Float? // Forsikrings
+  costRevision    Float? // Revision
+  costAdm         Float? // Administrasjon/forvaltning
+  costOther       Float? // Andre driftskostnader
+  costNegotiation Float? // Megling/utleie
+  costLegalFees   Float? // Juridiske honorarer
+  costConsultFees Float? // Honorar konsulenter (arkitekt, byggeledelse, osv)
+  costAssetMgmt   Float? // Asset management
+  costSum         Float? // Estimerte totale eierkostnader per kvm
 
-  costBigExpenses  Json?   // Store ikke-periodiske kostnader, eks. { "2024": "100.000", "2025": "20.500" }
+  costBigExpenses Json? // Store ikke-periodiske kostnader, eks. { "2024": "100.000", "2025": "20.500" }
 
   // 3. Input knyttet til avkastningskrav
-  useCalcROI       Boolean // Bruk beregnet avkastningskrav
+  useCalcROI Boolean // Bruk beregnet avkastningskrav
 
   // Alt. 1
-  roiWeightedYield Float?  // Vektet real-yield før skatt
-  roiInflation     Float?  // Inflasjon
-  roiCalculated    Float?  // Beregnet avkastningskrav til DCF   
+  roiWeightedYield Float? // Vektet real-yield før skatt
+  roiInflation     Float? // Inflasjon
+  roiCalculated    Float? // Beregnet avkastningskrav til DCF   
 
   // Alt. 2
-  roiManual        Float?  // Alternativ avkastningskrav (fastsatt)
-  
-  // 4. Input markedsdata
-  marketRentOffice Int     // Markedsleie kontor
-  marketRentMerch  Int     // Markedsleie handel
-  marketRentMisc   Int     // Markedsleie annet
+  roiManual Float? // Alternativ avkastningskrav (fastsatt)
 
-  usePrimeYield    Boolean // Benytte yield basert på prime yield?
+  // 4. Input markedsdata
+  marketRentOffice Int // Markedsleie kontor
+  marketRentMerch  Int // Markedsleie handel
+  marketRentMisc   Int // Markedsleie annet
+
+  usePrimeYield Boolean // Benytte yield basert på prime yield?
 
   // Fastsatt yield
-  manYieldOffice   Float?  // Yield kontor
-  manYieldMerch    Float?  // Yield handel
-  manYieldMisc     Float?  // Yield annet
-  manYieldWeighted Float?  // Vektet yield
+  manYieldOffice   Float? // Yield kontor
+  manYieldMerch    Float? // Yield handel
+  manYieldMisc     Float? // Yield annet
+  manYieldWeighted Float? // Vektet yield
 }
 
 model FinancialAnalysisProperty {
@@ -375,14 +377,14 @@ model FinancialAnalysisProperty {
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
 model WSApiKey {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   validTo     DateTime?
   isActive    Boolean   @default(true)
@@ -394,23 +396,23 @@ model WSApiKey {
 }
 
 model UserApiKey {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   validTo     DateTime?
   isActive    Boolean   @default(true)
   serviceName String
   secret      String    @unique
 
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model TenantCommunications {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   type       String
   identifier String // Telephone number or email address
@@ -421,9 +423,9 @@ model TenantCommunications {
 }
 
 model CustomerInvoice {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
