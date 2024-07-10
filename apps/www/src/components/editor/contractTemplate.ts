@@ -1,3 +1,5 @@
+// components/editor/contractTemplate.ts
+
 export const contractTemplate = `
 <h2>UTLEIER</h2>
 <p>1.1 Navn/Firma: [UTLEIER_NAME] (Utleier)</p>
@@ -59,40 +61,43 @@ export const contractTemplate = `
 <p>_________________________					______________________</p>
 <p>[Utleiers repr.]								[Leietakers repr.]</p>
 `
-
+// prettier-ignore
 export const generateContractContent = (tenantDetails: any) => {
   let content = contractTemplate
 
-  content = content.replace("[UTLEIER_NAME]", "Utleier Firma") // Replace with actual landlord's name
-  content = content.replace("[UTLEIER_ORGNR]", "12345678") // Replace with actual landlord's orgnr
+  content = content.replace("[UTLEIER_NAME]", tenantDetails.contracts[0]?.landlordName || "")
+  content = content.replace("[UTLEIER_ORGNR]", tenantDetails.contracts[0]?.landlordOrgnr?.toString() || "")
 
-  content = content.replace("[LEIETAKER_NAME]", tenantDetails.name)
-  content = content.replace("[LEIETAKER_ORGNR]", tenantDetails.orgnr.toString())
+  content = content.replace("[LEIETAKER_NAME]", tenantDetails.name || "")
+  content = content.replace("[LEIETAKER_ORGNR]", tenantDetails.orgnr?.toString() || "")
 
-  content = content.replace(
-    "[EIENDOMMEN_ADRESSE]",
-    tenantDetails.building.address,
-  )
-  content = content.replace(
-    "[EIENDOMMEN_GNR]",
-    tenantDetails.building.gnr.toString(),
-  )
-  content = content.replace(
-    "[EIENDOMMEN_BNR]",
-    tenantDetails.building.bnr.toString(),
-  )
-  content = content.replace(
-    "[EIENDOMMEN_FNR]",
-    tenantDetails.building.fnr.toString(),
-  )
-  content = content.replace(
-    "[EIENDOMMEN_SNR]",
-    tenantDetails.building.snr.toString(),
-  )
-  content = content.replace("[EIENDOMMEN_KOMMUNE]", "Kommune") // Replace with actual municipality
-  content = content.replace("[EIENDOMMEN_KOMMUNENUMMER]", "0000") // Replace with actual municipality number
+  content = content.replace("[EIENDOMMEN_ADRESSE]", tenantDetails.building?.address || "")
+  content = content.replace("[EIENDOMMEN_GNR]", tenantDetails.building?.gnr?.toString() || "")
+  content = content.replace("[EIENDOMMEN_BNR]", tenantDetails.building?.bnr?.toString() || "")
+  content = content.replace("[EIENDOMMEN_FNR]", tenantDetails.building?.fnr?.toString() || "")
+  content = content.replace("[EIENDOMMEN_SNR]", tenantDetails.building?.snr?.toString() || "")
+  content = content.replace("[EIENDOMMEN_KOMMUNE]", tenantDetails.building?.kommune || "") // Replace with actual municipality
+  content = content.replace("[EIENDOMMEN_KOMMUNENUMMER]", tenantDetails.building?.kommunenummer?.toString() || "") // Replace with actual municipality number
 
-  content = content.replace("[LEIEOBJEKTET_KVM]", "1000") // Replace with actual size of the lease object
+  content = content.replace("[LEIEOBJEKTET_KVM]", tenantDetails.building?.kvm?.toString() || "") // Replace with actual size of the lease object
+
+  content = content.replace("[KONTRAKT_TYPE]", tenantDetails.contracts[0]?.contractType || "")
+  content = content.replace("[CONTACT_NAME]", tenantDetails.contracts[0]?.contactName || "")
+  content = content.replace("[CONTACT_EMAIL]", tenantDetails.contracts[0]?.contactEmail || "")
+  content = content.replace("[CONTACT_PHONE]", tenantDetails.contracts[0]?.contactPhone || "")
+  content = content.replace("[START_DATE]", tenantDetails.contracts[0]?.startDate ? new Date(tenantDetails.contracts[0].startDate).toLocaleDateString() : "")
+  content = content.replace("[END_DATE]", tenantDetails.contracts[0]?.endDate ? new Date(tenantDetails.contracts[0].endDate).toLocaleDateString() : "")
+  content = content.replace("[NEGOTIATION_DATE]", tenantDetails.contracts[0]?.negotiationDate ? new Date(tenantDetails.contracts[0].negotiationDate).toLocaleDateString() : "")
+  content = content.replace("[IS_RENEWABLE]", tenantDetails.contracts[0]?.isRenewable ? "Yes" : "No")
+  content = content.replace("[RENEWABLE_PERIOD]", tenantDetails.contracts[0]?.renewablePeriod?.toString() || "")
+  content = content.replace("[INDEXATION_TYPE]", tenantDetails.contracts[0]?.indexationType || "")
+  content = content.replace("[INDEX_VALUE]", tenantDetails.contracts[0]?.indexValue?.toString() || "")
+  content = content.replace("[INDEXATION_DATE]", tenantDetails.contracts[0]?.indexationDate ? new Date(tenantDetails.contracts[0].indexationDate).toLocaleDateString() : "")
+  content = content.replace("[BASE_RENT]", tenantDetails.contracts[0]?.baseRent?.toString() || "")
+  content = content.replace("[RENT_PERIOD]", tenantDetails.contracts[0]?.rentPeriod || "")
+  content = content.replace("[VAT_TERMS]", tenantDetails.contracts[0]?.vatTerms || "")
+  content = content.replace("[BUSINESS_CATEGORY]", tenantDetails.contracts[0]?.businessCategory || "")
+  content = content.replace("[COLLATERAL]", tenantDetails.contracts[0]?.collateral || "")
 
   return content
 }

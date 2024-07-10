@@ -1,5 +1,5 @@
 import type { SidebarNavItem } from "@/types"
-import type { Contact, Contract, TenantDetails } from "@/types/types"
+import type { Contract, TenantDetails } from "@/types/types"
 import { notFound } from "next/navigation"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
@@ -46,6 +46,12 @@ export default async function DashboardLayout({
       contract.indexationDate,
   )
 
+  const isMvaCompleted = Boolean(
+    contract &&
+      contract.vatTerms !== null &&
+      contract.businessCategory !== null,
+  )
+
   const sidebarNavItems: SidebarNavItem[] = [
     {
       title: "Eiendom",
@@ -82,6 +88,18 @@ export default async function DashboardLayout({
       href: `/tenant/${params.id}/contract2/kpi`,
       icon: "percent",
       completed: isKpiCompleted,
+    },
+    {
+      title: "Mva",
+      href: `/tenant/${params.id}/contract2/mva`,
+      icon: "coins",
+      completed: isMvaCompleted,
+    },
+    {
+      title: "Editor",
+      href: `/tenant/${params.id}/contract2/editor`,
+      icon: "page",
+      completed: isMvaCompleted,
     },
     {
       title: "Sammendrag",
