@@ -1,7 +1,7 @@
 import { verifyKey } from '@unkey/api';
 
 
-const DEBUG: boolean = false; // NB! Change to false before committing.
+const DEBUG: boolean = true; // NB! Change to false before committing.
 const FE_KEY = "super-secret" // TODO: get from wrangler.toml
 
 

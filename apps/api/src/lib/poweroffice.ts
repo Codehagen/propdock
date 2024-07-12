@@ -1,3 +1,5 @@
+import { Env } from "@/env";
+
 const PO_ROOT_DEMO = "https://goapi.poweroffice.net/Demo/v2"
 const PO_ROOT_PROD = "https://goapi.poweroffice.net/v2"
 
@@ -6,38 +8,34 @@ const PO_ROOT = PO_ROOT_DEMO
 const PO_ONBOARDING_START = `${PO_ROOT}/onboarding/initiate`
 const PO_ONBOARDING_FINAL = `${PO_ROOT}/onboarding/finalize`
 
-
-const SUB_KEY = ""
-const APP_KEY = ""
-
 const PO_ONBOARD_REDIRECT = "" // url for redirect after onboarding
 
-// TODO: put all these in .env/.toml
 
-
-function getOnboardingHeaders() {
+function getOnboardingHeaders(env: Env) {
     const headers = {
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": SUB_KEY,
+        "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
+        //"ClientOrganizationNo": "",
     }
 
     return headers
 }
 
 
-function getOnboardingBody() {
+function getOnboardingBody(env: Env) {
     const body    = {
-        "ApplicationKey": APP_KEY,
-        "RedirectUri"   : PO_ONBOARD_REDIRECT,
+        "ApplicationKey": env.PO_APP_KEY,
+        //"RedirectUri"   : PO_ONBOARD_REDIRECT,
+        "RedirectUri"   : "localhost:8787/api/internal/oauth/poweroffice/callback-test"
     }
 
     return body
 }
 
 
-async function exchangeCodeForKey(code: string): Promise<string> {
+async function exchangeCodeForKey(env: Env, code: string): Promise<string> {
     const url = PO_ONBOARDING_FINAL
-    const headers = getOnboardingHeaders()
+    const headers = getOnboardingHeaders(env)
     const body = {
         "OnboardingToken": code,
     }
@@ -64,13 +62,13 @@ async function exchangeCodeForKey(code: string): Promise<string> {
 }
 
 
-function getAuthHeaders(client_key: string) {
-    const authKey = `${APP_KEY}:${client_key}`
+function getAuthHeaders(env: Env, client_key: string) {
+    const authKey = `${env.PO_APP_KEY}:${client_key}`
     const auth_64 = btoa(authKey);
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        "Ocp-Apim-Subscription-Key": SUB_KEY,
+        "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
         'Authorization': `Basic ${auth_64}`
     }
 

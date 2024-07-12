@@ -2,17 +2,21 @@ import { honoFactory } from "@/lib/hono";
 import { getOnboardingHeaders, getOnboardingBody, PO_ONBOARDING_START, exchangeCodeForKey } from "@/lib/poweroffice";
 import { saveAPIKey } from "@/models/workspace";
 import { prisma } from "@/lib/db";
-import { Env } from "@/env";
 
 
 const app = honoFactory();
 
 
 app.get("/onboarding-start", async (c) => {
-    const headers = getOnboardingHeaders()
-    const body    = getOnboardingBody()
+    const headers = getOnboardingHeaders(c.env)
+    const body    = getOnboardingBody(c.env)
 
     const url     = PO_ONBOARDING_START
+
+    // TODO: remove
+    console.log("DEBUG - Starting PO onboarding:")
+    console.log("DEBUG - Headers:", headers)
+    console.log("DEBUG - Body:", body)
 
     try {
         const response = await fetch(url, {
@@ -36,6 +40,13 @@ app.get("/onboarding-start", async (c) => {
 })
 
 
+// TODO: remove
+app.get("/callback-test", async (c) => {
+    const { success, token } = c.req.query();
+    return c.json({ ok: true, success: success, token: token }, 200);
+})
+
+
 app.post("/onboarding-finalize", async(c) => {
     const body = await c.req.json()
     const db = prisma(c.env)
@@ -52,7 +63,7 @@ app.post("/onboarding-finalize", async(c) => {
     // Exchange the onboarding code for client's key
     let clientKey
     try {
-        clientKey = await exchangeCodeForKey(code)
+        clientKey = await exchangeCodeForKey(c.env, code)
 
         // Save key to db
         await saveAPIKey(db, workspaceId, clientKey, serviceName)
