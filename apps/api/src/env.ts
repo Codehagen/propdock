@@ -6,6 +6,9 @@ export const zEnv = z.object({
 	ENVIRONMENT: z
 		.enum(["development", "preview", "production"])
 		.default("development"),
+	PO_ROOT: z.string(),
+	PO_SUB_KEY: z.string(),
+	PO_APP_KEY: z.string(),
 });
 
 export type Env = z.infer<typeof zEnv>;
