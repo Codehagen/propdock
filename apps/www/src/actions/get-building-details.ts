@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db"
 export async function getBuildingDetails(buildingId: string) {
   try {
     const building = await prisma.building.findUnique({
-      where: { id: parseInt(buildingId) },
+      where: { id: buildingId },
       include: {
         floors: {
           include: {

@@ -1,5 +1,7 @@
 import type { SidebarNavItem } from "@/types"
+import type { Contract, TenantDetails } from "@/types/types"
 import { notFound } from "next/navigation"
+import { getTenantDetails } from "@/actions/get-tenant-details"
 
 import { getCurrentUser } from "@/lib/session"
 import { DashboardNav } from "@/components/layout/nav"
@@ -14,41 +16,96 @@ export default async function DashboardLayout({
   params,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
+  const tenantDetails: TenantDetails | null = await getTenantDetails(params.id)
 
-  if (!user) {
+  if (!user || !tenantDetails) {
     return notFound()
   }
+
+  const contract: Contract | undefined = tenantDetails.contracts[0]
+
+  const isLandlordCompleted = Boolean(
+    contract?.landlordName && contract.landlordOrgnr !== null,
+  )
+
+  const isTenantCompleted = Boolean(
+    contract?.contactName &&
+      contract.contactEmail &&
+      contract.contactPhone !== null,
+  )
+
+  const isTimeCompleted = Boolean(contract?.startDate && contract.endDate)
+
+  const isTermsCompleted = Boolean(
+    contract && contract.baseRent !== null && contract.isRenewable !== null,
+  )
+
+  const isKpiCompleted = Boolean(
+    contract?.indexationType &&
+      contract.indexValue !== null &&
+      contract.indexationDate,
+  )
+
+  const isMvaCompleted = Boolean(
+    contract &&
+      contract.vatTerms !== null &&
+      contract.businessCategory !== null,
+  )
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
       title: "Eiendom",
       href: `/tenant/${params.id}/contract2/building`,
       icon: "home",
+      completed: true, // Always true as per your initial setup
+    },
+    {
+      title: "Utleier",
+      href: `/tenant/${params.id}/contract2/landlord`,
+      icon: "building",
+      completed: isLandlordCompleted,
     },
     {
       title: "Leietaker",
       href: `/tenant/${params.id}/contract2/tenant`,
-      icon: "building",
-    },
-    {
-      title: "Utleie",
-      href: `/tenant/${params.id}/contactperson`,
       icon: "user",
+      completed: isTenantCompleted,
     },
     {
-      title: "Økonomi",
-      href: `/tenant/${params.id}/finance`,
+      title: "Tidsrom",
+      href: `/tenant/${params.id}/contract2/time`,
+      icon: "calendarClock",
+      completed: isTimeCompleted,
+    },
+    {
+      title: "Leieinntekter",
+      href: `/tenant/${params.id}/contract2/terms`,
       icon: "piechart",
+      completed: isTermsCompleted,
     },
     {
-      title: "Vilkår",
-      href: `/tenant/${params.id}/contract`,
+      title: "KPI",
+      href: `/tenant/${params.id}/contract2/kpi`,
+      icon: "percent",
+      completed: isKpiCompleted,
+    },
+    {
+      title: "Mva",
+      href: `/tenant/${params.id}/contract2/mva`,
+      icon: "coins",
+      completed: isMvaCompleted,
+    },
+    {
+      title: "Editor",
+      href: `/tenant/${params.id}/contract2/editor`,
+      icon: "page",
+      completed: isMvaCompleted,
+    },
+    {
+      title: "Sammendrag",
+      href: `/tenant/${params.id}/contract2/summary`,
       icon: "filetext",
-    },
-    {
-      title: "Faktura",
-      href: `/tenant/${params.id}/invoice`,
-      icon: "billing",
+      completed: false, // Assuming summary is never initially completed
     },
   ]
 

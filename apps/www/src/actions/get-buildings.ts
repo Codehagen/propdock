@@ -1,9 +1,8 @@
-// src/actions/get-buildings.ts
-"use server";
+"use server"
 
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db"
 
-export async function getBuildings(propertyId: number) {
+export async function getBuildings(propertyId: string) {
   try {
     const buildings = await prisma.building.findMany({
       where: { propertyId },
@@ -11,10 +10,10 @@ export async function getBuildings(propertyId: number) {
         id: true,
         name: true,
       },
-    });
-    return buildings;
+    })
+    return buildings
   } catch (error) {
-    console.error("Error fetching buildings:", error);
-    return [];
+    console.error("Error fetching buildings:", error)
+    return []
   }
 }

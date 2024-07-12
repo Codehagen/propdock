@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { createBuilding } from "@/actions/create-building";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { useState } from "react"
+import { createBuilding } from "@/actions/create-building"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 import {
   Form,
   FormControl,
@@ -15,8 +15,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form";
-import { Input } from "@dingify/ui/components/input";
+} from "@dingify/ui/components/form"
+import { Input } from "@dingify/ui/components/input"
 import {
   Sheet,
   SheetContent,
@@ -25,7 +25,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet";
+} from "@dingify/ui/components/sheet"
 
 // Define the validation schema
 const BuildingSchema = z.object({
@@ -35,10 +35,10 @@ const BuildingSchema = z.object({
   bnr: z.string().optional(),
   snr: z.string().optional(),
   fnr: z.string().optional(),
-});
+})
 
 export function AddBuildingSheet({ propertyId }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(BuildingSchema),
     defaultValues: {
@@ -49,10 +49,10 @@ export function AddBuildingSheet({ propertyId }) {
       snr: undefined,
       fnr: undefined,
     },
-  });
+  })
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     // Convert string inputs to numbers
     const convertedData = {
@@ -61,25 +61,25 @@ export function AddBuildingSheet({ propertyId }) {
       bnr: data.bnr ? parseInt(data.bnr, 10) : undefined,
       snr: data.snr ? parseInt(data.snr, 10) : undefined,
       fnr: data.fnr ? parseInt(data.fnr, 10) : undefined,
-    };
+    }
 
     try {
-      const result = await createBuilding(propertyId, convertedData);
+      const result = await createBuilding(propertyId, convertedData)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save building.");
+        throw new Error(result.error || "Failed to save building.")
       }
 
-      toast.success(`Byggningen "${data.name}" ble lagret.`);
-      form.reset();
+      toast.success(`Byggningen "${data.name}" ble lagret.`)
+      form.reset()
       // Optionally, refresh the page or update the state to show the new building
     } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+      toast.error(error.message)
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <Sheet>
@@ -100,9 +100,9 @@ export function AddBuildingSheet({ propertyId }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Building Name</FormLabel>
+                  <FormLabel>Navn på bygg</FormLabel>
                   <FormControl>
-                    <Input placeholder="Building Name..." {...field} />
+                    <Input placeholder="Dronningens gate 18..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -179,12 +179,12 @@ export function AddBuildingSheet({ propertyId }) {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Saving..." : "Save new building"}
+                {isLoading ? "Saving..." : "Lagre ny bygning"}
               </Button>
             </SheetFooter>
           </form>
         </Form>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { createContract } from "@/actions/create-contract"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -32,11 +33,12 @@ import {
 } from "@dingify/ui/components/select"
 
 // Define the validation schema
-const IssueSchema = z.object({
+const ContractSchema = z.object({
   building: z.string().min(1, "Bygning er påkrevd"),
   property: z.string().min(1, "Eiendom er påkrevd"),
   floor: z.string().min(1, "Etasje er påkrevd"),
   officeSpace: z.string().min(1, "Kontorlokale er påkrevd"),
+  contactId: z.string().min(1, "Kontaktperson er påkrevd"),
 })
 
 export function BuildingFormContract({ tenantDetails }) {
@@ -46,20 +48,30 @@ export function BuildingFormContract({ tenantDetails }) {
   )
 
   const form = useForm({
-    resolver: zodResolver(IssueSchema),
+    resolver: zodResolver(ContractSchema),
     defaultValues: {
-      building: tenantDetails?.building?.id.toString() || "",
-      property: tenantDetails?.property?.id.toString() || "",
+      building: tenantDetails?.building?.id?.toString() || "",
+      property: tenantDetails?.property?.id?.toString() || "",
       floor: tenantDetails?.floor?.id?.toString() || "",
       officeSpace: tenantDetails?.officeSpace?.id?.toString() || "",
+      contactId: tenantDetails?.contacts[0]?.id?.toString() || "", // Assuming there's at least one contact
     },
   })
+
+  useEffect(() => {
+    if (tenantDetails?.floor?.id) {
+      setSelectedFloor(tenantDetails.floor.id.toString())
+    }
+  }, [tenantDetails?.floor?.id])
 
   const onSubmit = async (data) => {
     setIsLoading(true)
 
     try {
-      const result = await submitIssue(data)
+      const result = await createContract({
+        ...data,
+        tenantId: tenantDetails.id,
+      })
 
       if (!result.success) {
         throw new Error(result.error || "Failed to submit issue.")
@@ -101,7 +113,7 @@ export function BuildingFormContract({ tenantDetails }) {
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select property" />
@@ -128,7 +140,7 @@ export function BuildingFormContract({ tenantDetails }) {
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select building" />
@@ -158,7 +170,7 @@ export function BuildingFormContract({ tenantDetails }) {
                           field.onChange(value)
                           setSelectedFloor(value)
                         }}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Velg Etasje" />
@@ -194,7 +206,7 @@ export function BuildingFormContract({ tenantDetails }) {
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Velg kontor" />
@@ -232,14 +244,4 @@ export function BuildingFormContract({ tenantDetails }) {
       </Form>
     </Card>
   )
-}
-
-// Dummy function to simulate form submission
-async function submitIssue(data) {
-  // Simulate a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true })
-    }, 1000)
-  })
 }

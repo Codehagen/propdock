@@ -20,9 +20,9 @@ export default async function ContactPerson({
 }: {
   params: { id: string }
 }) {
-  const tenantId = parseInt(params.id)
+  const tenantId = params.id
 
-  if (isNaN(tenantId)) {
+  if (!tenantId) {
     return (
       <DashboardShell>
         <DashboardHeader

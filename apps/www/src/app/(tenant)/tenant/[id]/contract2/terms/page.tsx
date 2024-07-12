@@ -7,9 +7,13 @@ import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
-import { BuildingFormContract } from "./_components/BuildingFormContract"
+import { TermsDetailsForm } from "./_components/TermsDetailsForm"
 
-export default async function Home({ params }: { params: { id: string } }) {
+export default async function termsContractPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const tenantId = params.id
 
   try {
@@ -47,7 +51,7 @@ export default async function Home({ params }: { params: { id: string } }) {
           heading="Byggninger"
           text="Hvordan byggning skal leietakeren inn i?"
         />
-        <BuildingFormContract tenantDetails={tenantDetails} />
+        <TermsDetailsForm tenantDetails={tenantDetails} />
       </DashboardShell>
     )
   } catch (error) {

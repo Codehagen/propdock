@@ -23,6 +23,7 @@ export function DashboardNav({ items, slug }: DashboardNavProps) {
     <nav className="grid items-start gap-2 max-md:grid-flow-col">
       {items.map((item) => {
         const Icon = Icons[item.icon || "arrowRight"]
+        const CheckIcon = Icons.check
         return (
           <div key={item.href}>
             <Link
@@ -34,13 +35,18 @@ export function DashboardNav({ items, slug }: DashboardNavProps) {
             >
               <span
                 className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                  "group flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                   path === item.href ? "bg-accent" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80",
                 )}
               >
-                <Icon className="mr-2 h-4 w-4" />
-                <span>{item.title}</span>
+                <div className="flex items-center">
+                  <Icon className="mr-2 h-4 w-4" />
+                  <span>{item.title}</span>
+                </div>
+                {item.completed && (
+                  <CheckIcon className="ml-2 h-4 w-4 text-green-500" />
+                )}
               </span>
             </Link>
           </div>

@@ -2,14 +2,14 @@
 
 import { prisma } from "@/lib/db"
 
-export async function getContractDetails(tenantId: number) {
+export async function getContractDetails(tenantId: string) {
   try {
     const contracts = await prisma.contract.findMany({
-      where: { tenantId: tenantId },
+      where: { tenantId },
       include: {
         building: true,
-        floor: true,
-        officeSpace: true,
+        floors: true,
+        officeSpaces: true,
         property: true,
       },
     })

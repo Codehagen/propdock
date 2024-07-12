@@ -7,10 +7,15 @@ import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
-import { BuildingFormContract } from "./_components/BuildingFormContract"
+import { LandlordDetailsForm } from "./_components/LandlordDetailsForm"
 
-export default async function Home({ params }: { params: { id: string } }) {
+export default async function LandlordContract({
+  params,
+}: {
+  params: { id: string }
+}) {
   const tenantId = params.id
+  const currentPath = `/tenant/${tenantId}/contract2/landlord`
 
   try {
     const tenantDetails = await getTenantDetails(tenantId)
@@ -27,8 +32,8 @@ export default async function Home({ params }: { params: { id: string } }) {
       return (
         <DashboardShell>
           <DashboardHeader
-            heading="Byggninger"
-            text="Hvordan byggning skal leietakeren inn i?"
+            heading="Utleier"
+            text="Hvem er utleier på bygget?"
           />
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="help" />
@@ -43,11 +48,8 @@ export default async function Home({ params }: { params: { id: string } }) {
 
     return (
       <DashboardShell>
-        <DashboardHeader
-          heading="Byggninger"
-          text="Hvordan byggning skal leietakeren inn i?"
-        />
-        <BuildingFormContract tenantDetails={tenantDetails} />
+        <DashboardHeader heading="Utleier" text="Hvem er utleier på bygget?" />
+        <LandlordDetailsForm tenantDetails={tenantDetails} />
       </DashboardShell>
     )
   } catch (error) {

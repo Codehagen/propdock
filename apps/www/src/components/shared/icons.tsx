@@ -5,6 +5,7 @@ import {
   Bell,
   BrainCircuit,
   Building,
+  CalendarClock,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -27,6 +28,7 @@ import {
   Moon,
   MoreVertical,
   PartyPopper,
+  Percent,
   PieChart,
   Plus,
   Puzzle,
@@ -85,6 +87,9 @@ export const Icons = {
   refresh: RefreshCcw,
   receipt: Receipt,
   coins: CoinsIcon,
+  calendarClock: CalendarClock,
+  percent: Percent,
+
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
