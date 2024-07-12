@@ -11,8 +11,15 @@ export default [
   ...reactConfig,
   ...nextjsConfig,
   {
-    // TODO: Resolve errors when setting these rules to 'error'
+    plugins: ["jest"],
+    env: {
+      "jest/globals": true,
+    },
+    parserOptions: {
+      project: ['./tsconfig.json'],
+    },
     rules: {
+      // TODO: Resolve errors when setting these rules to 'error'
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
