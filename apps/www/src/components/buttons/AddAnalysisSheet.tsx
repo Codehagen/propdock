@@ -1,14 +1,15 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { getProperties } from "@/actions/get-properties";
-import { getBuildings } from "@/actions/get-buildings"; // Import this function
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { useEffect, useState } from "react"
+import { createAnalysis } from "@/actions/create-analyse"
+import { getBuildings } from "@/actions/get-buildings" // Import this function
+import { getProperties } from "@/actions/get-properties"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 import {
   Form,
   FormControl,
@@ -16,8 +17,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@dingify/ui/components/select";
+} from "@dingify/ui/components/form"
+import { Input } from "@dingify/ui/components/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@dingify/ui/components/select"
 import {
   Sheet,
   SheetContent,
@@ -26,84 +34,85 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet";
-import { createAnalysis } from "@/actions/create-analyse";
+} from "@dingify/ui/components/sheet"
 
 const AnalysisSchema = z.object({
+  name: z.string().min(1, "Name is required"),
   propertyId: z.string().min(1, "Property is required"),
   buildingId: z.string().min(1, "Building is required"),
-});
+})
 
 interface Property {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 interface Building {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 export function AddAnalysisSheet() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [properties, setProperties] = useState<Property[]>([])
+  const [buildings, setBuildings] = useState<Building[]>([])
 
   const form = useForm({
     resolver: zodResolver(AnalysisSchema),
     defaultValues: {
+      name: "",
       propertyId: "",
       buildingId: "",
     },
-  });
+  })
 
   useEffect(() => {
     async function fetchProperties() {
       try {
-        const properties = await getProperties();
-        setProperties(properties);
+        const properties = await getProperties()
+        setProperties(properties)
       } catch (error) {
-        console.error("Failed to fetch properties:", error);
+        console.error("Failed to fetch properties:", error)
       }
     }
-    fetchProperties();
-  }, []);
+    fetchProperties()
+  }, [])
 
   const onPropertyChange = async (propertyId: string) => {
-    form.setValue("propertyId", propertyId);
+    form.setValue("propertyId", propertyId)
     try {
-      const buildings = await getBuildings(propertyId);
-      setBuildings(buildings);
-      form.setValue("buildingId", ""); // Reset building selection when property changes
+      const buildings = await getBuildings(propertyId)
+      setBuildings(buildings)
+      form.setValue("buildingId", "") // Reset building selection when property changes
     } catch (error) {
-      console.error("Failed to fetch buildings:", error);
+      console.error("Failed to fetch buildings:", error)
     }
-  };
+  }
 
   const onSubmit = async (data: z.infer<typeof AnalysisSchema>) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     try {
       const analysisData = {
         ...data,
-      };
-
-      const result = await createAnalysis(analysisData);
-
-      if (!result.success) {
-        throw new Error(result.error || "Failed to save analysis.");
       }
 
-      toast.success(`Analysis for property was saved.`);
-      form.reset();
+      const result = await createAnalysis(analysisData)
+
+      if (!result.success) {
+        throw new Error(result.error || "Failed to save analysis.")
+      }
+
+      toast.success(`Analysis for property was saved.`)
+      form.reset()
       // Optionally, refresh the page or update the state to show the new analysis
     } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+      toast.error(error.message)
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <Sheet>
@@ -120,14 +129,27 @@ export function AddAnalysisSheet() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="propertyId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Property</FormLabel>
                   <Select
                     onValueChange={(value) => {
-                      field.onChange(value);
-                      onPropertyChange(value);
+                      field.onChange(value)
+                      onPropertyChange(value)
                     }}
                     value={field.value}
                   >
@@ -189,5 +211,5 @@ export function AddAnalysisSheet() {
         </Form>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

@@ -29,7 +29,7 @@ export async function createAnalysis(analysisData) {
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
         buildingId: analysisData.buildingId,
-        name: "Default Analysis",
+        name: analysisData.name, // Include the name field
         rentableArea: 1000,
         ratioAreaOffice: 0.5,
         ratioAreaMerch: 0.3,
@@ -79,7 +79,7 @@ export async function createAnalysis(analysisData) {
       `Created analysis with ID: ${newAnalysis.id} for building ID: ${analysisData.buildingId}.`,
     )
 
-    // revalidatePath("/dashboard");
+    revalidatePath("/analytics")
 
     return { success: true, analysis: newAnalysis }
   } catch (error) {

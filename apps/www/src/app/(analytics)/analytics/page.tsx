@@ -13,8 +13,6 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { AddAnalysisSheet } from "@/components/buttons/AddAnalysisSheet"
-import AddTenantDropdownButton from "@/components/buttons/AddTenantDropdownButton"
-import { AddTenantSheet } from "@/components/buttons/AddTenantSheet"
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
@@ -72,7 +70,6 @@ export default async function DashboardPage() {
 
   // Fetch analyses associated with the user's workspace
   const { success, analyses = [], error } = await getAnalyses(userWorkspace.id)
-  console.log("analyses", analyses)
 
   if (!success) {
     return (
@@ -113,7 +110,9 @@ export default async function DashboardPage() {
               {analyses.map((analysis) => (
                 <Card key={analysis.id}>
                   <CardHeader>
-                    <CardTitle>{analysis.name}</CardTitle>
+                    <Link href={`/analytics/${analysis.id}`}>
+                      <CardTitle>{analysis.name}</CardTitle>
+                    </Link>
                   </CardHeader>
                   <CardContent>
                     <p>Bygning: {analysis.building?.name || "N/A"}</p>
