@@ -3,7 +3,7 @@ import { CustomContext } from "../../types";
 import { Env } from "../../env";
 import { verifyFrontend } from "../../auth/handler";
 
-const DEBUG: boolean = true; // NB! Change to false before committing.
+const DEBUG: boolean = false; // NB! Change to false before committing.
 
 
 export default async function internalAuthMiddleware(

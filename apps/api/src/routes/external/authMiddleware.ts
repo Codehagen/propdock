@@ -46,7 +46,7 @@ export default async function authMiddleware(
 
   // User look-up
   const res = await prisma(c.env).user.findUnique({
-    where: { apiKey },
+    where: { apiKey }, // TODO: this needs a rewrite, since we changed from User.apiKey to User.apiKeys[]
   });
 
   if (!res) {

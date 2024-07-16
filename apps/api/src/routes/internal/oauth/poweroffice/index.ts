@@ -13,32 +13,25 @@ app.get("/onboarding-start", async (c) => {
 
     const url     = PO_ONBOARDING_START
 
-    // TODO: remove
-    console.log("DEBUG - Starting PO onboarding:")
-    console.log("DEBUG - Headers:", headers)
-    console.log("DEBUG - Body:", body)
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
+        });
 
-    // try {
-    //     const response = await fetch(url, {
-    //         method: "POST",
-    //         headers: headers,
-    //         body: JSON.stringify(body)
-    //     });
-
-    //     if (response.ok) {
-    //         const responseData: any = await response.json();
-    //         const temporaryUrl = responseData["TemporaryUrl"];
-    //         return c.json({ ok: true, message: temporaryUrl }, 200);
-    //     } else {
-    //         console.error(`Error: ${response.statusText}`);
-    //         return c.json({ ok: false, message: `Failed to start onboarding`, error: response.statusText }, { status: response.status });
-    //     }
-    // } catch (error: any) {
-    //     console.error(`Network error: ${error.message}`);
-    //     return c.json({ error: `Network error: ${error.message}` }, 500);
-    // }
-
-    return c.json({ ok: true, message: "https://dummyUrl.com/redirect/callback/yolo" }, 200);
+        if (response.ok) {
+            const responseData: any = await response.json();
+            const temporaryUrl = responseData["TemporaryUrl"];
+            return c.json({ ok: true, message: temporaryUrl }, 200);
+        } else {
+            console.error(`Error: ${response.statusText}`);
+            return c.json({ ok: false, message: `Failed to start onboarding`, error: response.statusText }, { status: response.status });
+        }
+    } catch (error: any) {
+        console.error(`Network error: ${error.message}`);
+        return c.json({ error: `Network error: ${error.message}` }, 500);
+    }
 })
 
 
@@ -63,19 +56,18 @@ app.post("/onboarding-finalize", async(c) => {
     }
 
     // Exchange the onboarding code for client's key
-    // let clientKey
-    // try {
-    //     clientKey = await exchangeCodeForKey(c.env, token)
+    let clientKey
+    try {
+        clientKey = await exchangeCodeForKey(c.env, token)
 
-    //     // Save key to db
-    //     await saveAPIKey(db, workspaceId, clientKey, serviceName)
-    // } catch(error) {
-    //     console.error(`Error: ${error}`)
-    //     return c.json({ ok: false, error: error}, 500)
-    // }
+        // Save key to db
+        await saveAPIKey(db, workspaceId, clientKey, serviceName)
+    } catch(error) {
+        console.error(`Error: ${error}`)
+        return c.json({ ok: false, error: error}, 500)
+    }
 
-    // return c.json({ ok: true }, 200);
-    return c.json({ ok: true, message: "Received these inputs", details: { workspaceId: workspaceId, token: token, serviceName: serviceName } }, 200);
+    return c.json({ ok: true }, 200);
 })
 
 

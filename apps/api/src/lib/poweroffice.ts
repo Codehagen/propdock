@@ -8,8 +8,6 @@ const PO_ROOT = PO_ROOT_DEMO
 const PO_ONBOARDING_START = `${PO_ROOT}/onboarding/initiate`
 const PO_ONBOARDING_FINAL = `${PO_ROOT}/onboarding/finalize`
 
-const PO_ONBOARD_REDIRECT = "" // url for redirect after onboarding
-
 
 function getOnboardingHeaders(env: Env) {
     const headers = {
@@ -25,8 +23,8 @@ function getOnboardingHeaders(env: Env) {
 function getOnboardingBody(env: Env) {
     const body    = {
         "ApplicationKey": env.PO_APP_KEY,
-        //"RedirectUri"   : PO_ONBOARD_REDIRECT,
-        "RedirectUri"   : "localhost:8787/api/internal/oauth/poweroffice/callback-test"
+        "RedirectUri"   : env.PO_ONBOARD_REDIRECT,
+        //"RedirectUri"   : "localhost:8787/api/internal/oauth/poweroffice/callback-test"
     }
 
     return body
@@ -40,6 +38,8 @@ async function exchangeCodeForKey(env: Env, code: string): Promise<string> {
         "OnboardingToken": code,
     }
 
+    console.log("Exchanging key:", code)
+
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -50,6 +50,7 @@ async function exchangeCodeForKey(env: Env, code: string): Promise<string> {
         if (response.ok) {
             const responseData: any = await response.json();
             const key = responseData["OnboardedClientsInformation"][0]["ClientKey"];
+            console.log("Exchange successful!")
             return key
         } else {
             console.error(`Error: ${response.statusText}`);
