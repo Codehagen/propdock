@@ -1,13 +1,14 @@
+// pages/settings/api.js
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
+
+import { Separator } from "@dingify/ui/components/separator"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
-import { UserMobileForm } from "@/components/forms/user-mobile-form" // Import UserMobileForm
-import { UserNameForm } from "@/components/forms/user-name-form"
 
 export const metadata = {
   title: "API keys",
@@ -21,18 +22,17 @@ export default async function SettingsPage() {
     redirect(authOptions.pages?.signIn || "/login")
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+  const userApiKeys = await prisma.userApiKey.findMany({
+    where: { userId: session.user.id },
     select: {
       id: true,
-      name: true,
-      email: true,
-      phone: true,
-      apiKey: true,
+      secret: true,
+      createdAt: true,
+      serviceName: true,
     },
   })
 
-  if (!user) {
+  if (!userApiKeys) {
     redirect(authOptions.pages?.signIn || "/login")
   }
 
@@ -43,7 +43,21 @@ export default async function SettingsPage() {
         text="Manage account and website settings."
       />
       <AddApiKeyButton />
-      <p>This is your apiKey: {user.apiKey}</p>
+      <div>
+        <h2>Your API Keys</h2>
+        {userApiKeys.length > 0 ? (
+          userApiKeys.map((key) => (
+            <div key={key.id}>
+              <p>API Key: {key.secret}</p>
+              <p>Name: {key.serviceName}</p>
+              <p>Created At: {key.createdAt.toISOString()}</p>
+              <Separator />
+            </div>
+          ))
+        ) : (
+          <p>You have no API keys.</p>
+        )}
+      </div>
     </DashboardShell>
   )
 }
