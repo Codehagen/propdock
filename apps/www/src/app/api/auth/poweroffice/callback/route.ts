@@ -5,6 +5,8 @@ import axios from "axios"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const token = searchParams.get("token")

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const authUrl = `https://poweroffice.no/${message}`
+    const authUrl = `${message}`
     return NextResponse.json({ url: authUrl }, { status: 200 })
   } catch (error) {
     console.error("Error initiating OAuth", {
