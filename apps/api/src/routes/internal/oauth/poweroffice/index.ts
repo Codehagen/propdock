@@ -18,25 +18,27 @@ app.get("/onboarding-start", async (c) => {
     console.log("DEBUG - Headers:", headers)
     console.log("DEBUG - Body:", body)
 
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(body)
-        });
+    // try {
+    //     const response = await fetch(url, {
+    //         method: "POST",
+    //         headers: headers,
+    //         body: JSON.stringify(body)
+    //     });
 
-        if (response.ok) {
-            const responseData: any = await response.json();
-            const temporaryUrl = responseData["TemporaryUrl"];
-            return c.json({ ok: true, message: temporaryUrl }, 200);
-        } else {
-            console.error(`Error: ${response.statusText}`);
-            return c.json({ ok: false, message: `Failed to start onboarding`, error: response.statusText }, { status: response.status });
-        }
-    } catch (error: any) {
-        console.error(`Network error: ${error.message}`);
-        return c.json({ error: `Network error: ${error.message}` }, 500);
-    }
+    //     if (response.ok) {
+    //         const responseData: any = await response.json();
+    //         const temporaryUrl = responseData["TemporaryUrl"];
+    //         return c.json({ ok: true, message: temporaryUrl }, 200);
+    //     } else {
+    //         console.error(`Error: ${response.statusText}`);
+    //         return c.json({ ok: false, message: `Failed to start onboarding`, error: response.statusText }, { status: response.status });
+    //     }
+    // } catch (error: any) {
+    //     console.error(`Network error: ${error.message}`);
+    //     return c.json({ error: `Network error: ${error.message}` }, 500);
+    // }
+
+    return c.json({ ok: true, message: "https://dummyUrl.com/redirect/callback/yolo" }, 200);
 })
 
 
@@ -52,27 +54,28 @@ app.post("/onboarding-finalize", async(c) => {
     const db = prisma(c.env)
 
     // Get request.body params
-    let workspaceId, code, serviceName
+    let workspaceId, token, serviceName
     try {
-        ({ workspaceId, code, serviceName } = body)
+        ({ workspaceId, token, serviceName } = body)
     } catch(error) {
         console.error("Invalid or incomplete `body`")
         return c.json({ ok: false, message: "Request body not in valid format or missing required attributes"}, 400)
     }
 
     // Exchange the onboarding code for client's key
-    let clientKey
-    try {
-        clientKey = await exchangeCodeForKey(c.env, code)
+    // let clientKey
+    // try {
+    //     clientKey = await exchangeCodeForKey(c.env, token)
 
-        // Save key to db
-        await saveAPIKey(db, workspaceId, clientKey, serviceName)
-    } catch(error) {
-        console.error(`Error: ${error}`)
-        return c.json({ ok: false, error: error}, 500)
-    }
+    //     // Save key to db
+    //     await saveAPIKey(db, workspaceId, clientKey, serviceName)
+    // } catch(error) {
+    //     console.error(`Error: ${error}`)
+    //     return c.json({ ok: false, error: error}, 500)
+    // }
 
-    return c.json({ ok: true }, 200);
+    // return c.json({ ok: true }, 200);
+    return c.json({ ok: true, message: "Received these inputs", details: { workspaceId: workspaceId, token: token, serviceName: serviceName } }, 200);
 })
 
 
