@@ -2,7 +2,16 @@
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
+import { Badge } from "@dingify/ui/components/badge"
 import { Separator } from "@dingify/ui/components/separator"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@dingify/ui/components/table"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
@@ -43,17 +52,31 @@ export default async function SettingsPage() {
         text="Manage account and website settings."
       />
       <AddApiKeyButton />
-      <div>
-        <h2>Your API Keys</h2>
+      <div className="mt-6">
+        <h2 className="mb-4 text-xl font-bold">Your API Keys</h2>
         {userApiKeys.length > 0 ? (
-          userApiKeys.map((key) => (
-            <div key={key.id}>
-              <p>API Key: {key.secret}</p>
-              <p>Name: {key.serviceName}</p>
-              <p>Created At: {key.createdAt.toISOString()}</p>
-              <Separator />
-            </div>
-          ))
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>API Key</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Created At</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {userApiKeys.map((key) => (
+                <TableRow key={key.id}>
+                  <TableCell>
+                    <Badge variant="outline">{key.secret}</Badge>
+                  </TableCell>
+                  <TableCell>{key.serviceName}</TableCell>
+                  <TableCell>
+                    {new Date(key.createdAt).toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         ) : (
           <p>You have no API keys.</p>
         )}

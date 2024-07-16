@@ -1,3 +1,4 @@
+// pages/settings/api.js
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { getAnalyses } from "@/actions/get-analyst"
@@ -8,6 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@dingify/ui/components/card"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@dingify/ui/components/table"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
@@ -88,7 +97,7 @@ export default async function DashboardPage() {
         <AddAnalysisSheet />
         {/* <AddTenantDropdownButton /> */}
       </DashboardHeader>
-      <div>
+      <div className="flex gap-4">
         {analyses.length === 0 ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="building" />
@@ -102,29 +111,41 @@ export default async function DashboardPage() {
             <AddAnalysisSheet />
           </EmptyPlaceholder>
         ) : (
-          <div className="flex gap-4">
-            <div className="flex-[2]">
+          <>
+            <div className="flex-[2] space-y-4 overflow-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Navn</TableHead>
+                    <TableHead>Bygning</TableHead>
+                    <TableHead>Utleibart areal</TableHead>
+                    <TableHead>Leiepris per kvm per år</TableHead>
+                    <TableHead>Sum nåverdi</TableHead>
+                    <TableHead>Exit verdi</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {analyses.map((analysis) => (
+                    <TableRow key={analysis.id}>
+                      <TableCell>
+                        <Link href={`/analytics/${analysis.id}`}>
+                          {analysis.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{analysis.building?.name || "N/A"}</TableCell>
+                      <TableCell>{analysis.rentableArea}</TableCell>
+                      <TableCell>{analysis.rentPerArea}</TableCell>
+                      <TableCell>{analysis.sumValueNow}</TableCell>
+                      <TableCell>{analysis.sumValueExit}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="flex-[1]">
               <PropertyMap />
             </div>
-            <div className="flex-[1] space-y-4">
-              {analyses.map((analysis) => (
-                <Card key={analysis.id}>
-                  <CardHeader>
-                    <Link href={`/analytics/${analysis.id}`}>
-                      <CardTitle>{analysis.name}</CardTitle>
-                    </Link>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Bygning: {analysis.building?.name || "N/A"}</p>
-                    <p>Utleibart areal: {analysis.rentableArea}</p>
-                    <p>Leiepris per kvm per år: {analysis.rentPerArea}</p>
-                    <p>Sum nåverdi: {analysis.sumValueNow}</p>
-                    <p>Exit verdi: {analysis.sumValueExit}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+          </>
         )}
       </div>
     </DashboardShell>
