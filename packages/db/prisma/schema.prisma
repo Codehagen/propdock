@@ -55,20 +55,20 @@ model User {
   language            String?      @default("english")
   onboardingEmailSent Boolean      @default(false)
 
-  accounts       Account[]
-  sessions       Session[]
-  communications TenantCommunications[]
+  accounts            Account[]
+  sessions            Session[]
+  communications      TenantCommunications[]
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt           DateTime  @default(now()) @map(name: "created_at")
+  updatedAt           DateTime  @default(now()) @map(name: "updated_at")
 
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
-  workspaceId String?
-  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId            String?
+  workspace              Workspace? @relation(fields: [workspaceId], references: [id])
 
   @@map(name: "users")
 }
@@ -96,8 +96,8 @@ model Workspace {
   invoices   CustomerInvoice[]
   apiKeys    WSApiKey[]
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Property {
@@ -118,8 +118,8 @@ model Property {
   accountingId Int?
   accounting   BalancedAccounts?
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Building {
@@ -179,8 +179,8 @@ model CommonArea {
   floor       Floor  @relation(fields: [floorId], references: [id])
   priceWeight Float
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 }
 
 model Tenant {
@@ -254,8 +254,8 @@ model Contract {
 
   collateral Boolean? // Sikkerhetsstillelse
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt       DateTime @default(now()) @map(name: "created_at")
+  updatedAt       DateTime @default(now()) @map(name: "updated_at")
 }
 
 enum ContractType {
@@ -377,14 +377,14 @@ model FinancialAnalysisProperty {
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
 }
 
 model WSApiKey {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
   validTo     DateTime?
   isActive    Boolean   @default(true)
@@ -396,23 +396,23 @@ model WSApiKey {
 }
 
 model UserApiKey {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
   validTo     DateTime?
   isActive    Boolean   @default(true)
   serviceName String
   secret      String    @unique
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model TenantCommunications {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
 
   type       String
   identifier String // Telephone number or email address
@@ -423,14 +423,15 @@ model TenantCommunications {
 }
 
 model CustomerInvoice {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   tenantId    String
   tenant      Tenant    @relation(fields: [tenantId], references: [id])
 }
+
 
 // if we need full reset : npx prisma db push --force-reset
