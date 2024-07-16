@@ -1,36 +1,35 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getTenants } from "@/actions/get-tenants";
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { getAnalyses } from "@/actions/get-analyst"
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
-import AddTenantDropdownButton from "@/components/buttons/AddTenantDropdownButton";
-import { AddTenantSheet } from "@/components/buttons/AddTenantSheet";
-import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import PropertyMap from "@/components/maps/PropertyMap";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/db"
+import { getCurrentUser } from "@/lib/session"
+import { AddAnalysisSheet } from "@/components/buttons/AddAnalysisSheet"
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import PropertyMap from "@/components/maps/PropertyMap"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 export const metadata = {
   title: "Propdock Analyser - Oversikt over dine analyser",
   description:
     "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
-};
+}
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login");
+    redirect(authOptions.pages?.signIn || "/login")
   }
 
   // Fetch workspace associated with the user
@@ -45,7 +44,7 @@ export default async function DashboardPage() {
     select: {
       id: true,
     },
-  });
+  })
 
   if (!userWorkspace) {
     return (
@@ -66,18 +65,18 @@ export default async function DashboardPage() {
           <AddWorkspaceButton />
         </EmptyPlaceholder>
       </DashboardShell>
-    );
+    )
   }
 
-  // Fetch tenants associated with the user's workspace
-  const { success, tenants = [], error } = await getTenants(userWorkspace.id);
+  // Fetch analyses associated with the user's workspace
+  const { success, analyses = [], error } = await getAnalyses(userWorkspace.id)
 
   if (!success) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error} />
       </DashboardShell>
-    );
+    )
   }
 
   return (
@@ -86,21 +85,21 @@ export default async function DashboardPage() {
         heading="Analyser"
         text="Dine analyser for dine eiendommer"
       >
-        <AddTenantSheet />
-        <AddTenantDropdownButton />
+        <AddAnalysisSheet />
+        {/* <AddTenantDropdownButton /> */}
       </DashboardHeader>
       <div>
-        {tenants.length === 0 ? (
+        {analyses.length === 0 ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="building" />
             <EmptyPlaceholder.Title>
-              Legg til din første leietaker
+              Legg til din første analyse
             </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              Du har ingen leietakere ennå. Legg til en leietaker for å komme i
+              Du har ingen analyser ennå. Legg til en analyse for å komme i
               gang.
             </EmptyPlaceholder.Description>
-            <AddTenantSheet />
+            <AddAnalysisSheet />
           </EmptyPlaceholder>
         ) : (
           <div className="flex gap-4">
@@ -108,20 +107,19 @@ export default async function DashboardPage() {
               <PropertyMap />
             </div>
             <div className="flex-[1] space-y-4">
-              {tenants.map((tenant) => (
-                <Card key={tenant.id}>
+              {analyses.map((analysis) => (
+                <Card key={analysis.id}>
                   <CardHeader>
-                    <CardTitle>{tenant.name}</CardTitle>
+                    <Link href={`/analytics/${analysis.id}`}>
+                      <CardTitle>{analysis.name}</CardTitle>
+                    </Link>
                   </CardHeader>
                   <CardContent>
-                    <p>Organisasjonsnummer: {tenant.orgnr}</p>
-                    <p>Antall ansatte: {tenant.numEmployees}</p>
-                    <p>Bygning: {tenant.building?.name || "N/A"}</p>
-                    <p>Etasje: {tenant.floor ? tenant.floor.number : "N/A"}</p>
-                    <p>
-                      Kontorplass:{" "}
-                      {tenant.officeSpace ? tenant.officeSpace.name : "N/A"}
-                    </p>
+                    <p>Bygning: {analysis.building?.name || "N/A"}</p>
+                    <p>Utleibart areal: {analysis.rentableArea}</p>
+                    <p>Leiepris per kvm per år: {analysis.rentPerArea}</p>
+                    <p>Sum nåverdi: {analysis.sumValueNow}</p>
+                    <p>Exit verdi: {analysis.sumValueExit}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -130,5 +128,5 @@ export default async function DashboardPage() {
         )}
       </div>
     </DashboardShell>
-  );
+  )
 }
