@@ -2,23 +2,30 @@
 
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { SendIcon } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { addDays, differenceInCalendarDays, format } from "date-fns"
+import { nb } from "date-fns/locale"
+import { CalendarIcon, PlusIcon, SendIcon } from "lucide-react"
+import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { Badge } from "@dingify/ui/components/badge"
 import { Button } from "@dingify/ui/components/button"
+import { Calendar } from "@dingify/ui/components/calendar"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@dingify/ui/components/form"
 import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@dingify/ui/components/popover"
 import {
   Select,
   SelectContent,
@@ -28,16 +35,9 @@ import {
 } from "@dingify/ui/components/select"
 import { Separator } from "@dingify/ui/components/separator"
 import { Textarea } from "@dingify/ui/components/textarea"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@dingify/ui/components/tooltip"
 
-import { PlusIcon } from "../shared/icons"
+import { cn } from "@/lib/utils"
 
-// Define validation schema
 const InvoiceSchema = z.object({
   customer: z.string().min(1, "Kunde er påkrevd"),
   email: z.string().email("Ugyldig epostadresse").min(1, "Epost er påkrevd"),
@@ -51,13 +51,16 @@ const InvoiceSchema = z.object({
     .string()
     .email("Ugyldig epostadresse")
     .min(1, "Epost er påkrevd"),
-  date: z.string().min(1, "Dato er påkrevd"),
-  dueDate: z.string().min(1, "Forfallsdato er påkrevd"),
+  date: z.date({ required_error: "Dato er påkrevd" }),
+  dueDate: z.date({ required_error: "Forfallsdato er påkrevd" }),
   accountNumber: z.string().min(1, "Kontonummer er påkrevd"),
   comment: z.string().optional(),
 })
 
-export default function TenantSendInvoice() {
+export default function TenantSendInvoice({ customers, products }) {
+  const today = new Date()
+  const fourteenDaysFromToday = addDays(today, 14)
+
   const form = useForm({
     resolver: zodResolver(InvoiceSchema),
     defaultValues: {
@@ -70,17 +73,53 @@ export default function TenantSendInvoice() {
       quantity: 1,
       price: 0,
       invoiceEmail: "",
-      date: "",
-      dueDate: "",
+      date: today,
+      dueDate: fourteenDaysFromToday,
       accountNumber: "",
       comment: "",
     },
   })
 
+  const quantity = useWatch({ control: form.control, name: "quantity" })
+  const price = useWatch({ control: form.control, name: "price" })
+  const date = useWatch({ control: form.control, name: "date" })
+  const dueDate = useWatch({ control: form.control, name: "dueDate" })
+
+  const totalPrice = quantity * price
+  const vat = totalPrice * 0.25
+  const totalPriceWithVat = totalPrice + vat
+
+  const daysBetween =
+    date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
+
   const onSubmit = async (data) => {
-    console.log(data)
-    // Handle form submission
-    toast.success("Faktura opprettet")
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const isSuccess = true
+        if (isSuccess) {
+          resolve({ name: "Invoice" })
+        } else {
+          reject("Error creating invoice")
+        }
+      }, 2000)
+    })
+
+    toast.promise(promise, {
+      loading: "Vennligst vent...",
+      success: (data) => {
+        return `Faktura er blitt sendt`
+      },
+      error: "Error",
+    })
+
+    promise
+      .then(() => {
+        console.log(data)
+        form.reset()
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (
@@ -133,47 +172,21 @@ export default function TenantSendInvoice() {
                               <SelectValue placeholder="Velg en kunde" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="genesis">
-                                <div className="flex items-start gap-3 text-muted-foreground">
-                                  <div className="grid gap-0.5">
-                                    <p>Proaktiv Eiendomsmegling</p>
-                                    <p className="text-xs" data-description>
-                                      Our fastest model for general use cases.
-                                    </p>
+                              {customers.map((customer) => (
+                                <SelectItem
+                                  key={customer.id}
+                                  value={customer.id}
+                                >
+                                  <div className="flex items-start gap-3 text-muted-foreground">
+                                    <div className="grid gap-0.5">
+                                      <p>{customer.name}</p>
+                                      <p className="text-xs" data-description>
+                                        {customer.orgnr}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="explorer">
-                                <div className="flex items-start gap-3 text-muted-foreground">
-                                  <div className="grid gap-0.5">
-                                    <p>
-                                      Neural{" "}
-                                      <span className="font-medium text-foreground">
-                                        Explorer
-                                      </span>
-                                    </p>
-                                    <p className="text-xs" data-description>
-                                      Performance and speed for efficiency.
-                                    </p>
-                                  </div>
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="quantum">
-                                <div className="flex items-start gap-3 text-muted-foreground">
-                                  <div className="grid gap-0.5">
-                                    <p>
-                                      Neural{" "}
-                                      <span className="font-medium text-foreground">
-                                        Quantum
-                                      </span>
-                                    </p>
-                                    <p className="text-xs" data-description>
-                                      The most powerful model for complex
-                                      computations.
-                                    </p>
-                                  </div>
-                                </div>
-                              </SelectItem>
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -264,20 +277,26 @@ export default function TenantSendInvoice() {
                         <FormLabel>Produkter</FormLabel>
                         <FormControl>
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => {
+                              field.onChange(value)
+                              const selectedProduct = products.find(
+                                (product) => product.id === value,
+                              )
+                              if (selectedProduct) {
+                                form.setValue("price", selectedProduct.price)
+                              }
+                            }}
                             defaultValue={field.value}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Velg produkt" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="system">Produkt 1</SelectItem>
-                              <SelectItem value="product2">
-                                Produkt 2
-                              </SelectItem>
-                              <SelectItem value="product3">
-                                Produkt 3
-                              </SelectItem>
+                              {products.map((product) => (
+                                <SelectItem key={product.id} value={product.id}>
+                                  {product.name}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -292,7 +311,15 @@ export default function TenantSendInvoice() {
                       <FormItem>
                         <FormLabel>Antall</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="1" {...field} />
+                          <Input
+                            type="number"
+                            placeholder="1"
+                            {...field}
+                            value={field.value || ""}
+                            onChange={(e) =>
+                              field.onChange(parseFloat(e.target.value))
+                            }
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -305,7 +332,15 @@ export default function TenantSendInvoice() {
                       <FormItem>
                         <FormLabel>Pris</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="0,00" {...field} />
+                          <Input
+                            type="number"
+                            placeholder="0,00"
+                            {...field}
+                            value={field.value || ""}
+                            onChange={(e) =>
+                              field.onChange(parseFloat(e.target.value))
+                            }
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -347,15 +382,40 @@ export default function TenantSendInvoice() {
                       control={form.control}
                       name="date"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col">
                           <FormLabel>Dato</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="text"
-                              placeholder="Dagens dato"
-                              {...field}
-                            />
-                          </FormControl>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-[240px] pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground",
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP", { locale: nb })
+                                  ) : (
+                                    <span>Velg en dato</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value ?? undefined}
+                                onSelect={field.onChange}
+                                locale={nb}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -364,15 +424,47 @@ export default function TenantSendInvoice() {
                       control={form.control}
                       name="dueDate"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Forfall</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="text"
-                              placeholder="14 dager"
-                              {...field}
-                            />
-                          </FormControl>
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            Forfall
+                            {date && dueDate && (
+                              <span className="ml-2 text-muted-foreground">
+                                ({daysBetween} dager)
+                              </span>
+                            )}
+                          </FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-[240px] pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground",
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP", { locale: nb })
+                                  ) : (
+                                    <span>Velg en dato</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value ?? undefined}
+                                onSelect={field.onChange}
+                                locale={nb}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -403,11 +495,11 @@ export default function TenantSendInvoice() {
                   <div className="grid gap-2">
                     <div className="flex items-center justify-between">
                       <span>Sum</span>
-                      <span>99,99 NOK</span>
+                      <span>{totalPrice.toFixed(2)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span>Mva</span>
-                      <span>79,99 NOK</span>
+                      <span>{vat.toFixed(2)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span>Rabatt</span>
@@ -415,7 +507,7 @@ export default function TenantSendInvoice() {
                     </div>
                     <div className="flex items-center justify-between font-semibold">
                       <span>Sum</span>
-                      <span>99,99 (179.99 inkl.mva)</span>
+                      <span>{totalPriceWithVat.toFixed(2)} NOK (inkl.mva)</span>
                     </div>
                   </div>
                   <Separator />

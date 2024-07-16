@@ -16,6 +16,18 @@ import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import TenantSendInvoice from "@/components/tenant/TenantSendInvoice"
 
+const mockCustomers = [
+  { id: "genesis", name: "Proaktiv Eiendomsmegling", orgnr: "123456789" },
+  { id: "explorer", name: "Neural Explorer", orgnr: "987654321" },
+  { id: "quantum", name: "Neural Quantum", orgnr: "192837465" },
+]
+
+const mockProducts = [
+  { id: "product1", name: "Produkt 1", price: 100 },
+  { id: "product2", name: "Produkt 2", price: 200 },
+  { id: "product3", name: "Produkt 3", price: 300 },
+]
+
 export default async function ContactPerson({
   params,
 }: {
@@ -44,20 +56,10 @@ export default async function ContactPerson({
             heading="Invoice"
             text="Du må først legge til kontatpersoner før du kan se dem her."
           />
-          {/* <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="user" />
-            <EmptyPlaceholder.Title>
-              Ingen kontaktpersoner
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Legg til kontaktpersoner tilknyttet leietakeren.
-            </EmptyPlaceholder.Description>
-            <AddContactPersonSheet
-              tenantId={tenantDetails?.id}
-              currentPath={`/tenant/${tenantId}/contacts`}
-            />
-          </EmptyPlaceholder> */}
-          <TenantSendInvoice />
+          <TenantSendInvoice
+            customers={mockCustomers}
+            products={mockProducts}
+          />
         </DashboardShell>
       )
     }
@@ -67,7 +69,7 @@ export default async function ContactPerson({
         <DashboardHeader
           heading={tenantDetails.name}
           text="Detaljer om kontaktpersonene."
-        ></DashboardHeader>
+        />
         <div>asdasda</div>
       </DashboardShell>
     )
