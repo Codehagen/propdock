@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Fetch the current user dynamically
     const user = await getCurrentUser()
     const userId = user?.id
 
@@ -60,8 +61,9 @@ export async function GET(request: NextRequest) {
       },
     )
 
-    // Redirect user back to the original page
-    const redirectUrl = new URL("/settings/import", request.url)
+    // Construct absolute URL for redirection
+    const redirectUrl = new URL(request.url)
+    redirectUrl.pathname = "/settings/import"
     return NextResponse.redirect(redirectUrl.toString())
   } catch (error) {
     console.error("Error handling callback", error)
