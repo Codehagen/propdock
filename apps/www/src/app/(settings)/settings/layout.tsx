@@ -31,7 +31,7 @@ export default async function DashboardLayout({
     },
     {
       title: "Import",
-      href: "/settings/",
+      href: "/settings/import",
       icon: "refresh",
     },
     {
