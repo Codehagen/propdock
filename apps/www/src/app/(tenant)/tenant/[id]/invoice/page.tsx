@@ -70,7 +70,7 @@ export default async function ContactPerson({
           heading={tenantDetails.name}
           text="Detaljer om kontaktpersonene."
         />
-        <div>asdasda</div>
+        <TenantSendInvoice customers={mockCustomers} products={mockProducts} />
       </DashboardShell>
     )
   } catch (error) {
