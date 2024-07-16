@@ -59,7 +59,9 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
       {isLoading ? "Disconnecting..." : "Disconnect"}
     </Button>
   ) : (
-    <Button variant="outline" size="sm" onClick={handleOAuth}></Button>
+    <Button variant="outline" size="sm" onClick={handleOAuth}>
+      {isLoading ? "Connecting..." : "Connect"}
+    </Button>
   )
 }
 
