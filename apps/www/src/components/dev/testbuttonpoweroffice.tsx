@@ -21,7 +21,8 @@ const TestPowerofficeButton = () => {
       <Button onClick={handleOAuth}>Connect with PowerOffice</Button>
       <Button
         onClick={() =>
-          (window.location.href = "/api/poweroffice/callback?token=test-token")
+          (window.location.href =
+            "/api/oauth/poweroffice/callback?token=test-token")
         }
       >
         Test Callback

@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation"
+import { getWsApiKeys } from "@/actions/get-ws-api-keys"
+import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react"
 import { getServerSession } from "next-auth"
 
 import { Badge } from "@dingify/ui/components/badge"
@@ -24,7 +26,8 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
-import TestPowerofficeButton from "@/components/dev/testbuttonpoweroffice"
+
+import ConnectorButton from "./_components/ConnectorButton"
 
 export const metadata = {
   title: "Settings",
@@ -38,12 +41,36 @@ export default async function ImportPage() {
     redirect(authOptions.pages?.signIn || "/login")
   }
 
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      workspaceId: true,
+    },
+  })
+
+  if (!user?.workspaceId) {
+    redirect(authOptions.pages?.signIn || "/login")
+  }
+
+  const { apiKeys } = await getWsApiKeys(user.workspaceId)
+
+  // List of all connectors with their default status
   const connectors = [
-    { name: "Poweroffice", provider: "Poweroffice", status: "Disconnected" },
-    { name: "Fiken", provider: "Fiken", status: "Disconnected" },
-    { name: "Tripletex", provider: "Tripletex", status: "Disconnected" },
-    { name: "X-ledger", provider: "X-ledger", status: "Disconnected" },
+    { name: "Poweroffice", provider: "poweroffice", status: "Disconnected" },
+    { name: "Fiken", provider: "fiken", status: "Disconnected" },
+    { name: "Tripletex", provider: "tripletex", status: "Disconnected" },
+    { name: "X-ledger", provider: "x-ledger", status: "Disconnected" },
   ]
+
+  // Update the status of the connectors based on the fetched API keys
+  apiKeys.forEach((key) => {
+    const connector = connectors.find(
+      (c) => c.provider.toLowerCase() === key.serviceName.toLowerCase(),
+    )
+    if (connector) {
+      connector.status = key.isActive ? "Connected" : "Disconnected"
+    }
+  })
 
   return (
     <DashboardShell>
@@ -52,7 +79,6 @@ export default async function ImportPage() {
         text="Manage account and website settings."
       />
       <div className="grid gap-10">
-        <TestPowerofficeButton />
         <div className="flex h-full flex-col">
           <header className="flex items-center justify-between border-b bg-background px-6 py-4">
             <h1 className="text-2xl font-bold">API Connectors</h1>
@@ -72,7 +98,11 @@ export default async function ImportPage() {
                     <div className="flex items-center justify-between">
                       <span>{connector.provider}</span>
                       <XIcon
-                        className={`h-4 w-4 ${connector.status === "Connected" ? "text-green-500" : "text-red-500"}`}
+                        className={`h-4 w-4 ${
+                          connector.status === "Connected"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
                       />
                     </div>
                   </DropdownMenuItem>
@@ -109,11 +139,11 @@ export default async function ImportPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Button variant="outline" size="sm">
-                        {connector.status === "Connected"
-                          ? "Disconnect"
-                          : "Connect"}
-                      </Button>
+                      <ConnectorButton
+                        serviceName={connector.provider}
+                        status={connector.status}
+                        workspaceId={user.workspaceId}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -123,85 +153,5 @@ export default async function ImportPage() {
         </div>
       </div>
     </DashboardShell>
-  )
-}
-
-function CheckIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  )
-}
-
-function ChevronDownIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  )
-}
-
-function PackageIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m7.5 4.27 9 5.15" />
-      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-      <path d="m3.3 7 8.7 5 8.7-5" />
-      <path d="M12 22V12" />
-    </svg>
-  )
-}
-
-function XIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
   )
 }
