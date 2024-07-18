@@ -14,6 +14,10 @@
     "noImplicitAny": false, // TODO: Resolve errors when setting this to 'true'
     "useUnknownInCatchVariables": false // TODO: Resolve errors when setting this to 'true'
   },
-  "include": ["src", ".next/types/**/*.ts"],
+  "include": [
+    "src",
+    ".next/types/**/*.ts",
+    "trigger.config.ts"
+  ],
   "exclude": ["node_modules", ".contentlayer/generated"]
 }

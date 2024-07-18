@@ -8,6 +8,8 @@ import { DashboardShell } from "@/components/dashboard/shell"
 import { UserMobileForm } from "@/components/forms/user-mobile-form" // Import UserMobileForm
 import { UserNameForm } from "@/components/forms/user-name-form"
 
+import CreateInvoiceComponent from "../../../components/dev/testtriggerbutton"
+
 export const metadata = {
   title: "Settings",
   description: "Manage account and website settings.",
@@ -43,6 +45,7 @@ export default async function SettingsPage() {
       <div className="grid gap-10">
         <UserNameForm user={{ id: user.id, name: user.name || "" }} />
         <UserMobileForm user={{ id: user.id, phone: user.phone || "" }} />
+        <CreateInvoiceComponent />
       </div>
     </DashboardShell>
   )
