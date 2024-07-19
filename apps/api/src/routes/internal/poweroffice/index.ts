@@ -1,36 +1,35 @@
-import { getAPIKey } from "@/models/apiKeyService"
 import { User } from "@prisma/client"
 
-import { Env } from "@/env" // Ensure you import Env
-import { prisma } from "@/lib/db" // Ensure prisma is correctly imported
+import { Env } from "@/env"
 import { honoFactory } from "@/lib/hono"
+import { getWorkspaceApiKey } from "@/lib/localApiKeys"
+import { getRequestHeaders } from "@/lib/poweroffice"
 
 const app = honoFactory()
-
-// Helper function to validate workspaceId
-function validateWorkspaceId(workspaceId: string | null): string {
-  if (!workspaceId) {
-    throw new Error("Workspace ID is required")
-  }
-  return workspaceId
-}
 
 // Endpoint to get all customers
 app.get("/getcustomer", async (c) => {
   const user: User = c.get("user")!
   const env: Env = c.env as Env
+  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
+
+  console.log("User object:", user)
+  console.log("Environment object:", env)
 
   try {
-    const workspaceId = validateWorkspaceId(user.workspaceId)
-    const apiKey = await getAPIKey(prisma(env), workspaceId, "poweroffice")
+    console.log("Fetching API key for workspace ID:", user.workspaceId)
+    const apiKey = await getWorkspaceApiKey(
+      env,
+      user.workspaceId!,
+      "poweroffice",
+    )
+    console.log("API Key fetched:", apiKey)
+
     const url = `https://goapi.poweroffice.net/demo/v2/Customers`
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`, // Use the fetched API key
-        "Content-Type": "application/json",
-      },
+      headers: poHeaders,
     })
 
     if (response.ok) {
@@ -56,19 +55,20 @@ app.get("/getcustomer", async (c) => {
 app.get("/getcustomer/:id", async (c) => {
   const user: User = c.get("user")!
   const env: Env = c.env as Env
+  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
   const id = c.req.param("id")
 
   try {
-    const workspaceId = validateWorkspaceId(user.workspaceId)
-    const apiKey = await getAPIKey(prisma(env), workspaceId, "poweroffice")
+    const apiKey = await getWorkspaceApiKey(
+      env,
+      user.workspaceId!,
+      "poweroffice",
+    )
     const url = `https://goapi.poweroffice.net/demo/v2/Customers/${id}`
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: poHeaders,
     })
 
     if (response.ok) {
@@ -94,18 +94,19 @@ app.get("/getcustomer/:id", async (c) => {
 app.get("/getproduct", async (c) => {
   const user: User = c.get("user")!
   const env: Env = c.env as Env
+  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
 
   try {
-    const workspaceId = validateWorkspaceId(user.workspaceId)
-    const apiKey = await getAPIKey(prisma(env), workspaceId, "poweroffice")
+    const apiKey = await getWorkspaceApiKey(
+      env,
+      user.workspaceId!,
+      "poweroffice",
+    )
     const url = `https://goapi.poweroffice.net/demo/v2/Products`
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: poHeaders,
     })
 
     if (response.ok) {
@@ -131,19 +132,20 @@ app.get("/getproduct", async (c) => {
 app.get("/getproduct/:id", async (c) => {
   const user: User = c.get("user")!
   const env: Env = c.env as Env
+  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
   const id = c.req.param("id")
 
   try {
-    const workspaceId = validateWorkspaceId(user.workspaceId)
-    const apiKey = await getAPIKey(prisma(env), workspaceId, "poweroffice")
+    const apiKey = await getWorkspaceApiKey(
+      env,
+      user.workspaceId!,
+      "poweroffice",
+    )
     const url = `https://goapi.poweroffice.net/demo/v2/Products/${id}`
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: poHeaders,
     })
 
     if (response.ok) {
@@ -168,20 +170,19 @@ app.get("/getproduct/:id", async (c) => {
 // Endpoint to create a supplier invoice
 app.post("/createinvoice", async (c) => {
   const user: User = c.get("user")!
-  const env: Env = c.env as Env // Cast to Env type
+  const env: Env = c.env as Env
   const invoiceData = await c.req.json()
 
   try {
-    const workspaceId = validateWorkspaceId(user.workspaceId)
-    const apiKey = await getAPIKey(prisma(env), workspaceId, "poweroffice")
+    console.log("Fetching API key for workspace ID:", user.workspaceId)
+    const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
+    console.log("Headers fetched:", poHeaders)
+
     const url = `https://goapi.poweroffice.net/demo/v2/JournalEntryVouchers/SupplierInvoices`
 
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`, // Use the fetched API key
-        "Content-Type": "application/json-patch+json",
-      },
+      headers: poHeaders,
       body: JSON.stringify(invoiceData),
     })
 
