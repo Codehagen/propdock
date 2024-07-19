@@ -81,18 +81,18 @@ function getAuthHeaders(env: Env, client_key: string) {
 }
 
 
-async function getAccessToken(env: Env, user: User, serviceName: string): Promise<string> {
+async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
     const db = prisma(env)
+    const serviceName = "poweroffice"
 
     // Check for token in db
-    let accessTokenDb = await getWorkspaceAccessToken(db, user.workspaceId!, serviceName)
+    let accessTokenDb = await getWorkspaceAccessToken(db, workspaceId, serviceName)
 
     if (accessTokenDb) {
         return accessTokenDb.secret
     }
 
     // There was no token in db OR the token was not valid anymore, so we continue
-    const workspaceId = user.workspaceId!
     const secret = await getWorkspaceApiKey(env, workspaceId, serviceName) // Fetch the workspace's secret
 
     // If the workspace has no secret for this service, throw an error
@@ -145,6 +145,18 @@ async function getNewAccessToken(env: Env, client_key: string): Promise<Record<s
 }
 
 
+async function getRequestHeaders(env: Env, workspaceId: string) {
+    const token = await getAccessToken(env, workspaceId)
+
+    const headers = {
+        'Content-Type': 'application/json',
+        "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
+        'Authorization': `Bearer ${token}`
+    }
+
+    return headers
+}
+
 
 export {
     getOnboardingHeaders,
@@ -153,4 +165,5 @@ export {
     PO_ONBOARDING_START,
     exchangeCodeForKey,
     getAccessToken,
+    getRequestHeaders
 }
