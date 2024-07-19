@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
 import {
   exchangeCodeForKey,
+  getAccessToken,
   getOnboardingBody,
   getOnboardingHeaders,
   PO_ONBOARDING_START,
@@ -84,6 +85,27 @@ app.post("/onboarding-finalize", async (c) => {
   }
 
   return c.json({ ok: true }, 200)
+})
+
+app.get("/token-test", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json(
+      { ok: false, message: "x-user-id header was not supplied" },
+      400,
+    )
+  }
+
+  let token
+  try {
+    token = await getAccessToken(c.env, user, "poweroffice")
+  } catch (error: any) {
+    console.error(error)
+    return c.json({ ok: false, error: error }, 500)
+  }
+
+  return c.json({ ok: true, message: token }, 200)
 })
 
 export const POInternalApp = app
