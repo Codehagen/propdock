@@ -10,21 +10,23 @@ datasource db {
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String    @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
+  refresh_token     String?   @db.Text
+  access_token      String?   @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?  @db.Text
+  id_token          String?   @db.Text
   session_state     String?
-  createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @default(now()) @map(name: "updated_at")
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime  @default(now()) @map(name: "created_at")
+  updatedAt         DateTime  @default(now()) @map(name: "updated_at")
+  resourceId        String?
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource          Resource? @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -43,32 +45,30 @@ model Session {
 }
 
 model User {
-  id                  String       @id @default(cuid())
+  id                  String    @id @default(cuid())
   name                String?
-  email               String?      @unique
+  email               String?   @unique
   emailVerified       DateTime?
   phone               String?
-  apiKeys             UserApiKey[]
-  plan                String       @default("basic")
-  credits             Int          @default(3)
+  plan                String    @default("basic")
+  credits             Int       @default(3)
   image               String?
-  language            String?      @default("english")
-  onboardingEmailSent Boolean      @default(false)
+  language            String?   @default("english")
+  onboardingEmailSent Boolean   @default(false)
 
-  accounts            Account[]
-  sessions            Session[]
-  communications      TenantCommunications[]
+  accounts Account[]
+  sessions Session[]
 
-  createdAt           DateTime  @default(now()) @map(name: "created_at")
-  updatedAt           DateTime  @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
-  workspaceId            String?
-  workspace              Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
 
   @@map(name: "users")
 }
@@ -83,355 +83,177 @@ model VerificationToken {
 }
 
 model Workspace {
-  id         String            @id @default(cuid())
-  name       String
-  orgnr      Int?
-  address    String?
-  postalCode String?
-  city       String?
-  users      User[]
-  properties Property[]
-  buildings  Building[]
-  contracts  Contract[]
-  invoices   CustomerInvoice[]
-  apiKeys    WSApiKey[]
-
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
-}
-
-model Property {
-  id   String @id @default(cuid())
-  name String
-  type String
-
-  orgnr Int?
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-
-  buildings Building[]
-  tenants   Tenant[]
-  contracts Contract[]
-  analysis  FinancialAnalysisProperty[]
-
-  accountingId Int?
-  accounting   BalancedAccounts?
-
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
-}
-
-model Building {
-  id          String                      @id @default(cuid())
-  name        String
-  address     String
-  gnr         Int
-  bnr         Int
-  snr         Int
-  fnr         Int
-  workspaceId String
-  workspace   Workspace                   @relation(fields: [workspaceId], references: [id])
-  propertyId  String
-  property    Property                    @relation(fields: [propertyId], references: [id])
-  floors      Floor[]
-  tenants     Tenant[]
-  contracts   Contract[]
-  analysis    FinancialAnalysisBuilding[]
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-}
-
-model Floor {
   id           String        @id @default(cuid())
-  number       Int
-  buildingId   String
-  building     Building      @relation(fields: [buildingId], references: [id])
-  maxTotalKvm  Int
-  maxOfficeKvm Int
-  maxCommonKvm Int
-  officeSpaces OfficeSpace[]
-  tenants      Tenant[]
-  commonAreas  CommonArea[]
-  contracts    Contract[]
-}
-
-model OfficeSpace {
-  id        String     @id @default(cuid())
-  name      String
-  sizeKvm   Float
-  floorId   String
-  floor     Floor      @relation(fields: [floorId], references: [id])
-  tenants   Tenant[]
-  contracts Contract[]
-  isRented  Boolean
+  name         String
+  orgnr        Int?
+  address      String?
+  postalCode   String?
+  city         String?
+  users        User[]
+  bankAccounts BankAccount[]
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 }
 
-model CommonArea {
-  id          String @id @default(cuid())
-  name        String
-  sizeKvm     Float
-  floorId     String
-  floor       Floor  @relation(fields: [floorId], references: [id])
-  priceWeight Float
+model BankAccount {
+  id              String        @id @default(uuid())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now())
+  resourceId      String?
+  originalId      String?
+  orgId           String?
+  userId          String?
+  name            String
+  accountType     AccountType   @default(BANK)
+  Balance         Balance[]
+  Transaction     Transaction[]
+  resource        Resource?     @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  originalPayload Json?
+  workspaceId     String?
+  workspace       Workspace?    @relation(fields: [workspaceId], references: [id])
 
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  @@map(name: "bank_accounts")
 }
 
-model Tenant {
-  id            String       @id @default(cuid())
-  name          String
-  orgnr         Int?
-  numEmployees  Int          @default(0)
-  buildingId    String
-  building      Building     @relation(fields: [buildingId], references: [id])
-  floorId       String?
-  floor         Floor?       @relation(fields: [floorId], references: [id])
-  officeSpaceId String?
-  officeSpace   OfficeSpace? @relation(fields: [officeSpaceId], references: [id])
-  propertyId    String
-  property      Property     @relation(fields: [propertyId], references: [id])
-
-  contacts       ContactPerson[]
-  contracts      Contract[]
-  communications TenantCommunications[]
-  invoices       CustomerInvoice[]
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+model Balance {
+  id              String       @id @default(uuid())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now())
+  accountId       String?
+  assetId         String?
+  currencyIso     String
+  amount          Decimal
+  date            DateTime
+  type            BalanceType  @default(AVAILABLE)
+  originalPayload Json?
+  bankAccount     BankAccount? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  asset           Asset?       @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  currency        Currency     @relation(fields: [currencyIso], references: [iso], onDelete: Cascade)
 }
 
-model Contract {
-  id            String    @id @default(cuid())
-  workspaceId   String
-  workspace     Workspace @relation(fields: [workspaceId], references: [id])
-  tenantId      String
-  tenant        Tenant    @relation(fields: [tenantId], references: [id])
-  landlordOrgnr Int?
-  landlordName  String? // Utleier
-
-  // TODO: Hvor langt har vi kommet i kontrakten? Stage/step?
-
-  contractType ContractType?
-
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
-  buildingId String
-  building   Building @relation(fields: [buildingId], references: [id])
-
-  floors       Floor[]
-  officeSpaces OfficeSpace[]
-
-  contactId Int
-  contact   ContactPerson @relation(fields: [contactId], references: [id])
-
-  contactName  String?
-  contactEmail String?
-  contactPhone String?
-
-  startDate       DateTime?
-  endDate         DateTime?
-  negotiationDate DateTime?
-  isRenewable     Boolean?  @map(name: "is_renewable") // Kan forlenges?
-  renewablePeriod DateTime? @map(name: "renewable_period") // Lengde på forlengelsesadgang
-
-  // Flyttingsoppfordring ikke tatt med foreløpig
-
-  indexationType IndexationType?
-  indexValue     Float?
-  indexationDate DateTime? // Kontraktsindeks (tidl. dato for leieregulering)
-  baseRent       Float?
-  rentPeriod     Int? // Forfallsperiode
-
-  vatTerms String? // Vilkår for MVA
-
-  businessCategory String? // Leietakers virksomhet
-
-  collateral Boolean? // Sikkerhetsstillelse
-
-  createdAt       DateTime @default(now()) @map(name: "created_at")
-  updatedAt       DateTime @default(now()) @map(name: "updated_at")
+model Currency {
+  iso         String        @id
+  symbol      String
+  numericCode Int?
+  Balance     Balance[]
+  Transaction Transaction[]
 }
 
-enum ContractType {
-  LEASE
-  SUBLEASE
-  INTERNAL
+model Asset {
+  id              String        @id @default(uuid())
+  name            String
+  originalPayload Json?
+  Balance         Balance[]
+  Transaction     Transaction[]
 }
 
-enum IndexationType {
-  MARKET
-  CPI
-  MANUAL
+model Transaction {
+  id              String       @id @default(uuid())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now())
+  accountId       String?
+  assetId         String?
+  currencyIso     String
+  categoryId      String?
+  amount          Decimal
+  date            DateTime
+  description     String
+  originalPayload Json?
+  bankAccount     BankAccount? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  asset           Asset?       @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  category        Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  currency        Currency     @relation(fields: [currencyIso], references: [iso], onDelete: Cascade)
 }
 
-model ContactPerson {
-  id       Int     @id @default(autoincrement())
-  name     String
-  email    String
-  phone    String?
-  fnr      String?
-  tenantId String
-  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+model Category {
+  id           String        @id @default(uuid())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+  name         String
+  icon         String
+  transactions Transaction[]
 
-  contracts Contract[]
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  @@map(name: "categories")
 }
 
-model BalancedAccounts {
-  id Int @id @default(autoincrement())
-
-  propertyId String   @unique
-  property   Property @relation(fields: [propertyId], references: [id])
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+model ConnectorConfig {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  orgId       String
+  secret      Json?
+  env         ConnectorEnv
+  connectorId String
+  connector   Connector    @relation(fields: [connectorId], references: [id], onDelete: Cascade)
 }
 
-model FinancialAnalysisBuilding {
-  id         Int      @id @default(autoincrement())
-  buildingId String
-  building   Building @relation(fields: [buildingId], references: [id])
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  name String
-
-  // 1. 
-  rentableArea     Int // Utleibart areal        : Summér fra alle bygningens officespaces ELLER la bruker inputte manuelt
-  ratioAreaOffice  Float? // Andel areal kontor
-  ratioAreaMerch   Float? // Andel areal handel
-  ratioAreaMisc    Float? // Andel areal annet
-  rentPerArea      Int // Leiepris per kvm per år: Summér fra alle bygningens kontrakter ELLER la bruker inputte manuelt
-  avgExpiryPeriod  Int // Tid til markedsleie/kontraktsutløp
-  appreciationDate DateTime // Verdsettelsesdato
-  lastDayOfYear    DateTime // Siste dag inneværende år
-  lastBalanceDate  DateTime // Siste tilgjengelige balansedato
-  numMonthsOfYear  Int // Antall måneder igjen av inneværende år
-  vacancyPerYear   Json? // Ledighet (per år): { "2024": "10.5", "2025": "9.8"}
-
-  // KPI
-  kpi1 Float
-  kpi2 Float
-  kpi3 Float
-  kpi4 Float
-
-  sumValueNow  Int // Sum nåverdi
-  sumValueExit Int // Exit verdi
-
-  // 2. Eierkostnader
-  ownerCostsMethod Boolean
-
-  // Alt 1
-  ownerCostsManual Float?
-
-  // Alt 2
-  costMaintenance Float? // Vedlikehold
-  costInsurance   Float? // Forsikrings
-  costRevision    Float? // Revision
-  costAdm         Float? // Administrasjon/forvaltning
-  costOther       Float? // Andre driftskostnader
-  costNegotiation Float? // Megling/utleie
-  costLegalFees   Float? // Juridiske honorarer
-  costConsultFees Float? // Honorar konsulenter (arkitekt, byggeledelse, osv)
-  costAssetMgmt   Float? // Asset management
-  costSum         Float? // Estimerte totale eierkostnader per kvm
-
-  costBigExpenses Json? // Store ikke-periodiske kostnader, eks. { "2024": "100.000", "2025": "20.500" }
-
-  // 3. Input knyttet til avkastningskrav
-  useCalcROI Boolean // Bruk beregnet avkastningskrav
-
-  // Alt. 1
-  roiWeightedYield Float? // Vektet real-yield før skatt
-  roiInflation     Float? // Inflasjon
-  roiCalculated    Float? // Beregnet avkastningskrav til DCF   
-
-  // Alt. 2
-  roiManual Float? // Alternativ avkastningskrav (fastsatt)
-
-  // 4. Input markedsdata
-  marketRentOffice Int // Markedsleie kontor
-  marketRentMerch  Int // Markedsleie handel
-  marketRentMisc   Int // Markedsleie annet
-
-  usePrimeYield Boolean // Benytte yield basert på prime yield?
-
-  // Fastsatt yield
-  manYieldOffice   Float? // Yield kontor
-  manYieldMerch    Float? // Yield handel
-  manYieldMisc     Float? // Yield annet
-  manYieldWeighted Float? // Vektet yield
+model Connector {
+  id              String            @id @default(uuid())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now())
+  name            String
+  logoUrl         String?
+  status          ConnectorStatus
+  type            ConnectorType
+  connectorConfig ConnectorConfig[]
+  Integration     Integration[]
 }
 
-model FinancialAnalysisProperty {
-  id         Int      @id @default(autoincrement())
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
-
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+model Integration {
+  id                  String     @id @default(uuid())
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @default(now())
+  name                String
+  logoUrl             String?
+  connectorProviderId String?    @unique
+  connectorId         String
+  connector           Connector  @relation(fields: [connectorId], references: [id], onDelete: Cascade)
+  Resource            Resource[]
 }
 
-model WSApiKey {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+model Resource {
+  id            String        @id @default(uuid())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
+  integrationId String
+  originalId    String
+  userId        String
+  accounts      Account[]
+  integration   Integration   @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  bankAccounts  BankAccount[]
 
-  validTo     DateTime?
-  isActive    Boolean   @default(true)
-  serviceName String
-  secret      String    @unique
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  @@map(name: "resources")
 }
 
-model UserApiKey {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
-
-  validTo     DateTime?
-  isActive    Boolean   @default(true)
-  serviceName String
-  secret      String    @unique
-
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
+enum AccountType {
+  BANK
+  CRYPTO
+  INVESTMENT
 }
 
-model TenantCommunications {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @default(now()) @map(name: "updated_at")
-
-  type       String
-  identifier String // Telephone number or email address
-  userId     String
-  user       User   @relation(fields: [userId], references: [id]) // The person who sent it
-  tenantId   String
-  tenant     Tenant @relation(fields: [tenantId], references: [id])
+enum BalanceType {
+  AVAILABLE
+  BOOKED
+  EXPECTED
 }
 
-model CustomerInvoice {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-  tenantId    String
-  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+enum ConnectorEnv {
+  DEVELOPMENT
+  SANDBOX
+  PRODUCTION
 }
 
+enum ConnectorStatus {
+  ACTIVE
+  BETA
+  DEV
+  INACTIVE
+}
+
+enum ConnectorType {
+  DIRECT
+  AGGREGATED
+}
 
 // if we need full reset : npx prisma db push --force-reset
