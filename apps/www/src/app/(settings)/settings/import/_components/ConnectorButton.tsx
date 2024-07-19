@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import { deleteWsApiKey } from "@/actions/delete-ws-api-key"
+import axios from "axios"
 import { toast } from "sonner"
 
 import { Button } from "@dingify/ui/components/button"
@@ -39,9 +40,9 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
   const handleOAuth = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/oauth/${serviceName}/initiate`)
-      console.debug("YYY:Fetch URL content:", response)
-      const data = await response.json()
+      const response = await axios.get(`/api/oauth/${serviceName}/initiate`)
+      console.debug("YYY: Axios URL content:", response)
+      const data = response.data
       window.location.href = data.url
     } catch (error) {
       toast.error(`Error initiating OAuth: ${error.message}`)
