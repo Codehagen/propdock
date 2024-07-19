@@ -1,5 +1,5 @@
 import { honoFactory } from "@/lib/hono";
-import { getOnboardingHeaders, getOnboardingBody, PO_ONBOARDING_START, exchangeCodeForKey } from "@/lib/poweroffice";
+import { getOnboardingHeaders, getOnboardingBody, PO_ONBOARDING_START, exchangeCodeForKey, getAccessToken } from "@/lib/poweroffice";
 import { saveAPIKey } from "@/models/workspace";
 import { prisma } from "@/lib/db";
 
@@ -68,6 +68,24 @@ app.post("/onboarding-finalize", async(c) => {
     }
 
     return c.json({ ok: true }, 200);
+})
+
+app.get("/token-test", async (c) => {
+    const user = c.get("user")
+
+    if (!user) {
+        return c.json({ ok: false, message: "x-user-id header was not supplied" }, 400);
+    }
+
+    let token
+    try {
+        token = await getAccessToken(c.env, user, "poweroffice")
+    } catch (error: any) {
+        console.error(error)
+        return c.json({ ok: false, error: error}, 500)
+    }
+
+    return c.json({ ok: true, message: token }, 200);
 })
 
 
