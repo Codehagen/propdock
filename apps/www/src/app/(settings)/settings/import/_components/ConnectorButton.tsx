@@ -40,6 +40,7 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
     setIsLoading(true)
     try {
       const response = await fetch(`/api/oauth/${serviceName}/initiate`)
+      console.debug("YYY:Fetch URL content:", response)
       const data = await response.json()
       window.location.href = data.url
     } catch (error) {

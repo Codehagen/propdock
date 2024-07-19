@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
     )
 
     const { ok, message } = response.data
+    console.debug("YYY:PO onboarding-start API response:", ok, message)
 
     if (!ok) {
       return NextResponse.json(
