@@ -70,6 +70,7 @@ app.post("/onboarding-finalize", async(c) => {
     return c.json({ ok: true }, 200);
 })
 
+
 app.get("/token-test", async (c) => {
     const user = c.get("user")
 
@@ -79,13 +80,13 @@ app.get("/token-test", async (c) => {
 
     let token
     try {
-        token = await getAccessToken(c.env, user, "poweroffice")
+        token = await getAccessToken(c.env, user.workspaceId!)
     } catch (error: any) {
         console.error(error)
         return c.json({ ok: false, error: error}, 500)
     }
 
-    return c.json({ ok: true, message: token }, 200);
+    return c.json({ ok: true, user: user, message: token }, 200);
 })
 
 
