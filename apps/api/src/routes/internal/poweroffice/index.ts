@@ -1,207 +1,103 @@
-import { User } from "@prisma/client"
-
-import { Env } from "@/env"
 import { honoFactory } from "@/lib/hono"
-import { getWorkspaceApiKey } from "@/lib/localApiKeys"
-import { getRequestHeaders } from "@/lib/poweroffice"
+import { getCustomers, getCustomer } from "@/lib/poweroffice/customers"
+import { getProducts, getProduct } from "@/lib/poweroffice/products"
+import { createInvoice } from "@/lib/poweroffice/invoice"
+
 
 const app = honoFactory()
 
-// Endpoint to get all customers
-app.get("/getcustomer", async (c) => {
-  const user: User = c.get("user")!
-  const env: Env = c.env as Env
-  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
 
-  console.log("User object:", user)
-  console.log("Environment object:", env)
+// Endpoint to get all customers
+app.get("/customers", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
+  }
 
   try {
-    console.log("Fetching API key for workspace ID:", user.workspaceId)
-    const apiKey = await getWorkspaceApiKey(
-      env,
-      user.workspaceId!,
-      "poweroffice",
-    )
-    console.log("API Key fetched:", apiKey)
-
-    const url = `https://goapi.poweroffice.net/demo/v2/Customers`
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: poHeaders,
-    })
-
-    if (response.ok) {
-      const customers = (await response.json()) as unknown as any[]
-      return c.json(customers, 200)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          message: `Failed to fetch customers`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
+    const customerResponse = await getCustomers(c.env, user.workspaceId!)
+    return c.json({ ok: true, message: customerResponse }, 200)
+  
   } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
+    return c.json({ "ok": false, message: "Network error while fetching customers", "error": error }, 500 )
   }
 })
 
+
 // Endpoint to get a customer by ID
-app.get("/getcustomer/:id", async (c) => {
-  const user: User = c.get("user")!
-  const env: Env = c.env as Env
-  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
+app.get("/customers/:id", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
+  }
+
   const id = c.req.param("id")
 
   try {
-    const apiKey = await getWorkspaceApiKey(
-      env,
-      user.workspaceId!,
-      "poweroffice",
-    )
-    const url = `https://goapi.poweroffice.net/demo/v2/Customers/${id}`
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: poHeaders,
-    })
-
-    if (response.ok) {
-      const customer = (await response.json()) as unknown as any
-      return c.json(customer, 200)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          message: `Failed to fetch customer`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
+    const customerResponse = await getCustomer(c.env, user.workspaceId!, id)
+    return c.json({ ok: true, message: customerResponse }, 200)
+  
   } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
+    return c.json({ "ok": false, message: "Network error while fetching the customer", "error": error }, 500 )
   }
 })
 
 // Endpoint to get all products
-app.get("/getproduct", async (c) => {
-  const user: User = c.get("user")!
-  const env: Env = c.env as Env
-  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
+app.get("/products", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
+  }
 
   try {
-    const apiKey = await getWorkspaceApiKey(
-      env,
-      user.workspaceId!,
-      "poweroffice",
-    )
-    const url = `https://goapi.poweroffice.net/demo/v2/Products`
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: poHeaders,
-    })
-
-    if (response.ok) {
-      const products = (await response.json()) as unknown as any[]
-      return c.json(products, 200)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          message: `Failed to fetch products`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
+    const productResponse = await getProducts(c.env, user.workspaceId!)
+    return c.json({ ok: true, message: productResponse }, 200)
+  
   } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
+    return c.json({ "ok": false, message: "Network error while fetching products", "error": error }, 500 )
   }
 })
 
-// Endpoint to get a product by ID
-app.get("/getproduct/:id", async (c) => {
-  const user: User = c.get("user")!
-  const env: Env = c.env as Env
-  const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
+
+// Endpoint to get a customer by ID
+app.get("/products/:id", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
+  }
+
   const id = c.req.param("id")
 
   try {
-    const apiKey = await getWorkspaceApiKey(
-      env,
-      user.workspaceId!,
-      "poweroffice",
-    )
-    const url = `https://goapi.poweroffice.net/demo/v2/Products/${id}`
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: poHeaders,
-    })
-
-    if (response.ok) {
-      const product = (await response.json()) as unknown as any
-      return c.json(product, 200)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          message: `Failed to fetch product`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
+    const productResponse = await getProduct(c.env, user.workspaceId!, id)
+    return c.json({ ok: true, message: productResponse }, 200)
+  
   } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
+    return c.json({ "ok": false, message: "Network error while fetching the product", "error": error }, 500 )
   }
 })
 
+
 // Endpoint to create a supplier invoice
-app.post("/createinvoice", async (c) => {
-  const user: User = c.get("user")!
-  const env: Env = c.env as Env
+app.post("/invoices/create", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
+  }
+
   const invoiceData = await c.req.json()
 
   try {
-    console.log("Fetching API key for workspace ID:", user.workspaceId)
-    const poHeaders = await getRequestHeaders(c.env, user.workspaceId!)
-    console.log("Headers fetched:", poHeaders)
-
-    const url = `https://goapi.poweroffice.net/demo/v2/JournalEntryVouchers/SupplierInvoices`
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: poHeaders,
-      body: JSON.stringify(invoiceData),
-    })
-
-    if (response.ok) {
-      const createdInvoice = (await response.json()) as unknown as any
-      return c.json(createdInvoice, 201)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          message: `Failed to create supplier invoice`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
+    const invoiceResponse = await createInvoice(c.env, user.workspaceId!, invoiceData)
+    return c.json({ ok: true, message: invoiceResponse }, 200)
+  
   } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
+    return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error }, 500 )
   }
 })
 
