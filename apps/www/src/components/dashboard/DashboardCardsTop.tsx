@@ -1,13 +1,13 @@
-import { format, formatDistanceToNow } from "date-fns";
+import { format } from "date-fns"
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 
-export default function DashboardCardsTop({ properties }) {
+export default function DashboardCardsTop({ dashboardData }) {
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
@@ -32,12 +32,10 @@ export default function DashboardCardsTop({ properties }) {
         </CardHeader>
         <CardContent>
           <div className="text-xl font-bold">
-            {" "}
-            {properties.firstSeen
-              ? formatDistanceToNow(new Date(properties.firstSeen), {
-                  addSuffix: true,
-                })
-              : "N/A"}
+            {new Intl.NumberFormat("no-NO", {
+              style: "currency",
+              currency: "NOK",
+            }).format(dashboardData.totalValue)}
           </div>
           <p className="text-xs text-muted-foreground">
             Totale verdi av porteføljen
@@ -62,11 +60,10 @@ export default function DashboardCardsTop({ properties }) {
         </CardHeader>
         <CardContent>
           <div className="text-xl font-bold">
-            {properties.lastSeen
-              ? formatDistanceToNow(new Date(properties.lastSeen), {
-                  addSuffix: true,
-                })
-              : "N/A"}
+            {new Intl.NumberFormat("no-NO", {
+              style: "currency",
+              currency: "NOK",
+            }).format(dashboardData.totalIncome)}
           </div>
           <p className="text-xs text-muted-foreground">Stipulert inntekt</p>
         </CardContent>
@@ -91,10 +88,14 @@ export default function DashboardCardsTop({ properties }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {properties.mostUsedFeature || "N/A"}
+            {(
+              (dashboardData.rentedUnits / dashboardData.totalUnits) *
+              100
+            ).toFixed(1)}
+            %
           </div>
           <p className="text-xs text-muted-foreground">
-            Hvis prosent av antall utleide enheter
+            {dashboardData.rentedUnits} av {dashboardData.totalUnits} enheter
           </p>
         </CardContent>
       </Card>
@@ -118,13 +119,13 @@ export default function DashboardCardsTop({ properties }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {properties.events ? properties.events.length : "N/A"}
+            {dashboardData.expiringContracts}
           </div>
           <p className="text-xs text-muted-foreground">
-            Vis leiekontrakter som går ut innen 6 måneder
+            Leiekontrakter som går ut innen 6 måneder
           </p>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

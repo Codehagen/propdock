@@ -37,10 +37,10 @@ import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
+    message: "Navnet må være minst 2 tegn.",
   }),
   appreciationDate: z.date({
-    required_error: "Appreciation date is required.",
+    required_error: "Verdivurderingsdato er påkrevd.",
   }),
 })
 
@@ -73,13 +73,13 @@ export function EditAnalysisNameCard({
         appreciationDate: data.appreciationDate,
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -99,9 +99,9 @@ export function EditAnalysisNameCard({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Analysis Name" {...field} />
+                    <Input placeholder="Analysenavn" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,7 +112,7 @@ export function EditAnalysisNameCard({
               name="appreciationDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Appreciation Date</FormLabel>
+                  <FormLabel>Verdivurderingsdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -126,7 +126,7 @@ export function EditAnalysisNameCard({
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Velg en dato</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -149,7 +149,7 @@ export function EditAnalysisNameCard({
               )}
             />
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

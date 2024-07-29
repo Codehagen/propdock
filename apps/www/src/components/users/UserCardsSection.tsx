@@ -26,31 +26,21 @@ export default function UserCardsSection({ tenantDetails }) {
 
     const currentDate = new Date()
 
-    const futureContracts = contracts.filter(
-      (contract) => new Date(contract.endDate) > currentDate,
-    )
-
-    if (futureContracts.length > 0) {
-      const activeContract = futureContracts.reduce((latest, contract) => {
-        return new Date(contract.endDate) > new Date(latest.endDate)
-          ? contract
-          : latest
-      })
-      console.log("Active Contract:", activeContract)
-      return differenceInDays(new Date(activeContract.endDate), currentDate)
-    }
-
-    const latestContract = contracts.reduce((latest, contract) => {
-      return new Date(contract.endDate) > new Date(latest.endDate)
+    // Find the active or future contract with the latest end date
+    const activeContract = contracts.reduce((latest, contract) => {
+      const contractEndDate = new Date(contract.endDate)
+      return contractEndDate > currentDate &&
+        contractEndDate > new Date(latest.endDate)
         ? contract
         : latest
     }, contracts[0])
 
-    if (!latestContract ?? !latestContract.endDate) {
-      return null
+    if (new Date(activeContract.endDate) <= currentDate) {
+      return null // No active or future contracts
     }
 
-    return differenceInDays(new Date(latestContract.endDate), currentDate)
+    console.log("Active Contract:", activeContract)
+    return differenceInDays(new Date(activeContract.endDate), currentDate)
   }
 
   const remainingDays = getRemainingDays(tenantDetails.contracts)

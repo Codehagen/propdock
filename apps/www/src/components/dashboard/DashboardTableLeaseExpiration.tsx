@@ -1,7 +1,7 @@
-import * as React from "react";
-import Link from "next/link";
+import * as React from "react"
+import Link from "next/link"
 
-import { Button, buttonVariants } from "@dingify/ui/components/button";
+import { Button, buttonVariants } from "@dingify/ui/components/button"
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table";
+} from "@dingify/ui/components/table"
 
 const leaseExpirationData = [
   {
@@ -62,7 +62,7 @@ const leaseExpirationData = [
     jun: 1,
     total: 8,
   },
-];
+]
 
 export default function DashboardTableLeaseExpiration() {
   return (
@@ -112,5 +112,5 @@ export default function DashboardTableLeaseExpiration() {
         </Link>
       </CardFooter>
     </Card>
-  );
+  )
 }

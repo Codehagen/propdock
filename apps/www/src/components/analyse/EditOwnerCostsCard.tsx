@@ -30,27 +30,42 @@ const FormSchema = z.object({
   ownerCostsMethod: z.boolean().default(false).optional(),
   ownerCostsManual: z
     .string()
-    .nonempty("Owner Costs Manual is required.")
+    .nonempty("Manuelle eierkostnader er påkrevd.")
     .optional(),
   costMaintenance: z
     .string()
-    .nonempty("Cost Maintenance is required.")
+    .nonempty("Vedlikeholdskostnader er påkrevd.")
     .optional(),
-  costInsurance: z.string().nonempty("Cost Insurance is required.").optional(),
-  costRevision: z.string().nonempty("Cost Revision is required.").optional(),
-  costAdm: z.string().nonempty("Cost Adm is required.").optional(),
-  costOther: z.string().nonempty("Cost Other is required.").optional(),
+  costInsurance: z
+    .string()
+    .nonempty("Forsikringskostnader er påkrevd.")
+    .optional(),
+  costRevision: z
+    .string()
+    .nonempty("Revisjonskostnader er påkrevd.")
+    .optional(),
+  costAdm: z
+    .string()
+    .nonempty("Administrasjonskostnader er påkrevd.")
+    .optional(),
+  costOther: z.string().nonempty("Andre kostnader er påkrevd.").optional(),
   costNegotiation: z
     .string()
-    .nonempty("Cost Negotiation is required.")
+    .nonempty("Forhandlingskostnader er påkrevd.")
     .optional(),
-  costLegalFees: z.string().nonempty("Cost Legal Fees is required.").optional(),
+  costLegalFees: z
+    .string()
+    .nonempty("Juridiske kostnader er påkrevd.")
+    .optional(),
   costConsultFees: z
     .string()
-    .nonempty("Cost Consult Fees is required.")
+    .nonempty("Konsulentkostnader er påkrevd.")
     .optional(),
-  costAssetMgmt: z.string().nonempty("Cost Asset Mgmt is required.").optional(),
-  costSum: z.string().nonempty("Cost Sum is required.").optional(),
+  costAssetMgmt: z
+    .string()
+    .nonempty("Forvaltningskostnader er påkrevd.")
+    .optional(),
+  costSum: z.string().nonempty("Sum kostnader er påkrevd.").optional(),
 })
 
 interface EditOwnerCostsCardProps {
@@ -136,13 +151,13 @@ export function EditOwnerCostsCard({
         costSum: data.costSum ? Number(data.costSum) : undefined,
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -151,8 +166,10 @@ export function EditOwnerCostsCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Owner Costs</CardTitle>
-        <CardDescription>Edit owner costs and related values.</CardDescription>
+        <CardTitle>Eierkostnader</CardTitle>
+        <CardDescription>
+          Rediger eierkostnader og relaterte verdier.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -162,7 +179,7 @@ export function EditOwnerCostsCard({
               name="ownerCostsMethod"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
-                  <FormLabel>Owner Costs Method</FormLabel>
+                  <FormLabel>Eierkostnadsmetode</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -179,11 +196,11 @@ export function EditOwnerCostsCard({
                   name="costMaintenance"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Maintenance</FormLabel>
+                      <FormLabel>Vedlikeholdskostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Maintenance"
+                          placeholder="Vedlikeholdskostnader"
                           {...field}
                         />
                       </FormControl>
@@ -196,11 +213,11 @@ export function EditOwnerCostsCard({
                   name="costInsurance"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Insurance</FormLabel>
+                      <FormLabel>Forsikringskostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Insurance"
+                          placeholder="Forsikringskostnader"
                           {...field}
                         />
                       </FormControl>
@@ -213,11 +230,11 @@ export function EditOwnerCostsCard({
                   name="costRevision"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Revision</FormLabel>
+                      <FormLabel>Revisjonskostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Revision"
+                          placeholder="Revisjonskostnader"
                           {...field}
                         />
                       </FormControl>
@@ -230,9 +247,13 @@ export function EditOwnerCostsCard({
                   name="costAdm"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Adm</FormLabel>
+                      <FormLabel>Administrasjonskostnader</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Cost Adm" {...field} />
+                        <Input
+                          type="text"
+                          placeholder="Administrasjonskostnader"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -243,11 +264,11 @@ export function EditOwnerCostsCard({
                   name="costOther"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Other</FormLabel>
+                      <FormLabel>Andre kostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Other"
+                          placeholder="Andre kostnader"
                           {...field}
                         />
                       </FormControl>
@@ -260,11 +281,11 @@ export function EditOwnerCostsCard({
                   name="costNegotiation"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Negotiation</FormLabel>
+                      <FormLabel>Forhandlingskostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Negotiation"
+                          placeholder="Forhandlingskostnader"
                           {...field}
                         />
                       </FormControl>
@@ -277,11 +298,11 @@ export function EditOwnerCostsCard({
                   name="costLegalFees"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Legal Fees</FormLabel>
+                      <FormLabel>Juridiske kostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Legal Fees"
+                          placeholder="Juridiske kostnader"
                           {...field}
                         />
                       </FormControl>
@@ -294,11 +315,11 @@ export function EditOwnerCostsCard({
                   name="costConsultFees"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Consult Fees</FormLabel>
+                      <FormLabel>Konsulentkostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Consult Fees"
+                          placeholder="Konsulentkostnader"
                           {...field}
                         />
                       </FormControl>
@@ -311,11 +332,11 @@ export function EditOwnerCostsCard({
                   name="costAssetMgmt"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Asset Mgmt</FormLabel>
+                      <FormLabel>Forvaltningskostnader</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Cost Asset Mgmt"
+                          placeholder="Forvaltningskostnader"
                           {...field}
                         />
                       </FormControl>
@@ -328,9 +349,13 @@ export function EditOwnerCostsCard({
                   name="costSum"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cost Sum</FormLabel>
+                      <FormLabel>Sum kostnader</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Cost Sum" {...field} />
+                        <Input
+                          type="text"
+                          placeholder="Sum kostnader"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -343,11 +368,11 @@ export function EditOwnerCostsCard({
                 name="ownerCostsManual"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Owner Costs Manual</FormLabel>
+                    <FormLabel>Manuelle eierkostnader</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Owner Costs Manual"
+                        placeholder="Manuelle eierkostnader"
                         {...field}
                       />
                     </FormControl>
@@ -357,7 +382,7 @@ export function EditOwnerCostsCard({
               />
             )}
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

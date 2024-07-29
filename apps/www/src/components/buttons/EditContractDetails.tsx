@@ -43,22 +43,24 @@ import {
   SheetTrigger,
 } from "@dingify/ui/components/sheet"
 
+import { cn } from "@/lib/utils"
+
 // Define the validation schema
 const ContractSchema = z.object({
   contractType: z.enum(["LEASE", "SUBLEASE", "INTERNAL"]),
   startDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Start Date is required",
+    message: "Startdato er påkrevd",
   }),
   endDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "End Date is required",
+    message: "Sluttdato er påkrevd",
   }),
   negotiationDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Negotiation Date is required",
+    message: "Forhandlingsdato er påkrevd",
   }),
   baseRent: z
     .string()
     .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
-      message: "Base Rent must be a positive number",
+      message: "Leieinntekter må være et positivt tall",
     })
     .transform((val) => parseFloat(val.replace(/\s/g, ""))),
   indexationType: z.enum(["MARKET", "CPI", "MANUAL"]),
@@ -69,7 +71,7 @@ const ContractSchema = z.object({
     .refine(
       (val) => val === null || val === "" || !isNaN(parseFloat(val || "0")),
       {
-        message: "Index Value must be a number",
+        message: "KPI verdi må være et tall",
       },
     )
     .transform((val) =>
@@ -98,8 +100,8 @@ export function EditContractSheet({
       startDate: formatDateString(initialValues.startDate),
       endDate: formatDateString(initialValues.endDate),
       negotiationDate: formatDateString(initialValues.negotiationDate),
-      baseRent: initialValues.baseRent.toString(),
-      indexValue: initialValues.indexValue?.toString() || "",
+      baseRent: initialValues.baseRent?.toString() ?? "",
+      indexValue: initialValues.indexValue?.toString() ?? "",
     },
   })
 
@@ -132,10 +134,10 @@ export function EditContractSheet({
       )
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to update contract.")
+        throw new Error(result.error || "Kunne ikke oppdatere kontrakten.")
       }
 
-      toast.success(`Contract updated successfully.`)
+      toast.success(`Kontrakten ble oppdatert.`)
       form.reset()
       setIsOpen(false) // Close the sheet on success
     } catch (error) {
@@ -151,7 +153,7 @@ export function EditContractSheet({
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Øknomi</SheetTitle>
+          <SheetTitle>Økonomi</SheetTitle>
           <SheetDescription>Endre vilkårene for leietakeren.</SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -161,14 +163,14 @@ export function EditContractSheet({
               name="contractType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contract Type</FormLabel>
+                  <FormLabel>Kontraktstype</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select contract type" />
+                        <SelectValue placeholder="Velg kontraktstype" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -185,16 +187,17 @@ export function EditContractSheet({
               control={form.control}
               name="startDate"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Startdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
-                          className={`w-[240px] pl-3 text-left font-normal ${
-                            !field.value ? "text-muted-foreground" : ""
-                          }`}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
@@ -228,16 +231,17 @@ export function EditContractSheet({
               control={form.control}
               name="endDate"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Sluttdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
-                          className={`w-[240px] pl-3 text-left font-normal ${
-                            !field.value ? "text-muted-foreground" : ""
-                          }`}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
@@ -271,16 +275,17 @@ export function EditContractSheet({
               control={form.control}
               name="negotiationDate"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Forhandlingsdato</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
-                          className={`w-[240px] pl-3 text-left font-normal ${
-                            !field.value ? "text-muted-foreground" : ""
-                          }`}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
                           {field.value ? (
                             format(parseISO(field.value), "PPP")
@@ -319,7 +324,7 @@ export function EditContractSheet({
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Base Rent..."
+                      placeholder="Leieinntekter..."
                       {...field}
                       value={field.value}
                       onChange={handleBaseRentChange}
@@ -341,7 +346,7 @@ export function EditContractSheet({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select indexation type" />
+                        <SelectValue placeholder="Velg reguleringstype" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -364,7 +369,7 @@ export function EditContractSheet({
                     <Input
                       type="number"
                       step="0.01"
-                      placeholder="Index Value..."
+                      placeholder="KPI verdi..."
                       {...field}
                       onChange={(e) => field.onChange(e.target.value)}
                     />
