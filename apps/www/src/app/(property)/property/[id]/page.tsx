@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { getPropertyDetails } from "@/actions/get-property-details";
+import Link from "next/link"
+import { getPropertyDetails } from "@/actions/get-property-details"
 
-import { Badge } from "@dingify/ui/components/badge";
+import { Badge } from "@dingify/ui/components/badge"
 import {
   Card,
   CardContent,
@@ -9,19 +9,19 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 
-import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 export default async function PropertyPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string }
 }) {
-  const propertyId = params.id;
+  const propertyId = params.id
 
   if (!propertyId) {
     return (
@@ -31,11 +31,11 @@ export default async function PropertyPage({
           text="Invalid property ID."
         />
       </DashboardShell>
-    );
+    )
   }
 
   try {
-    const propertyDetails = await getPropertyDetails(propertyId);
+    const propertyDetails = await getPropertyDetails(propertyId)
 
     if (!propertyDetails) {
       return (
@@ -45,7 +45,7 @@ export default async function PropertyPage({
             text="We couldn't find the property you're looking for."
           />
         </DashboardShell>
-      );
+      )
     }
 
     return (
@@ -119,12 +119,12 @@ export default async function PropertyPage({
           )}
         </div>
       </DashboardShell>
-    );
+    )
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    );
+    )
   }
 }
