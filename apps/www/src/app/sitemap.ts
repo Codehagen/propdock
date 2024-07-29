@@ -15,4 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     // Add other static pages here if necessary
   ]
+
+  // Return the sitemap array
+  return staticPagesSitemap
 }
