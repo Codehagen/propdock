@@ -28,38 +28,38 @@ import { Input } from "@dingify/ui/components/input"
 const FormSchema = z.object({
   rentableArea: z
     .string()
-    .nonempty("Rentable area is required.")
+    .nonempty("Utleibart areal er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "Rentable area must be a number.",
+      message: "Utleibart areal må være et tall.",
     }),
   ratioAreaOffice: z
     .string()
-    .nonempty("Ratio Area Office is required.")
+    .nonempty("Andel kontorareal er påkrevd.")
     .refine(
       (value) =>
         !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
       {
-        message: "Ratio Area Office must be a number between 0 and 1.",
+        message: "Andel kontorareal må være et tall mellom 0 og 1.",
       },
     ),
   ratioAreaMerch: z
     .string()
-    .nonempty("Ratio Area Merch is required.")
+    .nonempty("Andel handelsareal er påkrevd.")
     .refine(
       (value) =>
         !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
       {
-        message: "Ratio Area Merch must be a number between 0 and 1.",
+        message: "Andel handelsareal må være et tall mellom 0 og 1.",
       },
     ),
   ratioAreaMisc: z
     .string()
-    .nonempty("Ratio Area Misc is required.")
+    .nonempty("Andel annet areal er påkrevd.")
     .refine(
       (value) =>
         !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
       {
-        message: "Ratio Area Misc must be a number between 0 and 1.",
+        message: "Andel annet areal må være et tall mellom 0 og 1.",
       },
     ),
 })
@@ -101,13 +101,13 @@ export function EditRentableAreaCard({
         ratioAreaMisc: Number(data.ratioAreaMisc),
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -116,8 +116,8 @@ export function EditRentableAreaCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rentable Area</CardTitle>
-        <CardDescription>Edit rentable area and ratios.</CardDescription>
+        <CardTitle>Utleibart areal</CardTitle>
+        <CardDescription>Rediger utleibart areal og andeler.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -127,9 +127,13 @@ export function EditRentableAreaCard({
               name="rentableArea"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Rentable Area</FormLabel>
+                  <FormLabel>Utleibart areal</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Rentable Area" {...field} />
+                    <Input
+                      type="text"
+                      placeholder="Utleibart areal"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,11 +144,11 @@ export function EditRentableAreaCard({
               name="ratioAreaOffice"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ratio Area Office</FormLabel>
+                  <FormLabel>Andel kontorareal</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Ratio Area Office"
+                      placeholder="Andel kontorareal"
                       {...field}
                     />
                   </FormControl>
@@ -157,11 +161,11 @@ export function EditRentableAreaCard({
               name="ratioAreaMerch"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ratio Area Merch</FormLabel>
+                  <FormLabel>Andel handelsareal</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Ratio Area Merch"
+                      placeholder="Andel handelsareal"
                       {...field}
                     />
                   </FormControl>
@@ -174,11 +178,11 @@ export function EditRentableAreaCard({
               name="ratioAreaMisc"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ratio Area Misc</FormLabel>
+                  <FormLabel>Andel annet areal</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Ratio Area Misc"
+                      placeholder="Andel annet areal"
                       {...field}
                     />
                   </FormControl>
@@ -187,7 +191,7 @@ export function EditRentableAreaCard({
               )}
             />
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

@@ -28,13 +28,10 @@ import { Switch } from "@dingify/ui/components/switch"
 
 const FormSchema = z.object({
   useCalcROI: z.boolean().default(false).optional(),
-  roiWeightedYield: z
-    .string()
-    .nonempty("Weighted Yield is required.")
-    .optional(),
-  roiInflation: z.string().nonempty("Inflation is required.").optional(),
-  roiCalculated: z.string().nonempty("Calculated ROI is required.").optional(),
-  roiManual: z.string().nonempty("Manual ROI is required.").optional(),
+  roiWeightedYield: z.string().nonempty("Vektet yield er påkrevd.").optional(),
+  roiInflation: z.string().nonempty("Inflasjon er påkrevd.").optional(),
+  roiCalculated: z.string().nonempty("Beregnet ROI er påkrevd.").optional(),
+  roiManual: z.string().nonempty("Manuell ROI er påkrevd.").optional(),
 })
 
 interface EditROICardProps {
@@ -82,13 +79,13 @@ export function EditROICard({
         roiManual: data.roiManual ? Number(data.roiManual) : undefined,
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -97,8 +94,10 @@ export function EditROICard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>ROI Inputs</CardTitle>
-        <CardDescription>Edit ROI inputs and related values.</CardDescription>
+        <CardTitle>ROI-inndata</CardTitle>
+        <CardDescription>
+          Rediger ROI-inndata og relaterte verdier.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -108,7 +107,7 @@ export function EditROICard({
               name="useCalcROI"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
-                  <FormLabel>Use Calculated ROI</FormLabel>
+                  <FormLabel>Bruk beregnet ROI</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -125,11 +124,11 @@ export function EditROICard({
                   name="roiWeightedYield"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Weighted Yield</FormLabel>
+                      <FormLabel>Vektet yield</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Weighted Yield"
+                          placeholder="Vektet yield"
                           {...field}
                         />
                       </FormControl>
@@ -142,9 +141,9 @@ export function EditROICard({
                   name="roiInflation"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Inflation</FormLabel>
+                      <FormLabel>Inflasjon</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Inflation" {...field} />
+                        <Input type="text" placeholder="Inflasjon" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -155,11 +154,11 @@ export function EditROICard({
                   name="roiCalculated"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Calculated ROI</FormLabel>
+                      <FormLabel>Beregnet ROI</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Calculated ROI"
+                          placeholder="Beregnet ROI"
                           {...field}
                         />
                       </FormControl>
@@ -174,9 +173,9 @@ export function EditROICard({
                 name="roiManual"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Manual ROI</FormLabel>
+                    <FormLabel>Manuell ROI</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Manual ROI" {...field} />
+                      <Input type="text" placeholder="Manuell ROI" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -184,7 +183,7 @@ export function EditROICard({
               />
             )}
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

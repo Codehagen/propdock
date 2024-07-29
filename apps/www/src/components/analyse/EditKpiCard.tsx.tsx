@@ -28,27 +28,27 @@ import { Input } from "@dingify/ui/components/input"
 const FormSchema = z.object({
   kpi1: z
     .string()
-    .nonempty("KPI 1 is required.")
+    .nonempty("KPI 1 er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 1 must be a number.",
+      message: "KPI 1 må være et tall.",
     }),
   kpi2: z
     .string()
-    .nonempty("KPI 2 is required.")
+    .nonempty("KPI 2 er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 2 must be a number.",
+      message: "KPI 2 må være et tall.",
     }),
   kpi3: z
     .string()
-    .nonempty("KPI 3 is required.")
+    .nonempty("KPI 3 er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 3 must be a number.",
+      message: "KPI 3 må være et tall.",
     }),
   kpi4: z
     .string()
-    .nonempty("KPI 4 is required.")
+    .nonempty("KPI 4 er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 4 must be a number.",
+      message: "KPI 4 må være et tall.",
     }),
 })
 
@@ -89,13 +89,13 @@ export function EditKpiCard({
         kpi4: Number(data.kpi4),
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -104,8 +104,8 @@ export function EditKpiCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>KPI Values</CardTitle>
-        <CardDescription>Edit the KPI values.</CardDescription>
+        <CardTitle>KPI-verdier</CardTitle>
+        <CardDescription>Rediger KPI-verdiene.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -165,7 +165,7 @@ export function EditKpiCard({
               />
             </div>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

@@ -1,12 +1,6 @@
-"use client";
+"use client"
 
-import {
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Legend, Line, LineChart, ResponsiveContainer, Tooltip } from "recharts"
 
 import {
   Card,
@@ -14,7 +8,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@dingify/ui/components/card"
 
 const lineChartData = [
   { month: "Jan", events: 400, users: 240 },
@@ -29,7 +23,7 @@ const lineChartData = [
   { month: "Oct", events: 390, users: 460 },
   { month: "Nov", events: 139, users: 220 },
   { month: "Dec", events: 240, users: 190 },
-];
+]
 
 export function DashboardRevenueChart({ properties }) {
   return (
@@ -67,10 +61,10 @@ export function DashboardRevenueChart({ properties }) {
                           </span>
                         </div>
                       </div>
-                    );
+                    )
                   }
 
-                  return null;
+                  return null
                 }}
               />
               <Line
@@ -90,5 +84,5 @@ export function DashboardRevenueChart({ properties }) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

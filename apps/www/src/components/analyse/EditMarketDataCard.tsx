@@ -29,38 +29,38 @@ import { Switch } from "@dingify/ui/components/switch"
 const FormSchema = z.object({
   marketRentOffice: z
     .string()
-    .nonempty("Market Rent Office is required.")
+    .nonempty("Markedsleie kontor er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "Market Rent Office must be a number.",
+      message: "Markedsleie kontor må være et tall.",
     }),
   marketRentMerch: z
     .string()
-    .nonempty("Market Rent Merch is required.")
+    .nonempty("Markedsleie handel er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "Market Rent Merch must be a number.",
+      message: "Markedsleie handel må være et tall.",
     }),
   marketRentMisc: z
     .string()
-    .nonempty("Market Rent Misc is required.")
+    .nonempty("Markedsleie annet er påkrevd.")
     .refine((value) => !isNaN(Number(value)), {
-      message: "Market Rent Misc must be a number.",
+      message: "Markedsleie annet må være et tall.",
     }),
   usePrimeYield: z.boolean().default(false).optional(),
   manYieldOffice: z
     .string()
-    .nonempty("Manual Yield Office is required.")
+    .nonempty("Manuell yield kontor er påkrevd.")
     .optional(),
   manYieldMerch: z
     .string()
-    .nonempty("Manual Yield Merch is required.")
+    .nonempty("Manuell yield handel er påkrevd.")
     .optional(),
   manYieldMisc: z
     .string()
-    .nonempty("Manual Yield Misc is required.")
+    .nonempty("Manuell yield annet er påkrevd.")
     .optional(),
   manYieldWeighted: z
     .string()
-    .nonempty("Manual Yield Weighted is required.")
+    .nonempty("Manuell vektet yield er påkrevd.")
     .optional(),
 })
 
@@ -123,13 +123,13 @@ export function EditMarketDataCard({
           : undefined,
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
     } finally {
       setIsLoading(false)
     }
@@ -138,8 +138,8 @@ export function EditMarketDataCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Market Data</CardTitle>
-        <CardDescription>Edit market rent and yield data.</CardDescription>
+        <CardTitle>Markedsdata</CardTitle>
+        <CardDescription>Rediger markedsleie og yield-data.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -149,11 +149,11 @@ export function EditMarketDataCard({
               name="marketRentOffice"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Market Rent Office</FormLabel>
+                  <FormLabel>Markedsleie kontor</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Market Rent Office"
+                      placeholder="Markedsleie kontor"
                       {...field}
                     />
                   </FormControl>
@@ -166,11 +166,11 @@ export function EditMarketDataCard({
               name="marketRentMerch"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Market Rent Merch</FormLabel>
+                  <FormLabel>Markedsleie handel</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Market Rent Merch"
+                      placeholder="Markedsleie handel"
                       {...field}
                     />
                   </FormControl>
@@ -183,11 +183,11 @@ export function EditMarketDataCard({
               name="marketRentMisc"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Market Rent Misc</FormLabel>
+                  <FormLabel>Markedsleie annet</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Market Rent Misc"
+                      placeholder="Markedsleie annet"
                       {...field}
                     />
                   </FormControl>
@@ -200,7 +200,7 @@ export function EditMarketDataCard({
               name="usePrimeYield"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
-                  <FormLabel>Use Prime Yield</FormLabel>
+                  <FormLabel>Bruk prime yield</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -217,11 +217,11 @@ export function EditMarketDataCard({
                   name="manYieldOffice"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Manual Yield Office</FormLabel>
+                      <FormLabel>Manuell yield kontor</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Manual Yield Office"
+                          placeholder="Manuell yield kontor"
                           {...field}
                         />
                       </FormControl>
@@ -234,11 +234,11 @@ export function EditMarketDataCard({
                   name="manYieldMerch"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Manual Yield Merch</FormLabel>
+                      <FormLabel>Manuell yield handel</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Manual Yield Merch"
+                          placeholder="Manuell yield handel"
                           {...field}
                         />
                       </FormControl>
@@ -251,11 +251,11 @@ export function EditMarketDataCard({
                   name="manYieldMisc"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Manual Yield Misc</FormLabel>
+                      <FormLabel>Manuell yield annet</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Manual Yield Misc"
+                          placeholder="Manuell yield annet"
                           {...field}
                         />
                       </FormControl>
@@ -268,11 +268,11 @@ export function EditMarketDataCard({
                   name="manYieldWeighted"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Manual Yield Weighted</FormLabel>
+                      <FormLabel>Manuell vektet yield</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Manual Yield Weighted"
+                          placeholder="Manuell vektet yield"
                           {...field}
                         />
                       </FormControl>
@@ -283,7 +283,7 @@ export function EditMarketDataCard({
               </>
             )}
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>

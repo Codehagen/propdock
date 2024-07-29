@@ -25,16 +25,18 @@ export default function InfoCard({
   type,
 }: {
   data?: {
-    id: number
+    id: string
     name: string
     createdAt: Date
     buildings?: {
+      id: string
       name: string
       address: string
       floors: { maxTotalKvm: number }[]
     }[]
-    floor?: number | string | null
-    officeSpace?: number | string | null
+    tenants?: { id: string; name: string }[]
+    contracts?: { id: string; startDate: Date; endDate: Date }[]
+    analysis?: { id: string }[]
   }
   type: "property" | "tenant"
 }) {
@@ -57,6 +59,12 @@ export default function InfoCard({
           }, 0)
           .toString()
       : "Legg til areal"
+
+  // Calculate number of tenants
+  const numberOfTenants = data?.tenants?.length || 0
+
+  // Calculate number of contracts
+  const numberOfContracts = data?.contracts?.length || 0
 
   return (
     <Card className="overflow-hidden">
@@ -156,7 +164,7 @@ export default function InfoCard({
                   <span>
                     {data?.buildings?.[0]?.address
                       ? data.buildings[0].address
-                      : "Placeholder Adresse"}
+                      : "Legg til adresse"}
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
@@ -164,7 +172,7 @@ export default function InfoCard({
                   <span>
                     {data?.buildings?.[0]?.name
                       ? data.buildings[0].name
-                      : "Placeholder Building"}
+                      : "Legg til byggtype"}
                   </span>
                 </li>
               </>
@@ -180,12 +188,12 @@ export default function InfoCard({
                 <span>{maxTotalKvm} kvm</span>
               </li>
               <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Ledig areal</span>
-                <span>1800 kvm</span>
+                <span className="text-muted-foreground">Antall leietakere</span>
+                <span>{numberOfTenants}</span>
               </li>
               <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Ledig kontorer</span>
-                <span>9 enheter</span>
+                <span className="text-muted-foreground">Antall kontrakter</span>
+                <span>{numberOfContracts}</span>
               </li>
               <li className="flex items-center justify-between ">
                 <span className="text-muted-foreground">Ledighet i %</span>

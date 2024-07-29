@@ -92,12 +92,11 @@ export default async function DashboardPage() {
     <DashboardShell>
       <DashboardHeader
         heading="Analyser"
-        text="Dine analyser for dine eiendommer"
+        text="Oversikt over dine eiendomsanalyser"
       >
         <AddAnalysisSheet />
-        {/* <AddTenantDropdownButton /> */}
       </DashboardHeader>
-      <div className="flex gap-4">
+      <div className="grid gap-6 lg:grid-cols-3">
         {analyses.length === 0 ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="building" />
@@ -112,39 +111,60 @@ export default async function DashboardPage() {
           </EmptyPlaceholder>
         ) : (
           <>
-            <div className="flex-[2] space-y-4 overflow-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Navn</TableHead>
-                    <TableHead>Bygning</TableHead>
-                    <TableHead>Utleibart areal</TableHead>
-                    <TableHead>Leiepris per kvm per år</TableHead>
-                    <TableHead>Sum nåverdi</TableHead>
-                    <TableHead>Exit verdi</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {analyses.map((analysis) => (
-                    <TableRow key={analysis.id}>
-                      <TableCell>
-                        <Link href={`/analytics/${analysis.id}`}>
-                          {analysis.name}
-                        </Link>
-                      </TableCell>
-                      <TableCell>{analysis.building?.name || "N/A"}</TableCell>
-                      <TableCell>{analysis.rentableArea}</TableCell>
-                      <TableCell>{analysis.rentPerArea}</TableCell>
-                      <TableCell>{analysis.sumValueNow}</TableCell>
-                      <TableCell>{analysis.sumValueExit}</TableCell>
+            <Card className="col-span-2">
+              <CardHeader>
+                <CardTitle>Analyser</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Navn</TableHead>
+                      <TableHead>Bygning</TableHead>
+                      <TableHead className="text-right">
+                        Utleibart areal (m²)
+                      </TableHead>
+                      <TableHead className="text-right">
+                        Leiepris (NOK/m²/år)
+                      </TableHead>
+                      <TableHead className="text-right">Nåverdi</TableHead>
+                      <TableHead className="text-right">Exit verdi</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            <div className="flex-[1]">
-              <PropertyMap />
-            </div>
+                  </TableHeader>
+                  <TableBody>
+                    {analyses.map((analysis) => (
+                      <TableRow key={analysis.id}>
+                        <TableCell>
+                          <Link
+                            href={`/analytics/${analysis.id}`}
+                            className="font-medium hover:underline"
+                          >
+                            {analysis.name}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          {analysis.building?.name || "N/A"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {analysis.rentableArea.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {analysis.rentPerArea.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {analysis.sumValueNow}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {analysis.sumValueExit}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            <PropertyMap />
           </>
         )}
       </div>

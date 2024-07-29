@@ -479,6 +479,9 @@ importers:
       react-hook-form:
         specifier: ^7.47.0
         version: 7.51.5(react@18.2.0)
+      recharts:
+        specifier: ^2.12.7
+        version: 2.12.7(react-dom@18.2.0)(react@18.2.0)
       sonner:
         specifier: ^1.4.41
         version: 1.4.41(react-dom@18.2.0)(react@18.2.0)

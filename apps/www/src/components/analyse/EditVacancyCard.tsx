@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { updateAnalysis } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Pencil, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -31,15 +32,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@dingify/ui/components/select"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@dingify/ui/components/table"
 
 const FormSchema = z.object({
-  year: z.string().min(1, "Year is required"),
-  value: z.string().min(1, "Value is required"),
+  year: z.string().min(1, "År er påkrevd"),
+  value: z.string().min(1, "Verdi er påkrevd"),
 })
 
 interface EditVacancyCardProps {
   analysisId: number
-  initialVacancyPerYear: string // JSON string of vacancy per year
+  initialVacancyPerYear: string // JSON-streng av ledighet per år
 }
 
 export function EditVacancyCard({
@@ -71,14 +80,40 @@ export function EditVacancyCard({
         vacancyPerYear: JSON.stringify(updatedVacancyData),
       })
       if (result.success) {
-        toast.success("Analysis updated successfully.")
+        toast.success("Analysen ble oppdatert.")
         setVacancyData(updatedVacancyData)
       } else {
-        throw new Error(result.error || "Failed to update analysis.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Error updating analysis:", error)
+      console.error("Feil ved oppdatering av analyse:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const sortedVacancyData = Object.entries(vacancyData).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )
+
+  const handleDelete = async (yearToDelete: string) => {
+    setIsLoading(true)
+    try {
+      const updatedVacancyData = { ...vacancyData }
+      delete updatedVacancyData[yearToDelete]
+      const result = await updateAnalysis(analysisId, {
+        vacancyPerYear: JSON.stringify(updatedVacancyData),
+      })
+      if (result.success) {
+        toast.success("År ble slettet.")
+        setVacancyData(updatedVacancyData)
+      } else {
+        throw new Error(result.error || "Kunne ikke slette år.")
+      }
+    } catch (error) {
+      toast.error(error.message)
+      console.error("Feil ved sletting av år:", error)
     } finally {
       setIsLoading(false)
     }
@@ -87,8 +122,8 @@ export function EditVacancyCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Vacancy Per Year</CardTitle>
-        <CardDescription>Edit vacancy per year values.</CardDescription>
+        <CardTitle>Ledighet per år</CardTitle>
+        <CardDescription>Rediger ledighet per år verdier.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -98,14 +133,14 @@ export function EditVacancyCard({
               name="year"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Year</FormLabel>
+                  <FormLabel>År</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a year" />
+                        <SelectValue placeholder="Velg et år" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -125,26 +160,58 @@ export function EditVacancyCard({
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <FormLabel>Verdi</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Value" {...field} />
+                    <Input type="text" placeholder="Verdi" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Lagrer..." : "Lagre"}
             </Button>
           </form>
         </Form>
-        <div className="mt-4 space-y-2">
-          {Object.entries(vacancyData).map(([year, value]) => (
-            <div key={year} className="flex justify-between">
-              <span>{year}</span>
-              <span>{value}</span>
-            </div>
-          ))}
+        <div className="mt-6">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>År</TableHead>
+                <TableHead>Verdi</TableHead>
+                <TableHead className="w-[100px]">Handlinger</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sortedVacancyData.map(([year, value]) => (
+                <TableRow key={year}>
+                  <TableCell>{year}</TableCell>
+                  <TableCell>{value}</TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          form.setValue("year", year)
+                          form.setValue("value", value.toString())
+                        }}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(year)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </CardContent>
     </Card>
