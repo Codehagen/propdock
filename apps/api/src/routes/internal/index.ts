@@ -2,7 +2,7 @@ import { createAPIKey } from "../../auth/unkey"
 import { honoFactory } from "../../lib/hono"
 import internalAuthMiddleware from "../../routes/internal/authMiddleware"
 import { POInternalApp } from "./oauth/poweroffice"
-import { tripletex } from "./tripletex"
+import { poweroffice } from "./poweroffice" // Import the new route
 
 const internal = honoFactory()
 
@@ -16,8 +16,8 @@ internal.all("/test", (c) => {
 // OAuth
 internal.route("/oauth/poweroffice", POInternalApp)
 
-// Tripletex Routes
-internal.route("/tripletex", tripletex)
+// PowerOffice
+internal.route("/poweroffice", poweroffice)
 
 // API key management
 internal.post("/workspace/api/create", async (c) => {
