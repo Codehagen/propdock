@@ -1,20 +1,28 @@
-// interface User {
-//   workspaceId: any;
-//   id: number;
-//   name?: string;
-//   email: string;
-//   plan: string;
-//   events: Event[];
-//   createdAt: Date;
-// }
+interface User {
+  id: number
+  email: string
+  workspaceId: string | null
+  apiKey: string
+}
 
-interface Event {
-  id: number;
-  channel: string;
-  event: string;
-  userId: number;
-  icon: string;
-  notify: boolean;
-  tags: Record<string, any>;
-  createdAt: Date;
+interface Property {
+  id: string
+  name: string
+  type: string
+  workspaceId: string
+}
+
+interface Building {
+  id: string
+  propertyId: string
+  // Add other relevant fields based on your application's needs
+}
+
+interface Env {
+  // Add environment-specific properties here
+}
+
+interface CustomContext {
+  user?: User
+  test?: boolean
 }

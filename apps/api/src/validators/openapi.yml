@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Propdock API
+  description: API for managing properties and buildings.
+  version: 1.0.0
+servers:
+  - url: https://api.vegard.workers.dev
+    description: Production server.
+paths:
+  /properties:
+    post:
+      operationId: createProperty
+      summary: Create a new property
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PropertyCreate"
+      responses:
+        "201":
+          description: Property created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+        "400":
+          description: Invalid input data.
+        "500":
+          description: Server error.
+    get:
+      operationId: getAllProperties
+      summary: Get all properties for a workspace
+      responses:
+        "200":
+          description: List of properties retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Property"
+        "500":
+          description: Server error.
+  /buildings:
+    post:
+      operationId: createBuilding
+      summary: Create a new building
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildingCreate"
+      responses:
+        "201":
+          description: Building created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Building"
+        "400":
+          description: Invalid input data.
+        "500":
+          description: Server error.
+    get:
+      operationId: getAllBuildings
+      summary: Get all buildings for a workspace
+      responses:
+        "200":
+          description: List of buildings retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Building"
+        "500":
+          description: Server error.
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        workspaceId:
+          type: string
+          nullable: true
+        apiKey:
+          type: string
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        workspaceId:
+          type: string
+    Building:
+      type: object
+      properties:
+        id:
+          type: string
+        propertyId:
+          type: string
+    PropertyCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    BuildingCreate:
+      type: object
+      properties:
+        propertyId:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - ApiKeyAuth: []
