@@ -55,10 +55,10 @@ export function AddBuildingSheet({ propertyId }) {
     defaultValues: {
       name: "",
       address: "",
-      gnr: undefined,
-      bnr: undefined,
-      snr: undefined,
-      fnr: undefined,
+      gnr: "",
+      bnr: "",
+      snr: "",
+      fnr: "",
     },
   })
 
@@ -121,7 +121,7 @@ export function AddBuildingSheet({ propertyId }) {
       form.setValue("gnr", data.gardsnummer)
       form.setValue("bnr", data.bruksnummer)
       form.setValue("fnr", data.festenummer)
-      // form.setValue("snr", data.???) - There is no property called "snr/seksjonsnummer" - Could it be "bruksenhetsnummer" or "undernummer" (??)
+      // form.setValue("snr", data.??)  // There is no property called "snr/seksjonsnummer" - Could it be "bruksenhetsnummer" or "undernummer" (??)
     }
     setOpenSearch(false)
   }
