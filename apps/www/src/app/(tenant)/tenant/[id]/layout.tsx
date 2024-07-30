@@ -47,7 +47,7 @@ export default async function DashboardLayout({
     },
     {
       title: "Kontrakt v2",
-      href: `/tenant/${params.id}/contract2`,
+      href: `/tenant/${params.id}/contract2/building`,
       icon: "filetext",
     },
     {

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
 import { DashboardHeader } from "@/components/dashboard/header"
