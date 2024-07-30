@@ -1,7 +1,10 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
+import { FileDown, Loader2 } from "lucide-react"
 import { usePDF } from "react-to-pdf"
+
+import { Button } from "@dingify/ui/components/button"
 
 import Editor from "@/components/editor/editor"
 
@@ -33,10 +36,22 @@ const TenantEditor = ({ contractContent }) => {
   }
 
   return (
-    <div>
-      <button onClick={exportToPDF} disabled={isExporting}>
-        {isExporting ? "Exporting..." : "Export to PDF"}
-      </button>
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <Button onClick={exportToPDF} disabled={isExporting}>
+          {isExporting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Lager PDF...
+            </>
+          ) : (
+            <>
+              <FileDown className="mr-2 h-4 w-4" />
+              Last ned PDF
+            </>
+          )}
+        </Button>
+      </div>
       <Editor
         content={value}
         onChange={setValue}
