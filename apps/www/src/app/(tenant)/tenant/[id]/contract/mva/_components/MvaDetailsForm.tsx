@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { updateContract } from "@/actions/update-contract"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -51,6 +51,13 @@ export function MvaDetailsForm({ tenantDetails }) {
     },
   })
 
+  useEffect(() => {
+    form.reset({
+      vatTerms: tenantDetails.contracts[0]?.vatTerms || "None",
+      businessCategory: tenantDetails.contracts[0]?.businessCategory || "",
+    })
+  }, [tenantDetails, form])
+
   const onSubmit = async (data) => {
     setIsLoading(true)
 
@@ -76,7 +83,7 @@ export function MvaDetailsForm({ tenantDetails }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>VAT and Business Category</CardTitle>
+        <CardTitle>MVA og forretningskategori</CardTitle>
         <CardDescription>
           Oppdater moms og forretningskategori for leietakeren.
         </CardDescription>

@@ -1,15 +1,22 @@
 import React from "react"
+import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
+import { Button } from "@dingify/ui/components/button"
 import { Card } from "@dingify/ui/components/card"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { ContractCheck } from "@/components/tenant/ContractCheck"
 
-import { KpiDetailsForm } from "./_components/KpiDetailsForm"
+import { MvaDetailsForm } from "./_components/MvaDetailsForm"
 
-export default async function kpiPage({ params }: { params: { id: string } }) {
+export default async function termsContractPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const tenantId = params.id
 
   try {
@@ -23,31 +30,20 @@ export default async function kpiPage({ params }: { params: { id: string } }) {
       )
     }
 
-    if (tenantDetails.name && parseInt(tenantDetails.name) > 0) {
-      return (
-        <DashboardShell>
-          <DashboardHeader
-            heading="Byggninger"
-            text="Hvordan byggning skal leietakeren inn i?"
-          />
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="help" />
-            <EmptyPlaceholder.Title>Du mangler følgende</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Placeholder
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        </DashboardShell>
-      )
-    }
+    const hasContract =
+      tenantDetails.contracts && tenantDetails.contracts.length > 0
 
     return (
       <DashboardShell>
         <DashboardHeader
-          heading="Byggninger"
-          text="Hvordan byggning skal leietakeren inn i?"
+          heading="MVA"
+          text="Hvilke MVA skal leietakeren betale?"
         />
-        <KpiDetailsForm tenantDetails={tenantDetails} />
+        {hasContract ? (
+          <MvaDetailsForm tenantDetails={tenantDetails} />
+        ) : (
+          <ContractCheck tenantDetails={tenantDetails} />
+        )}
       </DashboardShell>
     )
   } catch (error) {

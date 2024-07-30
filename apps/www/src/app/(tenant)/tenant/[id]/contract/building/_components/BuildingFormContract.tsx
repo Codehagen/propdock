@@ -54,15 +54,19 @@ export function BuildingFormContract({ tenantDetails }) {
       property: tenantDetails?.property?.id?.toString() || "",
       floor: tenantDetails?.floor?.id?.toString() || "",
       officeSpace: tenantDetails?.officeSpace?.id?.toString() || "",
-      contactId: tenantDetails?.contacts[0]?.id?.toString() || "", // Assuming there's at least one contact
+      contactId: tenantDetails?.contacts[0]?.id?.toString() || "",
     },
   })
 
   useEffect(() => {
     if (tenantDetails?.floor?.id) {
       setSelectedFloor(tenantDetails.floor.id.toString())
+      form.setValue("floor", tenantDetails.floor.id.toString())
     }
-  }, [tenantDetails?.floor?.id])
+    if (tenantDetails?.officeSpace?.id) {
+      form.setValue("officeSpace", tenantDetails.officeSpace.id.toString())
+    }
+  }, [tenantDetails, form])
 
   const onSubmit = async (data) => {
     setIsLoading(true)
@@ -158,7 +162,7 @@ export function BuildingFormContract({ tenantDetails }) {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="floor"
                 render={({ field }) => (
@@ -232,7 +236,7 @@ export function BuildingFormContract({ tenantDetails }) {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
           </CardContent>
           <CardFooter className="justify-between space-x-2">

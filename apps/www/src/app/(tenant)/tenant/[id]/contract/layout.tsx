@@ -47,63 +47,61 @@ export default async function DashboardLayout({
   )
 
   const isMvaCompleted = Boolean(
-    contract &&
-      contract.vatTerms !== null &&
-      contract.businessCategory !== null,
+    contract?.vatTerms && contract.businessCategory,
   )
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
       title: "Eiendom",
-      href: `/tenant/${params.id}/contract2/building`,
+      href: `/tenant/${params.id}/contract/building`,
       icon: "home",
       completed: true, // Always true as per your initial setup
     },
     {
       title: "Utleier",
-      href: `/tenant/${params.id}/contract2/landlord`,
+      href: `/tenant/${params.id}/contract/landlord`,
       icon: "building",
       completed: isLandlordCompleted,
     },
     {
       title: "Leietaker",
-      href: `/tenant/${params.id}/contract2/tenant`,
+      href: `/tenant/${params.id}/contract/tenant`,
       icon: "user",
       completed: isTenantCompleted,
     },
     {
       title: "Tidsrom",
-      href: `/tenant/${params.id}/contract2/time`,
+      href: `/tenant/${params.id}/contract/time`,
       icon: "calendarClock",
       completed: isTimeCompleted,
     },
     {
       title: "Leieinntekter",
-      href: `/tenant/${params.id}/contract2/terms`,
+      href: `/tenant/${params.id}/contract/terms`,
       icon: "piechart",
       completed: isTermsCompleted,
     },
     {
       title: "KPI",
-      href: `/tenant/${params.id}/contract2/kpi`,
+      href: `/tenant/${params.id}/contract/kpi`,
       icon: "percent",
       completed: isKpiCompleted,
     },
     {
       title: "Mva",
-      href: `/tenant/${params.id}/contract2/mva`,
+      href: `/tenant/${params.id}/contract/mva`,
       icon: "coins",
       completed: isMvaCompleted,
     },
     {
       title: "Editor",
-      href: `/tenant/${params.id}/contract2/editor`,
+      href: `/tenant/${params.id}/contract/editor`,
       icon: "page",
-      completed: isMvaCompleted,
+      completed: false, // Changed to always be false initially
     },
     {
       title: "Sammendrag",
-      href: `/tenant/${params.id}/contract2/summary`,
+      href: `/tenant/${params.id}/contract/summary`,
       icon: "filetext",
       completed: false, // Assuming summary is never initially completed
     },

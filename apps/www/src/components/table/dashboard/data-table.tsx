@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
 import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState
+  VisibilityState,
 } from "@tanstack/react-table"
+import { useState } from "react"
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
@@ -35,9 +35,8 @@ import {
   TableRow,
 } from "@dingify/ui/components/table"
 
-
-import { DataTableToolbar } from "./data-table-toolbar"
 import InfoCard from "../info-card"
+import { DataTableToolbar } from "./data-table-toolbar"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -54,7 +53,7 @@ interface selectedProp {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  type
+  type,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -156,7 +155,7 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-      <InfoCard type={type} data={selected.original}/>
+      <InfoCard type={type} data={selected.original} />
     </div>
   )
 }

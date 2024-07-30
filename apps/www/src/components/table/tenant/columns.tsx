@@ -2,7 +2,10 @@
 
 import type { ColumnDef } from "@tanstack/react-table"
 import Link from "next/link"
+import { deleteTenant } from "@/actions/delete-tenant"
+import format from "date-fns/format"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@dingify/ui/components/button"
 import {
@@ -14,6 +17,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@dingify/ui/components/dropdown-menu"
+
+import { EditTenantSheet } from "@/components/buttons/EditTenantSheet"
 
 export interface tenants {
   name: string
@@ -29,6 +34,10 @@ export interface tenants {
   } | null
   orgnr: number | null
   numEmployees: number
+  isRenting: boolean
+  currentRent: number | null
+  contractStartDate: string | null
+  contractEndDate: string | null
 }
 
 export const TenantColumns: ColumnDef<tenants>[] = [
@@ -54,32 +63,70 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     },
   },
   {
+    accessorKey: "isRenting",
+    header: "Leiestatus",
+    cell: ({ row }) => (
+      <div>{row.getValue("isRenting") ? "Leier" : "Leier ikke"}</div>
+    ),
+  },
+  {
+    accessorKey: "currentRent",
+    header: "Nåværende leie",
+    cell: ({ row }) => {
+      const amount = row.getValue("currentRent")
+      return amount ? `${amount.toLocaleString()} NOK` : "N/A"
+    },
+  },
+  {
+    accessorKey: "contractStartDate",
+    header: "Kontraktstart",
+    cell: ({ row }) => {
+      const date = row.getValue("contractStartDate")
+      return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
+    },
+  },
+  {
+    accessorKey: "contractEndDate",
+    header: "Kontraktslutt",
+    cell: ({ row }) => {
+      const date = row.getValue("contractEndDate")
+      return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const name = row.original.name
+      const id = row.original.id
+
+      const handleDelete = async () => {
+        const result = await deleteTenant(id.toString())
+        if (result.success) {
+          toast.success(`Leietaker "${name}" ble slettet`)
+        } else {
+          toast.error(`Kunne ikke slette leietaker "${name}"`)
+        }
+      }
 
       return (
         <div className="hidden md:block">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Åpne meny</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Valg</DropdownMenuLabel>
-              <DropdownMenuItem>Endre</DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(name)}
-              >
-                Kopier navn
-              </DropdownMenuItem>
+              <DropdownMenuLabel>Handlinger</DropdownMenuLabel>
+              <EditTenantSheet tenant={row.original}>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  Rediger
+                </DropdownMenuItem>
+              </EditTenantSheet>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                Delete
+              <DropdownMenuItem onClick={handleDelete}>
+                Slett
                 <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>

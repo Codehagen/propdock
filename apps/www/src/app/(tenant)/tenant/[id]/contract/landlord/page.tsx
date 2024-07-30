@@ -1,11 +1,13 @@
 import React from "react"
+import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
-import { Card } from "@dingify/ui/components/card"
+import { Button } from "@dingify/ui/components/button"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { ContractCheck } from "@/components/tenant/ContractCheck"
 
 import { LandlordDetailsForm } from "./_components/LandlordDetailsForm"
 
@@ -15,7 +17,7 @@ export default async function LandlordContract({
   params: { id: string }
 }) {
   const tenantId = params.id
-  const currentPath = `/tenant/${tenantId}/contract2/landlord`
+  const currentPath = `/tenant/${tenantId}/contract/landlord`
 
   try {
     const tenantDetails = await getTenantDetails(tenantId)
@@ -28,28 +30,17 @@ export default async function LandlordContract({
       )
     }
 
-    if (tenantDetails.name && parseInt(tenantDetails.name) > 0) {
-      return (
-        <DashboardShell>
-          <DashboardHeader
-            heading="Utleier"
-            text="Hvem er utleier på bygget?"
-          />
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="help" />
-            <EmptyPlaceholder.Title>Du mangler følgende</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Placeholder
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        </DashboardShell>
-      )
-    }
+    const hasContract =
+      tenantDetails.contracts && tenantDetails.contracts.length > 0
 
     return (
       <DashboardShell>
         <DashboardHeader heading="Utleier" text="Hvem er utleier på bygget?" />
-        <LandlordDetailsForm tenantDetails={tenantDetails} />
+        {hasContract ? (
+          <LandlordDetailsForm tenantDetails={tenantDetails} />
+        ) : (
+          <ContractCheck tenantDetails={tenantDetails} />
+        )}
       </DashboardShell>
     )
   } catch (error) {

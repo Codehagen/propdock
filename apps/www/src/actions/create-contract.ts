@@ -1,48 +1,63 @@
-"use server";
+"use server"
 
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
+import { prisma } from "@/lib/db"
+import { getCurrentUser } from "@/lib/session"
 
 export async function createContract(contractData) {
-  const user = await getCurrentUser();
-  const userId = user?.id;
+  const user = await getCurrentUser()
+  const userId = user?.id
 
   if (!userId) {
-    console.error("No user is currently logged in.");
-    return { success: false, error: "User not authenticated" };
+    console.error("No user is currently logged in.")
+    return { success: false, error: "User not authenticated" }
   }
 
   try {
-    // Fetch the user's workspace to associate the contract
-    const workspace = await prisma.workspace.findFirst({
-      where: { users: { some: { id: userId } } },
-      select: { id: true },
+    // Fetch the workspace associated with the user
+    const userWorkspace = await prisma.workspace.findFirst({
+      where: {
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
     });
 
-    if (!workspace) {
-      throw new Error("No workspace found for this user");
+    if (!userWorkspace) {
+      console.error("No workspace found for this user.")
+      return { success: false, error: "No workspace found" }
     }
 
     // Create a new contract
     const newContract = await prisma.contract.create({
       data: {
-        tenantId: contractData.tenantId,
-        propertyId: contractData.property,
-        buildingId: contractData.building,
-        floors: {
-          connect: { id: contractData.floor },
+        workspace: {
+          connect: { id: userWorkspace.id }
         },
-        officeSpaces: {
-          connect: { id: contractData.officeSpace },
+        tenant: {
+          connect: { id: contractData.tenantId }
         },
-        workspaceId: workspace.id,
-        contactId: parseInt(contractData.contactId), // Ensure contactId is passed correctly
-        contactName: contractData.contactName,
-        contactEmail: contractData.contactEmail,
-        contactPhone: contractData.contactPhone,
+        property: {
+          connect: { id: contractData.propertyId }
+        },
+        building: {
+          connect: { id: contractData.buildingId }
+        },
+        floors: contractData.floors,
+        officeSpaces: contractData.officeSpaces,
+        contact: {
+          connect: { id: contractData.contactId }
+        },
         landlordOrgnr: contractData.landlordOrgnr,
         landlordName: contractData.landlordName,
         contractType: contractData.contractType,
+        contactName: contractData.contactName,
+        contactEmail: contractData.contactEmail,
+        contactPhone: contractData.contactPhone,
         startDate: contractData.startDate,
         endDate: contractData.endDate,
         negotiationDate: contractData.negotiationDate,
@@ -57,15 +72,13 @@ export async function createContract(contractData) {
         businessCategory: contractData.businessCategory,
         collateral: contractData.collateral,
       },
-    });
+    })
 
-    console.log(
-      `Created contract with ID: ${newContract.id} for workspace ID: ${workspace.id}.`
-    );
+    console.log(`Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`)
 
-    return { success: true, contract: newContract };
+    return { success: true, contract: newContract }
   } catch (error) {
-    console.error(`Error creating contract for user ID: ${userId}`, error);
-    return { success: false, error: error.message };
+    console.error(`Error creating contract for user ID: ${userId}`, error)
+    return { success: false, error: error.message }
   }
 }

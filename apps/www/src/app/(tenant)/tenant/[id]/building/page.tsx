@@ -1,6 +1,6 @@
 import { getTenantDetails } from "@/actions/get-tenant-details"
 import { format } from "date-fns"
-import { Settings } from "lucide-react"
+import { Building, Settings } from "lucide-react"
 
 import { Button } from "@dingify/ui/components/button"
 import {
@@ -61,21 +61,22 @@ export default async function BuildingTenant({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading="Bygning"
-          text={`Informasjon om bygningen knyttet til leietakeren: ${tenantDetails.building.name}`}
+          heading="Bygning og Eiendom"
+          text={`Informasjon om bygningen og eiendommen knyttet til leietakeren: ${tenantDetails.building.name}`}
         >
-          <Button variant="outline">Endre bygning</Button>
+          <Button variant="outline">
+            <Building className="mr-2 h-4 w-4" />
+            Endre bygning
+          </Button>
         </DashboardHeader>
-        <div>
+        <div className="grid gap-6 md:grid-cols-2">
           <Card key={tenantDetails.building.id} className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
               <div className="flex w-full items-center justify-between">
-                <CardTitle className="text-lg">
-                  {tenantDetails.building.name}
-                </CardTitle>
+                <CardTitle className="text-lg">Bygningsinformasjon</CardTitle>
                 <Button className="h-8 w-8" size="icon" variant="ghost">
                   <Settings className="h-3.5 w-3.5" />
-                  <span className="sr-only">More</span>
+                  <span className="sr-only">Rediger bygning</span>
                 </Button>
               </div>
             </CardHeader>
@@ -105,12 +106,10 @@ export default async function BuildingTenant({
           <Card key={tenantDetails.property.id} className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
               <div className="flex w-full items-center justify-between">
-                <CardTitle className="text-lg">
-                  {tenantDetails.property.name}
-                </CardTitle>
+                <CardTitle className="text-lg">Eiendomsinformasjon</CardTitle>
                 <Button className="h-8 w-8" size="icon" variant="ghost">
                   <Settings className="h-3.5 w-3.5" />
-                  <span className="sr-only">More</span>
+                  <span className="sr-only">Rediger eiendom</span>
                 </Button>
               </div>
             </CardHeader>
@@ -120,6 +119,20 @@ export default async function BuildingTenant({
                   <li className="flex items-center justify-between">
                     <span className="text-muted-foreground">Navn</span>
                     <span>{tenantDetails.property.name}</span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Adresse</span>
+                    <span>
+                      {tenantDetails.property.address || "Ikke angitt"}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Størrelse</span>
+                    <span>
+                      {tenantDetails.property.size
+                        ? `${tenantDetails.property.size} m²`
+                        : "Ikke angitt"}
+                    </span>
                   </li>
                 </ul>
               </div>

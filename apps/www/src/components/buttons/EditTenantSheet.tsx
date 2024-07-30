@@ -1,9 +1,7 @@
-"use client"
-
 import { useEffect, useState } from "react"
-import { createTenant } from "@/actions/create-tenant"
 import { getBuildings } from "@/actions/get-buildings"
 import { getProperties } from "@/actions/get-properties"
+import { updateTenant } from "@/actions/update-tenant"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -57,7 +55,21 @@ interface Building {
   name: string
 }
 
-export function AddTenantSheet() {
+interface EditTenantSheetProps {
+  tenant: {
+    id: string
+    name: string
+    orgnr?: number | null
+    numEmployees: number
+    buildingId: string
+    floorId?: string | null
+    officeSpaceId?: string | null
+    propertyId: string
+  }
+  children: React.ReactNode
+}
+
+export function EditTenantSheet({ tenant, children }: EditTenantSheetProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [properties, setProperties] = useState<Property[]>([])
   const [buildings, setBuildings] = useState<Building[]>([])
@@ -66,11 +78,11 @@ export function AddTenantSheet() {
   const form = useForm({
     resolver: zodResolver(TenantSchema),
     defaultValues: {
-      name: "",
-      orgnr: "",
-      numEmployees: 1,
-      propertyId: "",
-      buildingId: "",
+      name: tenant.name,
+      orgnr: tenant.orgnr?.toString() || "",
+      numEmployees: tenant.numEmployees,
+      propertyId: tenant.propertyId,
+      buildingId: tenant.buildingId,
     },
   })
 
@@ -85,6 +97,20 @@ export function AddTenantSheet() {
     }
     fetchProperties()
   }, [])
+
+  useEffect(() => {
+    async function fetchBuildings() {
+      if (tenant.propertyId) {
+        try {
+          const buildings = await getBuildings(tenant.propertyId)
+          setBuildings(buildings)
+        } catch (error) {
+          console.error("Failed to fetch buildings:", error)
+        }
+      }
+    }
+    fetchBuildings()
+  }, [tenant.propertyId])
 
   const onPropertyChange = async (propertyId: string) => {
     form.setValue("propertyId", propertyId)
@@ -104,18 +130,18 @@ export function AddTenantSheet() {
         ...data,
         orgnr: parseInt(data.orgnr, 10),
         numEmployees: Number(data.numEmployees),
+        buildingId: data.buildingId || tenant.buildingId, // Use existing buildingId if not provided
+        propertyId: data.propertyId || tenant.propertyId, // Use existing propertyId if not provided
       }
 
-      const result = await createTenant(tenantData)
+      const result = await updateTenant(tenant.id, tenantData)
 
       if (!result.success) {
-        throw new Error(result.error || "Kunne ikke lagre leietaker.")
+        throw new Error(result.error || "Kunne ikke oppdatere leietaker.")
       }
 
-      toast.success(`Leietaker ${data.name} ble lagret.`)
-      form.reset()
-      setIsOpen(false) // Close the sheet on success
-      // Optionally, refresh the page or update the state to show the new tenant
+      toast.success(`Leietaker ${data.name} ble oppdatert.`)
+      setIsOpen(false)
     } catch (error) {
       toast.error(error.message)
       console.error(error)
@@ -126,16 +152,13 @@ export function AddTenantSheet() {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button variant="outline" onClick={() => setIsOpen(true)}>
-          Legg til ny leietaker
-        </Button>
-      </SheetTrigger>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Legg til ny leietaker</SheetTitle>
+          <SheetTitle>Rediger leietaker</SheetTitle>
           <SheetDescription>
-            Legg til detaljer for den nye leietakeren.
+            Gjør endringer i leietakerinformasjonen her. Klikk lagre når du er
+            ferdig.
           </SheetDescription>
         </SheetHeader>
 
@@ -148,7 +171,7 @@ export function AddTenantSheet() {
                 <FormItem>
                   <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Navn..." {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -161,7 +184,7 @@ export function AddTenantSheet() {
                 <FormItem>
                   <FormLabel>Organisasjonsnummer</FormLabel>
                   <FormControl>
-                    <Input placeholder="Organisasjonsnummer..." {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,7 +199,6 @@ export function AddTenantSheet() {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Antall ansatte..."
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -185,79 +207,9 @@ export function AddTenantSheet() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="propertyId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Eiendom</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value)
-                      onPropertyChange(value)
-                    }}
-                    value={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Velg en eiendom" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {properties.map((property) => (
-                        <SelectItem
-                          key={property.id}
-                          value={property.id.toString()}
-                        >
-                          {property.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="buildingId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bygning</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value)
-                    }}
-                    value={field.value}
-                    disabled={!buildings.length}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Velg en bygning" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {buildings.map((building) => (
-                        <SelectItem
-                          key={building.id}
-                          value={building.id.toString()}
-                        >
-                          {building.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <SheetFooter>
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full sm:w-auto"
-              >
-                {isLoading ? "Lagrer..." : "Lagre ny leietaker"}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Oppdaterer..." : "Lagre endringer"}
               </Button>
             </SheetFooter>
           </form>
