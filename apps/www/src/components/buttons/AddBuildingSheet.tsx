@@ -105,7 +105,6 @@ export function AddBuildingSheet({ propertyId }) {
   }
 
   function handleEnterKey(event: any, data: any) {
-    console.log(event.key)
     if (event.key === "Enter") {
       handleSelectAddress(data)
       setOpenSearch(false)
@@ -116,6 +115,10 @@ export function AddBuildingSheet({ propertyId }) {
   }
 
   function handleSelectAddress(data: any) {
+    // Reset the form if user selects a new address
+    const savedName = form.getValues("name")
+    form.reset()
+    form.setValue("name", savedName)
     if (data) {
       form.setValue("address", data.adressetekst)
       form.setValue("gnr", data.gardsnummer)
