@@ -75,7 +75,7 @@ export default async function DashboardPage() {
     <DashboardShell>
       <DashboardHeader heading="Leietakere" text="Dine leietakere">
         <AddTenantSheet />
-        <AddTenantDropdownButton />
+        {/* <AddTenantDropdownButton /> */}
       </DashboardHeader>
       <div>
         {tenants.length === 0 ? (

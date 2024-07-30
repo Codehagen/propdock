@@ -1,13 +1,16 @@
 import React from "react"
+import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
+import { Button } from "@dingify/ui/components/button"
 import { Card } from "@dingify/ui/components/card"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { ContractCheck } from "@/components/tenant/ContractCheck"
 
-import { BuildingFormContract } from "./_components/BuildingFormContract"
+import { TenantDetailsForm } from "./_components/TenantDetailsForm"
 
 export default async function Home({ params }: { params: { id: string } }) {
   const tenantId = params.id
@@ -23,31 +26,20 @@ export default async function Home({ params }: { params: { id: string } }) {
       )
     }
 
-    if (tenantDetails.name && parseInt(tenantDetails.name) > 0) {
-      return (
-        <DashboardShell>
-          <DashboardHeader
-            heading="Byggninger"
-            text="Hvordan byggning skal leietakeren inn i?"
-          />
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="help" />
-            <EmptyPlaceholder.Title>Du mangler følgende</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Placeholder
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        </DashboardShell>
-      )
-    }
+    const hasContract =
+      tenantDetails.contracts && tenantDetails.contracts.length > 0
 
     return (
       <DashboardShell>
         <DashboardHeader
-          heading="Byggninger"
-          text="Hvordan byggning skal leietakeren inn i?"
+          heading="Leietaker"
+          text="Hvordan leietakeren skal inn i byggningen?"
         />
-        <BuildingFormContract tenantDetails={tenantDetails} />
+        {hasContract ? (
+          <TenantDetailsForm tenantDetails={tenantDetails} />
+        ) : (
+          <ContractCheck tenantDetails={tenantDetails} />
+        )}
       </DashboardShell>
     )
   } catch (error) {

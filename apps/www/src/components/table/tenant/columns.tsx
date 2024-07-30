@@ -64,14 +64,14 @@ export const TenantColumns: ColumnDef<tenants>[] = [
   },
   {
     accessorKey: "isRenting",
-    header: "Renting Status",
+    header: "Leiestatus",
     cell: ({ row }) => (
-      <div>{row.getValue("isRenting") ? "Renting" : "Not Renting"}</div>
+      <div>{row.getValue("isRenting") ? "Leier" : "Leier ikke"}</div>
     ),
   },
   {
     accessorKey: "currentRent",
-    header: "Current Rent",
+    header: "Nåværende leie",
     cell: ({ row }) => {
       const amount = row.getValue("currentRent")
       return amount ? `${amount.toLocaleString()} NOK` : "N/A"
@@ -79,7 +79,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
   },
   {
     accessorKey: "contractStartDate",
-    header: "Contract Start",
+    header: "Kontraktstart",
     cell: ({ row }) => {
       const date = row.getValue("contractStartDate")
       return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
@@ -87,7 +87,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
   },
   {
     accessorKey: "contractEndDate",
-    header: "Contract End",
+    header: "Kontraktslutt",
     cell: ({ row }) => {
       const date = row.getValue("contractEndDate")
       return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
@@ -113,15 +113,15 @@ export const TenantColumns: ColumnDef<tenants>[] = [
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Åpne meny</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Handlinger</DropdownMenuLabel>
               <EditTenantSheet tenant={row.original}>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  Edit
+                  Rediger
                 </DropdownMenuItem>
               </EditTenantSheet>
               <DropdownMenuSeparator />

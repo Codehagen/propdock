@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createSmsTenant } from "@/actions/create-sms-tenant"
-import { File, ListFilter, PlusCircle } from "lucide-react"
+import { ChevronDown, File, MessageSquare, PlusCircle } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@dingify/ui/components/button"
@@ -42,11 +42,14 @@ export function UserNavTop({ tenantDetails }) {
     router.push(`/tenant/${tenantDetails.id}/contract/`)
   }
 
-  const handleSendSMSClick = () => {
+  const handleSMSClick = () => {
     if (tenantDetails.contacts && tenantDetails.contacts.length > 0) {
       const contact = tenantDetails.contacts[0]
       setContactName(contact.name || "")
-      setPhone(contact.phone || "")
+      setPhone(contact.phone || "Ingen telefonnummer registrert")
+    } else {
+      setContactName("Ingen kontaktperson registrert")
+      setPhone("Ingen telefonnummer registrert")
     }
     setIsDialogOpen(true)
   }
@@ -71,27 +74,21 @@ export function UserNavTop({ tenantDetails }) {
   return (
     <div className="flex items-center pb-2">
       <div className="ml-auto flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-8 gap-1">
-              <ListFilter className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Filter
-              </span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem checked>Active</DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
         <Button size="sm" variant="outline" className="h-8 gap-1">
           <File className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
             Export
+          </span>
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 gap-1"
+          onClick={handleSMSClick}
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            SMS
           </span>
         </Button>
         <DropdownMenu>
@@ -101,14 +98,12 @@ export function UserNavTop({ tenantDetails }) {
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Opprett
               </span>
+              <ChevronDown className="ml-1 h-3.5 w-3.5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Lag ny</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSendSMSClick}>
-              Send SMS
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleKontraktClick}>
               Kontrakt
             </DropdownMenuItem>
@@ -162,7 +157,11 @@ export function UserNavTop({ tenantDetails }) {
             </div>
           </div>
           <DialogFooter className="sm:justify-start">
-            <Button type="button" onClick={handleSubmit} disabled={isLoading}>
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              disabled={isLoading || phone === "Ingen telefonnummer registrert"}
+            >
               {isLoading ? "Sender..." : "Send SMS"}
             </Button>
             <DialogClose asChild>

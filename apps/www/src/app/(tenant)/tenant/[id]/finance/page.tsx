@@ -40,7 +40,7 @@ export default async function EconomySettings({
           heading="Økonomi"
           text="Endre økonomiske innstillinger for leietakeren."
         >
-          <EditContractSheet
+          {/* <EditContractSheet
             contractId={0}
             initialValues={{
               contractType: "LEASE",
@@ -58,7 +58,7 @@ export default async function EconomySettings({
             <Button>
               <Plus className="mr-2 h-4 w-4" /> Legg til kontrakt
             </Button>
-          </EditContractSheet>
+          </EditContractSheet> */}
         </DashboardHeader>
 
         {!contractDetails || contractDetails.length === 0 ? (
