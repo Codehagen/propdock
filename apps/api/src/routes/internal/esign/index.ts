@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid"
 
 import { Env } from "@/env"
 import { honoFactory } from "@/lib/hono"
+import { ESigningClient } from "@/lib/signicat"
 
 const app = honoFactory()
 
@@ -89,7 +90,7 @@ app.post("/create-document", async (c) => {
 
 app.post("/initialize", async (c) => {
   const env = c.env as Env
-  const signicatClient = new SignicatClient(
+  const signicatClient = new ESigningClient(
     env.SIGNICAT_CLIENT_ID,
     env.SIGNICAT_CLIENT_SECRET,
   )
@@ -137,7 +138,7 @@ app.get("/documents/:documentId/status", async (c) => {
           ok: false,
           message: `Failed to retrieve document status: ${response.statusText}`,
         },
-        response.status,
+        response,
       )
     }
 
@@ -199,7 +200,7 @@ app.get("/documents/:documentId/files", async (c) => {
           ok: false,
           message: `Failed to retrieve document file: ${response.statusText}`,
         },
-        response.status,
+        response,
       )
     }
 
@@ -262,7 +263,7 @@ app.post("/documents/:documentId/attachments", async (c) => {
           ok: false,
           message: `Failed to create attachment: ${response.statusText}`,
         },
-        response.status,
+        response,
       )
     }
 
