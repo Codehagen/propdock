@@ -12,38 +12,33 @@ app.post("/create-document", async (c) => {
   try {
     const accessToken = await getAccessToken(env)
 
+    const body = await c.req.json()
     const documentData = {
-      title: "As simple as that",
-      description: "This is an important document",
+      title: body.title,
+      description: body.description,
       externalId: uuidv4(),
       dataToSign: {
-        base64Content:
-          "JVBERi0xLjcKJeLjz9MKNSAwIG9iago8PC9GaWx0ZXIvRmxhdGVEZWNvZGUvTGVuZ3RoIDM...",
-        fileName: "sample.txt",
+        base64Content: btoa(body.content),
+        fileName: body.fileName,
       },
       contactDetails: {
-        email: "test@test.com",
+        email: "post@propdock.no",
       },
-      signers: [
-        {
-          externalSignerId: uuidv4(),
-          redirectSettings: {
-            redirectMode: "donot_redirect",
-          },
-          signatureType: {
-            mechanism: "pkisignature",
-          },
-          signerInfo: {
-            firstName: "John",
-            lastName: "Doe",
-            email: "john.doe@example.com",
-            mobile: {
-              countryCode: "+47",
-              number: "98453571",
-            },
-          },
+      signers: body.signers.map((signer: any) => ({
+        externalSignerId: uuidv4(),
+        redirectSettings: {
+          redirectMode: "donot_redirect",
         },
-      ],
+        signatureType: {
+          mechanism: "pkisignature",
+        },
+        signerInfo: {
+          firstName: signer.firstName,
+          lastName: signer.lastName,
+          email: signer.email,
+          mobile: signer.mobile,
+        },
+      })),
     }
 
     const response = await fetch(
