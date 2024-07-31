@@ -24,6 +24,18 @@ app.post("/create-document", async (c) => {
       contactDetails: {
         email: "post@propdock.no",
       },
+      notification: {
+        signRequest: {
+          sms: [
+            {
+              language: "NO",
+              text:
+                body.smsText ||
+                "Vennligst signer dokumentet '{document-title}'. Du kan signere det her: {url}",
+            },
+          ],
+        },
+      },
       signers: body.signers.map((signer: any) => ({
         externalSignerId: uuidv4(),
         redirectSettings: {
