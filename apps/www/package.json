@@ -72,6 +72,7 @@
     "react-leaflet": "^4.2.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-textarea-autosize": "^8.5.3",
+    "react-to-pdf": "^1.0.1",
     "react-wrap-balancer": "^1.1.0",
     "recharts": "^2.12.7",
     "sharp": "^0.32.6",
