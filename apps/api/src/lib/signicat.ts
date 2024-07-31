@@ -1,21 +1,62 @@
-import axios from "axios"
+import axios, { AxiosInstance } from "axios"
 
-export class SignicatClient {
+interface DocumentData {
+  title: string
+  description: string
+  externalId: string
+  dataToSign: {
+    base64Content: string
+    fileName: string
+  }
+  contactDetails: {
+    email: string
+  }
+  signers: Array<{
+    externalSignerId: string
+    redirectSettings: {
+      redirectMode: string
+    }
+    signatureType: {
+      mechanism: string
+    }
+    signerInfo: {
+      firstName: string
+      lastName: string
+      email: string
+      mobile: {
+        countryCode: string
+        number: string
+      }
+    }
+  }>
+}
+
+interface AttachmentData {
+  fileName: string
+  title: string
+  data: string
+  convertToPdf: boolean
+  signers: string[]
+  description?: string
+  type?: string
+}
+
+export class ESigningClient {
   private clientId: string
   private clientSecret: string
   private accessToken: string | null = null
   private tokenExpiration: number = 0
+  private axiosInstance: AxiosInstance
 
   constructor(clientId: string, clientSecret: string) {
     this.clientId = clientId
     this.clientSecret = clientSecret
+    this.axiosInstance = axios.create({
+      baseURL: "https://api.signicat.com/express",
+    })
   }
 
-  async initialize() {
-    await this.getAccessToken()
-  }
-
-  private async getAccessToken() {
+  private async getAccessToken(): Promise<string> {
     if (this.accessToken && Date.now() < this.tokenExpiration) {
       return this.accessToken
     }
@@ -28,7 +69,7 @@ export class SignicatClient {
     )
 
     try {
-      const response = await axios.post(
+      const response = await this.axiosInstance.post(
         tokenEndpoint,
         "grant_type=client_credentials&scope=document_read document_write",
         {
@@ -41,7 +82,7 @@ export class SignicatClient {
 
       this.accessToken = response.data.access_token
       this.tokenExpiration = Date.now() + response.data.expires_in * 1000
-      return this.accessToken
+      return this.accessToken as string
     } catch (error: unknown) {
       console.error("Error obtaining access token:", error)
       if (error instanceof Error && "response" in error) {
@@ -62,10 +103,14 @@ export class SignicatClient {
     }
   }
 
-  async makeAuthenticatedRequest(url: string, method: string, data?: any) {
+  private async makeAuthenticatedRequest(
+    url: string,
+    method: string,
+    data?: any,
+  ) {
     const token = await this.getAccessToken()
     try {
-      const response = await axios({
+      const response = await this.axiosInstance({
         url,
         method,
         data,
@@ -80,5 +125,38 @@ export class SignicatClient {
     }
   }
 
-  // Add other methods for specific Signicat API calls here
+  async createDocument(documentData: DocumentData) {
+    return this.makeAuthenticatedRequest(
+      "/sign/documents",
+      "POST",
+      documentData,
+    )
+  }
+
+  async getDocumentStatus(documentId: string) {
+    return this.makeAuthenticatedRequest(
+      `/sign/documents/${documentId}/summary`,
+      "GET",
+    )
+  }
+
+  async getDocumentFile(
+    documentId: string,
+    fileFormat?: string,
+    originalFileName?: boolean,
+  ) {
+    let url = `/sign/documents/${documentId}/files`
+    if (fileFormat) url += `?fileFormat=${fileFormat}`
+    if (originalFileName)
+      url += `${fileFormat ? "&" : "?"}originalFileName=true`
+    return this.makeAuthenticatedRequest(url, "GET")
+  }
+
+  async createAttachment(documentId: string, attachmentData: AttachmentData) {
+    return this.makeAuthenticatedRequest(
+      `/sign/documents/${documentId}/attachments`,
+      "POST",
+      attachmentData,
+    )
+  }
 }
