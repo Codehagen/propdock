@@ -38,6 +38,20 @@ app.post("/create-document", async (c) => {
           email: signer.email,
           mobile: signer.mobile,
         },
+        notifications: {
+          setup: {
+            request: "sendBoth",
+            signatureReceipt: "sendSms",
+            finalReceipt: "off",
+          },
+          signerInfo: {
+            mobile: {
+              countryCode: signer.mobile.countryCode,
+              number: signer.mobile.number,
+            },
+            email: signer.email,
+          },
+        },
       })),
     }
 
