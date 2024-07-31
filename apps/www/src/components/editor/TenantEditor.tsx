@@ -13,14 +13,14 @@ const TenantEditor = ({ contractContent }) => {
   const [isExporting, setIsExporting] = useState(false)
   const pdfContentRef = useRef(null)
 
+  const tenantName =
+    contractContent.match(/2\.1 Navn\/Firma: (.*?) \(Leietaker\)/)?.[1] ||
+    "Leieavtale"
+
   const { toPDF, targetRef } = usePDF({
-    filename: "document.pdf",
+    filename: `${tenantName.replace(/\s+/g, "_")}_kontrakt.pdf`,
     method: "save",
     page: { format: "A4" },
-    options: {
-      margin: 20,
-      fontSize: 12,
-    },
   })
 
   useEffect(() => {
