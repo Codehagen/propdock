@@ -1,8 +1,11 @@
 import { v4 as uuidv4 } from "uuid"
 
 import { Env } from "@/env"
+import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
+// import { sendNotification } from "@/lib/notifications" // You'll need to create this
 import { ESigningClient } from "@/lib/signicat"
+import { storeSignedDocument } from "@/lib/storage-r2"
 
 const app = honoFactory()
 
@@ -34,6 +37,10 @@ app.post("/create-document", async (c) => {
                 "Vennligst signer dokumentet '{document-title}'. Du kan signere det her: {url}",
             },
           ],
+        },
+        webhook: {
+          url: "https://api.propdock.workers.dev/api/internal/esign/webhook",
+          events: ["order.completed", "order.expired", "document.signed"],
         },
       },
       signers: body.signers.map((signer: any) => ({
@@ -306,6 +313,91 @@ app.post("/documents/:documentId/attachments", async (c) => {
     )
   }
 })
+
+app.post("/webhook", async (c) => {
+  console.log("Webhook received")
+
+  try {
+    const body = await c.req.json()
+    console.log("Webhook body:", JSON.stringify(body, null, 2))
+
+    if (!body.eventName || !body.eventData) {
+      console.error("Invalid webhook payload: missing eventName or eventData")
+      return c.json({ ok: false, message: "Invalid webhook payload" }, 400)
+    }
+
+    switch (body.eventName) {
+      case "document.signed":
+        await handleDocumentSigned(c.env, body.eventData)
+        break
+      case "order.completed":
+        console.log("Order completed:", body.eventData)
+        break
+      case "order.expired":
+        console.log("Order expired:", body.eventData)
+        break
+      default:
+        console.log(`Unhandled event type: ${body.eventName}`)
+    }
+
+    return c.json({ ok: true, message: "Webhook processed successfully" }, 200)
+  } catch (error) {
+    console.error("Error processing webhook:", error)
+    return c.json(
+      { ok: false, message: "Error processing webhook", error: String(error) },
+      400,
+    )
+  }
+})
+
+async function handleDocumentSigned(env: Env, eventData: any) {
+  const { documentId, externalId } = eventData
+
+  // 1. Update document status in your database
+  const document = await prisma(env).document.update({
+    where: { externalId },
+    data: { status: "SIGNED" },
+  })
+
+  // 2. Fetch signers information
+  //   const signers = await prisma(env).documentSigner.findMany({
+  //     where: { documentId: document.id },
+  //     include: { user: true },
+  //   })
+
+  //   // 3. Send notifications to relevant parties
+  //   for (const signer of signers) {
+  //     await sendNotification(signer.user, {
+  //       type: "DOCUMENT_SIGNED",
+  //       documentId: document.id,
+  //       documentTitle: document.title,
+  //     })
+  //   }
+
+  // 4. Retrieve the signed document
+  const accessToken = await getAccessToken(env)
+  const url = `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+
+  if (response.ok) {
+    const fileContent = await response.arrayBuffer()
+    // Store the file content in your preferred storage solution
+    // For example, you could use Cloudflare R2 or another storage service
+    const storageKey = await storeSignedDocument(
+      documentId,
+      fileContent,
+      "application/pdf",
+    )
+    console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`)
+  } else {
+    console.error(`Failed to retrieve signed document: ${response.statusText}`)
+  }
+
+  // 5. Any additional business logic
+  // For example, trigger a workflow, update related records, etc.
+}
 
 async function getAccessToken(env: Env): Promise<string> {
   const credentials = btoa(
