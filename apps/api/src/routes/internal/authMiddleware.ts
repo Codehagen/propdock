@@ -18,7 +18,8 @@ export default async function internalAuthMiddleware(
   // Skip all checks for the test endpoint and webhook
   if (
     c.req.path === "/api/test" ||
-    c.req.path === "/api/internal/esign/webhook"
+    c.req.path === "/api/internal/esign/webhook" ||
+    c.req.path.startsWith("/api/internal/esign/documents/")
   ) {
     if (DEBUG) {
       console.debug("Middleware debug - skipping auth for test or webhook")

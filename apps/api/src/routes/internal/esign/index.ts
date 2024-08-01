@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 import { Env } from "@/env"
 import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
-import { getSignedDocument, storeSignedDocument } from "@/lib/R2-storage"
+import { getProxyUrl, storeSignedDocument } from "@/lib/R2-storage"
 // import { sendNotification } from "@/lib/notifications" // You'll need to create this
 import { ESigningClient } from "@/lib/signicat"
 
@@ -431,33 +431,30 @@ app.post("/test-document-storage", async (c) => {
   const env = c.env as Env
 
   try {
-    // Create a dummy document
+    // Use the dummy content (or real content in production)
     const dummyContent = "This is a test document"
     const documentId = "test-" + Date.now()
     const contentType = "text/plain"
 
     // Store the document in R2
-    const storageKey = await storeSignedDocument(
+    const key = await storeSignedDocument(
       env,
       documentId,
       new TextEncoder().encode(dummyContent),
       contentType,
     )
 
-    // Generate a permanent URL
-    const url = new URL(c.req.url)
-    const permanentUrl = `${url.protocol}//${url.host}/documents/${documentId}`
+    // Generate a proxy URL that expires in 1 hour
+    const proxyUrl = getProxyUrl(c.req.url, documentId)
 
     return c.json({
       success: true,
       message: "Document stored successfully",
-      storageKey: storageKey,
-      contentType: contentType,
-      storedDocumentSize: dummyContent.length,
-      permanentUrl: permanentUrl,
+      documentId: documentId,
+      downloadUrl: proxyUrl,
     })
   } catch (error) {
-    console.error("Error in test document storage:", error)
+    console.error("Error in document storage:", error)
     return c.json({ success: false, error: String(error) }, 500)
   }
 })
@@ -465,20 +462,39 @@ app.post("/test-document-storage", async (c) => {
 app.get("/documents/:documentId", async (c) => {
   const env = c.env as Env
   const documentId = c.req.param("documentId")
+  const key = `signed-documents/${documentId}`
 
   try {
-    // Construct the storage key
-    const storageKey = `signed-documents/${documentId}`
+    const object = await env.PROPDOCK_BINDING.get(key, {
+      range: c.req.header("range"),
+      onlyIf: c.req.header("if-none-match"),
+    })
 
-    // Retrieve the document from R2
-    const r2Response = await getSignedDocument(env, storageKey)
-
-    if (!r2Response) {
+    if (object === null) {
       return c.json({ error: "Document not found" }, 404)
     }
 
-    // Return the R2 response directly
-    return r2Response
+    const headers = new Headers()
+    object.writeHttpMetadata(headers)
+    headers.set("etag", object.httpEtag)
+
+    if (object.range) {
+      headers.set(
+        "content-range",
+        `bytes ${object.range.offset}-${object.range.end ?? object.size - 1}/${object.size}`,
+      )
+    }
+
+    const status = object.body
+      ? c.req.header("range") !== null
+        ? 206
+        : 200
+      : 304
+
+    return new Response(object.body, {
+      headers,
+      status,
+    })
   } catch (error) {
     console.error("Error retrieving document:", error)
     return c.json({ error: "Failed to retrieve document" }, 500)

@@ -21,27 +21,7 @@ export async function storeSignedDocument(
   return key
 }
 
-export async function getSignedDocument(
-  env: Env,
-  key: string,
-): Promise<Response | null> {
-  const bucket = env.PROPDOCK_BINDING
-
-  if (!bucket) {
-    throw new Error("R2 bucket is not configured")
-  }
-
-  const object = await bucket.get(key)
-
-  if (!object) {
-    return null
-  }
-
-  const headers = new Headers()
-  object.writeHttpMetadata(headers)
-  headers.set("etag", object.httpEtag)
-
-  return new Response(object.body, {
-    headers,
-  })
+export function getProxyUrl(requestUrl: string, documentId: string): string {
+  const url = new URL(requestUrl)
+  return `${url.origin}/api/internal/esign/documents/${documentId}`
 }
