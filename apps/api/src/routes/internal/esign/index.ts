@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from "uuid"
 import { Env } from "@/env"
 import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
+import { getSignedDocument, storeSignedDocument } from "@/lib/R2-storage"
 // import { sendNotification } from "@/lib/notifications" // You'll need to create this
 import { ESigningClient } from "@/lib/signicat"
-import { getSignedDocument, storeSignedDocument } from "@/lib/storage-r2"
 
 const app = honoFactory()
 
@@ -386,6 +386,7 @@ async function handleDocumentSigned(env: Env, eventData: any) {
     // Store the file content in your preferred storage solution
     // For example, you could use Cloudflare R2 or another storage service
     const storageKey = await storeSignedDocument(
+      env,
       documentId,
       fileContent,
       "application/pdf",
@@ -437,31 +438,19 @@ app.post("/test-document-storage", async (c) => {
 
     // Store the document in R2
     const storageKey = await storeSignedDocument(
+      env,
       documentId,
       new TextEncoder().encode(dummyContent),
       contentType,
     )
 
-    // Create a record in the Document table
-    const document = await prisma(env).document.create({
-      data: {
-        title: "Test Document",
-        description: "This is a test document created for R2 storage testing",
-        externalId: documentId,
-        status: "SIGNED",
-        storageKey: storageKey,
-        contentType: contentType,
-        signedAt: new Date(),
-      },
-    })
-
     // Retrieve the document from R2 to verify storage
-    const storedDocument = await getSignedDocument(storageKey)
+    const storedDocument = await getSignedDocument(env, storageKey)
 
     return c.json({
       success: true,
       message: "Document stored successfully",
-      document: document,
+      storageKey: storageKey,
       storedDocumentContent: await storedDocument.text(),
     })
   } catch (error) {
