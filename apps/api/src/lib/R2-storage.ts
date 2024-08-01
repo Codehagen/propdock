@@ -3,7 +3,7 @@ import { Env } from "@/env"
 export async function storeSignedDocument(
   env: Env,
   documentId: string,
-  content: ArrayBuffer,
+  content: ArrayBuffer | Buffer,
   contentType: string,
 ): Promise<string> {
   const bucket = env.PROPDOCK_BINDING
@@ -24,7 +24,7 @@ export async function storeSignedDocument(
 export async function getSignedDocument(
   env: Env,
   key: string,
-): Promise<Response> {
+): Promise<Response | null> {
   const bucket = env.PROPDOCK_BINDING
 
   if (!bucket) {
@@ -34,7 +34,7 @@ export async function getSignedDocument(
   const object = await bucket.get(key)
 
   if (!object) {
-    throw new Error("Document not found")
+    return null
   }
 
   const headers = new Headers()

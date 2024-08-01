@@ -444,18 +444,44 @@ app.post("/test-document-storage", async (c) => {
       contentType,
     )
 
-    // Retrieve the document from R2 to verify storage
-    const storedDocument = await getSignedDocument(env, storageKey)
+    // Generate a permanent URL
+    const url = new URL(c.req.url)
+    const permanentUrl = `${url.protocol}//${url.host}/documents/${documentId}`
 
     return c.json({
       success: true,
       message: "Document stored successfully",
       storageKey: storageKey,
-      storedDocumentContent: await storedDocument.text(),
+      contentType: contentType,
+      storedDocumentSize: dummyContent.length,
+      permanentUrl: permanentUrl,
     })
   } catch (error) {
     console.error("Error in test document storage:", error)
     return c.json({ success: false, error: String(error) }, 500)
+  }
+})
+
+app.get("/documents/:documentId", async (c) => {
+  const env = c.env as Env
+  const documentId = c.req.param("documentId")
+
+  try {
+    // Construct the storage key
+    const storageKey = `signed-documents/${documentId}`
+
+    // Retrieve the document from R2
+    const r2Response = await getSignedDocument(env, storageKey)
+
+    if (!r2Response) {
+      return c.json({ error: "Document not found" }, 404)
+    }
+
+    // Return the R2 response directly
+    return r2Response
+  } catch (error) {
+    console.error("Error retrieving document:", error)
+    return c.json({ error: "Failed to retrieve document" }, 500)
   }
 })
 
