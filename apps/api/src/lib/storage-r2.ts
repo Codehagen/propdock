@@ -24,3 +24,16 @@ export async function storeSignedDocument(
     throw error
   }
 }
+
+export async function getSignedDocument(key: string) {
+  try {
+    const object = await PROPDOCK_BINDING.get(key)
+    if (object === null) {
+      throw new Error("Document not found")
+    }
+    return object
+  } catch (error) {
+    console.error(`Failed to retrieve document with key ${key} from R2:`, error)
+    throw error
+  }
+}

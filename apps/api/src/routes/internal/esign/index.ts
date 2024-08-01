@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
 // import { sendNotification } from "@/lib/notifications" // You'll need to create this
 import { ESigningClient } from "@/lib/signicat"
-import { storeSignedDocument } from "@/lib/storage-r2"
+import { getSignedDocument, storeSignedDocument } from "@/lib/storage-r2"
 
 const app = honoFactory()
 
@@ -425,5 +425,49 @@ async function getAccessToken(env: Env): Promise<string> {
   const data = (await response.json()) as { access_token: string }
   return data.access_token
 }
+
+app.post("/test-document-storage", async (c) => {
+  const env = c.env as Env
+
+  try {
+    // Create a dummy document
+    const dummyContent = "This is a test document"
+    const documentId = "test-" + Date.now()
+    const contentType = "text/plain"
+
+    // Store the document in R2
+    const storageKey = await storeSignedDocument(
+      documentId,
+      new TextEncoder().encode(dummyContent),
+      contentType,
+    )
+
+    // Create a record in the Document table
+    const document = await prisma(env).document.create({
+      data: {
+        title: "Test Document",
+        description: "This is a test document created for R2 storage testing",
+        externalId: documentId,
+        status: "SIGNED",
+        storageKey: storageKey,
+        contentType: contentType,
+        signedAt: new Date(),
+      },
+    })
+
+    // Retrieve the document from R2 to verify storage
+    const storedDocument = await getSignedDocument(storageKey)
+
+    return c.json({
+      success: true,
+      message: "Document stored successfully",
+      document: document,
+      storedDocumentContent: await storedDocument.text(),
+    })
+  } catch (error) {
+    console.error("Error in test document storage:", error)
+    return c.json({ success: false, error: String(error) }, 500)
+  }
+})
 
 export const ESignApp = app

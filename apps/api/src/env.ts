@@ -13,7 +13,6 @@ export const zEnv = z.object({
   SIGNICAT_CLIENT_ID: z.string(),
   SIGNICAT_CLIENT_SECRET: z.string(),
   SIGNICAT_ACCOUNT_ID: z.string(),
-  PROPDOCK_BINDING: z.string(),
 })
 
 export type Env = z.infer<typeof zEnv>
