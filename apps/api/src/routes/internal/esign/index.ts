@@ -8,6 +8,10 @@ import { ESigningClient } from "@/lib/signicat"
 
 const app = honoFactory()
 
+// Base64 encoded PDF content (you'll need to generate this beforehand)
+const pdfBase64 =
+  "JVBERi0xLjcKJeLjz9MKNSAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDEgMCBSIC9MYXN0TW9kaWZpZWQgKEQ6MjAyMzA1MTYxMjM0NTYpCi9SZXNvdXJjZXMgMiAwIFIgL01lZGlhQm94IFswIDAgNTk1LjI3NiA4NDEuODldIC9Db250ZW50cyA2IDAgUiA+PgplbmRvYmoKNiAwIG9iago8PCAvRmlsdGVyIC9GbGF0ZURlY29kZSAvTGVuZ3RoIDY2ID4+CnN0cmVhbQp4nDPUM1Qw1DNU0C/OLMrMSy9KTFEoycgsVshNzMxTKEktLlEoLskvUCjPL8pJUQQKFGeUFni4BLo5+rs6Kxi5mBq5mBkCAKZPEZEKZW5kc3RyZWFtCmVuZG9iagoxIDAgb2JqCjw8IC9UeXBlIC9QYWdlcyAvS2lkcyBbIDUgMCBSIF0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL0NhdGFsb2cgL1BhZ2VzIDEgMCBSID4+CmVuZG9iago0IDAgb2JqCjw8IC9Qcm9kdWNlciAoU2ltdWxhdGVkIFBERikgL0NyZWF0aW9uRGF0ZSAoRDoyMDIzMDUxNjEyMzQ1NikgPj4KZW5kb2JqCjIgMCBvYmoKPDwgPj4KZW5kb2JqCnhyZWYKMCA3CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDM2MyAwMDAwMCBuIAowMDAwMDAwNjE3IDAwMDAwIG4gCjAwMDAwMDA0MjIgMDAwMDAgbiAKMDAwMDAwMDQ3MSAwMDAwMCBuIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAyMjIgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA3IC9Sb290IDMgMCBSIC9JbmZvIDQgMCBSID4+CnN0YXJ0eHJlZgo2MzcKJSVFT0YK"
+
 app.post("/create-document", async (c) => {
   const env = c.env as Env
 
@@ -15,16 +19,17 @@ app.post("/create-document", async (c) => {
     const accessToken = await getAccessToken(env)
 
     const body = await c.req.json()
+
     const documentData = {
       title: body.title,
       description: body.description,
       externalId: uuidv4(),
       dataToSign: {
-        base64Content: btoa(body.content),
-        fileName: body.fileName,
+        base64Content: pdfBase64,
+        fileName: "document.pdf",
       },
       contactDetails: {
-        email: "post@propdock.no",
+        email: body.contactEmail || "post@propdock.no",
       },
       notification: {
         signRequest: {
@@ -368,7 +373,7 @@ async function handleDocumentSigned2(
     const url = new URL(
       `https://api.signicat.com/express/sign/documents/${documentId}/files`,
     )
-    // url.searchParams.append("fileFormat", "pades")
+    url.searchParams.append("fileFormat", "pades")
     // url.searchParams.append("originalFileName", "true")
 
     console.log(`Fetching document from URL: ${url.toString()}`)
