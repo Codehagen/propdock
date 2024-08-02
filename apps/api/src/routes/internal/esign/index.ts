@@ -1,8 +1,10 @@
+import { User } from "@prisma/client"
 import { v4 as uuidv4 } from "uuid"
 
 import { Env } from "@/env"
 import { honoFactory } from "@/lib/hono"
 import {
+  createDocumentInDatabase,
   getAccessToken,
   getProxyUrl,
   handleDocumentCompletedSigned,
@@ -19,18 +21,29 @@ const pdfBase64 =
 
 app.post("/create-document", async (c) => {
   const env = c.env as Env
+  const user: User = c.get("user")!
+  console.log(
+    "Debug: User from context",
+    user ? JSON.stringify(user, null, 2) : "undefined",
+  )
+
+  if (!user) {
+    console.warn("Debug: User not found in context")
+    return c.json({ ok: false, message: "User not authenticated" }, 401)
+  }
 
   try {
     const accessToken = await getAccessToken(env)
 
     const body = await c.req.json()
+    console.log("Debug: Request body", JSON.stringify(body, null, 2))
 
     const documentData = {
       title: body.title,
       description: body.description,
       externalId: uuidv4(),
       dataToSign: {
-        base64Content: pdfBase64,
+        base64Content: body.base64Content || pdfBase64,
         fileName: "document.pdf",
       },
       contactDetails: {
@@ -83,6 +96,8 @@ app.post("/create-document", async (c) => {
       })),
     }
 
+    console.log("Debug: Document data", JSON.stringify(documentData, null, 2))
+
     const response = await fetch(
       "https://api.signicat.com/express/sign/documents",
       {
@@ -96,20 +111,17 @@ app.post("/create-document", async (c) => {
     )
 
     if (!response.ok) {
-      const errorBody = await response.text()
-      console.error(
-        `Failed to create document. Status: ${response.status}, Body: ${errorBody}`,
-      )
-      return c.json(
-        {
-          ok: false,
-          message: `Failed to create document: ${response.statusText}`,
-        },
-        500,
-      )
+      console.error("Debug: Signicat API error", await response.text())
+      throw new Error(`Failed to create document: ${response.statusText}`)
     }
 
     const createdDocument = await response.json()
+    console.log(
+      "Debug: Created document",
+      JSON.stringify(createdDocument, null, 2),
+    )
+
+    await createDocumentInDatabase(env, documentData, createdDocument, user)
 
     return c.json({
       ok: true,
@@ -119,7 +131,7 @@ app.post("/create-document", async (c) => {
   } catch (error) {
     console.error("Failed to create document:", error)
     return c.json(
-      { ok: false, message: "Failed to create document", error: error },
+      { ok: false, message: "Failed to create document", error: String(error) },
       500,
     )
   }

@@ -61,7 +61,7 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       wrangler:
-        specifier: ^3.54.0
+        specifier: ^3.59.0
         version: 3.59.0(@cloudflare/workers-types@4.20240603.0)
 
   apps/www:

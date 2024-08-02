@@ -490,6 +490,8 @@ model Document {
   storageKey  String? // The R2 storage key
   contentType String? // e.g., "application/pdf"
   signedAt    DateTime?
+  signers     Json?
+  downloadUrl String?
 
   // Relationships
   tenantId    String?

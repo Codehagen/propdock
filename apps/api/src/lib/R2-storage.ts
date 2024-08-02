@@ -1,3 +1,5 @@
+import { User } from "@prisma/client"
+
 import { Env } from "@/env"
 import { prisma } from "@/lib/db"
 
@@ -143,25 +145,36 @@ export async function handleDocumentCompletedSigned(
   eventData: any,
   requestUrl: string,
 ) {
-  console.log("Starting handleDocumentSigned function")
-  const { id: documentId, externalId } = eventData
-  console.log(`Document ID: ${documentId}, External ID: ${externalId}`)
+  console.log("Starting handleDocumentCompletedSigned function")
+  const { id: documentId } = eventData
+  console.log(`Document ID: ${documentId}`)
 
   try {
-    // Retrieve the signed document
-    console.log("Attempting to retrieve signed document")
+    // Retrieve the access token
     const accessToken = await getAccessToken(env)
     console.log("Access token obtained")
 
-    // Construct the URL with query parameters
-    const url = new URL(
-      `https://api.signicat.com/express/sign/documents/${documentId}/files`,
-    )
-    url.searchParams.append("fileFormat", "pades")
-    // url.searchParams.append("originalFileName", "true")
+    // Fetch the document summary
+    const summaryUrl = `https://api.signicat.com/express/sign/documents/${documentId}/summary`
+    const summaryResponse = await fetch(summaryUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
 
-    console.log(`Fetching document from URL: ${url.toString()}`)
-    const response = await fetch(url.toString(), {
+    if (!summaryResponse.ok) {
+      throw new Error(
+        `Failed to retrieve document summary: ${summaryResponse.statusText}`,
+      )
+    }
+
+    const summary = await summaryResponse.json()
+    console.log("Document summary retrieved successfully")
+
+    // Fetch the signed document
+    const fileUrl = `https://api.signicat.com/express/sign/documents/${documentId}/files`
+    const fileResponse = await fetch(fileUrl, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -169,24 +182,17 @@ export async function handleDocumentCompletedSigned(
       },
     })
 
-    if (!response.ok) {
-      console.error(`Response status: ${response.status}`)
-      console.error(`Response headers:`, Object.fromEntries(response.headers))
-      const errorBody = await response.text()
-      console.error(`Response body: ${errorBody}`)
+    if (!fileResponse.ok) {
       throw new Error(
-        `Failed to retrieve signed document: ${response.statusText}`,
+        `Failed to retrieve signed document: ${fileResponse.statusText}`,
       )
     }
 
-    console.log("Document retrieved successfully")
-    const fileContent = await response.arrayBuffer()
+    const fileContent = await fileResponse.arrayBuffer()
     const contentType =
-      response.headers.get("Content-Type") || "application/pdf"
-    console.log(`Content-Type: ${contentType}`)
+      fileResponse.headers.get("Content-Type") || "application/pdf"
 
     // Store the file content in R2
-    console.log("Attempting to store document in R2")
     const storageKey = await storeSignedDocument(
       env,
       documentId,
@@ -198,17 +204,66 @@ export async function handleDocumentCompletedSigned(
 
     // Generate a proxy URL for the document
     const proxyUrl = getProxyUrl(requestUrl, documentId)
-    console.log(`Generated proxy URL: ${proxyUrl}`)
 
-    // Here you can add any additional processing, like updating your database
-    // or sending notifications
+    // Update the document in the database
+    await prisma(env).document.update({
+      where: { externalId: documentId },
+      data: {
+        status: (summary as any).status.documentStatus,
+        storageKey,
+        contentType,
+        signedAt: new Date((summary as any).lastUpdated),
+        signers: (summary as any).documentSignatures,
+        downloadUrl: proxyUrl,
+      },
+    })
 
-    console.log("handleDocumentSigned function completed successfully")
+    console.log("Document updated in the database")
+
+    // Here you can add any additional processing, like sending notifications
+
+    console.log("handleDocumentCompletedSigned function completed successfully")
   } catch (error) {
     console.error(
       `Error in handleDocumentSigned for document ${documentId}:`,
       error,
     )
+    throw error
+  }
+}
+
+export async function createDocumentInDatabase(
+  env: Env,
+  documentData: any,
+  createdDocument: any,
+  user: User,
+): Promise<void> {
+  console.log("Debug: Entering createDocumentInDatabase")
+  console.log("Debug: documentData", JSON.stringify(documentData, null, 2))
+  console.log(
+    "Debug: createdDocument",
+    JSON.stringify(createdDocument, null, 2),
+  )
+  console.log("Debug: user", JSON.stringify(user, null, 2))
+
+  try {
+    console.log("Debug: Attempting to create document")
+    await prisma(env).document.create({
+      data: {
+        externalId: createdDocument.documentId,
+        title: documentData.title,
+        description: documentData.description,
+        status: createdDocument.status.documentStatus,
+        signers: createdDocument.signers,
+        userId: user.id,
+        workspaceId: user.workspaceId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    })
+    console.log("Debug: Document created successfully")
+  } catch (error) {
+    console.error("Debug: Error in createDocumentInDatabase", error)
     throw error
   }
 }
