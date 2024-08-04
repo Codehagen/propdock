@@ -1,60 +1,80 @@
-import type { ClassValue } from "clsx";
-import { clsx } from "clsx";
-import ms from "ms";
-import { twMerge } from "tailwind-merge";
+import type { ClassValue } from "clsx"
+import { clsx } from "clsx"
+import ms from "ms"
+import { twMerge } from "tailwind-merge"
 
-import { env } from "@/env";
+import { env } from "@/env"
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 
 export function formatDate(input: string | number): string {
-  const date = new Date(input);
+  const date = new Date(input)
   return date.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
-  });
+  })
 }
 
 export function absoluteUrl(path: string) {
-  return `${env.NEXT_PUBLIC_APP_URL}${path}`;
+  return `${env.NEXT_PUBLIC_APP_URL}${path}`
 }
 
 // Utils from precedent.dev
 
-export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
-  if (!timestamp) return "never";
-  return `${ms(Date.now() - new Date(timestamp).getTime())}${
-    timeOnly ? "" : " ago"
-  }`;
-};
+export const timeAgo = (
+  timestamp: Date | null,
+  {
+    withAgo,
+  }: {
+    withAgo?: boolean
+  } = {},
+): string => {
+  if (!timestamp) return "Never"
+  const diff = Date.now() - new Date(timestamp).getTime()
+  if (diff < 1000) {
+    // less than 1 second
+    return "Just now"
+  } else if (diff > 82800000) {
+    // more than 23 hours – similar to how Twitter displays timestamps
+    return new Date(timestamp).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year:
+        new Date(timestamp).getFullYear() !== new Date().getFullYear()
+          ? "numeric"
+          : undefined,
+    })
+  }
+  return `${ms(diff)}${withAgo ? " ago" : ""}`
+}
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<JSON> {
-  const res = await fetch(input, init);
+  const res = await fetch(input, init)
 
   if (!res.ok) {
-    const json = await res.json();
+    const json = await res.json()
     if (json.error) {
       const error = new Error(json.error) as Error & {
-        status: number;
-      };
-      error.status = res.status;
-      throw error;
+        status: number
+      }
+      error.status = res.status
+      throw error
     } else {
-      throw new Error("An unexpected error occurred");
+      throw new Error("An unexpected error occurred")
     }
   }
 
-  return res.json();
+  return res.json()
 }
 
 export function nFormatter(num: number, digits?: number) {
-  if (!num) return "0";
+  if (!num) return "0"
   const lookup = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "K" },
@@ -63,73 +83,73 @@ export function nFormatter(num: number, digits?: number) {
     { value: 1e12, symbol: "T" },
     { value: 1e15, symbol: "P" },
     { value: 1e18, symbol: "E" },
-  ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  ]
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
   const item = lookup
     .slice()
     .reverse()
     .find(function (item) {
-      return num >= item.value;
-    });
+      return num >= item.value
+    })
   return item
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
-    : "0";
+    : "0"
 }
 
 export function capitalize(str: string) {
-  if (!str || typeof str !== "string") return str;
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  if (!str || typeof str !== "string") return str
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 export const truncate = (str: string, length: number) => {
-  if (!str || str.length <= length) return str;
-  return `${str.slice(0, length)}...`;
-};
+  if (!str || str.length <= length) return str
+  return `${str.slice(0, length)}...`
+}
 
 // utils/greeting.js
 export function getGreeting() {
-  const now = new Date();
-  const hours = now.getHours();
-  const day = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+  const now = new Date()
+  const hours = now.getHours()
+  const day = now.getDay() // Sunday = 0, Monday = 1, ..., Saturday = 6
 
   // Determine time-based greeting
   if (day === 6 || day === 0) {
-    return "this weekend";
+    return "this weekend"
   } else if (hours >= 6 && hours < 12) {
-    return "morning";
+    return "morning"
   } else if (hours >= 12 && hours < 21) {
-    return "afternoon";
+    return "afternoon"
   } else if (hours >= 21 || hours < 6) {
-    return "night";
+    return "night"
   }
 
   // Fallback
-  return "today";
+  return "today"
 }
 
 export async function fetchGithubData() {
   try {
     const githubInfoResponse = await fetch(
       "https://api.github.com/repos/Codehagen/Dingify",
-    );
-    if (!githubInfoResponse.ok) throw new Error("Failed to fetch GitHub info");
-    const data = await githubInfoResponse.json();
+    )
+    if (!githubInfoResponse.ok) throw new Error("Failed to fetch GitHub info")
+    const data = await githubInfoResponse.json()
 
     const prsResponse = await fetch(
       "https://api.github.com/search/issues?q=repo:Codehagen/Dingify+type:pr+is:merged",
-    );
-    if (!prsResponse.ok) throw new Error("Failed to fetch PRs info");
-    const totalPR = await prsResponse.json();
+    )
+    if (!prsResponse.ok) throw new Error("Failed to fetch PRs info")
+    const totalPR = await prsResponse.json()
 
     return {
       stargazers_count: data.stargazers_count,
       open_issues: data.open_issues,
       total_count: totalPR.total_count,
       forks: data.forks,
-    };
+    }
   } catch (error) {
-    console.error("Error fetching GitHub data:", error);
-    throw error;
+    console.error("Error fetching GitHub data:", error)
+    throw error
   }
 }
 
@@ -143,13 +163,13 @@ export async function sendDiscordNotification(webhookUrl, message) {
       body: JSON.stringify({
         content: message,
       }),
-    });
+    })
 
     if (!response.ok) {
-      throw new Error("Failed to send Discord notification");
+      throw new Error("Failed to send Discord notification")
     }
   } catch (error) {
-    console.error("Error sending notification to Discord:", error);
+    console.error("Error sending notification to Discord:", error)
   }
 }
 
@@ -163,12 +183,12 @@ export async function sendSlackNotification(webhookUrl, message) {
       body: JSON.stringify({
         text: message,
       }),
-    });
+    })
 
     if (!response.ok) {
-      throw new Error("Failed to send Slack notification");
+      throw new Error("Failed to send Slack notification")
     }
   } catch (error) {
-    console.error("Error sending notification to Slack:", error);
+    console.error("Error sending notification to Slack:", error)
   }
 }
