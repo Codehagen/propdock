@@ -115,9 +115,12 @@ const CommandResults = ({
 
   const results = useMemo(() => {
     if (search.length === 0) {
-      return popularArticles
+      return popularArticles.filter((article) => article && article.slug)
     }
-    return fuse.search(search).map((r) => r.item)
+    return fuse
+      .search(search)
+      .map((r) => r.item)
+      .filter((item) => item && item.slug)
   }, [search, popularArticles])
 
   return results.map(({ slug, title, summary }) => (
