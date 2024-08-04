@@ -49,3 +49,11 @@ export const HOME_DOMAIN =
     : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : "http://home.localhost:3000"
+
+export const APP_HOSTNAMES = new Set([
+  "propdock.no",
+  "preview.propdock.no",
+  "localhost:8888",
+  "localhost:3000",
+  "localhost",
+])

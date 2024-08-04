@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { HelpPost } from "contentlayer/generated"
+import { HelpPost } from "content-collections"
 
 import ExpandingArrow from "./icons/expanding-arrow"
 

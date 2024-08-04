@@ -1,5 +1,5 @@
 // import { Logo } from "#/ui/icons";
-// import { allHelpPosts } from "contentlayer/generated";
+import { allHelpPosts } from "content-collections"
 import {
   Airplay,
   BarChart,
@@ -98,9 +98,13 @@ export const HELP_CATEGORIES: {
 ]
 
 export const getPopularArticles = () => {
-  return POPULAR_ARTICLES.map(
-    (slug) => allHelpPosts.find((post) => post.slug === slug)!,
-  )
+  return POPULAR_ARTICLES.map((slug) => {
+    const post = allHelpPosts.find((post) => post.slug === slug)
+    if (!post) {
+      console.warn(`Popular article with slug "${slug}" not found`)
+    }
+    return post
+  }).filter((post) => post != null)
 }
 
 export const FEATURES_LIST = [

@@ -1,10 +1,12 @@
-"use client";
-import { Search } from "lucide-react";
-import { useContext } from "react";
-import { AppContext } from "app/providers";
+"use client"
+
+import { useContext } from "react"
+import { Search } from "lucide-react"
+
+import { AppContext } from "@/components/providers"
 
 export default function SearchButton() {
-  const { setShowCMDK } = useContext(AppContext);
+  const { setShowCMDK } = useContext(AppContext)
   return (
     <button
       onClick={() => setShowCMDK(true)}
@@ -18,5 +20,5 @@ export default function SearchButton() {
         ⌘K
       </span>
     </button>
-  );
+  )
 }

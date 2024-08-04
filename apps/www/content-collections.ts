@@ -11,6 +11,10 @@ const computedFields = (type: "blog" | "changelog" | "customers" | "help") => ({
     return document.slug || slugger.slug(document.title)
   },
   tableOfContents: (document) => {
+    if (!document.body?.raw) {
+      console.warn(`No raw body content found for document: ${document.title}`)
+      return []
+    }
     const headings = document.body.raw.match(/^##\s.+/gm)
     const slugger = new GithubSlugger()
     return (
@@ -24,16 +28,19 @@ const computedFields = (type: "blog" | "changelog" | "customers" | "help") => ({
     )
   },
   images: (document) => {
+    if (!document.body?.raw) return []
     return (
       document.body.raw.match(/(?<=<Image[^>]*\bsrc=")[^"]+(?="[^>]*\/>)/g) ||
       []
     )
   },
   tweetIds: (document) => {
+    if (!document.body?.raw) return []
     const tweetMatches = document.body.raw.match(/<Tweet\sid="[0-9]+"\s\/>/g)
     return tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)[0]) || []
   },
   githubRepos: (document) => {
+    if (!document.body?.raw) return []
     return (
       document.body.raw.match(
         /(?<=<GithubRepo[^>]*\burl=")[^"]+(?="[^>]*\/>)/g,
@@ -78,10 +85,16 @@ const BlogPost = defineCollection({
         slug: computed.slug(document),
         mdx,
         related: document.related || [],
-        tableOfContents: computed.tableOfContents(document),
-        images: computed.images(document),
-        tweetIds: computed.tweetIds(document),
-        githubRepos: computed.githubRepos(document),
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
       }
     } catch (error) {
       console.error("Error compiling MDX for:", document.title, error)
@@ -116,10 +129,16 @@ const ChangelogPost = defineCollection({
         ...document,
         slug: computed.slug(document),
         mdx,
-        tableOfContents: computed.tableOfContents(document),
-        images: computed.images(document),
-        tweetIds: computed.tweetIds(document),
-        githubRepos: computed.githubRepos(document),
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
       }
     } catch (error) {
       console.error("Error compiling MDX for:", document.title, error)
@@ -161,10 +180,16 @@ export const CustomersPost = defineCollection({
         ...document,
         slug: computed.slug(document),
         mdx,
-        tableOfContents: computed.tableOfContents(document),
-        images: computed.images(document),
-        tweetIds: computed.tweetIds(document),
-        githubRepos: computed.githubRepos(document),
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
       }
     } catch (error) {
       console.error("Error compiling MDX for:", document.title, error)
@@ -213,10 +238,16 @@ export const HelpPost = defineCollection({
         ...document,
         slug: computed.slug(document),
         mdx,
-        tableOfContents: computed.tableOfContents(document),
-        images: computed.images(document),
-        tweetIds: computed.tweetIds(document),
-        githubRepos: computed.githubRepos(document),
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
       }
     } catch (error) {
       console.error("Error compiling MDX for:", document.title, error)

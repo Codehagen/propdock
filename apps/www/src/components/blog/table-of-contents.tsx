@@ -1,18 +1,19 @@
-"use client";
+"use client"
 
-import useCurrentAnchor from "#/lib/hooks/use-current-anchor";
-import { cn } from "#/lib/utils";
-import Link from "next/link";
+import Link from "next/link"
+
+import useCurrentAnchor from "@/lib/blog/use-current-anchor"
+import { cn } from "@/lib/utils"
 
 export default function TableOfContents({
   items,
 }: {
   items: {
-    title: string;
-    slug: string;
-  }[];
+    title: string
+    slug: string
+  }[]
 }) {
-  const currentAnchor = useCurrentAnchor();
+  const currentAnchor = useCurrentAnchor()
 
   return (
     <div className="grid gap-4 border-l-2 border-gray-200">
@@ -30,5 +31,5 @@ export default function TableOfContents({
         </Link>
       ))}
     </div>
-  );
+  )
 }
