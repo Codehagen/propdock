@@ -74,6 +74,7 @@
     "react-hook-form": "^7.47.0",
     "react-leaflet": "^4.2.1",
     "react-medium-image-zoom": "^5.2.8",
+    "react-parallax-tilt": "^1.7.235",
     "react-syntax-highlighter": "^15.5.0",
     "react-textarea-autosize": "^8.5.3",
     "react-to-pdf": "^1.0.1",
