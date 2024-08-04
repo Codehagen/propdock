@@ -28,7 +28,6 @@ const BlogPost = defineCollection({
     const slugger = new GithubSlugger()
     try {
       console.log("Starting MDX compilation for:", document.title)
-      console.log("MDX content:", document.content.substring(0, 500) + "...") // Log the first 500 characters of the content
       const mdx = await compileMDX(context, document)
       console.log("MDX compilation successful for:", document.title)
       return {

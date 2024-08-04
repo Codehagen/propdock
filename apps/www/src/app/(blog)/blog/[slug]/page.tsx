@@ -9,8 +9,6 @@ import { BLOG_CATEGORIES } from "@/lib/blog/content"
 import { getBlurDataURL } from "@/lib/blog/images"
 import { formatDate } from "@/lib/utils"
 import Author from "@/components/blog/author"
-// import { getAndCacheTweet } from "#/lib/twitter";
-// import getRepos from "#/lib/github";
 import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
 import { MDX } from "@/components/blog/mdx"
 
@@ -109,11 +107,13 @@ export default async function BlogArticle({
               width={1200}
               height={630}
               alt={data.title}
-              priority // cause it's above the fold
+              priority
             />
             <MDX
               code={data.mdx}
               images={images}
+              tweets={[]}
+              repos={[]}
               className="px-5 pb-20 pt-4 sm:px-10"
             />
           </div>
@@ -129,7 +129,7 @@ export default async function BlogArticle({
                   {relatedArticles.map((post) => (
                     <li key={post.slug}>
                       <Link
-                        href={post.slug ? `/blog/${post.slug}` : "#"}
+                        href={`/blog/${post.slug}`}
                         className="group flex flex-col space-y-2"
                       >
                         <p className="font-semibold text-gray-700 underline-offset-4 group-hover:underline">
@@ -150,7 +150,6 @@ export default async function BlogArticle({
           </div>
         </MaxWidthWrapper>
       </div>
-      {/* <CTA /> */}
     </>
   )
 }
