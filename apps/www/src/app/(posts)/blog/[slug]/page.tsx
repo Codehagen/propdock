@@ -53,7 +53,7 @@ export default async function BlogArticle({
 
   const images = await Promise.all(
     (data.images || []).map(async (src: string) => ({
-      alt: src.split("/").pop()?.split(".")[0] || "Blog image",
+      alt: src.split("/").pop()?.split(".")[0] || "Bloggbilde",
       src,
       blurDataURL: await getBlurDataURL(src),
     })),
@@ -118,12 +118,12 @@ export default async function BlogArticle({
           </div>
           <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-gray-200 self-start sm:flex">
             <div className="flex flex-col space-y-4 py-5">
-              <p className="text-sm text-gray-500">Written by</p>
+              <p className="text-sm text-gray-500">Skrevet av</p>
               <Author username={data.author} />
             </div>
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 py-5">
-                <p className="text-sm text-gray-500">Read more</p>
+                <p className="text-sm text-gray-500">Les mer</p>
                 <ul className="flex flex-col space-y-4">
                   {relatedArticles.map((post) => (
                     <li key={post.slug}>

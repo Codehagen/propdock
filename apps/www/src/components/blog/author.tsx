@@ -17,10 +17,10 @@ export default async function Author({
       name: "Christer",
       image: "https://d2vwwcvoksz7ty.cloudfront.net/author/steven.jpg",
     },
-    // fmerian: {
-    //   name: "Flo Merian",
-    //   image: "https://d2vwwcvoksz7ty.cloudfront.net/author/fmerian.jpg",
-    // },
+    fmerian: {
+      name: "Flo Merian",
+      image: "https://d2vwwcvoksz7ty.cloudfront.net/author/fmerian.jpg",
+    },
   }
 
   if (!authors[username]) {
@@ -47,10 +47,10 @@ export default async function Author({
       />
       <div className="flex flex-col">
         <p className="text-sm text-gray-500">
-          Written by {authors[username].name}
+          Skrevet av {authors[username].name}
         </p>
         <time dateTime={updatedAt} className="text-sm font-light text-gray-400">
-          Last updated {timeAgo(new Date(updatedAt))}
+          Sist oppdatert {timeAgo(new Date(updatedAt))}
         </time>
       </div>
     </div>
