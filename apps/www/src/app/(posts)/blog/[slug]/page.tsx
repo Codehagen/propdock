@@ -64,12 +64,11 @@ export default async function BlogArticle({
   )!
 
   const relatedArticles = (data.related || [])
-    .map((relatedSlug) =>
-      allBlogPosts.find((post) => post.slug === relatedSlug),
-    )
+    .map((relatedSlug) => {
+      const found = allBlogPosts.find((post) => post.slug === relatedSlug)
+      return found
+    })
     .filter((post): post is NonNullable<typeof post> => post !== undefined)
-
-  console.log("Related Articles:", relatedArticles)
 
   return (
     <>
