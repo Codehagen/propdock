@@ -54,7 +54,7 @@ export default async function ChangelogPost({
           href="/changelog"
           className="text-sm text-gray-500 transition-colors hover:text-gray-800"
         >
-          ← Back to Changelog
+          ← Tilbake til Endringslogg
         </Link>
       </div>
       <div className="flex flex-col space-y-8 md:col-span-3">
@@ -64,7 +64,7 @@ export default async function ChangelogPost({
               href="/changelog"
               className="my-5 text-sm text-gray-500 md:hidden"
             >
-              ← Back to Changelog
+              ← Tilbake til Endringslogg
             </Link>
             <time
               dateTime={post.publishedAt}
@@ -91,7 +91,7 @@ export default async function ChangelogPost({
           <Author username={post.author} />
           <div className="flex items-center space-x-6">
             <Link
-              href={`https://twitter.com/intent/tweet?text=${post.title}&url=https://dub.co/changelog/${post.slug}&via=${post.author}`}
+              href={`https://twitter.com/intent/tweet?text=${post.title}&url=https://propdock.no/changelog/${post.slug}&via=${post.author}`}
               target="_blank"
               rel="noopener noreferrer"
               className="transition-all hover:scale-110"
@@ -100,7 +100,7 @@ export default async function ChangelogPost({
             </Link>
             <Link
               href={`
-            http://www.linkedin.com/shareArticle?mini=true&url=https://dub.co/changelog/${post.slug}`}
+            http://www.linkedin.com/shareArticle?mini=true&url=https://propdock.no/changelog/${post.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="transition-all hover:scale-110"
@@ -108,7 +108,7 @@ export default async function ChangelogPost({
               <Linkedin className="h-6 w-6" fill="black" />
             </Link>
             <Link
-              href={`https://www.facebook.com/sharer/sharer.php?u=https://dub.co/changelog/${post.slug}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://propdock.no/changelog/${post.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="transition-all hover:scale-110"
@@ -120,12 +120,12 @@ export default async function ChangelogPost({
         <MDX code={post.mdx} className="mx-5 sm:prose-lg md:mx-0" />
         <div className="mt-10 flex justify-end border-t border-gray-200 pt-5">
           <Link
-            href={`https://github.com/steven-tey/dub/blob/main/content/changelog/${params.slug}.mdx`}
+            href={`https://github.com/codehagen/propdock/blob/main/content/changelog/${params.slug}.mdx`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 transition-colors hover:text-gray-800"
           >
-            <p>Found a typo? Edit this page →</p>
+            <p>Fant du en skrivefeil? Rediger denne siden →</p>
           </Link>
         </div>
       </div>

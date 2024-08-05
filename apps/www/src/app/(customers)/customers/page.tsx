@@ -44,7 +44,7 @@ const customers = [
     site: "https://vercel.com",
   },
   {
-    slug: "prisma",
+    slug: "corponor",
   },
   // {
   //   slug: "tinybird",

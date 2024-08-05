@@ -163,23 +163,23 @@ export default async function CustomerStory({
 
 const sidebarContent = [
   {
-    title: "About",
+    title: "Om bedriften",
     value: "companyDescription",
   },
   {
-    title: "Industry",
+    title: "Bransje",
     value: "companyIndustry",
   },
   {
-    title: "Company Size",
+    title: "Selskapsstørrelse",
     value: "companySize",
   },
   {
-    title: "Founded",
+    title: "Stiftet",
     value: "companyFounded",
   },
   {
-    title: "Dub Plan",
+    title: "Propdock-plan",
     value: "plan",
   },
 ]
