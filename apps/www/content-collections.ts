@@ -11,10 +11,9 @@ const computedFields = (type: "blog" | "changelog" | "customers" | "help") => ({
     return document.slug || slugger.slug(document.title)
   },
   tableOfContents: (document) => {
-    if (!document.body?.raw) {
-      return []
-    }
-    const headings = document.body.raw.match(/^##\s.+/gm)
+    const content =
+      document.content || document.body?.raw || document.mdx?.code || ""
+    const headings = content.match(/^##\s(.+)$/gm)
     const slugger = new GithubSlugger()
     return (
       headings?.map((heading) => {
@@ -217,23 +216,20 @@ export const HelpPost = defineCollection({
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm],
       })
-      console.log("MDX compilation successful for:", document.title)
+
       const computed = computedFields("help")
-      return {
+
+      const result = {
         ...document,
         slug: computed.slug(document),
         mdx,
-        tableOfContents: computed.tableOfContents({
-          ...document,
-          body: { raw: mdx.raw },
-        }),
-        images: computed.images({ ...document, body: { raw: mdx.raw } }),
-        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
-        githubRepos: computed.githubRepos({
-          ...document,
-          body: { raw: mdx.raw },
-        }),
+        tableOfContents: computed.tableOfContents(document),
+        images: computed.images(document),
+        tweetIds: computed.tweetIds(document),
+        githubRepos: computed.githubRepos(document),
       }
+
+      return result
     } catch (error) {
       console.error("Error compiling MDX for:", document.title, error)
       console.error("Error details:", error.stack)

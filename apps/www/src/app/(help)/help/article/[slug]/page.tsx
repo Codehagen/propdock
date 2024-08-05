@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-// import Feedback from "#/ui/content/feedback"
 import { allHelpPosts, HelpPost } from "content-collections"
 import { ChevronRight } from "lucide-react"
 
@@ -9,6 +8,7 @@ import { constructMetadata } from "@/lib/blog/constructMetadata"
 import { HELP_CATEGORIES } from "@/lib/blog/content"
 import { getBlurDataURL } from "@/lib/blog/images"
 import Author from "@/components/blog/author"
+import Feedback from "@/components/blog/feedback"
 import HelpArticleLink from "@/components/blog/help-article-link"
 import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
 import { MDX } from "@/components/blog/mdx"
@@ -125,13 +125,13 @@ export default async function HelpArticle({
                 </div>
               </div>
             )}
-            {/* <Feedback /> */}
+            <Feedback />
           </div>
           <div className="sticky top-20 col-span-1 hidden flex-col space-y-10 divide-y divide-gray-200 self-start sm:flex">
             {data.tableOfContents.length > 0 && (
               <TableOfContents items={data.tableOfContents} />
             )}
-            {/* <div className="flex justify-center pt-5">
+            <div className="flex justify-center pt-5">
               <Link
                 href={`https://github.com/steven-tey/dub/blob/main/content/help/${params.slug}.mdx`}
                 target="_blank"
@@ -140,7 +140,7 @@ export default async function HelpArticle({
               >
                 Fant du en skrivefeil? Rediger denne siden ↗
               </Link>
-            </div> */}
+            </div>
           </div>
         </MaxWidthWrapper>
       </div>
