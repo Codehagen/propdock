@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
+import type { Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
 
-import baseConfig from "@dingify/tailwind-config";
+import baseConfig from "@dingify/tailwind-config"
 
 const config: Config = {
   // Append the path to the UI package to the content array
@@ -132,7 +132,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-};
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+}
 
-export default config;
+export default config
