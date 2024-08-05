@@ -4,7 +4,7 @@ export default [
     "title": "Hva er Propdock?",
     "updatedAt": "2024-08-04",
     "summary": "Vi er stolte av å presentere Propdock, vår innovative lsning for eiendomsadministrasjon. Opplev fremtiden innen eiendomsforvaltning.",
-    "author": "christer",
+    "author": "codehagen",
     "categories": [
       "oversikt"
     ],
