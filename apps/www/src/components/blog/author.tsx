@@ -13,14 +13,15 @@ export default async function Author({
   imageOnly?: boolean
 }) {
   const authors = {
-    christer: {
+    codehagen: {
       name: "Christer Hagen",
       image:
         "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/addc4b60-4c8f-47d7-10ab-6f9048432500/public",
     },
-    fmerian: {
-      name: "Flo Merian",
-      image: "https://d2vwwcvoksz7ty.cloudfront.net/author/fmerian.jpg",
+    vsoraas: {
+      name: "Vegard Søraas",
+      image:
+        "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/76037f97-384f-4681-176e-5b8a0ba71300/public",
     },
   }
 

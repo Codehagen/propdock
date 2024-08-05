@@ -8,7 +8,7 @@ export default [
     "publishedAt": "2024-08-04",
     "featured": false,
     "image": "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/d0647475-6680-4d13-fb05-a25ba82a6200/public",
-    "author": "christer",
+    "author": "codehagen",
     "summary": "Vi er stolte av å presentere Propdock, vår innovative løsning for eiendomsadministrasjon. Opplev fremtiden innen eiendomsforvaltning.",
     "related": [
       "propdock-integrasjoner"
