@@ -77,28 +77,28 @@ export default async function BlogArticle({
           <div className="flex items-center space-x-4">
             <Link
               href={`/blog/category/${category.slug}`}
-              className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-semibold text-gray-700 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.1)] backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50"
+              className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-card-foreground shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.1)] backdrop-blur transition-all hover:border-border/80 hover:bg-card/80"
             >
               {category.title}
             </Link>
             <time
               dateTime={data.publishedAt}
-              className="text-sm text-gray-500 transition-colors hover:text-gray-800"
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {formatDate(data.publishedAt)}
             </time>
           </div>
-          <h1 className="font-display text-3xl font-extrabold text-gray-700 sm:text-4xl sm:leading-snug">
+          <h1 className="font-display text-3xl font-extrabold text-foreground sm:text-4xl sm:leading-snug">
             {data.title}
           </h1>
-          <p className="text-xl text-gray-500">{data.summary}</p>
+          <p className="text-xl text-muted-foreground">{data.summary}</p>
         </div>
       </MaxWidthWrapper>
 
       <div className="relative">
-        <div className="absolute top-52 h-[calc(100%-13rem)] w-full border border-gray-200 bg-white/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg" />
+        <div className="absolute top-52 h-[calc(100%-13rem)] w-full border border-border bg-card/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg" />
         <MaxWidthWrapper className="grid grid-cols-4 gap-5 px-0 pt-10 lg:gap-10">
-          <div className="relative col-span-4 flex flex-col space-y-8 bg-white sm:rounded-t-xl sm:border sm:border-gray-200 md:col-span-3">
+          <div className="relative col-span-4 flex flex-col space-y-8 bg-card sm:rounded-t-xl sm:border sm:border-border md:col-span-3">
             <BlurImage
               className="aspect-[1200/630] rounded-t-xl object-cover"
               src={data.image}
@@ -116,14 +116,14 @@ export default async function BlogArticle({
               className="px-5 pb-20 pt-4 sm:px-10"
             />
           </div>
-          <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-gray-200 self-start sm:flex">
+          <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-border self-start sm:flex">
             <div className="flex flex-col space-y-4 py-5">
-              <p className="text-sm text-gray-500">Skrevet av</p>
+              <p className="text-sm text-muted-foreground">Skrevet av</p>
               <Author username={data.author} />
             </div>
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 py-5">
-                <p className="text-sm text-gray-500">Les mer</p>
+                <p className="text-sm text-muted-foreground">Les mer</p>
                 <ul className="flex flex-col space-y-4">
                   {relatedArticles.map((post) => (
                     <li key={post.slug}>
@@ -131,13 +131,13 @@ export default async function BlogArticle({
                         href={`/blog/${post.slug}`}
                         className="group flex flex-col space-y-2"
                       >
-                        <p className="font-semibold text-gray-700 underline-offset-4 group-hover:underline">
+                        <p className="font-semibold text-foreground underline-offset-4 group-hover:underline">
                           {post.title}
                         </p>
-                        <p className="line-clamp-2 text-sm text-gray-500 underline-offset-2 group-hover:underline">
+                        <p className="line-clamp-2 text-sm text-muted-foreground underline-offset-2 group-hover:underline">
                           {post.summary}
                         </p>
-                        <p className="text-xs text-gray-400 underline-offset-2 group-hover:underline">
+                        <p className="text-xs text-muted-foreground underline-offset-2 group-hover:underline">
                           {formatDate(post.publishedAt)}
                         </p>
                       </Link>
