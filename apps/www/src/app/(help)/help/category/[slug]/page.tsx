@@ -31,7 +31,7 @@ export async function generateMetadata({
   const { title, description } = category
 
   return constructMetadata({
-    title: `${title} – Dub Help Center`,
+    title: `${title} – Propdock Hjelpesenter`,
     description,
     image: `/api/og/help?title=${encodeURIComponent(
       title,
@@ -78,7 +78,7 @@ export default function HelpCategory({
               href="/help"
               className="text-sm font-medium text-gray-500 hover:text-gray-800"
             >
-              All Categories
+              Alle kategorier
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400" />
             <Link

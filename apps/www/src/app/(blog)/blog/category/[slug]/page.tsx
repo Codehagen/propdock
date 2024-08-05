@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { allBlogPosts } from "content-collections"
 
+import { constructMetadata } from "@/lib/blog/constructMetadata"
 import { BLOG_CATEGORIES } from "@/lib/blog/content"
 import { getBlurDataURL } from "@/lib/blog/images"
 import BlogCard from "@/components/blog/blog-card"
@@ -12,28 +13,28 @@ export async function generateStaticParams() {
   }))
 }
 
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { slug: string };
-// }): Promise<Metadata | undefined> {
-//   const category = BLOG_CATEGORIES.find(
-//     (category) => category.slug === params.slug,
-//   );
-//   if (!category) {
-//     return;
-//   }
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata | undefined> {
+  const category = BLOG_CATEGORIES.find(
+    (category) => category.slug === params.slug,
+  )
+  if (!category) {
+    return
+  }
 
-//   const { title, description } = category;
+  const { title, description } = category
 
-//   return constructMetadata({
-//     title: `${title} Posts – Dub Blog`,
-//     description,
-//     image: `/api/og/help?title=${encodeURIComponent(
-//       title,
-//     )}&summary=${encodeURIComponent(description)}`,
-//   });
-// }
+  return constructMetadata({
+    title: `${title} Poster – Propdock`,
+    description,
+    image: `/api/og/help?title=${encodeURIComponent(
+      title,
+    )}&summary=${encodeURIComponent(description)}`,
+  })
+}
 
 export default async function BlogCategory({
   params,

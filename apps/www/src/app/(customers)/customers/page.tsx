@@ -5,8 +5,8 @@ import { Customer } from "@/components/blog/customers"
 import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
 
 export const metadata = constructMetadata({
-  title: "Customers – Dub",
-  description: "Meet our customers and learn how they use Dub.",
+  title: "Kunder - Propdock",
+  description: "Møt våre kunder og lær hvordan de bruker Propdock.",
 })
 
 export default function Customers() {
@@ -15,14 +15,15 @@ export default function Customers() {
       <MaxWidthWrapper className="mb-8 mt-16 text-center">
         <div className="mx-auto mb-10 sm:max-w-lg">
           <h1 className="font-display text-4xl font-extrabold text-black sm:text-5xl">
-            Meet our{" "}
+            Se våre{" "}
             <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-              customers
+              kunder
             </span>
           </h1>
           <p className="mt-5 text-gray-600 sm:text-lg">
-            Dub gives superpowers to marketing teams at thousands of world-class
-            companies –from startups to enterprises.
+            Propdock gir superkrefter til eiendomsforvaltere og eiere - fra
+            enkeltpersoner med én eiendom til store selskaper med omfattende
+            porteføljer.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-5 py-5 md:grid-cols-4">

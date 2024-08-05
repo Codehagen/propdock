@@ -12,7 +12,6 @@ var computedFields = (type) => ({
   },
   tableOfContents: (document) => {
     if (!document.body?.raw) {
-      console.warn(`No raw body content found for document: ${document.title}`);
       return [];
     }
     const headings = document.body.raw.match(/^##\s.+/gm);
@@ -63,7 +62,6 @@ var BlogPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title);
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm]
@@ -107,7 +105,6 @@ var ChangelogPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title);
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm]
@@ -157,7 +154,6 @@ var CustomersPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title);
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm]
@@ -195,24 +191,13 @@ var HelpPost = defineCollection({
     updatedAt: z.string(),
     summary: z.string(),
     author: z.string(),
-    categories: z.array(
-      z.enum([
-        "overview",
-        "getting-started",
-        "link-management",
-        "custom-domains",
-        "migrating",
-        "saml-sso",
-        "api"
-      ])
-    ).default(["overview"]),
+    categories: z.array(z.enum(["oversikt", "starter", "eiendomsforvaltning", "api"])).default(["oversikt"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),
     slug: z.string().optional()
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title);
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm]

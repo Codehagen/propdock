@@ -12,7 +12,6 @@ const computedFields = (type: "blog" | "changelog" | "customers" | "help") => ({
   },
   tableOfContents: (document) => {
     if (!document.body?.raw) {
-      console.warn(`No raw body content found for document: ${document.title}`)
       return []
     }
     const headings = document.body.raw.match(/^##\s.+/gm)
@@ -73,7 +72,6 @@ const BlogPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title)
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm],
@@ -118,7 +116,6 @@ const ChangelogPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title)
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm],
@@ -169,7 +166,6 @@ export const CustomersPost = defineCollection({
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title)
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm],
@@ -209,25 +205,14 @@ export const HelpPost = defineCollection({
     summary: z.string(),
     author: z.string(),
     categories: z
-      .array(
-        z.enum([
-          "overview",
-          "getting-started",
-          "link-management",
-          "custom-domains",
-          "migrating",
-          "saml-sso",
-          "api",
-        ]),
-      )
-      .default(["overview"]),
+      .array(z.enum(["oversikt", "starter", "eiendomsforvaltning", "api"]))
+      .default(["oversikt"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),
     slug: z.string().optional(),
   }),
   transform: async (document, context) => {
     try {
-      console.log("Starting MDX compilation for:", document.title)
       const mdx = await compileMDX(context, document, {
         rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [remarkGfm],

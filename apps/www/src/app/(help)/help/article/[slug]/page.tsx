@@ -34,7 +34,7 @@ export async function generateMetadata({
   const { title, summary } = post
 
   return constructMetadata({
-    title: `${title} – Dub Help Center`,
+    title: `${title} – Propdock Hjelpesenter`,
     description: summary,
     image: `/api/og/help?title=${encodeURIComponent(
       title,
@@ -86,7 +86,7 @@ export default async function HelpArticle({
                 href="/help"
                 className="whitespace-nowrap text-sm font-medium text-gray-500 hover:text-gray-800"
               >
-                All Categories
+                Alle kategorier
               </Link>
               <ChevronRight className="h-4 w-4 text-gray-400" />
               <Link
@@ -116,7 +116,7 @@ export default async function HelpArticle({
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 border-t border-gray-200 pt-8">
                 <h2 className="font-display text-xl font-bold sm:text-2xl">
-                  Related Articles
+                  Relaterte artikler
                 </h2>
                 <div className="grid gap-2 rounded-xl border border-gray-200 bg-white p-4">
                   {relatedArticles.map((article) => (
@@ -138,7 +138,7 @@ export default async function HelpArticle({
                 rel="noopener noreferrer"
                 className="text-xs text-gray-500 transition-colors hover:text-gray-800"
               >
-                Found a typo? Edit this page ↗
+                Fant du en skrivefeil? Rediger denne siden ↗
               </Link>
             </div> */}
           </div>

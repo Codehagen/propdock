@@ -20,6 +20,10 @@ const config = {
       },
       {
         protocol: "https",
+        hostname: "imagedelivery.net",
+      },
+      {
+        protocol: "https",
         hostname: "d2vwwcvoksz7ty.cloudfront.net",
       },
     ],

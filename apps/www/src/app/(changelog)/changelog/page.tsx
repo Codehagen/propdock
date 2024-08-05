@@ -12,9 +12,9 @@ import { MDX } from "@/components/blog/mdx"
 // import { Twitter } from "@/components/shared/icons"
 
 export const metadata = constructMetadata({
-  title: "Changelog – Propdock",
+  title: "Endringslogg – Propdock",
   description:
-    "All the latest updates, improvements, and fixes to Propdock - the link management tool for modern marketing teams.",
+    "Alle de siste oppdateringene, forbedringene og feilrettingene til Propdock - eiendomsadministrasjonsverktøyet for moderne eiendomsforvaltere.",
   image: "/api/og/changelog",
 })
 
@@ -25,16 +25,17 @@ export default function Changelog() {
         <div className="md:col-span-1" />
         <div className="mx-5 flex flex-col space-y-6 md:col-span-3 md:mx-0">
           <h1 className="font-display text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">
-            Changelog
+            Endringslogg
           </h1>
           <p className="text-lg text-gray-500">
-            All the latest updates, improvements, and fixes to Propdock.
+            Alle de siste oppdateringene, forbedringene og feilrettingene til
+            Propdock.
           </p>
         </div>
         <div className="absolute bottom-2 right-0 flex items-center space-x-2">
-          <p className="text-sm text-gray-500">Subscribe to updates →</p>
+          <p className="text-sm text-gray-500">Abonner på oppdateringer →</p>
           <Link
-            href="https://twitter.com/dubdotco"
+            href="https://twitter.com/codehagen"
             className="rounded-full bg-blue-100 p-2 transition-colors hover:bg-blue-200"
             target="_blank"
             rel="noopener noreferrer"

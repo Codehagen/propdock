@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 
 export function constructMetadata({
-  title = "Dub - Link Management for Modern Marketing Teams",
-  description = "Dub is an open-source link management tool for modern marketing teams to create, share, and track short links.",
-  image = "https://dub.co/_static/thumbnail.png",
+  title = "Propdock - Revolusjonerende eiendomsadministrasjon",
+  description = "Propdock er en innovativ løsning for eiendomsadministrasjon som kombinerer kraftig analyse, utleieadministrasjon og brukervennlig grensesnitt",
+  image = "https://propdock.no/_static/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
@@ -57,3 +57,8 @@ export const APP_HOSTNAMES = new Set([
   "localhost:3000",
   "localhost",
 ])
+
+export const truncate = (str: string | null, length: number) => {
+  if (!str || str.length <= length) return str;
+  return `${str.slice(0, length - 3)}...`;
+};

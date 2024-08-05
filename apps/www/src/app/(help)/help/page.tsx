@@ -6,8 +6,8 @@ import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
 import SearchButton from "@/components/blog/search-button"
 
 export const metadata = constructMetadata({
-  title: "Help Center – Dub",
-  description: "A one-stop shop for all your Dub-related questions.",
+  title: "Hjelpesenter – Propdock",
+  description: "Et samlet sted for alle dine Propdock-relaterte spørsmål.",
 })
 
 export default function HelpCenter() {
@@ -17,7 +17,7 @@ export default function HelpCenter() {
       <MaxWidthWrapper className="max-w-screen-lg">
         <div className="flex flex-col space-y-4 py-10">
           <h1 className="font-display text-xl font-bold text-gray-700 sm:text-3xl">
-            👋 How can we help today?
+            👋 Hvordan kan vi hjelpe deg i dag?
           </h1>
           <SearchButton />
         </div>
@@ -28,7 +28,7 @@ export default function HelpCenter() {
         <MaxWidthWrapper className="max-w-screen-lg pb-20">
           <div className="relative mb-10 rounded-xl border border-gray-200 bg-white px-4 py-6">
             <h2 className="font-display px-4 text-2xl font-bold text-gray-700">
-              Popular Articles
+              Populære Artikler
             </h2>
             <div className="mt-4 grid gap-2 md:grid-cols-2">
               {popularArticles.map((article) => (

@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { title, summary, image } = post
 
   return constructMetadata({
-    title: `${title} –Dub`,
+    title: `${title} –Propdock`,
     description: summary,
     image,
   })
@@ -65,7 +65,7 @@ export default async function CustomerStory({
             href="/customers"
             className="text-sm text-gray-500 hover:text-gray-800"
           >
-            ← All Customers
+            ← Tilbake til kunder
           </Link>
           <h1 className="font-display text-3xl font-extrabold text-gray-700 [text-wrap:balance] sm:text-4xl sm:leading-snug">
             {data.title}
