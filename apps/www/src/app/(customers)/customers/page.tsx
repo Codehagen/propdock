@@ -46,92 +46,92 @@ const customers = [
   {
     slug: "prisma",
   },
-  {
-    slug: "tinybird",
-    site: "https://tinybird.co",
-  },
-  {
-    slug: "hashnode",
-    site: "https://hashnode.com",
-  },
-  {
-    slug: "cal",
-    site: "https://cal.com",
-  },
-  {
-    slug: "perplexity",
-    site: "https://perplexity.ai",
-  },
-  {
-    slug: "replicate",
-    site: "https://replicate.com",
-  },
-  {
-    slug: "super",
-    site: "https://super.so",
-  },
-  {
-    slug: "chronicle",
-    site: "https://chroniclehq.com",
-  },
-  {
-    slug: "attio",
-    site: "https://attio.com",
-  },
-  {
-    slug: "crowd",
-    site: "https://crowd.dev",
-  },
-  {
-    slug: "checkly",
-    site: "https://checklyhq.com",
-  },
-  {
-    slug: "rovisys",
-    site: "https://www.rovisys.com",
-  },
-  {
-    slug: "chatwoot",
-    site: "https://chatwoot.com",
-  },
-  {
-    slug: "lugg",
-    site: "https://lugg.com",
-  },
-  {
-    slug: "vueschool",
-    site: "https://vueschool.io",
-  },
-  {
-    slug: "refine",
-    site: "https://refine.dev",
-  },
-  {
-    slug: "crowdin",
-    site: "https://crowdin.com",
-  },
-  {
-    slug: "peerlist",
-    site: "https://peerlist.io",
-  },
-  {
-    slug: "anja",
-    site: "https://www.anjahealth.com/",
-  },
-  {
-    slug: "inngest",
-    site: "https://www.inngest.com/",
-  },
-  {
-    slug: "ashore",
-    site: "https://ashore.io/",
-  },
-  {
-    slug: "galactic",
-    site: "https://galacticrecords.com/",
-  },
-  {
-    slug: "1komma5grad",
-    site: "https://1komma5grad.com/",
-  },
+  // {
+  //   slug: "tinybird",
+  //   site: "https://tinybird.co",
+  // },
+  // {
+  //   slug: "hashnode",
+  //   site: "https://hashnode.com",
+  // },
+  // {
+  //   slug: "cal",
+  //   site: "https://cal.com",
+  // },
+  // {
+  //   slug: "perplexity",
+  //   site: "https://perplexity.ai",
+  // },
+  // {
+  //   slug: "replicate",
+  //   site: "https://replicate.com",
+  // },
+  // {
+  //   slug: "super",
+  //   site: "https://super.so",
+  // },
+  // {
+  //   slug: "chronicle",
+  //   site: "https://chroniclehq.com",
+  // },
+  // {
+  //   slug: "attio",
+  //   site: "https://attio.com",
+  // },
+  // {
+  //   slug: "crowd",
+  //   site: "https://crowd.dev",
+  // },
+  // {
+  //   slug: "checkly",
+  //   site: "https://checklyhq.com",
+  // },
+  // {
+  //   slug: "rovisys",
+  //   site: "https://www.rovisys.com",
+  // },
+  // {
+  //   slug: "chatwoot",
+  //   site: "https://chatwoot.com",
+  // },
+  // {
+  //   slug: "lugg",
+  //   site: "https://lugg.com",
+  // },
+  // {
+  //   slug: "vueschool",
+  //   site: "https://vueschool.io",
+  // },
+  // {
+  //   slug: "refine",
+  //   site: "https://refine.dev",
+  // },
+  // {
+  //   slug: "crowdin",
+  //   site: "https://crowdin.com",
+  // },
+  // {
+  //   slug: "peerlist",
+  //   site: "https://peerlist.io",
+  // },
+  // {
+  //   slug: "anja",
+  //   site: "https://www.anjahealth.com/",
+  // },
+  // {
+  //   slug: "inngest",
+  //   site: "https://www.inngest.com/",
+  // },
+  // {
+  //   slug: "ashore",
+  //   site: "https://ashore.io/",
+  // },
+  // {
+  //   slug: "galactic",
+  //   site: "https://galacticrecords.com/",
+  // },
+  // {
+  //   slug: "1komma5grad",
+  //   site: "https://1komma5grad.com/",
+  // },
 ]
