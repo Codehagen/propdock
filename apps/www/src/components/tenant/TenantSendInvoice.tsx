@@ -378,6 +378,9 @@ export default function TenantSendInvoice({ customers, products }) {
                                         )}
                                       />
                                       {product.Name}
+                                      <span className="ml-2 text-sm text-muted-foreground">
+                                        {product.SalesPrice} NOK
+                                      </span>
                                     </CommandItem>
                                   ))}
                                 </CommandGroup>
