@@ -42,7 +42,7 @@ export default async function authMiddleware(
   next: any,
 ) {
   // Skip all checks for the test endpoint
-  if (c.req.path === '/api/test') {
+  if (c.req.path === '/api/external/test') {
     if (DEBUG) { console.debug("Middleware debug - inserting test variable into request context") }
     c.set("test", true)
     return next();
