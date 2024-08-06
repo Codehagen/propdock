@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { createInvoice } from "@/actions/create-invoice"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { addDays, differenceInCalendarDays, format } from "date-fns"
 import { nb } from "date-fns/locale"
@@ -64,10 +65,13 @@ const InvoiceSchema = z.object({
   comment: z.string().optional(),
 })
 
-export default function TenantSendInvoice({ customers, products }) {
-  console.log("Customers in TenantSendInvoice:", customers)
-  console.log("Products in TenantSendInvoice:", products)
-
+export default function TenantSendInvoice({
+  customers,
+  products,
+}: {
+  customers: any
+  products: any
+}) {
   // Extract the actual customer and product arrays
   const customerArray = customers?.message || []
   const productArray = products?.message || []
@@ -107,33 +111,40 @@ export default function TenantSendInvoice({ customers, products }) {
     date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
 
   const onSubmit = async (data) => {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const isSuccess = true
-        if (isSuccess) {
-          resolve({ name: "Invoice" })
-        } else {
-          reject("Error creating invoice")
-        }
-      }, 2000)
-    })
+    try {
+      const invoiceData = {
+        CurrencyCode: "NOK",
+        CustomerId: parseInt(data.customer),
+        SalesOrderLines: [
+          {
+            Description:
+              productArray.find((p) => p.Id.toString() === data.product)
+                ?.Name || "",
+            ProductId: parseInt(data.product),
+          },
+        ],
+        // Commenting out the following fields for now:
+        // InvoiceDate: format(data.date, "yyyy-MM-dd"),
+        // DueDate: format(data.dueDate, "yyyy-MM-dd"),
+        // YourReference: data.ourReference,
+        // TheirReference: data.theirReference,
+        // OrderNumber: data.orderReference,
+        // InvoiceEmail: data.invoiceEmail,
+        // BankAccountNumber: data.accountNumber,
+        // Comments: data.comment,
+      }
 
-    toast.promise(promise, {
-      loading: "Vennligst vent...",
-      success: (data) => {
-        return `Faktura er blitt sendt`
-      },
-      error: "Error",
-    })
-
-    promise
-      .then(() => {
-        console.log(data)
-        form.reset()
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+      const result = await createInvoice(invoiceData)
+      if (result.success) {
+        console.log("Created invoice:", result.data)
+        toast.success("Invoice created successfully!")
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (error) {
+      console.error("Error creating invoice:", error)
+      toast.error("Failed to create invoice: " + error.message)
+    }
   }
 
   return (
@@ -217,6 +228,10 @@ export default function TenantSendInvoice({ customers, products }) {
                                         )
                                         form.setValue(
                                           "email",
+                                          customer.EmailAddress,
+                                        )
+                                        form.setValue(
+                                          "invoiceEmail",
                                           customer.EmailAddress,
                                         )
                                       }}
@@ -453,11 +468,11 @@ export default function TenantSendInvoice({ customers, products }) {
                     name="invoiceEmail"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Faktura</FormLabel>
+                        <FormLabel>Faktura epost</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Epost til kunden..."
+                            placeholder="Epost for faktura..."
                             {...field}
                           />
                         </FormControl>
