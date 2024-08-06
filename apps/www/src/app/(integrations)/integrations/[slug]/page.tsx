@@ -175,6 +175,6 @@ const sidebarContent = [
   },
   {
     title: "Sist oppdatert",
-    value: "lastUpdated",
+    value: "publishedAt",
   },
 ]

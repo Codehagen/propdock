@@ -26,7 +26,7 @@ export default function Integrations() {
             eiendomsforvaltning.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-5 py-5 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 py-5 md:grid-cols-2 lg:grid-cols-3">
           {integrations.map((integration) => (
             <Integration key={integration.slug} {...integration} />
           ))}
@@ -42,13 +42,22 @@ const integrations = [
   {
     slug: "visma",
     site: "https://visma.no",
+    description:
+      "Visma's regnskapsinfrastruktur og analyser har hjulpet oss med å få verdifull innsikt i regnskapsføring for eiendomsforvaltning.",
   },
   {
     slug: "tripletex",
     site: "https://tripletex.no",
   },
   {
+    slug: "propcloud",
+    description:
+      "PropCloud er en av våre mest populære integrasjoner, og er brukt av vårt team som standard for alle våre eiendomskampanjer.",
+  },
+  {
     slug: "poweroffice",
+    description:
+      "Vi har brukt PowerOffice i Propdock siden lanseringen for over et år siden for alle våre eiendomskampanjer, og vårt team elsker det absolutt!",
   },
   // Add more integrations as needed
 ]

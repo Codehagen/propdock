@@ -271,6 +271,8 @@ var IntegrationsPost = defineCollection({
     companyUrl: z.string(),
     companyDescription: z.string(),
     integrationType: z.string(),
+    integrationDescription: z.string(),
+    compatibility: z.string(),
     slug: z.string().optional()
   }),
   transform: async (document, context) => {
