@@ -5,13 +5,14 @@ export const marketingConfig: MarketingConfig = {
     {
       title: "Docs",
       href: "https://docs.dingify.io/",
+      disabled: true,
     },
     {
       title: "Open Startup",
       href: "/open",
     },
     {
-      title: "Pricing",
+      title: "Priser",
       href: "/pricing",
       disabled: true,
     },

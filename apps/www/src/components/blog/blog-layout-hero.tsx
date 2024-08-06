@@ -23,14 +23,14 @@ export default function BlogLayoutHero() {
     <>
       <MaxWidthWrapper>
         <div className="max-w-screen-sm py-16">
-          <h1 className="font-display text-3xl font-extrabold text-gray-700 sm:text-4xl">
+          <h1 className="font-display text-3xl font-extrabold text-foreground sm:text-4xl">
             {data?.title || "Blogg"}
           </h1>
-          <p className="mt-4 text-xl text-gray-500">
+          <p className="mt-4 text-xl text-muted-foreground">
             {data?.description ||
               "Siste nyheter og oppdateringer fra Propdock."}
           </p>
-          <nav className="mt-6 hidden w-fit items-center space-x-2 rounded-full border border-gray-200 bg-white p-2 md:flex">
+          <nav className="mt-6 hidden w-fit items-center space-x-2 rounded-full border border-border bg-background p-2 md:flex">
             <CategoryLink title="Oversikt" href="/blog" active={!slug} />
             {BLOG_CATEGORIES.map((category) => (
               <CategoryLink
@@ -77,7 +77,7 @@ export default function BlogLayoutHero() {
           onClick={() => {
             setOpenPopover(!openPopover)
           }}
-          className="flex w-full items-center space-x-2 border-t border-gray-200 px-2.5 py-4 text-sm"
+          className="flex w-full items-center space-x-2 border-t border-border px-2.5 py-4 text-sm text-foreground"
         >
           <List size={16} />
           <p>Kategorier</p>
@@ -107,10 +107,10 @@ const CategoryLink = ({
         {...(setOpenPopover && {
           onClick: () => setOpenPopover(false),
         })}
-        className="flex w-full items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-100 active:bg-gray-200"
+        className="flex w-full items-center justify-between rounded-md p-2 transition-colors hover:bg-muted active:bg-muted/80"
       >
-        <p className="text-sm text-gray-600">{title}</p>
-        {active && <Check size={16} className="text-gray-600" />}
+        <p className="text-sm text-muted-foreground">{title}</p>
+        {active && <Check size={16} className="text-muted-foreground" />}
       </Link>
     )
   }
@@ -118,8 +118,10 @@ const CategoryLink = ({
     <Link href={href} className="relative z-10">
       <div
         className={cn(
-          "rounded-full px-4 py-2 text-sm text-gray-600 transition-all",
-          active ? "text-white" : "hover:bg-gray-100 active:bg-gray-200",
+          "rounded-full px-4 py-2 text-sm transition-all",
+          active
+            ? "text-primary-foreground"
+            : "text-muted-foreground hover:bg-muted active:bg-muted/80",
         )}
       >
         {title}
@@ -127,7 +129,7 @@ const CategoryLink = ({
       {active && (
         <motion.div
           layoutId="indicator"
-          className="absolute left-0 top-0 h-full w-full rounded-full bg-gradient-to-tr from-gray-800 via-gray-700 to-gray-800"
+          className="absolute left-0 top-0 h-full w-full rounded-full bg-gradient-to-tr from-primary via-primary/80 to-primary"
           style={{ zIndex: -1 }}
         />
       )}

@@ -78,47 +78,47 @@ export default async function HelpArticle({
         <SearchButton />
       </MaxWidthWrapper>
 
-      <div className="border border-gray-200 bg-white/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg">
+      <div className="border border-border bg-background/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg dark:shadow-[inset_10px_-50px_94px_0_rgba(0,0,0,0.2)]">
         <MaxWidthWrapper className="grid max-w-screen-lg grid-cols-4 gap-10 py-10">
           <div className="col-span-4 flex flex-col space-y-8 sm:col-span-3 sm:pr-10">
             <div className="flex items-center space-x-2">
               <Link
                 href="/help"
-                className="whitespace-nowrap text-sm font-medium text-gray-500 hover:text-gray-800"
+                className="whitespace-nowrap text-sm font-medium text-muted-foreground hover:text-foreground"
               >
                 Alle kategorier
               </Link>
-              <ChevronRight className="h-4 w-4 text-gray-400" />
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
               <Link
                 href={`/help/category/${category.slug}`}
-                className="whitespace-nowrap text-sm font-medium text-gray-500 hover:text-gray-800"
+                className="whitespace-nowrap text-sm font-medium text-muted-foreground hover:text-foreground"
               >
                 {category.title}
               </Link>
-              <ChevronRight className="h-4 w-4 text-gray-400" />
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
               <Link
                 href={`/help/article/${data.slug}`}
-                className="truncate text-sm font-medium text-gray-500 hover:text-gray-800"
+                className="truncate text-sm font-medium text-muted-foreground hover:text-foreground"
               >
                 {data.title}
               </Link>
             </div>
             <div className="flex flex-col space-y-4">
               <Link href={`/help/article/${data.slug}`}>
-                <h1 className="font-display text-3xl font-bold !leading-snug sm:text-4xl">
+                <h1 className="font-display text-3xl font-bold !leading-snug text-foreground sm:text-4xl">
                   {data.title}
                 </h1>
               </Link>
-              <p className="text-gray-500">{data.summary}</p>
+              <p className="text-muted-foreground">{data.summary}</p>
               <Author username={data.author} updatedAt={data.updatedAt} />
             </div>
             <MDX code={data.mdx} images={images} tweets={tweets} />
             {relatedArticles.length > 0 && (
-              <div className="flex flex-col space-y-4 border-t border-gray-200 pt-8">
-                <h2 className="font-display text-xl font-bold sm:text-2xl">
+              <div className="flex flex-col space-y-4 border-t border-border pt-8">
+                <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
                   Relaterte artikler
                 </h2>
-                <div className="grid gap-2 rounded-xl border border-gray-200 bg-white p-4">
+                <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
                   {relatedArticles.map((article) => (
                     <HelpArticleLink key={article.slug} article={article} />
                   ))}
@@ -127,16 +127,16 @@ export default async function HelpArticle({
             )}
             <Feedback />
           </div>
-          <div className="sticky top-20 col-span-1 hidden flex-col space-y-10 divide-y divide-gray-200 self-start sm:flex">
+          <div className="sticky top-20 col-span-1 hidden flex-col space-y-10 divide-y divide-border self-start sm:flex">
             {data.tableOfContents.length > 0 && (
               <TableOfContents items={data.tableOfContents} />
             )}
             <div className="flex justify-center pt-5">
               <Link
-                href={`https://github.com/steven-tey/dub/blob/main/content/help/${params.slug}.mdx`}
+                href={`https://github.com/codehagen/propdock/blob/main/content/help/${params.slug}.mdx`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-500 transition-colors hover:text-gray-800"
+                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
                 Fant du en skrivefeil? Rediger denne siden ↗
               </Link>

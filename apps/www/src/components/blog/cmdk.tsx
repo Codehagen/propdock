@@ -47,20 +47,20 @@ function CMDKHelper({
             }, 0)
             debouncedTrackSearch(e.currentTarget.value)
           }}
-          placeholder="Search articles, guides, and more..."
-          className="w-full border-none p-4 font-normal placeholder-gray-400 focus:outline-none focus:ring-0"
+          placeholder="Søk etter artikler, guider og mer..."
+          className="w-full border-none bg-background p-4 font-normal text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-0"
         />
         <Command.List
           ref={commandListRef}
-          className="scrollbar-hide h-[50vh] max-h-[360px] min-h-[250px] overflow-scroll border-t border-gray-200 p-2 transition-all sm:h-[calc(var(--cmdk-list-height)+10rem)]"
+          className="scrollbar-hide h-[50vh] max-h-[360px] min-h-[250px] overflow-scroll border-t border-border bg-background p-2 transition-all sm:h-[calc(var(--cmdk-list-height)+10rem)]"
         >
-          <Command.Empty className="flex cursor-not-allowed items-center space-x-2 rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-600">
-            <Magic className="h-4 w-4 text-gray-400" />
+          <Command.Empty className="flex cursor-not-allowed items-center space-x-2 rounded-md bg-muted px-4 py-2 text-sm text-muted-foreground">
+            <Magic className="h-4 w-4 text-muted-foreground" />
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium text-purple-600">
+              <p className="text-sm font-medium text-primary">
                 Ask AI (Coming soon)
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 Use our AI to find answers to your questions
               </p>
             </div>
@@ -115,12 +115,12 @@ const CommandResults = ({
 
   const results = useMemo(() => {
     if (search.length === 0) {
-      return popularArticles.filter((article) => article && article.slug)
+      return popularArticles.filter((article) => article?.slug)
     }
     return fuse
       .search(search)
       .map((r) => r.item)
-      .filter((item) => item && item.slug)
+      .filter((item) => item?.slug)
   }, [search, popularArticles])
 
   return results.map(({ slug, title, summary }) => (
@@ -140,25 +140,25 @@ const CommandResults = ({
         }
         setShowCMDK(false)
       }}
-      className="group flex cursor-pointer items-center justify-between space-x-2 rounded-md px-4 py-2 hover:bg-gray-100 active:bg-gray-200 aria-selected:bg-gray-100"
+      className="group flex cursor-pointer items-center justify-between space-x-2 rounded-md px-4 py-2 hover:bg-muted active:bg-muted/70 aria-selected:bg-muted"
     >
       <div className="flex flex-col space-y-1">
         <Highlighter
-          highlightClassName="underline bg-transparent text-purple-500"
+          highlightClassName="underline bg-transparent text-purple-500 dark:text-purple-400"
           searchWords={search.split(" ")}
           autoEscape={true}
           textToHighlight={title}
-          className="text-sm font-medium text-gray-600 group-aria-selected:text-purple-600 sm:group-hover:text-purple-600"
+          className="text-sm font-medium text-foreground group-aria-selected:text-purple-600 dark:group-aria-selected:text-purple-400 sm:group-hover:text-purple-600 dark:sm:group-hover:text-purple-400"
         />
         <Highlighter
-          highlightClassName="underline bg-transparent text-purple-500"
+          highlightClassName="underline bg-transparent text-purple-500 dark:text-purple-400"
           searchWords={search.split(" ")}
           autoEscape={true}
           textToHighlight={summary}
-          className="line-clamp-1 text-xs text-gray-400"
+          className="line-clamp-1 text-xs text-muted-foreground"
         />
       </div>
-      <ExpandingArrow className="invisible -ml-4 h-4 w-4 text-purple-600 group-aria-selected:visible sm:group-hover:visible" />
+      <ExpandingArrow className="invisible -ml-4 h-4 w-4 text-purple-600 group-aria-selected:visible dark:text-purple-400 sm:group-hover:visible" />
     </Command.Item>
   ))
 }
