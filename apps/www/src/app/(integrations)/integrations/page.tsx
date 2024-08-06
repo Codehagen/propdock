@@ -1,0 +1,54 @@
+import { Suspense } from "react"
+
+import { constructMetadata } from "@/lib/blog/constructMetadata"
+import { Integration } from "@/components/blog/integrations"
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
+
+export const metadata = constructMetadata({
+  title: "Integrasjoner - Propdock",
+  description:
+    "Utforsk våre integrasjoner og se hvordan de kan forbedre din eiendomsforvaltning.",
+})
+
+export default function Integrations() {
+  return (
+    <>
+      <MaxWidthWrapper className="mb-8 mt-16 text-center">
+        <div className="mx-auto mb-10 sm:max-w-lg">
+          <h1 className="font-display text-4xl font-extrabold text-black sm:text-5xl">
+            Våre{" "}
+            <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+              integrasjoner
+            </span>
+          </h1>
+          <p className="mt-5 text-gray-600 sm:text-lg">
+            Propdock integrerer sømløst med en rekke verktøy for å forbedre din
+            eiendomsforvaltning.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-5 py-5 md:grid-cols-4">
+          {integrations.map((integration) => (
+            <Integration key={integration.slug} {...integration} />
+          ))}
+        </div>
+      </MaxWidthWrapper>
+      <Suspense>{/* <Testimonials /> */}</Suspense>
+      {/* <CTA /> */}
+    </>
+  )
+}
+
+const integrations = [
+  {
+    slug: "visma",
+    site: "https://visma.no",
+  },
+  {
+    slug: "tripletex",
+    site: "https://tripletex.no",
+  },
+  {
+    slug: "poweroffice",
+  },
+  // Add more integrations as needed
+]
