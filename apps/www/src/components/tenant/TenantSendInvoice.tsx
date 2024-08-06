@@ -4,13 +4,27 @@ import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { addDays, differenceInCalendarDays, format } from "date-fns"
 import { nb } from "date-fns/locale"
-import { CalendarIcon, PlusIcon, SendIcon } from "lucide-react"
+import {
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  PlusIcon,
+  SendIcon,
+} from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 import { Button } from "@dingify/ui/components/button"
 import { Calendar } from "@dingify/ui/components/calendar"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@dingify/ui/components/command"
 import {
   Form,
   FormControl,
@@ -26,13 +40,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@dingify/ui/components/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@dingify/ui/components/select"
 import { Separator } from "@dingify/ui/components/separator"
 import { Textarea } from "@dingify/ui/components/textarea"
 
@@ -58,6 +65,13 @@ const InvoiceSchema = z.object({
 })
 
 export default function TenantSendInvoice({ customers, products }) {
+  console.log("Customers in TenantSendInvoice:", customers)
+  console.log("Products in TenantSendInvoice:", products)
+
+  // Extract the actual customer and product arrays
+  const customerArray = customers?.message || []
+  const productArray = products?.message || []
+
   const today = new Date()
   const fourteenDaysFromToday = addDays(today, 14)
 
@@ -161,35 +175,71 @@ export default function TenantSendInvoice({ customers, products }) {
                     control={form.control}
                     name="customer"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Kunde</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger className="items-start [&_[data-description]]:hidden">
-                              <SelectValue placeholder="Velg en kunde" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {customers.map((customer) => (
-                                <SelectItem
-                                  key={customer.id}
-                                  value={customer.id}
-                                >
-                                  <div className="flex items-start gap-3 text-muted-foreground">
-                                    <div className="grid gap-0.5">
-                                      <p>{customer.name}</p>
-                                      <p className="text-xs" data-description>
-                                        {customer.orgnr}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? customerArray.find(
+                                      (customer) =>
+                                        customer.Id.toString() === field.value,
+                                    )?.Name
+                                  : "Velg en kunde"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Søk etter kunde..." />
+                              <CommandList>
+                                <CommandEmpty>
+                                  Ingen kunder funnet.
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {customerArray.map((customer) => (
+                                    <CommandItem
+                                      value={customer.Name}
+                                      key={customer.Id}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "customer",
+                                          customer.Id.toString(),
+                                        )
+                                        form.setValue(
+                                          "email",
+                                          customer.EmailAddress,
+                                        )
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          customer.Id.toString() === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {customer.Name}
+                                      <span className="ml-2 text-sm text-muted-foreground">
+                                        {customer.OrganizationNumber}
+                                      </span>
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -273,33 +323,68 @@ export default function TenantSendInvoice({ customers, products }) {
                     control={form.control}
                     name="product"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Produkter</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                              const selectedProduct = products.find(
-                                (product) => product.id === value,
-                              )
-                              if (selectedProduct) {
-                                form.setValue("price", selectedProduct.price)
-                              }
-                            }}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Velg produkt" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {products.map((product) => (
-                                <SelectItem key={product.id} value={product.id}>
-                                  {product.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? productArray.find(
+                                      (product) =>
+                                        product.Id.toString() === field.value,
+                                    )?.Name
+                                  : "Velg et produkt"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Søk etter produkt..." />
+                              <CommandList>
+                                <CommandEmpty>
+                                  Ingen produkter funnet.
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {productArray.map((product) => (
+                                    <CommandItem
+                                      value={product.Name}
+                                      key={product.Id}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "product",
+                                          product.Id.toString(),
+                                        )
+                                        form.setValue(
+                                          "price",
+                                          product.SalesPrice,
+                                        )
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          product.Id.toString() === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {product.Name}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}

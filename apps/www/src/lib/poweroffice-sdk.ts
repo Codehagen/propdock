@@ -53,17 +53,23 @@ class PowerOfficeSDK {
     )
     return response.data
   }
+
+  async getCustomersAndProducts() {
+    const [customersResponse, productsResponse] = await Promise.all([
+      this.api.get("/api/internal/poweroffice/customers"),
+      this.api.get("/api/internal/poweroffice/products"),
+    ])
+    return {
+      customers: customersResponse.data,
+      products: productsResponse.data,
+    }
+  }
 }
 
 const apiUrl =
   process.env.NODE_ENV === "production"
     ? "https://api.vegard.workers.dev"
     : "https://api.vegard.workers.dev"
-
-//     const apiUrl =
-//   process.env.NODE_ENV === "production"
-//     ? "https://api.propdock.workers.dev"
-//     : "http://localhost:8787"
 
 const apiKey = process.env.NEXT_PUBLIC_API_KEY || "super-secret"
 
