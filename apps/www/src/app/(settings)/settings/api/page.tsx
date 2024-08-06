@@ -15,6 +15,7 @@ import {
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import { poweroffice } from "@/lib/poweroffice-sdk"
 import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
@@ -44,6 +45,30 @@ export default async function SettingsPage() {
   if (!userApiKeys) {
     redirect(authOptions.pages?.signIn || "/login")
   }
+  // const x = await poweroffice.getCustomers()
+  // console.log(x)
+
+  // const y = await poweroffice.getCustomer("17763838")
+  // console.log(y)
+
+  // const z = await poweroffice.getProducts()
+  // console.log(z)
+
+  // const a = await poweroffice.getProduct("20681528")
+  // console.log(a)
+
+  // const invoiceData = {
+  //   CurrencyCode: "NOK",
+  //   CustomerId: 17763838,
+  //   SalesOrderLines: [
+  //     {
+  //       Description: "SDK",
+  //       ProductId: 20681521,
+  //     },
+  //   ],
+  // }
+  // const invoice = await poweroffice.createInvoice(invoiceData)
+  // console.log(invoice)
 
   return (
     <DashboardShell>
