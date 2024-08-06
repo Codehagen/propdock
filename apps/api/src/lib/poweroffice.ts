@@ -23,8 +23,6 @@ async function superget(env: Env, url: string, workspaceId: string) {
 async function superpost(env: Env, url:string, workspaceId: string, data: any) {
     const poHeaders = await getRequestHeaders(env, workspaceId)
 
-    console.log("Superpost request headers:", poHeaders)
-
     let response
     try {
         response = await fetch(url, {
@@ -36,9 +34,6 @@ async function superpost(env: Env, url:string, workspaceId: string, data: any) {
         console.error("Superpost error:", error)
         return
     }
-
-    console.debug("Request to URL:", url)
-    console.debug("Response:", response.ok, response.status)
 
     if (!response.ok) {
         console.error(`Bad response while posting to ${url}: ${response.status} ${response.statusText} ${await response.text()}`)
