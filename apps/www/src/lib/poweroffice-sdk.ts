@@ -57,7 +57,12 @@ class PowerOfficeSDK {
 const apiUrl =
   process.env.NODE_ENV === "production"
     ? "https://api.propdock.workers.dev"
-    : "http://localhost:8787"
+    : "https://api.propdock.workers.dev"
+
+//     const apiUrl =
+//   process.env.NODE_ENV === "production"
+//     ? "https://api.propdock.workers.dev"
+//     : "http://localhost:8787"
 
 const apiKey = process.env.NEXT_PUBLIC_API_KEY || "super-secret"
 
