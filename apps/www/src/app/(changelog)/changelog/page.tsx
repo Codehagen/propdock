@@ -42,12 +42,12 @@ export default function Changelog() {
           >
             {/* <Twitter className="h-4 w-4 text-[#1d9bf0]" /> */}
           </Link>
-          <Link
+          {/* <Link
             href="/atom"
             className="rounded-full bg-gray-100 p-2 transition-colors hover:bg-gray-200"
           >
             <Rss className="h-4 w-4 text-gray-500" />
-          </Link>
+          </Link> */}
         </div>
       </div>
 

@@ -13,4 +13,7 @@ export declare const allCustomersPosts: Array<CustomersPost>;
 export type HelpPost = GetTypeByName<typeof configuration, "HelpPost">;
 export declare const allHelpPosts: Array<HelpPost>;
 
+export type LegalPost = GetTypeByName<typeof configuration, "LegalPost">;
+export declare const allLegalPosts: Array<LegalPost>;
+
 export {};

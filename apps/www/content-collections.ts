@@ -5,7 +5,9 @@ import GithubSlugger from "github-slugger"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeSlug from "rehype-slug"
 
-const computedFields = (type: "blog" | "changelog" | "customers" | "help") => ({
+const computedFields = (
+  type: "blog" | "changelog" | "customers" | "help" | "legal",
+) => ({
   slug: (document) => {
     const slugger = new GithubSlugger()
     return document.slug || slugger.slug(document.title)
@@ -238,6 +240,46 @@ export const HelpPost = defineCollection({
   },
 })
 
+export const LegalPost = defineCollection({
+  name: "LegalPost",
+  directory: "src/content/legal",
+  include: "*.mdx",
+  schema: (z) => ({
+    title: z.string(),
+    updatedAt: z.string(),
+    slug: z.string().optional(),
+  }),
+  transform: async (document, context) => {
+    try {
+      const mdx = await compileMDX(context, document, {
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        remarkPlugins: [remarkGfm],
+      })
+      console.log("MDX compilation successful for:", document.title)
+      const computed = computedFields("legal")
+      return {
+        ...document,
+        slug: computed.slug(document),
+        mdx,
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+      }
+    } catch (error) {
+      console.error("Error compiling MDX for:", document.title, error)
+      console.error("Error details:", error.stack)
+      throw error
+    }
+  },
+})
+
 export default defineConfig({
-  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost],
+  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost, LegalPost],
 })

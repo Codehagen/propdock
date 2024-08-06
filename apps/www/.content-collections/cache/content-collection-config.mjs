@@ -218,11 +218,51 @@ var HelpPost = defineCollection({
     }
   }
 });
+var LegalPost = defineCollection({
+  name: "LegalPost",
+  directory: "src/content/legal",
+  include: "*.mdx",
+  schema: (z) => ({
+    title: z.string(),
+    updatedAt: z.string(),
+    slug: z.string().optional()
+  }),
+  transform: async (document, context) => {
+    try {
+      const mdx = await compileMDX(context, document, {
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        remarkPlugins: [remarkGfm]
+      });
+      console.log("MDX compilation successful for:", document.title);
+      const computed = computedFields("legal");
+      return {
+        ...document,
+        slug: computed.slug(document),
+        mdx,
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw }
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw }
+        })
+      };
+    } catch (error) {
+      console.error("Error compiling MDX for:", document.title, error);
+      console.error("Error details:", error.stack);
+      throw error;
+    }
+  }
+});
 var content_collections_default = defineConfig({
-  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost]
+  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost, LegalPost]
 });
 export {
   CustomersPost,
   HelpPost,
+  LegalPost,
   content_collections_default as default
 };

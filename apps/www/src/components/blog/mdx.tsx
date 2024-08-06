@@ -55,7 +55,19 @@ const components = {
     />
   ),
   thead: (props: any) => (
-    <thead className="text-lg text-foreground" {...props} />
+    <thead className="border-b border-border" {...props} />
+  ),
+  th: (props: any) => (
+    <th
+      className="px-4 py-2 text-left font-medium text-foreground"
+      {...props}
+    />
+  ),
+  td: (props: any) => (
+    <td
+      className="border-t border-border px-4 py-2 text-muted-foreground"
+      {...props}
+    />
   ),
   p: (props: any) => (
     <p className="text-foreground dark:text-muted-foreground" {...props} />
