@@ -1,9 +1,8 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-
-import { useId } from "react";
+import { useId } from "react"
+import Link from "next/link"
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
 
 function GridPattern({
   width,
@@ -13,14 +12,14 @@ function GridPattern({
   squares,
   ...props
 }: {
-  width: number;
-  height: number;
-  x: number | string;
-  y?: number | string;
-  squares?: [number, number][];
-  className?: string;
+  width: number
+  height: number
+  x: number | string
+  y?: number | string
+  squares?: [number, number][]
+  className?: string
 }) {
-  let patternId = useId();
+  let patternId = useId()
 
   return (
     <svg aria-hidden="true" {...props}>
@@ -57,12 +56,12 @@ function GridPattern({
         </svg>
       )}
     </svg>
-  );
+  )
 }
 
 function CardPattern({ mouseX, mouseY, ...gridProps }) {
-  let maskImage = useMotionTemplate`radial-gradient(180px at ${mouseX}px ${mouseY}px, white, transparent)`;
-  let style = { maskImage, WebkitMaskImage: maskImage };
+  let maskImage = useMotionTemplate`radial-gradient(180px at ${mouseX}px ${mouseY}px, white, transparent)`
+  let style = { maskImage, WebkitMaskImage: maskImage }
 
   return (
     <div className="pointer-events-none">
@@ -92,7 +91,7 @@ function CardPattern({ mouseX, mouseY, ...gridProps }) {
         />
       </motion.div>
     </div>
-  );
+  )
 }
 
 export default function CategoryCard({
@@ -102,42 +101,42 @@ export default function CategoryCard({
   icon,
   pattern,
 }: {
-  href: string;
-  name: string;
-  description: string;
-  icon: React.ReactNode;
+  href: string
+  name: string
+  description: string
+  icon: React.ReactNode
   pattern: {
-    y: number;
-    squares: [number, number][];
-  };
+    y: number
+    squares: [number, number][]
+  }
 }) {
-  let mouseX = useMotionValue(0);
-  let mouseY = useMotionValue(0);
+  let mouseX = useMotionValue(0)
+  let mouseY = useMotionValue(0)
 
   function onMouseMove({ currentTarget, clientX, clientY }) {
-    let { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+    let { left, top } = currentTarget.getBoundingClientRect()
+    mouseX.set(clientX - left)
+    mouseY.set(clientY - top)
   }
 
   return (
     <div
       key={href}
       onMouseMove={onMouseMove}
-      className="group relative flex rounded-2xl bg-gray-50 transition-shadow hover:shadow-md hover:shadow-gray-900/5"
+      className="group relative flex rounded-2xl bg-card transition-shadow hover:shadow-md hover:shadow-gray-900/5 dark:hover:shadow-gray-100/5"
     >
       <CardPattern {...pattern} mouseX={mouseX} mouseY={mouseY} />
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-200 group-hover:ring-gray-900/10" />
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-border group-hover:ring-foreground/10" />
       <div className="relative rounded-2xl p-6 pt-16">
         {icon}
-        <h3 className="mt-4 font-semibold leading-7 text-gray-900">
+        <h3 className="mt-4 font-semibold leading-7 text-foreground">
           <Link href={href}>
             <span className="absolute inset-0 rounded-2xl" />
             {name}
           </Link>
         </h3>
-        <p className="mt-1 text-sm text-gray-600">{description}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
       </div>
     </div>
-  );
+  )
 }

@@ -71,32 +71,32 @@ export default function HelpCategory({
         <SearchButton />
       </MaxWidthWrapper>
 
-      <div className="min-h-[50vh] border border-gray-200 bg-white/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg">
+      <div className="min-h-[50vh] border border-border bg-background/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg dark:shadow-[inset_10px_-50px_94px_0_rgba(0,0,0,0.2)]">
         <MaxWidthWrapper className="flex max-w-screen-lg flex-col py-10">
           <div className="flex items-center space-x-2">
             <Link
               href="/help"
-              className="text-sm font-medium text-gray-500 hover:text-gray-800"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               Alle kategorier
             </Link>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
             <Link
               href={`/help/category/${data.slug}`}
-              className="text-sm font-medium text-gray-500 hover:text-gray-800"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               {data.title}
             </Link>
           </div>
           <div className="my-8 flex flex-col space-y-4">
             <Link href={`/help/category/${data.slug}`}>
-              <h1 className="font-display text-2xl font-bold sm:text-4xl">
+              <h1 className="font-display text-2xl font-bold text-foreground sm:text-4xl">
                 {data.title}
               </h1>
             </Link>
-            <p className="text-gray-500">{data.description}</p>
+            <p className="text-muted-foreground">{data.description}</p>
           </div>
-          <div className="grid gap-2 rounded-xl border border-gray-200 bg-white p-4">
+          <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
             {articles.map((article) => (
               <HelpArticleLink key={article.slug} article={article} />
             ))}
