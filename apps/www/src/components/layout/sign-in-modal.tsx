@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState } from "react"
+import { signIn } from "next-auth/react"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 
-import { siteConfig } from "@/config/site";
-import { useSigninModal } from "@/hooks/use-signin-modal";
-import { Icons } from "@/components/shared/icons";
-import { Modal } from "@/components/shared/modal";
+import { siteConfig } from "@/config/site"
+import { useSigninModal } from "@/hooks/use-signin-modal"
+import { Icons } from "@/components/shared/icons"
+import { Modal } from "@/components/shared/modal"
 
 export const SignInModal = () => {
-  const signInModal = useSigninModal();
-  const [signInClicked, setSignInClicked] = useState(false);
+  const signInModal = useSigninModal()
+  const [signInClicked, setSignInClicked] = useState(false)
 
   return (
     <Modal showModal={signInModal.isOpen} setShowModal={signInModal.onClose}>
@@ -21,10 +21,11 @@ export const SignInModal = () => {
           <a href={siteConfig.url}>
             <Icons.logo className="h-10 w-10" />
           </a>
-          <h3 className="font-urban text-2xl font-bold">Sign In</h3>
+          <h3 className="font-urban text-2xl font-bold">Logg Inn</h3>
           <p className="text-sm text-gray-500">
-            Join our community and unlock the full potential of Dingify. Sign in
-            effortlessly with Google to start managing your alerts.
+            Bli med i vårt fellesskap og lås opp det fulle potensialet til
+            Propdock. Logg inn enkelt med Google for å begynne å administrere
+            dine eiendommer.
           </p>
         </div>
 
@@ -33,13 +34,13 @@ export const SignInModal = () => {
             variant="default"
             disabled={signInClicked}
             onClick={() => {
-              setSignInClicked(true);
+              setSignInClicked(true)
               signIn("google", { callbackUrl: "/dashboard" }).then(() =>
                 // TODO: fix this without setTimeOut(), modal closes too quickly. Idea: update value before redirect
                 setTimeout(() => {
-                  signInModal.onClose();
+                  signInModal.onClose()
                 }, 1000),
-              );
+              )
             }}
           >
             {signInClicked ? (
@@ -47,10 +48,10 @@ export const SignInModal = () => {
             ) : (
               <Icons.google className="mr-2 h-4 w-4" />
             )}{" "}
-            Sign In with Google
+            Logg inn med Google
           </Button>
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}
