@@ -20,7 +20,7 @@ app.get("/customers", async (c) => {
     return c.json({ ok: true, message: customerResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching customers", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching customers", "error": error.message }, 500 )
   }
 })
 
@@ -40,7 +40,7 @@ app.get("/customers/:id", async (c) => {
     return c.json({ ok: true, message: customerResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching the customer", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching the customer", "error": error.message }, 500 )
   }
 })
 
@@ -57,7 +57,7 @@ app.get("/products", async (c) => {
     return c.json({ ok: true, message: productResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching products", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching products", "error": error.message }, 500 )
   }
 })
 
@@ -77,7 +77,7 @@ app.get("/products/:id", async (c) => {
     return c.json({ ok: true, message: productResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching the product", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching the product", "error": error.message }, 500 )
   }
 })
 
@@ -97,7 +97,7 @@ app.post("/invoices/create", async (c) => {
     return c.json({ ok: true, message: invoiceResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error.message }, 500 )
   }
 })
 
