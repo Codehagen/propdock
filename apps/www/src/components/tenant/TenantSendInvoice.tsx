@@ -111,40 +111,40 @@ export default function TenantSendInvoice({
     date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
 
   const onSubmit = async (data) => {
-    try {
-      const invoiceData = {
-        CurrencyCode: "NOK",
-        CustomerId: parseInt(data.customer),
-        SalesOrderLines: [
-          {
-            Description:
-              productArray.find((p) => p.Id.toString() === data.product)
-                ?.Name || "",
-            ProductId: parseInt(data.product),
-          },
-        ],
-        // Commenting out the following fields for now:
-        // InvoiceDate: format(data.date, "yyyy-MM-dd"),
-        // DueDate: format(data.dueDate, "yyyy-MM-dd"),
-        // YourReference: data.ourReference,
-        // TheirReference: data.theirReference,
-        // OrderNumber: data.orderReference,
-        // InvoiceEmail: data.invoiceEmail,
-        // BankAccountNumber: data.accountNumber,
-        // Comments: data.comment,
-      }
-
-      const result = await createInvoice(invoiceData)
-      if (result.success) {
-        console.log("Created invoice:", result.data)
-        toast.success("Invoice created successfully!")
-      } else {
-        throw new Error(result.error)
-      }
-    } catch (error) {
-      console.error("Error creating invoice:", error)
-      toast.error("Failed to create invoice: " + error.message)
+    const invoiceData = {
+      CurrencyCode: "NOK",
+      CustomerId: parseInt(data.customer),
+      SalesOrderLines: [
+        {
+          Description:
+            productArray.find((p) => p.Id.toString() === data.product)?.Name ||
+            "",
+          ProductId: parseInt(data.product),
+          Quantity: data.quantity,
+          ProductUnitPrice: data.price,
+        },
+      ],
+      InvoiceDate: format(data.date, "yyyy-MM-dd"),
+      DueDate: format(data.dueDate, "yyyy-MM-dd"),
+      YourReference: data.ourReference,
+      TheirReference: data.theirReference,
+      OrderNumber: data.orderReference,
+      InvoiceEmail: data.invoiceEmail,
+      BankAccountNumber: data.accountNumber,
+      Comments: data.comment,
     }
+
+    toast.promise(createInvoice(invoiceData), {
+      loading: "Oppretter faktura...",
+      success: (result) => {
+        console.log("Opprettet faktura:", result.data)
+        return "Faktura opprettet vellykket!"
+      },
+      error: (error) => {
+        console.error("Feil ved oppretting av faktura:", error)
+        return `Kunne ikke opprette faktura: ${error.message}`
+      },
+    })
   }
 
   return (
