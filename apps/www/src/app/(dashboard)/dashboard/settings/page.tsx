@@ -19,8 +19,7 @@ import { UserNameForm } from "@/components/forms/user-name-form"
 
 export const metadata = {
   title: "Propdock innstillinger",
-  description:
-    "Adjust your Dingify account settings for a personalized real-time monitoring experience. Manage language preferences, account details, and more.",
+  description: "Administrer og endre innstillingene til Propdock.",
 }
 
 export default async function SettingsPage() {
