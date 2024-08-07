@@ -1,34 +1,19 @@
+import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Settings } from "lucide-react"
+import { getWsApiKeys } from "@/actions/get-ws-api-keys"
+import { getServerSession } from "next-auth/next"
 
 import { Button } from "@dingify/ui/components/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@dingify/ui/components/card"
 
-import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
-import { EditContactPersonSheet } from "@/components/buttons/EditContactPersonSheet"
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/db"
+import { poweroffice } from "@/lib/poweroffice-sdk"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import TenantSendInvoice from "@/components/tenant/TenantSendInvoice"
 
-const mockCustomers = [
-  { id: "genesis", name: "Proaktiv Eiendomsmegling", orgnr: "123456789" },
-  { id: "explorer", name: "Neural Explorer", orgnr: "987654321" },
-  { id: "quantum", name: "Neural Quantum", orgnr: "192837465" },
-]
-
-const mockProducts = [
-  { id: "product1", name: "Produkt 1", price: 100 },
-  { id: "product2", name: "Produkt 2", price: 200 },
-  { id: "product3", name: "Produkt 3", price: 300 },
-]
-
-export default async function ContactPerson({
+export default async function InvoicePage({
   params,
 }: {
   params: { id: string }
@@ -46,8 +31,40 @@ export default async function ContactPerson({
     )
   }
 
+  const session = await getServerSession(authOptions)
+
+  const user = await prisma.user.findUnique({
+    where: { id: session?.user.id },
+    select: { workspaceId: true },
+  })
+
   try {
     const tenantDetails = await getTenantDetails(tenantId)
+    const { customers, products } = await poweroffice.getCustomersAndProducts()
+    const { success, apiKeys } = await getWsApiKeys(user.workspaceId)
+
+    if (!success || apiKeys.length === 0) {
+      return (
+        <DashboardShell>
+          <DashboardHeader
+            heading="Faktura"
+            text="Du må først legge til regnskapsprogram for å sende faktura."
+          />
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="user" />
+            <EmptyPlaceholder.Title>
+              Legg til regnskapsprogram
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Legg til regnskapsprogram for å sende faktura.
+            </EmptyPlaceholder.Description>
+            <Button variant="outline">
+              <Link href="/settings/import">Legg til regnskapsprogram</Link>
+            </Button>
+          </EmptyPlaceholder>
+        </DashboardShell>
+      )
+    }
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -56,10 +73,7 @@ export default async function ContactPerson({
             heading="Invoice"
             text="Du må først legge til kontatpersoner før du kan se dem her."
           />
-          <TenantSendInvoice
-            customers={mockCustomers}
-            products={mockProducts}
-          />
+          <TenantSendInvoice customers={customers} products={products} />
         </DashboardShell>
       )
     }
@@ -70,10 +84,11 @@ export default async function ContactPerson({
           heading={tenantDetails.name}
           text="Detaljer om kontaktpersonene."
         />
-        <TenantSendInvoice customers={mockCustomers} products={mockProducts} />
+        <TenantSendInvoice customers={customers} products={products} />
       </DashboardShell>
     )
   } catch (error) {
+    console.error("Error in InvoicePage:", error)
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />

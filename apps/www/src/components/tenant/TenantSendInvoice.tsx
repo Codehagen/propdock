@@ -1,16 +1,31 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { createInvoice } from "@/actions/create-invoice"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { addDays, differenceInCalendarDays, format } from "date-fns"
 import { nb } from "date-fns/locale"
-import { CalendarIcon, PlusIcon, SendIcon } from "lucide-react"
+import {
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  PlusIcon,
+  SendIcon,
+} from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 import { Button } from "@dingify/ui/components/button"
 import { Calendar } from "@dingify/ui/components/calendar"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@dingify/ui/components/command"
 import {
   Form,
   FormControl,
@@ -26,13 +41,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@dingify/ui/components/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@dingify/ui/components/select"
 import { Separator } from "@dingify/ui/components/separator"
 import { Textarea } from "@dingify/ui/components/textarea"
 
@@ -57,7 +65,17 @@ const InvoiceSchema = z.object({
   comment: z.string().optional(),
 })
 
-export default function TenantSendInvoice({ customers, products }) {
+export default function TenantSendInvoice({
+  customers,
+  products,
+}: {
+  customers: any
+  products: any
+}) {
+  // Extract the actual customer and product arrays
+  const customerArray = customers?.message || []
+  const productArray = products?.message || []
+
   const today = new Date()
   const fourteenDaysFromToday = addDays(today, 14)
 
@@ -89,37 +107,52 @@ export default function TenantSendInvoice({ customers, products }) {
   const vat = totalPrice * 0.25
   const totalPriceWithVat = totalPrice + vat
 
+  const formatNOK = (amount: number) => {
+    return new Intl.NumberFormat("nb-NO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount)
+  }
+
   const daysBetween =
     date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
 
   const onSubmit = async (data) => {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const isSuccess = true
-        if (isSuccess) {
-          resolve({ name: "Invoice" })
-        } else {
-          reject("Error creating invoice")
-        }
-      }, 2000)
-    })
+    const invoiceData = {
+      CurrencyCode: "NOK",
+      CustomerId: parseInt(data.customer),
+      SalesOrderLines: [
+        {
+          Description:
+            productArray.find((p) => p.Id.toString() === data.product)?.Name ||
+            "",
+          ProductId: parseInt(data.product),
+          Quantity: data.quantity,
+          ProductUnitPrice: data.price,
+        },
+      ],
+      InvoiceDate: format(data.date, "yyyy-MM-dd"),
+      DueDate: format(data.dueDate, "yyyy-MM-dd"),
+      YourReference: data.ourReference,
+      TheirReference: data.theirReference,
+      OrderNumber: data.orderReference,
+      InvoiceEmail: data.invoiceEmail,
+      BankAccountNumber: data.accountNumber,
+      Comments: data.comment,
+    }
 
-    toast.promise(promise, {
-      loading: "Vennligst vent...",
-      success: (data) => {
-        return `Faktura er blitt sendt`
+    toast.promise(createInvoice(invoiceData), {
+      loading: "Oppretter faktura...",
+      success: (result) => {
+        console.log("Opprettet faktura:", result.data)
+        return "Faktura opprettet vellykket!"
       },
-      error: "Error",
+      error: (error) => {
+        console.error("Feil ved oppretting av faktura:", error)
+        return `Kunne ikke opprette faktura: ${error.message}`
+      },
     })
-
-    promise
-      .then(() => {
-        console.log(data)
-        form.reset()
-      })
-      .catch((error) => {
-        console.error(error)
-      })
   }
 
   return (
@@ -135,12 +168,12 @@ export default function TenantSendInvoice({ customers, products }) {
               onClick={form.handleSubmit(onSubmit)}
             >
               <SendIcon className="h-4 w-4" />
-              <span className="sr-only sm:not-sr-only">Send</span>
+              <span className="sr-only sm:not-sr-only">Send faktura</span>
             </Button>
-            <Button size="sm" className="h-8 gap-1">
+            {/* <Button size="sm" className="h-8 gap-1">
               <PlusIcon className="h-4 w-4" />
               <span className="sr-only sm:not-sr-only">Ny</span>
-            </Button>
+            </Button> */}
           </div>
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
@@ -161,35 +194,75 @@ export default function TenantSendInvoice({ customers, products }) {
                     control={form.control}
                     name="customer"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Kunde</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger className="items-start [&_[data-description]]:hidden">
-                              <SelectValue placeholder="Velg en kunde" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {customers.map((customer) => (
-                                <SelectItem
-                                  key={customer.id}
-                                  value={customer.id}
-                                >
-                                  <div className="flex items-start gap-3 text-muted-foreground">
-                                    <div className="grid gap-0.5">
-                                      <p>{customer.name}</p>
-                                      <p className="text-xs" data-description>
-                                        {customer.orgnr}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? customerArray.find(
+                                      (customer) =>
+                                        customer.Id.toString() === field.value,
+                                    )?.Name
+                                  : "Velg en kunde"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Søk etter kunde..." />
+                              <CommandList>
+                                <CommandEmpty>
+                                  Ingen kunder funnet.
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {customerArray.map((customer) => (
+                                    <CommandItem
+                                      value={customer.Name}
+                                      key={customer.Id}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "customer",
+                                          customer.Id.toString(),
+                                        )
+                                        form.setValue(
+                                          "email",
+                                          customer.EmailAddress,
+                                        )
+                                        form.setValue(
+                                          "invoiceEmail",
+                                          customer.EmailAddress,
+                                        )
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          customer.Id.toString() === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {customer.Name}
+                                      <span className="ml-2 text-sm text-muted-foreground">
+                                        {customer.OrganizationNumber}
+                                      </span>
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -273,33 +346,71 @@ export default function TenantSendInvoice({ customers, products }) {
                     control={form.control}
                     name="product"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Produkter</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                              const selectedProduct = products.find(
-                                (product) => product.id === value,
-                              )
-                              if (selectedProduct) {
-                                form.setValue("price", selectedProduct.price)
-                              }
-                            }}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Velg produkt" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {products.map((product) => (
-                                <SelectItem key={product.id} value={product.id}>
-                                  {product.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? productArray.find(
+                                      (product) =>
+                                        product.Id.toString() === field.value,
+                                    )?.Name
+                                  : "Velg et produkt"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Søk etter produkt..." />
+                              <CommandList>
+                                <CommandEmpty>
+                                  Ingen produkter funnet.
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {productArray.map((product) => (
+                                    <CommandItem
+                                      value={product.Name}
+                                      key={product.Id}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "product",
+                                          product.Id.toString(),
+                                        )
+                                        form.setValue(
+                                          "price",
+                                          product.SalesPrice,
+                                        )
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          product.Id.toString() === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {product.Name}
+                                      <span className="ml-2 text-sm text-muted-foreground">
+                                        {formatNOK(product.SalesPrice)} NOK
+                                      </span>
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -330,7 +441,7 @@ export default function TenantSendInvoice({ customers, products }) {
                     name="price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Pris</FormLabel>
+                        <FormLabel>Brutto pris</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -365,11 +476,11 @@ export default function TenantSendInvoice({ customers, products }) {
                     name="invoiceEmail"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Faktura</FormLabel>
+                        <FormLabel>Faktura epost</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Epost til kunden..."
+                            placeholder="Epost for faktura..."
                             {...field}
                           />
                         </FormControl>
@@ -494,20 +605,16 @@ export default function TenantSendInvoice({ customers, products }) {
                   </legend>
                   <div className="grid gap-2">
                     <div className="flex items-center justify-between">
-                      <span>Sum</span>
-                      <span>{totalPrice.toFixed(2)} NOK</span>
+                      <span>Brutto pris</span>
+                      <span>{formatNOK(totalPrice)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span>Mva</span>
-                      <span>{vat.toFixed(2)} NOK</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Rabatt</span>
-                      <span>0%</span>
+                      <span>{formatNOK(vat)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between font-semibold">
-                      <span>Sum</span>
-                      <span>{totalPriceWithVat.toFixed(2)} NOK (inkl.mva)</span>
+                      <span> Netto pris</span>
+                      <span>{formatNOK(totalPriceWithVat)} NOK (inkl.mva)</span>
                     </div>
                   </div>
                   <Separator />
