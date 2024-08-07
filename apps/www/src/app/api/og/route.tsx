@@ -1,34 +1,35 @@
-import { ogImageSchema } from "@/lib/validations/og";
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse } from "@vercel/og"
 
-export const runtime = "edge";
+import { ogImageSchema } from "@/lib/validations/og"
+
+export const runtime = "edge"
 
 const interRegular = fetch(
-  new URL("../../../assets/fonts/Inter-Regular.ttf", import.meta.url)
-).then((res) => res.arrayBuffer());
+  new URL("../../../assets/fonts/Inter-Regular.ttf", import.meta.url),
+).then((res) => res.arrayBuffer())
 
 const interBold = fetch(
-  new URL("../../../assets/fonts/CalSans-SemiBold.ttf", import.meta.url)
-).then((res) => res.arrayBuffer());
+  new URL("../../../assets/fonts/CalSans-SemiBold.ttf", import.meta.url),
+).then((res) => res.arrayBuffer())
 
 export async function GET(req: Request) {
   try {
-    const fontRegular = await interRegular;
-    const fontBold = await interBold;
+    const fontRegular = await interRegular
+    const fontBold = await interBold
 
-    const url = new URL(req.url);
-    const values = ogImageSchema.parse(Object.fromEntries(url.searchParams));
+    const url = new URL(req.url)
+    const values = ogImageSchema.parse(Object.fromEntries(url.searchParams))
     const heading =
       values.heading.length > 80
         ? `${values.heading.substring(0, 100)}...`
-        : values.heading;
+        : values.heading
 
-    const { mode } = values;
-    const paint = mode === "dark" ? "#fff" : "#000";
+    const { mode } = values
+    const paint = mode === "dark" ? "#fff" : "#000"
 
-    const fontSize = heading.length > 80 ? "60px" : "80px";
+    const fontSize = heading.length > 80 ? "60px" : "80px"
 
-    const githubName = "mickasmt";
+    const githubName = "codehagen"
 
     return new ImageResponse(
       (
@@ -132,11 +133,11 @@ export async function GET(req: Request) {
             style: "normal",
           },
         ],
-      }
-    );
+      },
+    )
   } catch (error) {
     return new Response(`Failed to generate image`, {
       status: 500,
-    });
+    })
   }
 }

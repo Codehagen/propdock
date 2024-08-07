@@ -28,7 +28,19 @@ export async function getTenants(workspaceId: string) {
         officeSpace: {
           select: {
             name: true,
+            isRented: true,
           },
+        },
+        contracts: {
+          select: {
+            baseRent: true,
+            startDate: true,
+            endDate: true,
+          },
+          orderBy: {
+            startDate: "desc",
+          },
+          take: 1,
         },
       },
       orderBy: {
@@ -36,7 +48,16 @@ export async function getTenants(workspaceId: string) {
       },
     })
 
-    return { success: true, tenants }
+    return {
+      success: true,
+      tenants: tenants.map((tenant) => ({
+        ...tenant,
+        isRenting: tenant.officeSpace?.isRented ?? false,
+        currentRent: tenant.contracts[0]?.baseRent ?? null,
+        contractStartDate: tenant.contracts[0]?.startDate ?? null,
+        contractEndDate: tenant.contracts[0]?.endDate ?? null,
+      })),
+    }
   } catch (error) {
     console.error("Error fetching tenants:", error)
     return { success: false, error: error.message }

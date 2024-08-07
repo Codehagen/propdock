@@ -1,21 +1,22 @@
-"use client";
+"use client"
 
 import type { MainNavItem } from "@/types"
 import type { User } from "next-auth"
-import useScroll from "@/hooks/use-scroll"
-import { useSigninModal } from "@/hooks/use-signin-modal"
 
 import { Button } from "@dingify/ui/components/button"
+
+import useScroll from "@/hooks/use-scroll"
+import { useSigninModal } from "@/hooks/use-signin-modal"
 
 import { MainNav } from "./main-nav"
 import { UserAccountNav } from "./user-account-nav"
 
 interface NavBarProps {
-  user: Pick<User, "name" | "image" | "email"> | undefined;
-  items?: MainNavItem[];
-  children?: React.ReactNode;
-  rightElements?: React.ReactNode;
-  scroll?: boolean;
+  user: Pick<User, "name" | "image" | "email"> | undefined
+  items?: MainNavItem[]
+  children?: React.ReactNode
+  rightElements?: React.ReactNode
+  scroll?: boolean
 }
 
 export function NavBar({
@@ -25,8 +26,8 @@ export function NavBar({
   rightElements,
   scroll = false,
 }: NavBarProps) {
-  const scrolled = useScroll(50);
-  const signInModal = useSigninModal();
+  const scrolled = useScroll(50)
+  const signInModal = useSigninModal()
 
   return (
     <header
@@ -48,11 +49,11 @@ export function NavBar({
               size="sm"
               onClick={signInModal.onOpen}
             >
-              Sign In
+              Logg inn
             </Button>
           )}
         </div>
       </div>
     </header>
-  );
+  )
 }

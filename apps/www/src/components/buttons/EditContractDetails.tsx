@@ -96,12 +96,14 @@ export function EditContractSheet({
   const form = useForm({
     resolver: zodResolver(ContractSchema),
     defaultValues: {
-      ...initialValues,
-      startDate: formatDateString(initialValues.startDate),
-      endDate: formatDateString(initialValues.endDate),
-      negotiationDate: formatDateString(initialValues.negotiationDate),
-      baseRent: initialValues.baseRent?.toString() ?? "",
-      indexValue: initialValues.indexValue?.toString() ?? "",
+      contractType: initialValues.contractType || undefined,
+      startDate: formatDateString(initialValues.startDate) || undefined,
+      endDate: formatDateString(initialValues.endDate) || undefined,
+      negotiationDate:
+        formatDateString(initialValues.negotiationDate) || undefined,
+      baseRent: initialValues.baseRent?.toString() || undefined,
+      indexationType: initialValues.indexationType || undefined,
+      indexValue: initialValues.indexValue?.toString() || undefined,
     },
   })
 

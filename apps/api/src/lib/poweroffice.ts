@@ -1,86 +1,53 @@
 import { Env } from "@/env";
-
-const PO_ROOT_DEMO = "https://goapi.poweroffice.net/Demo/v2"
-const PO_ROOT_PROD = "https://goapi.poweroffice.net/v2"
-
-const PO_ROOT = PO_ROOT_DEMO
-
-const PO_ONBOARDING_START = `${PO_ROOT}/onboarding/initiate`
-const PO_ONBOARDING_FINAL = `${PO_ROOT}/onboarding/finalize`
+import { getRequestHeaders } from "@/lib/poweroffice/auth"
 
 
-function getOnboardingHeaders(env: Env) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
-        //"ClientOrganizationNo": "",
+async function superget(env: Env, url: string, workspaceId: string) {
+    const poHeaders = await getRequestHeaders(env, workspaceId)
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: poHeaders,
+    })
+
+    if (!response.ok) {
+        throw new Error(`Bad response while fetching ${url}: ${response.status} ${response.statusText}`)
     }
 
-    return headers
+    const res = await response.json()
+
+    return res
 }
 
 
-function getOnboardingBody(env: Env) {
-    const body    = {
-        "ApplicationKey": env.PO_APP_KEY,
-        "RedirectUri"   : env.PO_ONBOARD_REDIRECT,
-        //"RedirectUri"   : "localhost:8787/api/internal/oauth/poweroffice/callback-test"
-    }
+async function superpost(env: Env, url:string, workspaceId: string, data: any) {
+    const poHeaders = await getRequestHeaders(env, workspaceId)
 
-    return body
-}
-
-
-async function exchangeCodeForKey(env: Env, code: string): Promise<string> {
-    const url = PO_ONBOARDING_FINAL
-    const headers = getOnboardingHeaders(env)
-    const body = {
-        "OnboardingToken": code,
-    }
-
-    console.log("Exchanging key:", code)
-
+    let response
     try {
-        const response = await fetch(url, {
+        response = await fetch(url, {
             method: "POST",
-            headers: headers,
-            body: JSON.stringify(body)
-        });
-
-        if (response.ok) {
-            const responseData: any = await response.json();
-            const key = responseData["OnboardedClientsInformation"][0]["ClientKey"];
-            console.log("Exchange successful!")
-            return key
-        } else {
-            console.error(`Error: ${response.statusText}`);
-            throw Error(response.statusText)
-        }
-    } catch (error: any) {
-        console.error(`Network error: ${error.message}`)
-        throw error
-    }
-}
-
-
-function getAuthHeaders(env: Env, client_key: string) {
-    const authKey = `${env.PO_APP_KEY}:${client_key}`
-    const auth_64 = btoa(authKey);
-
-    const headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
-        'Authorization': `Basic ${auth_64}`
+            headers: poHeaders,
+            body: JSON.stringify(data),
+        })
+    } catch(error: any) {
+        console.error("Superpost error:", error)
+        return
     }
 
-    return headers
+    if (!response.ok) {
+        console.error(`Bad response while posting to ${url}: ${response.status} ${response.statusText} ${await response.text()}`)
+        throw new Error(`Bad response while posting to ${url}: ${response.status} ${response.statusText}`)
+    }
+
+    const res = await response.json()
+
+    return res
 }
+
 
 
 export {
-    getOnboardingHeaders,
-    getOnboardingBody,
-    getAuthHeaders,
-    PO_ONBOARDING_START,
-    exchangeCodeForKey,
+    superget,
+    superpost,
 }

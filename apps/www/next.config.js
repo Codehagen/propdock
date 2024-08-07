@@ -1,9 +1,4 @@
-import { fileURLToPath } from "url";
-import createJiti from "jiti";
-import { createContentlayerPlugin } from "next-contentlayer";
-
-// Import env files to validate at build time. Use jiti so we can load .ts files in here.
-createJiti(fileURLToPath(import.meta.url))("./src/env");
+import { withContentCollections } from '@content-collections/next';
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -19,6 +14,18 @@ const config = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "avatar.vercel.sh",
+      },
+      {
+        protocol: "https",
+        hostname: "imagedelivery.net",
+      },
+      {
+        protocol: "https",
+        hostname: "d2vwwcvoksz7ty.cloudfront.net",
+      },
     ],
   },
 
@@ -30,8 +37,4 @@ const config = {
   typescript: { ignoreBuildErrors: true },
 };
 
-const withContentlayer = createContentlayerPlugin({
-  // Additional Contentlayer config options
-});
-
-export default withContentlayer(config);
+export default withContentCollections(config);

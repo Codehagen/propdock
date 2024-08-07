@@ -37,23 +37,23 @@ import {
 } from "@dingify/ui/components/sheet"
 
 const TenantSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Navn er påkrevd"),
   orgnr: z
     .string()
-    .min(1, "Organization number is required")
-    .regex(/^\d+$/, "Organization number must be a number"),
-  numEmployees: z.number().min(1, "Number of employees is required"),
+    .min(1, "Organisasjonsnummer er påkrevd")
+    .regex(/^\d+$/, "Organisasjonsnummer må være et tall"),
+  numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
   buildingId: z.string().optional(),
 })
 
 interface Property {
-  id: string // Changed to string
+  id: string
   name: string
 }
 
 interface Building {
-  id: string // Changed to string
+  id: string
   name: string
 }
 
@@ -61,13 +61,14 @@ export function AddTenantSheet() {
   const [isLoading, setIsLoading] = useState(false)
   const [properties, setProperties] = useState<Property[]>([])
   const [buildings, setBuildings] = useState<Building[]>([])
+  const [isOpen, setIsOpen] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(TenantSchema),
     defaultValues: {
       name: "",
       orgnr: "",
-      numEmployees: 1, // Default value set to 1
+      numEmployees: 1,
       propertyId: "",
       buildingId: "",
     },
@@ -101,18 +102,19 @@ export function AddTenantSheet() {
     try {
       const tenantData = {
         ...data,
-        orgnr: parseInt(data.orgnr, 10), // Ensure orgnr is an integer
-        numEmployees: Number(data.numEmployees), // Ensure numEmployees is a number
+        orgnr: parseInt(data.orgnr, 10),
+        numEmployees: Number(data.numEmployees),
       }
 
       const result = await createTenant(tenantData)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save tenant.")
+        throw new Error(result.error || "Kunne ikke lagre leietaker.")
       }
 
-      toast.success(`Tenant ${data.name} was saved.`)
+      toast.success(`Leietaker ${data.name} ble lagret.`)
       form.reset()
+      setIsOpen(false) // Close the sheet on success
       // Optionally, refresh the page or update the state to show the new tenant
     } catch (error) {
       toast.error(error.message)
@@ -123,14 +125,18 @@ export function AddTenantSheet() {
   }
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline">Legg til leietaker</Button>
+        <Button variant="outline" onClick={() => setIsOpen(true)}>
+          Legg til ny leietaker
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Legg til ny leietaker</SheetTitle>
-          <SheetDescription>Skriv detaljer om leietakeren</SheetDescription>
+          <SheetDescription>
+            Legg til detaljer for den nye leietakeren.
+          </SheetDescription>
         </SheetHeader>
 
         <Form {...form}>
@@ -140,9 +146,9 @@ export function AddTenantSheet() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name..." {...field} />
+                    <Input placeholder="Navn..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,9 +159,9 @@ export function AddTenantSheet() {
               name="orgnr"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Organization Number</FormLabel>
+                  <FormLabel>Organisasjonsnummer</FormLabel>
                   <FormControl>
-                    <Input placeholder="Organization Number..." {...field} />
+                    <Input placeholder="Organisasjonsnummer..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -166,11 +172,11 @@ export function AddTenantSheet() {
               name="numEmployees"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Number of Employees</FormLabel>
+                  <FormLabel>Antall ansatte</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Number of Employees..."
+                      placeholder="Antall ansatte..."
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -184,7 +190,7 @@ export function AddTenantSheet() {
               name="propertyId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Property</FormLabel>
+                  <FormLabel>Eiendom</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value)
@@ -194,7 +200,7 @@ export function AddTenantSheet() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a property" />
+                        <SelectValue placeholder="Velg en eiendom" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -217,7 +223,7 @@ export function AddTenantSheet() {
               name="buildingId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Building</FormLabel>
+                  <FormLabel>Bygning</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value)
@@ -227,7 +233,7 @@ export function AddTenantSheet() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a building" />
+                        <SelectValue placeholder="Velg en bygning" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -251,7 +257,7 @@ export function AddTenantSheet() {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Saving..." : "Save new tenant"}
+                {isLoading ? "Lagrer..." : "Lagre ny leietaker"}
               </Button>
             </SheetFooter>
           </form>

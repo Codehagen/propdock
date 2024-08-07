@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
-import type { User } from "next-auth";
-import Link from "next/link";
+import type { User } from "next-auth"
+import Link from "next/link"
 import {
   Book,
   CreditCard,
   LayoutDashboard,
   LogOut,
   Settings,
-} from "lucide-react";
-import { signOut } from "next-auth/react";
+} from "lucide-react"
+import { signOut } from "next-auth/react"
 
 import {
   DropdownMenu,
@@ -17,12 +17,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
+} from "@dingify/ui/components/dropdown-menu"
 
-import { UserAvatar } from "@/components/shared/user-avatar";
+import { UserAvatar } from "@/components/shared/user-avatar"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">;
+  user: Pick<User, "name" | "image" | "email">
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
@@ -53,12 +53,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link
-            href="https://docs.dingify.io/"
-            className="flex items-center space-x-2.5"
-          >
+          <Link href="/help" className="flex items-center space-x-2.5">
             <Book className="h-4 w-4" />
-            <p className="text-sm">Docs</p>
+            <p className="text-sm">Hjelp</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -67,7 +64,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             className="flex items-center space-x-2.5"
           >
             <CreditCard className="h-4 w-4" />
-            <p className="text-sm">Billing</p>
+            <p className="text-sm">Betaling</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -76,25 +73,25 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             className="flex items-center space-x-2.5"
           >
             <Settings className="h-4 w-4" />
-            <p className="text-sm">Settings</p>
+            <p className="text-sm">Innstillinger</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {
-            event.preventDefault();
+            event.preventDefault()
             signOut({
               callbackUrl: `${window.location.origin}/`,
-            });
+            })
           }}
         >
           <div className="flex items-center space-x-2.5">
             <LogOut className="h-4 w-4" />
-            <p className="text-sm">Log out </p>
+            <p className="text-sm">Logg ut</p>
           </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
