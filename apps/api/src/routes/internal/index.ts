@@ -3,6 +3,7 @@ import { honoFactory } from "../../lib/hono"
 import internalAuthMiddleware from "../../routes/internal/authMiddleware"
 import { POInternalApp } from "./oauth/poweroffice"
 import { poweroffice } from "./poweroffice" // Import the new route
+import { fiken } from "./fiken"
 
 const internal = honoFactory()
 
@@ -18,6 +19,9 @@ internal.route("/oauth/poweroffice", POInternalApp)
 
 // PowerOffice
 internal.route("/poweroffice", poweroffice)
+
+// Fiken API routes
+internal.route("/fiken", fiken)
 
 // API key management
 internal.post("/workspace/api/create", async (c) => {
