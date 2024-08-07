@@ -107,6 +107,14 @@ export default function TenantSendInvoice({
   const vat = totalPrice * 0.25
   const totalPriceWithVat = totalPrice + vat
 
+  const formatNOK = (amount: number) => {
+    return new Intl.NumberFormat("nb-NO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount)
+  }
+
   const daysBetween =
     date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
 
@@ -160,12 +168,12 @@ export default function TenantSendInvoice({
               onClick={form.handleSubmit(onSubmit)}
             >
               <SendIcon className="h-4 w-4" />
-              <span className="sr-only sm:not-sr-only">Send</span>
+              <span className="sr-only sm:not-sr-only">Send faktura</span>
             </Button>
-            <Button size="sm" className="h-8 gap-1">
+            {/* <Button size="sm" className="h-8 gap-1">
               <PlusIcon className="h-4 w-4" />
               <span className="sr-only sm:not-sr-only">Ny</span>
-            </Button>
+            </Button> */}
           </div>
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
@@ -394,7 +402,7 @@ export default function TenantSendInvoice({
                                       />
                                       {product.Name}
                                       <span className="ml-2 text-sm text-muted-foreground">
-                                        {product.SalesPrice} NOK
+                                        {formatNOK(product.SalesPrice)} NOK
                                       </span>
                                     </CommandItem>
                                   ))}
@@ -433,7 +441,7 @@ export default function TenantSendInvoice({
                     name="price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Pris</FormLabel>
+                        <FormLabel>Brutto pris</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -597,20 +605,16 @@ export default function TenantSendInvoice({
                   </legend>
                   <div className="grid gap-2">
                     <div className="flex items-center justify-between">
-                      <span>Sum</span>
-                      <span>{totalPrice.toFixed(2)} NOK</span>
+                      <span>Brutto pris</span>
+                      <span>{formatNOK(totalPrice)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span>Mva</span>
-                      <span>{vat.toFixed(2)} NOK</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Rabatt</span>
-                      <span>0%</span>
+                      <span>{formatNOK(vat)} NOK</span>
                     </div>
                     <div className="flex items-center justify-between font-semibold">
-                      <span>Sum</span>
-                      <span>{totalPriceWithVat.toFixed(2)} NOK (inkl.mva)</span>
+                      <span> Netto pris</span>
+                      <span>{formatNOK(totalPriceWithVat)} NOK (inkl.mva)</span>
                     </div>
                   </div>
                   <Separator />
