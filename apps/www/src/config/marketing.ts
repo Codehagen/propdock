@@ -1,29 +1,28 @@
-import type { MarketingConfig } from "@/types";
+import type { MarketingConfig } from "@/types"
 
 export const marketingConfig: MarketingConfig = {
   mainNav: [
     {
       title: "Docs",
       href: "https://docs.dingify.io/",
+      disabled: true,
     },
     {
       title: "Open Startup",
       href: "/open",
     },
     {
-      title: "Pricing",
+      title: "Priser",
       href: "/pricing",
       disabled: true,
     },
     {
       title: "Blog",
       href: "/blog",
-      disabled: true,
     },
-    // {
-    //   title: "Documentation",
-    //   href: "/docs",
-    //   disabled: true,
-    // },
+    {
+      title: "Hjelp",
+      href: "/help",
+    },
   ],
-};
+}

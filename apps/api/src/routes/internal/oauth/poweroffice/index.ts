@@ -5,6 +5,7 @@ import { honoFactory } from "@/lib/hono"
 import {
   exchangeCodeForKey,
   getAccessToken,
+  getAuthHeaders,
   getOnboardingBody,
   getOnboardingHeaders,
   PO_ONBOARDING_START,
@@ -107,5 +108,22 @@ app.get("/token-test", async (c) => {
 
   return c.json({ ok: true, user: user, message: token }, 200)
 })
+
+
+app.get("/dev", async (c) => {
+  const user = c.get("user")
+
+  if (!user) {
+    return c.json(
+      { ok: false, message: "x-user-id header was not supplied" },
+      400,
+    )
+  }
+
+  const headers = getAuthHeaders(c.env, user.workspaceId!)
+
+  return c.json({ ok: true, user: user, message: headers }, 200)
+})
+
 
 export const POInternalApp = app
