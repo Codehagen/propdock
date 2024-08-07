@@ -1,13 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createBuilding } from "@/actions/create-building"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import fetchProperties from "src/lib/address-search"
 import { z } from "zod"
 
 import { Button } from "@dingify/ui/components/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@dingify/ui/components/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -31,23 +40,25 @@ import {
 const BuildingSchema = z.object({
   name: z.string().min(1, "Building Name is required"),
   address: z.string().optional(),
-  gnr: z.string().optional(),
-  bnr: z.string().optional(),
-  snr: z.string().optional(),
-  fnr: z.string().optional(),
+  gnr: z.coerce.string(),
+  bnr: z.coerce.string(),
+  snr: z.coerce.string(),
+  fnr: z.coerce.string(),
 })
 
 export function AddBuildingSheet({ propertyId }) {
+  const [address, setAddress] = useState<any>([])
+  const [openSearch, setOpenSearch] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(BuildingSchema),
     defaultValues: {
       name: "",
       address: "",
-      gnr: undefined,
-      bnr: undefined,
-      snr: undefined,
-      fnr: undefined,
+      gnr: "",
+      bnr: "",
+      snr: "",
+      fnr: "",
     },
   })
 
@@ -81,6 +92,59 @@ export function AddBuildingSheet({ propertyId }) {
     }
   }
 
+  async function handleSearchProperty(address: string) {
+    const data = await fetchProperties(address)
+    if (!address) {
+      setAddress([])
+      setOpenSearch(false)
+    }
+    if (data?.adresser?.length) {
+      setAddress(data.adresser)
+      setOpenSearch(true)
+    }
+  }
+
+  function handleEnterKey(event: any, data: any) {
+    if (event.key === "Enter") {
+      handleSelectAddress(data)
+      setOpenSearch(false)
+    }
+    if (event.key === "Esc") {
+      setOpenSearch(false)
+    }
+  }
+
+  function handleSelectAddress(data: any) {
+    // Reset the form if user selects a new address
+    const savedName = form.getValues("name")
+    form.reset()
+    form.setValue("name", savedName)
+    if (data) {
+      form.setValue("address", data.adressetekst)
+      form.setValue("gnr", data.gardsnummer)
+      form.setValue("bnr", data.bruksnummer)
+      form.setValue("fnr", data.festenummer)
+      // form.setValue("snr", data.??)  // There is no property called "snr/seksjonsnummer" - Could it be "bruksenhetsnummer" or "undernummer" (??)
+    }
+    setOpenSearch(false)
+  }
+
+  const ulRef = useRef<HTMLUListElement>(null)
+
+  // Close the dropdown if user clicks outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ulRef.current && !ulRef.current.contains(event.target)) {
+        setOpenSearch(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [ulRef])
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -102,7 +166,7 @@ export function AddBuildingSheet({ propertyId }) {
                 <FormItem>
                   <FormLabel>Navn på bygg</FormLabel>
                   <FormControl>
-                    <Input placeholder="Dronningens gate 18..." {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,7 +179,59 @@ export function AddBuildingSheet({ propertyId }) {
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Address..." {...field} />
+                    <div className="relative">
+                      <Input
+                        autoComplete="off"
+                        className="searcher"
+                        // Close search if user presses "Esc"
+                        onKeyDown={(event) => {
+                          if (event.key === "Escape") {
+                            event.preventDefault()
+                            event.stopPropagation()
+                            setOpenSearch(false)
+                          }
+                        }}
+                        onKeyUp={(e) => {
+                          if (e.key === "Escape") return
+                          void handleSearchProperty(e.currentTarget.value)
+                        }}
+                        placeholder="Address..."
+                        {...field}
+                      />
+                      <ul
+                        hidden={!openSearch}
+                        ref={ulRef}
+                        tabIndex={-1}
+                        // style={{ scrollbarWidth: "thin" }}
+                        className="absolute mt-2 max-h-[300px] w-full overflow-y-auto rounded-sm border bg-white shadow-md dark:bg-primary-foreground"
+                        onAbort={() => setOpenSearch(false)}
+                      >
+                        {address
+                          ? address.map((adr) => {
+                              return (
+                                <li
+                                  onKeyDown={(event) => {
+                                    // Close search if user presses "Esc"
+                                    if (event.key === "Escape") {
+                                      event.preventDefault()
+                                      event.stopPropagation()
+                                      setOpenSearch(false)
+                                    }
+                                    handleEnterKey(event, adr)
+                                  }}
+                                  onClick={() => handleSelectAddress(adr)}
+                                  tabIndex={0}
+                                  key={`${adr.adressetekst} - ${adr.oppateringsdato} - ${adr?.representasjonspunkt?.lat}`}
+                                  className="px-2 py-1.5 text-sm outline-none hover:cursor-default hover:bg-accent focus:bg-accent"
+                                >
+                                  {adr.adressetekst} - {adr.postnummer}{" "}
+                                  {adr.poststed}
+                                </li>
+                              )
+                            })
+                          : null}
+                      </ul>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
