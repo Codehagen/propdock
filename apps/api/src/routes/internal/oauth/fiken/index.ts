@@ -1,56 +1,30 @@
-import { saveAPIKey } from "@/models/workspace"
+import { 
+    saveAPIKey,
+    saveAccessToken
+} from "@/models/workspace"
 
 import { prisma } from "@/lib/db"
 import { honoFactory } from "@/lib/hono"
-import {
-  exchangeCodeForKey,
-  getAccessToken,
-  getAuthHeaders,
-  getOnboardingBody,
-  getOnboardingHeaders,
-  PO_ONBOARDING_START,
-} from "@/lib/poweroffice/auth"
+
+import { 
+    getOnboardingStartUrl,
+    getAccessToken,
+    exchangeCodeForKey,
+} from "@/lib/fiken/auth"
+
 
 const app = honoFactory()
 
+
 app.get("/onboarding-start", async (c) => {
-  const headers = getOnboardingHeaders(c.env)
-  const body = getOnboardingBody(c.env)
-
-  const url = PO_ONBOARDING_START
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body),
-    })
-
-    if (response.ok) {
-      const responseData: any = await response.json()
-      const temporaryUrl = responseData["TemporaryUrl"]
-      return c.json({ ok: true, message: temporaryUrl }, 200)
-    } else {
-      console.error(`Error: ${response.statusText}`)
-      return c.json(
-        {
-          ok: false,
-          message: `Failed to start onboarding`,
-          error: response.statusText,
-        },
-        { status: response.status },
-      )
-    }
-  } catch (error: any) {
-    console.error(`Network error: ${error.message}`)
-    return c.json({ error: `Network error: ${error.message}` }, 500)
-  }
+  const url = getOnboardingStartUrl(c.env)
+  return c.json({ ok: true, message: url }, 200)
 })
 
 // TODO: remove
 app.get("/callback-test", async (c) => {
-  const { success, token } = c.req.query()
-  return c.json({ ok: true, success: success, token: token }, 200)
+  const { code, state } = c.req.query()
+  return c.json({ ok: true, code: code, state: state }, 200)
 })
 
 app.post("/onboarding-finalize", async (c) => {
@@ -58,10 +32,10 @@ app.post("/onboarding-finalize", async (c) => {
   const db = prisma(c.env)
 
   // Get request.body params
-  let workspaceId, token, serviceName
+  let workspaceId, token, serviceName, state
   try {
-    ;({ workspaceId, token, serviceName } = body)
-  } catch (error) {
+    ({ workspaceId, token, state, serviceName } = body)
+  } catch (error: any) {
     console.error("Invalid or incomplete `body`")
     return c.json(
       {
@@ -74,14 +48,17 @@ app.post("/onboarding-finalize", async (c) => {
   }
 
   // Exchange the onboarding code for client's key
-  let clientKey
-  try {
-    clientKey = await exchangeCodeForKey(c.env, token)
+    try {
+      const clientKeyResponse = await exchangeCodeForKey(c.env, token, state)
+      const clientKey = clientKeyResponse['refresh_token']
 
-    // Save key to db
-    await saveAPIKey(db, workspaceId, clientKey, serviceName)
-  } catch (error) {
-    console.error(`Error: ${error}`)
+    // Save refresh token as secret key in db
+    await saveAPIKey(db, workspaceId, clientKey.toString(), serviceName)
+
+    // Save access token to db
+    await saveAccessToken(db, workspaceId, clientKeyResponse['access_token'].toString(), clientKeyResponse['expires_in'], serviceName)
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`)
     return c.json({ ok: false, error: error }, 500)
   }
 
@@ -102,8 +79,8 @@ app.get("/token-test", async (c) => {
   try {
     token = await getAccessToken(c.env, user.workspaceId!)
   } catch (error: any) {
-    console.error(error)
-    return c.json({ ok: false, error: error }, 500)
+    console.error(error.message)
+    return c.json({ ok: false, error: error.message }, 500)
   }
 
   return c.json({ ok: true, user: user, message: token }, 200)
@@ -120,9 +97,7 @@ app.get("/dev", async (c) => {
     )
   }
 
-  const headers = getAuthHeaders(c.env, user.workspaceId!)
-
-  return c.json({ ok: true, user: user, message: headers }, 200)
+  return c.json({ ok: true, user: user }, 200)
 })
 
 
