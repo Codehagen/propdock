@@ -14,6 +14,7 @@ import {
   CoinsIcon,
   CreditCard,
   File,
+  FileSignature,
   FileText,
   FileTextIcon,
   HandIcon,
@@ -89,6 +90,7 @@ export const Icons = {
   coins: CoinsIcon,
   calendarClock: CalendarClock,
   percent: Percent,
+  signature: FileSignature,
 
   gitHub: ({ ...props }: LucideProps) => (
     <svg
