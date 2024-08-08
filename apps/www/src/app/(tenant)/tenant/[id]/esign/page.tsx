@@ -11,6 +11,7 @@ import { DashboardShell } from "@/components/dashboard/shell"
 import ESignMainComponent from "@/components/esign/esignMainComponent"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import TenantSendInvoice from "@/components/tenant/TenantSendInvoice"
+import { createEsignDocument } from "@/actions/create-esign-document"
 
 export default async function EsignPage({
   params,
@@ -39,6 +40,7 @@ export default async function EsignPage({
 
   try {
     const tenantDetails = await getTenantDetails(tenantId)
+    const { customers, products } = await poweroffice.getCustomersAndProducts()
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -47,7 +49,7 @@ export default async function EsignPage({
             heading="E-signering"
             text="Du må først legge til kontatpersoner fr du kan se dem her."
           />
-          <ESignMainComponent />
+          <ESignMainComponent tenantDetails={tenantDetails} />
         </DashboardShell>
       )
     }
@@ -58,7 +60,7 @@ export default async function EsignPage({
           heading={tenantDetails.name}
           text="Her kan du sende ut dokumenter for digital signering."
         />
-        <ESignMainComponent />
+        <ESignMainComponent tenantDetails={tenantDetails} />
       </DashboardShell>
     )
   } catch (error) {

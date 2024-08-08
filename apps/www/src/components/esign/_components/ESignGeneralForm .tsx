@@ -51,7 +51,11 @@ const stepContent = {
   },
 }
 
-export function ESignGeneralForm() {
+export function ESignGeneralForm({
+  onFormSubmit,
+}: {
+  onFormSubmit: (data: z.infer<typeof formSchema>) => void
+}) {
   const [step, setStep] = useState(1)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -87,6 +91,7 @@ export function ESignGeneralForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Endelig innsending:", values)
+    onFormSubmit(values) // Pass the form data to the parent component
   }
 
   return (
