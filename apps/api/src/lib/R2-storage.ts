@@ -76,10 +76,10 @@ export async function handleDocumentSigned(
 
   // Construct the URL with query parameters
   const url = new URL(
-    `https://api.signicat.com/express/sign/documents/${documentId}/files`,
+    `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`,
   )
-  //   url.searchParams.append("fileFormat", "pades")
-  //   url.searchParams.append("originalFileName", "true")
+  // url.searchParams.append("fileFormat", "pades")
+  // url.searchParams.append("originalFileName", "true")
 
   console.log(`Fetching document from URL: ${url.toString()}`)
   const response = await fetch(url.toString(), {
@@ -173,7 +173,7 @@ export async function handleDocumentCompletedSigned(
     console.log("Document summary retrieved successfully")
 
     // Fetch the signed document
-    const fileUrl = `https://api.signicat.com/express/sign/documents/${documentId}/files`
+    const fileUrl = `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`
     const fileResponse = await fetch(fileUrl, {
       method: "GET",
       headers: {

@@ -26,8 +26,9 @@ const formSchema = z.object({
   signers: z
     .array(
       z.object({
-        email: z.string().email({ message: "Ugyldig e-postadresse" }),
         name: z.string().min(1, { message: "Navn er påkrevd" }),
+        mobile: z.string().min(8, { message: "Gyldig mobilnummer er påkrevd" }),
+        email: z.string().email({ message: "Ugyldig e-postadresse" }),
       }),
     )
     .min(1, { message: "Minst én signerer er påkrevd" }),
@@ -63,7 +64,7 @@ export function ESignGeneralForm({
     defaultValues: {
       title: "",
       description: "",
-      signers: [{ email: "", name: "" }],
+      signers: [{ name: "", mobile: "", email: "" }],
     },
     mode: "onChange",
   })
@@ -78,7 +79,8 @@ export function ESignGeneralForm({
     // Du ville vanligvis hente denne informasjonen fra en bruker-kontekst eller tilstand
     const myEmail = "christer.hagen@dingify.com"
     const myName = "Christer Hagen"
-    append({ email: myEmail, name: myName })
+    const myMobile = "98453571" // Add your default mobile number here
+    append({ name: myName, mobile: myMobile, email: myEmail })
   }
 
   async function onContinue() {
@@ -90,7 +92,6 @@ export function ESignGeneralForm({
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Endelig innsending:", values)
     onFormSubmit(values) // Pass the form data to the parent component
   }
 
@@ -149,52 +150,69 @@ export function ESignGeneralForm({
         {step === 2 && (
           <div className="space-y-4">
             {fields.map((field, index) => (
-              <div key={field.id} className="flex items-end space-x-2">
-                <FormField
-                  control={form.control}
-                  name={`signers.${index}.email`}
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>
-                        E-post{" "}
-                        {index === 0 && <span className="text-red-500">*</span>}
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Skriv inn e-post..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`signers.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Navn</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Skriv inn navn..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => remove(index)}
-                  disabled={index === 0}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+              <div key={field.id} className="space-y-2">
+                <div className="flex items-end space-x-2">
+                  <FormField
+                    control={form.control}
+                    name={`signers.${index}.name`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Navn</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Skriv inn navn..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`signers.${index}.mobile`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Mobilnummer</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Skriv inn mobilnummer..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex items-end space-x-2">
+                  <FormField
+                    control={form.control}
+                    name={`signers.${index}.email`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>E-post</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Skriv inn e-post..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => remove(index)}
+                    disabled={index === 0}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             ))}
             <div className="flex space-x-2">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => append({ email: "", name: "" })}
+                onClick={() => append({ name: "", mobile: "", email: "" })}
                 className="flex-grow"
               >
                 + Legg til
