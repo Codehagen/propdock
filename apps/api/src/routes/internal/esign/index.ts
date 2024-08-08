@@ -24,7 +24,7 @@ app.post("/create-document", async (c) => {
   const user: User = c.get("user")!
   console.log(
     "Debug: User from context",
-    user ? JSON.stringify(user, null, 2) : "undefined",
+    user ? { id: user.id, email: user.email } : "undefined",
   )
 
   if (!user) {
@@ -34,9 +34,15 @@ app.post("/create-document", async (c) => {
 
   try {
     const accessToken = await getAccessToken(env)
+    console.log("Debug: Access token obtained")
 
     const body = await c.req.json()
-    console.log("Debug: Request body", JSON.stringify(body, null, 2))
+    console.log("Debug: Request body", {
+      title: body.title,
+      description: body.description,
+      "signers.length": body.signers.length,
+      "base64Content.length": body.base64Content.length,
+    })
 
     const documentData = {
       title: body.title,
@@ -96,7 +102,13 @@ app.post("/create-document", async (c) => {
       })),
     }
 
-    console.log("Debug: Document data", JSON.stringify(documentData, null, 2))
+    console.log("Debug: Document data prepared", {
+      title: documentData.title,
+      description: documentData.description,
+      externalId: documentData.externalId,
+      "dataToSign.fileName": documentData.dataToSign.fileName,
+      "signers.length": documentData.signers.length,
+    })
 
     const response = await fetch(
       "https://api.signicat.com/express/sign/documents",
@@ -111,27 +123,36 @@ app.post("/create-document", async (c) => {
     )
 
     if (!response.ok) {
-      console.error("Debug: Signicat API error", await response.text())
+      const errorText = await response.text()
+      console.error("Debug: Signicat API error", {
+        status: response.status,
+        statusText: response.statusText,
+        errorText: errorText,
+      })
       throw new Error(`Failed to create document: ${response.statusText}`)
     }
 
     const createdDocument = await response.json()
-    console.log(
-      "Debug: Created document",
-      JSON.stringify(createdDocument, null, 2),
-    )
+    console.log("Debug: Created document", {
+      id: createdDocument.id,
+      status: createdDocument.status,
+    })
 
     await createDocumentInDatabase(env, documentData, createdDocument, user)
+    console.log("Debug: Document created in database")
 
     return c.json({
       ok: true,
       message: "Document created successfully",
-      document: createdDocument,
+      document: {
+        id: createdDocument.id,
+        status: createdDocument.status,
+      },
     })
   } catch (error) {
-    console.error("Failed to create document:", error)
+    console.error("Failed to create document:", error.message)
     return c.json(
-      { ok: false, message: "Failed to create document", error: String(error) },
+      { ok: false, message: "Failed to create document", error: error.message },
       500,
     )
   }
