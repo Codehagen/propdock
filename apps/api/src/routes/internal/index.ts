@@ -1,6 +1,7 @@
 import { createAPIKey } from "../../auth/unkey"
 import { honoFactory } from "../../lib/hono"
 import internalAuthMiddleware from "../../routes/internal/authMiddleware"
+import { ESignApp } from "./esign"
 import { POInternalApp } from "./oauth/poweroffice"
 import { poweroffice } from "./poweroffice" // Import the new route
 
@@ -15,6 +16,9 @@ internal.all("/test", (c) => {
 
 // OAuth
 internal.route("/oauth/poweroffice", POInternalApp)
+
+// Esign
+internal.route("/esign", ESignApp)
 
 // PowerOffice
 internal.route("/poweroffice", poweroffice)
