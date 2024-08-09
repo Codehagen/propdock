@@ -18,6 +18,7 @@ export default async function TenantEditPage({
 
   try {
     const tenantDetails = await getTenantDetails(tenantId)
+    console.log("tenantDetails", tenantDetails)
     const contractContent = generateContractContent(tenantDetails)
 
     return (
