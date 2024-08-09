@@ -90,14 +90,10 @@ app.post("/invoices/create", async (c) => {
     return c.json({ ok: false, message: "x-user-id header is missing"}, 400)
   }
 
-  //const invoiceData = await c.req.json()
-
-  // Dummy data
-  const customerId = 17763838
-  const productId = 20681521
+  const invoiceData = await c.req.json()
 
   try {
-    const invoiceResponse = await createSalesOrder(c.env, user.workspaceId!, customerId, productId)
+    const invoiceResponse = await createSalesOrder(c.env, user.workspaceId!, invoiceData)
     return c.json({ ok: true, message: invoiceResponse }, 200)
   } catch (error: any) {
     return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error.message }, 500 )
