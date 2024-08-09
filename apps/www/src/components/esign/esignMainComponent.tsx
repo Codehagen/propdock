@@ -45,7 +45,6 @@ export default function ESignMainComponent({
       data.append("signers", JSON.stringify(formData.signers))
 
       const result = await createEsignDocument(data)
-      console.log("ESignMainComponent - Server response:", result)
 
       if (!result.ok) {
         throw new Error(result.message || "Failed to create document")

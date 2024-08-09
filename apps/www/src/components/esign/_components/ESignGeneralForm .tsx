@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Pencil, Trash2 } from "lucide-react"
+import { Pencil, SendIcon, Trash2 } from "lucide-react"
 import { useFieldArray, useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -276,7 +276,10 @@ export function ESignGeneralForm({
               Fortsett
             </Button>
           ) : (
-            <Button type="submit">Send inn</Button>
+            <Button type="submit">
+              <SendIcon className="mr-2 h-4 w-4" />
+              Send inn
+            </Button>
           )}
         </div>
       </form>

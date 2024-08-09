@@ -1,5 +1,8 @@
-import { UploadIcon } from "lucide-react"
+import { useState } from "react"
+import { FileIcon, UploadIcon, XIcon } from "lucide-react"
 import { DropzoneOptions, useDropzone } from "react-dropzone"
+
+import { Button } from "@dingify/ui/components/button"
 
 import { cn } from "@/lib/utils"
 
@@ -11,12 +14,27 @@ interface DragAndDropProps extends DropzoneOptions {
 export function DragAndDrop({
   className,
   maxSize,
+  onDrop,
   ...dropzoneOptions
 }: DragAndDropProps) {
+  const [file, setFile] = useState<File | null>(null)
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...dropzoneOptions,
     maxSize,
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setFile(acceptedFiles[0])
+        if (onDrop) onDrop(acceptedFiles)
+      }
+    },
   })
+
+  const handleRemoveFile = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setFile(null)
+    if (onDrop) onDrop([])
+  }
 
   return (
     <div
@@ -29,7 +47,24 @@ export function DragAndDrop({
       )}
     >
       <input {...getInputProps()} />
-      {isDragActive ? (
+      {file ? (
+        <div className="flex flex-col items-center justify-center gap-2">
+          <FileIcon className="h-10 w-10 text-muted-foreground" />
+          <p className="font-medium text-muted-foreground">{file.name}</p>
+          <p className="text-sm text-muted-foreground/70">
+            {(file.size / 1024 / 1024).toFixed(2)} MB
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleRemoveFile}
+            className="mt-2"
+          >
+            <XIcon className="mr-2 h-4 w-4" />
+            Fjern fil
+          </Button>
+        </div>
+      ) : isDragActive ? (
         <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
           <div className="rounded-full border border-dashed p-3">
             <UploadIcon
