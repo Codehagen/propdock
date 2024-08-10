@@ -1,7 +1,7 @@
 import { honoFactory } from "@/lib/hono"
 import { getCustomers, getCustomer } from "@/lib/poweroffice/customers"
 import { getProducts, getProduct } from "@/lib/poweroffice/products"
-import { createInvoice } from "@/lib/poweroffice/invoice"
+import { createSalesOrder } from "@/lib/poweroffice/invoice"
 
 
 const app = honoFactory()
@@ -20,7 +20,7 @@ app.get("/customers", async (c) => {
     return c.json({ ok: true, message: customerResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching customers", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching customers", "error": error.message }, 500 )
   }
 })
 
@@ -40,7 +40,7 @@ app.get("/customers/:id", async (c) => {
     return c.json({ ok: true, message: customerResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching the customer", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching the customer", "error": error.message }, 500 )
   }
 })
 
@@ -57,7 +57,7 @@ app.get("/products", async (c) => {
     return c.json({ ok: true, message: productResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching products", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching products", "error": error.message }, 500 )
   }
 })
 
@@ -77,7 +77,7 @@ app.get("/products/:id", async (c) => {
     return c.json({ ok: true, message: productResponse }, 200)
   
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while fetching the product", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while fetching the product", "error": error.message }, 500 )
   }
 })
 
@@ -93,12 +93,12 @@ app.post("/invoices/create", async (c) => {
   const invoiceData = await c.req.json()
 
   try {
-    const invoiceResponse = await createInvoice(c.env, user.workspaceId!, invoiceData)
+    const invoiceResponse = await createSalesOrder(c.env, user.workspaceId!, invoiceData)
     return c.json({ ok: true, message: invoiceResponse }, 200)
-  
   } catch (error: any) {
-    return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error }, 500 )
+    return c.json({ "ok": false, message: "Network error while creating the invoice", "error": error.message }, 500 )
   }
 })
+
 
 export const poweroffice = app

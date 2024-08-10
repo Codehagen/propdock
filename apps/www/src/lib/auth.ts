@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
 
       if (dbUser && !dbUser.onboardingEmailSent) {
         if (dbUser.email && dbUser.name) {
-          await sendOnboardingEmail(dbUser.email, dbUser.name)
+          // await sendOnboardingEmail(dbUser.email, dbUser.name)
 
           await prisma.user.update({
             where: { email: dbUser.email },
