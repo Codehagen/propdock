@@ -40,24 +40,37 @@ export default function Integrations() {
 
 const integrations = [
   {
-    slug: "visma",
-    site: "https://visma.no",
+    slug: "poweroffice",
     description:
-      "Visma's regnskapsinfrastruktur og analyser har hjulpet oss med å få verdifull innsikt i regnskapsføring for eiendomsforvaltning.",
+      "Vi har brukt PowerOffice i Propdock siden lanseringen for over et år siden for alle våre eiendomskampanjer, og vårt team elsker det absolutt!",
   },
   {
     slug: "tripletex",
     site: "https://tripletex.no",
   },
   {
+    slug: "visma",
+    site: "https://visma.no",
+    description:
+      "Visma's regnskapsinfrastruktur og analyser har hjulpet oss med å få verdifull innsikt i regnskapsføring for eiendomsforvaltning.",
+  },
+
+  {
     slug: "propcloud",
+    site: "https://propcloud.no",
     description:
       "PropCloud er en av våre mest populære integrasjoner, og er brukt av vårt team som standard for alle våre eiendomskampanjer.",
   },
   {
-    slug: "poweroffice",
+    slug: "fiken",
+    site: "https://fiken.no",
     description:
-      "Vi har brukt PowerOffice i Propdock siden lanseringen for over et år siden for alle våre eiendomskampanjer, og vårt team elsker det absolutt!",
+      "Integrasjonen gjør det enkelt å få tilgang til regnskapsdata fra Fiken, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning.",
+  },
+  {
+    slug: "signicat",
+    description:
+      "Signicat gjør det enkelt å sende dokumenter til kunder og motta signerte dokumenter fra kunder.",
   },
   // Add more integrations as needed
 ]
