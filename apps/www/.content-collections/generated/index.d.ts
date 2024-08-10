@@ -16,4 +16,7 @@ export declare const allHelpPosts: Array<HelpPost>;
 export type LegalPost = GetTypeByName<typeof configuration, "LegalPost">;
 export declare const allLegalPosts: Array<LegalPost>;
 
+export type IntegrationsPost = GetTypeByName<typeof configuration, "IntegrationsPost">;
+export declare const allIntegrationsPosts: Array<IntegrationsPost>;
+
 export {};
