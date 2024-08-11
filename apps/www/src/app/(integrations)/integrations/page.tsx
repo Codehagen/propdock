@@ -47,6 +47,8 @@ const integrations = [
   {
     slug: "tripletex",
     site: "https://tripletex.no",
+    description:
+      "Tripletex er et kraftig regnskapssystem som gjør det enkelt å få tilgang til regnskapsdata fra Tripletex, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning.",
   },
   {
     slug: "visma",
@@ -72,5 +74,16 @@ const integrations = [
     description:
       "Signicat gjør det enkelt å sende dokumenter til kunder og motta signerte dokumenter fra kunder.",
   },
+  {
+    slug: "brreg",
+    description:
+      "Integrasjonen gjør det enkelt å få tilgang til korrekt bedriftsinformasjon direkte fra Brreg.",
+  },
+  {
+    slug: "kartverket",
+    description:
+      "Integrasjonen gjør det enkelt å få tilgang til kartdata fra Kartverket. ",
+  },
+
   // Add more integrations as needed
 ]
