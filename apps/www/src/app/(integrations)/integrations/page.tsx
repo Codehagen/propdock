@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import { constructMetadata } from "@/lib/blog/constructMetadata"
 import { Integration } from "@/components/blog/integrations"
 import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
+import Testimonials from "@/components/blog/testimonials"
 
 export const metadata = constructMetadata({
   title: "Integrasjoner - Propdock",
