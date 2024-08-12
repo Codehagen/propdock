@@ -1,5 +1,5 @@
 {
-  "name": "@dingify/prettier-config",
+  "name": "@propdock/prettier-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -17,8 +17,8 @@
     "prettier-plugin-tailwindcss": "^0.5.13"
   },
   "devDependencies": {
-    "@dingify/tsconfig": "workspace:*",
+    "@propdock/tsconfig": "workspace:*",
     "typescript": "^5.4.5"
   },
-  "prettier": "@dingify/prettier-config"
+  "prettier": "@propdock/prettier-config"
 }

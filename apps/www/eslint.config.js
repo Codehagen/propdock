@@ -1,6 +1,6 @@
-import baseConfig from "@dingify/eslint-config/base";
-import nextjsConfig from "@dingify/eslint-config/nextjs";
-import reactConfig from "@dingify/eslint-config/react";
+import baseConfig from "@propdock/eslint-config/base";
+import nextjsConfig from "@propdock/eslint-config/nextjs";
+import reactConfig from "@propdock/eslint-config/react";
 
 /** @type {import('typescript-eslint').Config} */
 export default [

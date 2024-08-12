@@ -1,5 +1,5 @@
 {
-	"name": "@dingify/api",
+	"name": "@propdock/api",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
@@ -15,7 +15,7 @@
 		"deploy": "wrangler deploy --minify src/index.ts"
 	},
 	"dependencies": {
-		"@dingify/db": "workspace:*",
+		"@propdock/db": "workspace:*",
 		"@hono/zod-openapi": "^0.11.0",
 		"@unkey/api": "^0.20.2",
 		"hono": "^4.3.6",

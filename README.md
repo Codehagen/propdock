@@ -1,10 +1,10 @@
-<a href="https://github.com/Codehagen/Dingify">
-  <!-- <img alt="Dingify" src="public/og.jpg"> -->
-  <h1 align="center">Dingify</h1>
+<a href="https://github.com/Codehagen/Propdock">
+  <!-- <img alt="Propdock" src="public/og.jpg"> -->
+  <h1 align="center">Propdock</h1>
 </a>
 
 <p align="center">
-  Start at full speed with Dingify !
+  Start at full speed with Propdock !
 </p>
 
 
@@ -19,11 +19,20 @@
 
 ## Introduction
 
-Welcome to Dingify, where we're we are going to make your alerts easy for you
+Welcome to Propdock, where we're revolutionizing property management and real estate analytics. Our platform offers comprehensive solutions for monitoring, tracking, and analyzing property-related data in real-time. Whether you're a property manager, real estate investor, or developer, Propdock provides the tools you need to make informed decisions and optimize your property portfolio.
+
+Key features of Propdock include:
+- Real-time property monitoring
+- Event tracking for property-related activities
+- Advanced data analytics for real estate insights
+- Integration with various property management tools
+- Customizable dashboards for at-a-glance information
+
+With Propdock, you'll have all the information you need at your fingertips to streamline your property management processes and maximize your real estate investments.
 
 ## Directory Structure
 
-Dingify is a monorepo managed by [Turborepo](https://turbo.build/repo). The monorepo is split between `apps` and `packages` directories.
+Propdock is a monorepo managed by [Turborepo](https://turbo.build/repo). The monorepo is split between `apps` and `packages` directories.
 
     .
     ├── apps                         # Its app workspace which contains
@@ -46,7 +55,7 @@ Dingify is a monorepo managed by [Turborepo](https://turbo.build/repo). The mono
 Clone & create this repo locally with the following command:
 
 ```bash
-git clone https://github.com/Codehagen/Dingify
+git clone https://github.com/Codehagen/Propdock
 ```
 
 1. Install dependencies using pnpm:
@@ -112,11 +121,11 @@ pnpm run deploy
 
 We love our contributors! Here's how you can contribute:
 
-- [Open an issue](https://github.com/Codehagen/Dingify/issues) if you believe you've encountered a bug.
-- Make a [pull request](https://github.com/Codehagen/Dingify/pull) to add new features/make quality-of-life improvements/fix bugs.
+- [Open an issue](https://github.com/Codehagen/Propdock/issues) if you believe you've encountered a bug.
+- Make a [pull request](https://github.com/Codehagen/Propdock/pull) to add new features/make quality-of-life improvements/fix bugs.
 
-<a href="https://github.com/Codehagen/Dingify/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Codehagen/Dingify" />
+<a href="https://github.com/Codehagen/Propdock/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Codehagen/Propdock" />
 </a>
 
 ## Repo Activity
