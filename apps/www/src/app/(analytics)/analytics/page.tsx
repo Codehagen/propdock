@@ -17,6 +17,12 @@ import {
   TableHeader,
   TableRow,
 } from "@dingify/ui/components/table"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@dingify/ui/components/tabs"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
@@ -96,22 +102,25 @@ export default async function DashboardPage() {
       >
         <AddAnalysisSheet />
       </DashboardHeader>
-      <div className="grid gap-6 lg:grid-cols-3">
-        {analyses.length === 0 ? (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="building" />
-            <EmptyPlaceholder.Title>
-              Legg til din første analyse
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Du har ingen analyser ennå. Legg til en analyse for å komme i
-              gang.
-            </EmptyPlaceholder.Description>
-            <AddAnalysisSheet />
-          </EmptyPlaceholder>
-        ) : (
-          <>
-            <Card className="col-span-2">
+      {analyses.length === 0 ? (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="building" />
+          <EmptyPlaceholder.Title>
+            Legg til din første analyse
+          </EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Du har ingen analyser ennå. Legg til en analyse for å komme i gang.
+          </EmptyPlaceholder.Description>
+          <AddAnalysisSheet />
+        </EmptyPlaceholder>
+      ) : (
+        <Tabs defaultValue="table" className="w-full">
+          <TabsList>
+            <TabsTrigger value="table">Eiendommer</TabsTrigger>
+            <TabsTrigger value="map">Kart</TabsTrigger>
+          </TabsList>
+          <TabsContent value="table">
+            <Card>
               <CardHeader>
                 <CardTitle>Analyser</CardTitle>
               </CardHeader>
@@ -163,11 +172,12 @@ export default async function DashboardPage() {
                 </Table>
               </CardContent>
             </Card>
-
+          </TabsContent>
+          <TabsContent value="map">
             <PropertyMap />
-          </>
-        )}
-      </div>
+          </TabsContent>
+        </Tabs>
+      )}
     </DashboardShell>
   )
 }
