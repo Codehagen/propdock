@@ -37,9 +37,9 @@ import {
 } from "@dingify/ui/components/sheet"
 
 const AnalysisSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  propertyId: z.string().min(1, "Property is required"),
-  buildingId: z.string().min(1, "Building is required"),
+  name: z.string().min(1, "Navn er påkrevd"),
+  propertyId: z.string().min(1, "Eiendom er påkrevd"),
+  buildingId: z.string().min(1, "Bygning er påkrevd"),
 })
 
 interface Property {
@@ -72,7 +72,7 @@ export function AddAnalysisSheet() {
         const properties = await getProperties()
         setProperties(properties)
       } catch (error) {
-        console.error("Failed to fetch properties:", error)
+        console.error("Kunne ikke hente eiendommer:", error)
       }
     }
     fetchProperties()
@@ -83,9 +83,9 @@ export function AddAnalysisSheet() {
     try {
       const buildings = await getBuildings(propertyId)
       setBuildings(buildings)
-      form.setValue("buildingId", "") // Reset building selection when property changes
+      form.setValue("buildingId", "") // Tilbakestill bygningsvalg når eiendom endres
     } catch (error) {
-      console.error("Failed to fetch buildings:", error)
+      console.error("Kunne ikke hente bygninger:", error)
     }
   }
 
@@ -100,12 +100,12 @@ export function AddAnalysisSheet() {
       const result = await createAnalysis(analysisData)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save analysis.")
+        throw new Error(result.error || "Kunne ikke lagre analysen.")
       }
 
-      toast.success(`Analysis for property was saved.`)
+      toast.success(`Analyse for eiendom ble lagret.`)
       form.reset()
-      // Optionally, refresh the page or update the state to show the new analysis
+      // Eventuelt oppdater siden eller tilstanden for å vise den nye analysen
     } catch (error) {
       toast.error(error.message)
       console.error(error)
@@ -132,9 +132,9 @@ export function AddAnalysisSheet() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Navn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name..." {...field} />
+                    <Input placeholder="Navn..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,7 +145,7 @@ export function AddAnalysisSheet() {
               name="propertyId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Property</FormLabel>
+                  <FormLabel>Eiendom</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value)
@@ -155,7 +155,7 @@ export function AddAnalysisSheet() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a property" />
+                        <SelectValue placeholder="Velg en eiendom" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -175,7 +175,7 @@ export function AddAnalysisSheet() {
               name="buildingId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Building</FormLabel>
+                  <FormLabel>Bygning</FormLabel>
                   <Select
                     onValueChange={(value) => field.onChange(value)}
                     value={field.value}
@@ -183,7 +183,7 @@ export function AddAnalysisSheet() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a building" />
+                        <SelectValue placeholder="Velg en bygning" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -204,7 +204,7 @@ export function AddAnalysisSheet() {
                 disabled={isLoading}
                 className="w-full sm:w-auto"
               >
-                {isLoading ? "Saving..." : "Lag ny analyse"}
+                {isLoading ? "Lagrer..." : "Lag ny analyse"}
               </Button>
             </SheetFooter>
           </form>
