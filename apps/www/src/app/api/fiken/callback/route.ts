@@ -9,10 +9,11 @@ export const dynamic = "force-dynamic"
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const token = searchParams.get("token")
+  const code = searchParams.get("code")
+  const state = searchParams.get("state")
 
-  if (!token) {
-    return new NextResponse("Token is missing", { status: 400 })
+  if (!code || !state) {
+    return new NextResponse("Code or state is missing", { status: 400 })
   }
 
   try {
@@ -45,14 +46,13 @@ export async function GET(request: NextRequest) {
     }
 
     const workspaceId = userWorkspace.id
-    const serviceName = "fiken"
 
     await axios.post(
       "https://api.vegard.workers.dev/api/internal/oauth/fiken/onboarding-finalize",
       {
         workspaceId,
-        token,
-        serviceName,
+        token: code,
+        state,
       },
       {
         headers: {
