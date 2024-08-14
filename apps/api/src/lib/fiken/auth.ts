@@ -14,7 +14,7 @@ const FI_ONBOARDING_FINAL = FI_AUTH
 
 
 function getOnboardingStartUrl(env: Env) {
-    const state = "" // TODO: generate UUID and store somewhere so we can verify when we get the callback
+    const state = crypto.randomUUID()
     return `${FI_ONBOARDING_START}?response_type=code&client_id=${env.FI_CLIENT_ID}&redirect_uri=${env.FI_ONBOARD_REDIRECT}&state=${state}`
 }
 
@@ -31,27 +31,40 @@ function getOnboardingHeaders(env: Env) {
     return headers
 }
 
+function getTokenHeaders(env: Env) {
+    const authKeyRaw = `${env.FI_CLIENT_ID}:${env.FI_CLIENT_SECRET}`
+    const auth_64    = btoa(authKeyRaw);
 
-async function exchangeCodeForKey(env: Env, code: string, state: string): Promise<Record<string, string | number>> {
-    const url = FI_ONBOARDING_FINAL
-    const body = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": env.FI_ONBOARD_REDIRECT,
-        "state": state,
+    const headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        'Authorization': `Basic ${auth_64}`
     }
 
+    return headers
+}
+
+
+async function exchangeCodeForKey(env: Env, code: string, state: string): Promise<Record<string, string | number>> {
+    const params = new URLSearchParams({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: env.FI_ONBOARD_REDIRECT,
+        state: state,
+    });
+    const headers = getTokenHeaders(env)
+
     try {
-        const response = await fetch(url, {
+        const response = await fetch(FI_ONBOARDING_FINAL, {
             method: "POST",
-            body: JSON.stringify(body)
+            headers: headers,
+            body: params.toString()
         });
 
         if (response.ok) {
             const responseData: any = await response.json();
             return responseData
         } else {
-            console.error(`Error: ${response.statusText}`);
+            console.error(`Error: ${response.statusText}`, await response.json());
             throw Error(response.statusText)
         }
     } catch (error: any) {
@@ -97,15 +110,18 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
 
 
 async function getNewAccessToken(env: Env, client_key: string): Promise<Record<string, string>> {
-    const body = new URLSearchParams()
-    body.append('grant_type', 'refresh_token')
-    body.append('refresh_token', client_key)
+    const params = new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: client_key,
+    });
+    const headers = getTokenHeaders(env)
 
     let res: any
     try {
         const response = await fetch(FI_AUTH, {
             method: "POST",
-            body: body.toString()
+            body: params.toString(),
+            headers: headers,
         });
 
         res = await response.json()
