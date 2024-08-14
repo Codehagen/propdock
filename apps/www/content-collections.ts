@@ -6,7 +6,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypeSlug from "rehype-slug"
 
 const computedFields = (
-  type: "blog" | "changelog" | "customers" | "help" | "legal",
+  type: "blog" | "changelog" | "customers" | "help" | "legal" | "integrations",
 ) => ({
   slug: (document) => {
     const slugger = new GithubSlugger()
@@ -280,6 +280,62 @@ export const LegalPost = defineCollection({
   },
 })
 
+export const IntegrationsPost = defineCollection({
+  name: "IntegrationsPost",
+  directory: "src/content/integrations",
+  include: "*.mdx",
+  schema: (z) => ({
+    title: z.string(),
+    publishedAt: z.string(),
+    summary: z.string(),
+    image: z.string(),
+    company: z.string(),
+    companyLogo: z.string(),
+    companyUrl: z.string(),
+    companyDescription: z.string(),
+    integrationType: z.string(),
+    integrationDescription: z.string(),
+    compatibility: z.string(),
+    slug: z.string().optional(),
+  }),
+  transform: async (document, context) => {
+    try {
+      const mdx = await compileMDX(context, document, {
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        remarkPlugins: [remarkGfm],
+      })
+      console.log("MDX compilation successful for:", document.title)
+      const computed = computedFields("integrations")
+      return {
+        ...document,
+        slug: computed.slug(document),
+        mdx,
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw },
+        }),
+      }
+    } catch (error) {
+      console.error("Error compiling MDX for:", document.title, error)
+      console.error("Error details:", error.stack)
+      throw error
+    }
+  },
+})
+
 export default defineConfig({
-  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost, LegalPost],
+  collections: [
+    BlogPost,
+    ChangelogPost,
+    CustomersPost,
+    HelpPost,
+    LegalPost,
+    IntegrationsPost,
+  ],
 })

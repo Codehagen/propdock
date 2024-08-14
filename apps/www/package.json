@@ -1,5 +1,5 @@
 {
-  "name": "@dingify/www",
+  "name": "@propdock/www",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -17,8 +17,8 @@
   "dependencies": {
     "@content-collections/core": "^0.6.4",
     "@content-collections/next": "^0.2.0",
-    "@dingify/db": "workspace:*",
-    "@dingify/ui": "workspace:*",
+    "@propdock/db": "workspace:*",
+    "@propdock/ui": "workspace:*",
     "@fumadocs/content-collections": "^1.1.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
@@ -92,10 +92,10 @@
   },
   "devDependencies": {
     "@content-collections/mdx": "^0.1.3",
-    "@dingify/eslint-config": "workspace:*",
-    "@dingify/prettier-config": "workspace:*",
-    "@dingify/tailwind-config": "workspace:*",
-    "@dingify/tsconfig": "workspace:*",
+    "@propdock/eslint-config": "workspace:*",
+    "@propdock/prettier-config": "workspace:*",
+    "@propdock/tailwind-config": "workspace:*",
+    "@propdock/tsconfig": "workspace:*",
     "@types/leaflet": "^1.9.12",
     "@types/node": "^20.12.5",
     "@types/react": "^18.2.77",
@@ -117,5 +117,5 @@
     "typescript": "^5.4.5",
     "unist-util-visit": "^5.0.0"
   },
-  "prettier": "@dingify/prettier-config"
+  "prettier": "@propdock/prettier-config"
 }

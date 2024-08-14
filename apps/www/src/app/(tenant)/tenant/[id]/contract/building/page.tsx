@@ -1,8 +1,10 @@
 import React from "react"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
+import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import { ContractCheck } from "@/components/tenant/ContractCheck"
 
 import { BuildingFormContract } from "./_components/BuildingFormContract"
@@ -13,10 +15,26 @@ export default async function Home({ params }: { params: { id: string } }) {
   try {
     const tenantDetails = await getTenantDetails(tenantId)
 
-    if (!tenantDetails) {
+    if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
         <DashboardShell>
-          <DashboardHeader heading="Error" text="Tenant details not found." />
+          <DashboardHeader
+            heading="Legg til kontaktpersoner"
+            text="Du må først legge til kontatpersoner før du kan se dem her."
+          />
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="user" />
+            <EmptyPlaceholder.Title>
+              Ingen kontaktpersoner
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Legg til kontaktpersoner tilknyttet leietakeren.
+            </EmptyPlaceholder.Description>
+            <AddContactPersonSheet
+              tenantId={tenantDetails?.id}
+              currentPath={`/tenant/${tenantId}/contract/building`}
+            />
+          </EmptyPlaceholder>
         </DashboardShell>
       )
     }

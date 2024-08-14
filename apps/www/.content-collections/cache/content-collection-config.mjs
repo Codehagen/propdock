@@ -257,12 +257,68 @@ var LegalPost = defineCollection({
     }
   }
 });
+var IntegrationsPost = defineCollection({
+  name: "IntegrationsPost",
+  directory: "src/content/integrations",
+  include: "*.mdx",
+  schema: (z) => ({
+    title: z.string(),
+    publishedAt: z.string(),
+    summary: z.string(),
+    image: z.string(),
+    company: z.string(),
+    companyLogo: z.string(),
+    companyUrl: z.string(),
+    companyDescription: z.string(),
+    integrationType: z.string(),
+    integrationDescription: z.string(),
+    compatibility: z.string(),
+    slug: z.string().optional()
+  }),
+  transform: async (document, context) => {
+    try {
+      const mdx = await compileMDX(context, document, {
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        remarkPlugins: [remarkGfm]
+      });
+      console.log("MDX compilation successful for:", document.title);
+      const computed = computedFields("integrations");
+      return {
+        ...document,
+        slug: computed.slug(document),
+        mdx,
+        tableOfContents: computed.tableOfContents({
+          ...document,
+          body: { raw: mdx.raw }
+        }),
+        images: computed.images({ ...document, body: { raw: mdx.raw } }),
+        tweetIds: computed.tweetIds({ ...document, body: { raw: mdx.raw } }),
+        githubRepos: computed.githubRepos({
+          ...document,
+          body: { raw: mdx.raw }
+        })
+      };
+    } catch (error) {
+      console.error("Error compiling MDX for:", document.title, error);
+      console.error("Error details:", error.stack);
+      throw error;
+    }
+  }
+});
 var content_collections_default = defineConfig({
-  collections: [BlogPost, ChangelogPost, CustomersPost, HelpPost, LegalPost]
+  collections: [
+    BlogPost,
+    ChangelogPost,
+    CustomersPost,
+    HelpPost,
+    LegalPost,
+    IntegrationsPost
+  ]
 });
 export {
   CustomersPost,
   HelpPost,
+  IntegrationsPost,
   LegalPost,
   content_collections_default as default
 };

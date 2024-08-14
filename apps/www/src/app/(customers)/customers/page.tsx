@@ -39,10 +39,10 @@ export default function Customers() {
 }
 
 const customers = [
-  {
-    slug: "vercel",
-    site: "https://vercel.com",
-  },
+  // {
+  //   slug: "vercel",
+  //   site: "https://vercel.com",
+  // },
   {
     slug: "corponor",
   },

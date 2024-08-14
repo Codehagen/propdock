@@ -1,5 +1,5 @@
 {
-	"name": "@dingify/db",
+	"name": "@propdock/db",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
@@ -32,14 +32,14 @@
 		"@t3-oss/env-core": "^0.9.2"
 	},
 	"devDependencies": {
-		"@dingify/eslint-config": "workspace:*",
-		"@dingify/prettier-config": "workspace:*",
-		"@dingify/tsconfig": "workspace:*",
+		"@propdock/eslint-config": "workspace:*",
+		"@propdock/prettier-config": "workspace:*",
+		"@propdock/tsconfig": "workspace:*",
 		"dotenv-cli": "^7.4.1",
 		"eslint": "^9.0.0",
 		"prettier": "^3.2.5",
 		"prisma": "^5.12.1",
 		"typescript": "^5.4.5"
 	},
-	"prettier": "@dingify/prettier-config"
+	"prettier": "@propdock/prettier-config"
 }

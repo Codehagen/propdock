@@ -1,5 +1,5 @@
 {
-  "name": "@dingify/tailwind-config",
+  "name": "@propdock/tailwind-config",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -20,12 +20,12 @@
     "@tailwindcss/typography": "^0.5.10"
   },
   "devDependencies": {
-    "@dingify/eslint-config": "workspace:*",
-    "@dingify/prettier-config": "workspace:*",
-    "@dingify/tsconfig": "workspace:*",
+    "@propdock/eslint-config": "workspace:*",
+    "@propdock/prettier-config": "workspace:*",
+    "@propdock/tsconfig": "workspace:*",
     "eslint": "^9.0.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
   },
-  "prettier": "@dingify/prettier-config"
+  "prettier": "@propdock/prettier-config"
 }
