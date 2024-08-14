@@ -2,6 +2,7 @@ import { createAPIKey } from "../../auth/unkey"
 import { honoFactory } from "../../lib/hono"
 import internalAuthMiddleware from "../../routes/internal/authMiddleware"
 import { POInternalApp } from "./oauth/poweroffice"
+import { FikenInternalApp } from "./oauth/fiken"
 import { poweroffice } from "./poweroffice" // Import the new route
 import { fiken } from "./fiken"
 
@@ -16,6 +17,7 @@ internal.all("/test", (c) => {
 
 // OAuth
 internal.route("/oauth/poweroffice", POInternalApp)
+internal.route("/oauth/fiken", FikenInternalApp)
 
 // PowerOffice
 internal.route("/poweroffice", poweroffice)

@@ -1,6 +1,6 @@
 import { 
-    saveAPIKey,
-    saveAccessToken
+    upsertAPIKey,
+    upsertAccessToken
 } from "@/models/workspace"
 
 import { prisma } from "@/lib/db"
@@ -21,20 +21,16 @@ app.get("/onboarding-start", async (c) => {
   return c.json({ ok: true, message: url }, 200)
 })
 
-// TODO: remove
-app.get("/callback-test", async (c) => {
-  const { code, state } = c.req.query()
-  return c.json({ ok: true, code: code, state: state }, 200)
-})
 
 app.post("/onboarding-finalize", async (c) => {
   const body = await c.req.json()
   const db = prisma(c.env)
+  const serviceName = "fiken"
 
   // Get request.body params
-  let workspaceId, token, serviceName, state
+  let workspaceId, token, state
   try {
-    ({ workspaceId, token, state, serviceName } = body)
+    ({ workspaceId, token, state } = body)
   } catch (error: any) {
     console.error("Invalid or incomplete `body`")
     return c.json(
@@ -48,21 +44,29 @@ app.post("/onboarding-finalize", async (c) => {
   }
 
   // Exchange the onboarding code for client's key
+  let clientKey, accessToken
     try {
       const clientKeyResponse = await exchangeCodeForKey(c.env, token, state)
-      const clientKey = clientKeyResponse['refresh_token']
+      clientKey   = clientKeyResponse['refresh_token'].toString()
+      accessToken = clientKeyResponse['access_token'].toString()
 
     // Save refresh token as secret key in db
-    await saveAPIKey(db, workspaceId, clientKey.toString(), serviceName)
+    await upsertAPIKey(db, workspaceId, clientKey, "fiken")
 
     // Save access token to db
-    await saveAccessToken(db, workspaceId, clientKeyResponse['access_token'].toString(), clientKeyResponse['expires_in'], serviceName)
+    await upsertAccessToken(db, workspaceId, accessToken, clientKeyResponse['expires_in'], serviceName)
+
   } catch (error: any) {
     console.error(`Error: ${error.message}`)
     return c.json({ ok: false, error: error }, 500)
   }
 
-  return c.json({ ok: true }, 200)
+  return c.json({ ok: true, tokens: { access: accessToken, refresh: clientKey } }, 200)
+})
+
+app.get("/callback-test", async (c) => {
+  const { code, state } = c.req.query()
+  return c.json({ ok: true, code: code, state: state }, 200)
 })
 
 app.get("/token-test", async (c) => {
@@ -101,4 +105,4 @@ app.get("/dev", async (c) => {
 })
 
 
-export const POInternalApp = app
+export const FikenInternalApp = app

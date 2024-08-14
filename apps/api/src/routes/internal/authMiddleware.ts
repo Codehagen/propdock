@@ -15,10 +15,9 @@ export default async function internalAuthMiddleware(
     }>,
     next: any,
   ) {
-    // Skip all checks for the test endpoint
-    if (c.req.path === '/api/test') {
-      if (DEBUG) { console.debug("Middleware debug - inserting test variable into request context") }
-      c.set("test", true)
+    // Skip all checks for testing
+    if (c.req.path === '/api/internal/oauth/fiken/callback-test') {
+      if (DEBUG) { console.debug("Middleware - skipping auth") }
       return next();
     }
 
