@@ -12,6 +12,7 @@ import {
 import { AnalysisDetailsTable } from "@/components/analyse/AnalysisDetailsTable"
 import { AnalysisInfoCard } from "@/components/analyse/AnalysisInfoCard"
 import { EditAnalysisNameCard } from "@/components/analyse/EditAnalysisNameCard"
+import { EditIncomeCard } from "@/components/analyse/EditIncomeCard"
 import { EditKpiCard } from "@/components/analyse/EditKpiCard.tsx"
 import { EditMarketDataCard } from "@/components/analyse/EditMarketDataCard"
 import { EditOwnerCostsCard } from "@/components/analyse/EditOwnerCostsCard"
@@ -100,6 +101,13 @@ export default async function AnalysisDetailsPage({
                     />
                   </div>
                 </div>
+              </TabsContent>
+              <TabsContent value="inntekt">
+                <EditIncomeCard
+                  analysisId={analysisDetails.id}
+                  initialAnnualRent={analysisDetails.annualRent ?? 0}
+                  initialOtherIncome={analysisDetails.otherIncome ?? 0}
+                />
               </TabsContent>
               <TabsContent value="details">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
