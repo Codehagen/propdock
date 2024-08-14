@@ -15,16 +15,58 @@ import {
 } from "@dingify/ui/components/table"
 
 interface SensitivityAnalysisTableProps {
-  details: any
+  analysis: {
+    costSum: number
+    sumValueNow: number
+    name: string
+    [key: string]: any
+  }
 }
 
 export function SensitivityAnalysisTable({
-  details,
+  analysis,
 }: SensitivityAnalysisTableProps) {
-  // This is a placeholder function. You'll need to implement the actual calculation logic.
-  const calculateSensitivity = (buildCosts: number, gdv: number) => {
-    // Placeholder calculation
-    return ((buildCosts + gdv) / 100).toFixed(0) + "%"
+  /**
+   * Developer Note: Sensitivity Analysis Calculation
+   *
+   * This function calculates the Return on Cost (RoC) for different scenarios
+   * of changes in build costs and Gross Development Value (GDV).
+   *
+   * The calculation process is as follows:
+   * 1. Base values:
+   *    - Base Build Costs = analysis.costSum
+   *    - Base GDV = analysis.sumValueNow
+   *
+   * 2. Adjustments:
+   *    - Adjusted Build Costs = Base Build Costs * (1 + buildCostsChange / 100)
+   *    - Adjusted GDV = Base GDV * (1 + gdvChange / 100)
+   *
+   * 3. Profit calculation:
+   *    Profit = Adjusted GDV - Adjusted Build Costs
+   *
+   * 4. Return on Cost (RoC) calculation:
+   *    RoC = (Profit / Adjusted Build Costs) * 100
+   *
+   * 5. The result is rounded to one decimal place and returned as a string.
+   *
+   * This calculation allows us to see how the RoC changes with different
+   * scenarios of build cost and GDV fluctuations, providing insight into
+   * the project's sensitivity to these factors.
+   */
+  const calculateSensitivity = (
+    buildCostsChange: number,
+    gdvChange: number,
+  ) => {
+    const baseBuildCosts = analysis.costSum
+    const baseGDV = analysis.sumValueNow
+
+    const adjustedBuildCosts = baseBuildCosts * (1 + buildCostsChange / 100)
+    const adjustedGDV = baseGDV * (1 + gdvChange / 100)
+
+    const profit = adjustedGDV - adjustedBuildCosts
+    const roc = (profit / adjustedBuildCosts) * 100
+
+    return roc.toFixed(1)
   }
 
   const buildCostsRange = [-20, -10, 0, 10, 20]
@@ -41,8 +83,8 @@ export function SensitivityAnalysisTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sensitivity Analysis</CardTitle>
-        <CardDescription>Return on Cost</CardDescription>
+        <CardTitle>Sensitivitetsanalyse: {analysis.name}</CardTitle>
+        <CardDescription>Avkastning på kostnad (%)</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -51,6 +93,7 @@ export function SensitivityAnalysisTable({
               <TableHead className="w-[100px]">Build costs</TableHead>
               {gdvRange.map((gdv) => (
                 <TableHead key={gdv} className="text-center">
+                  GDV {gdv > 0 ? "+" : ""}
                   {gdv}%
                 </TableHead>
               ))}
@@ -59,7 +102,10 @@ export function SensitivityAnalysisTable({
           <TableBody>
             {buildCostsRange.map((buildCosts) => (
               <TableRow key={buildCosts}>
-                <TableCell className="font-medium">{buildCosts}%</TableCell>
+                <TableCell className="font-medium">
+                  {buildCosts > 0 ? "+" : ""}
+                  {buildCosts}%
+                </TableCell>
                 {gdvRange.map((gdv) => {
                   const value = calculateSensitivity(buildCosts, gdv)
                   return (
@@ -67,7 +113,7 @@ export function SensitivityAnalysisTable({
                       key={gdv}
                       className={`text-center ${getCellColor(value)}`}
                     >
-                      {value}
+                      {value}%
                     </TableCell>
                   )
                 })}

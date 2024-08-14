@@ -37,7 +37,7 @@ export default async function SensitivityAnalysisPage({
           text="Details of the sensitivity analysis."
         ></DashboardHeader>
         <div className="mt-4 space-y-4">
-          <SensitivityAnalysisTable details={analysisDetails} />
+          <SensitivityAnalysisTable analysis={analysisDetails} />
         </div>
       </DashboardShell>
     )

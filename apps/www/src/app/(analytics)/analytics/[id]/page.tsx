@@ -10,6 +10,7 @@ import {
 } from "@dingify/ui/components/tabs"
 
 import { AnalysisDetailsTable } from "@/components/analyse/AnalysisDetailsTable"
+import { AnalysisInfoCard } from "@/components/analyse/AnalysisInfoCard"
 import { EditAnalysisNameCard } from "@/components/analyse/EditAnalysisNameCard"
 import { EditKpiCard } from "@/components/analyse/EditKpiCard.tsx"
 import { EditMarketDataCard } from "@/components/analyse/EditMarketDataCard"
@@ -57,7 +58,8 @@ export default async function AnalysisDetailsPage({
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
             <TabsTrigger value="overview">Oversikt</TabsTrigger>
-            <TabsTrigger value="details">Detaljer</TabsTrigger>
+            <TabsTrigger value="inntekt">Inntekt</TabsTrigger>
+            <TabsTrigger value="details">Kostnader</TabsTrigger>
             <TabsTrigger value="market-data">Markedsdata</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
@@ -76,6 +78,7 @@ export default async function AnalysisDetailsPage({
                   initialRatioAreaMisc={analysisDetails.ratioAreaMisc ?? 0}
                 />
               </div>
+              <AnalysisInfoCard analysisDetails={analysisDetails} />
               <div className="space-y-6">
                 <EditKpiCard
                   analysisId={analysisDetails.id}
