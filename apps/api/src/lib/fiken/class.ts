@@ -27,6 +27,7 @@ export default class Fiken {
 
     async postInvoice(slug: string, invoiceData: any) {
         const url = `/companies/${slug}/invoices`
-        return
+        const res = await this.fetch.post(url, invoiceData, "json")
+        return res
     }
 }

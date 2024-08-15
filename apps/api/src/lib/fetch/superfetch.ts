@@ -144,10 +144,11 @@ class IntegrationSuperfetch {
         }
     }
 
-    async post(url: string, bodyFormat: string = "json") {
+    async post(url: string, body: any, bodyFormat: string = "json") {
         const payload = {
             'verb': "POST",
             'url': `${this.baseUrl}${url}`,
+            'body': body,
             'bodyFormat': bodyFormat,
         }
 
