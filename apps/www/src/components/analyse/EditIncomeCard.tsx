@@ -87,17 +87,18 @@ export function EditIncomeCard({
         typeDescription: data.description,
         areaPerUnit: data.areaPerUnit,
         valuePerUnit: data.valuePerUnit,
+        numberOfUnits: data.numberOfUnits,
       })
 
       if (result.success) {
-        toast.success("Inntektsenhet ble lagt til.")
+        toast.success(`${result.count} inntektsenheter ble lagt til.`)
         form.reset() // Reset the form after successful submission
       } else {
-        throw new Error(result.error || "Kunne ikke legge til inntektsenhet.")
+        throw new Error(result.error || "Kunne ikke legge til inntektsenheter.")
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Feil ved tillegging av inntektsenhet:", error)
+      console.error("Feil ved tillegging av inntektsenheter:", error)
     } finally {
       setIsLoading(false)
     }
@@ -238,7 +239,9 @@ export function EditIncomeCard({
                     <Button variant="outline" onClick={() => form.reset()}>
                       Avbryt
                     </Button>
-                    <Button type="submit">Lagre</Button>
+                    <Button type="submit" disabled={isLoading}>
+                      Lagre {form.watch("numberOfUnits")} stk
+                    </Button>
                   </div>
                 </form>
               </Form>

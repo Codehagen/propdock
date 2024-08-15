@@ -49,24 +49,25 @@ export async function addIncomeUnits(
   }
 
   try {
-    const newIncomeUnit = await prisma.financialAnalysisBuildingIncome.create({
-      data: {
-        financialAnalysisBuildingId: analysisId,
-        typeDescription: incomeData.typeDescription,
-        areaPerUnit: incomeData.areaPerUnit,
-        valuePerUnit: incomeData.valuePerUnit,
-      },
-    })
+    const newIncomeUnits =
+      await prisma.financialAnalysisBuildingIncome.createMany({
+        data: Array(incomeData.numberOfUnits).fill({
+          financialAnalysisBuildingId: analysisId,
+          typeDescription: incomeData.typeDescription,
+          areaPerUnit: incomeData.areaPerUnit,
+          valuePerUnit: incomeData.valuePerUnit,
+        }),
+      })
 
     console.log(
-      `Added new income unit with ID: ${newIncomeUnit.id} to analysis ID: ${analysisId}`,
+      `Added ${newIncomeUnits.count} new income units to analysis ID: ${analysisId}`,
     )
-    revalidatePath(`/analytics/${analysisId}`)
+    revalidatePath(`/analyse/${analysisId}`)
 
-    return { success: true, incomeUnit: newIncomeUnit }
+    return { success: true, count: newIncomeUnits.count }
   } catch (error) {
     console.error(
-      `Error adding income unit for analysis ID: ${analysisId}`,
+      `Error adding income units for analysis ID: ${analysisId}`,
       error,
     )
     return { success: false, error: error.message }
