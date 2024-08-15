@@ -73,3 +73,50 @@ export async function addIncomeUnits(
     return { success: false, error: error.message }
   }
 }
+
+export async function updateIncomeUnit(
+  incomeUnitId: string,
+  updateData: Partial<{
+    typeDescription: string
+    areaPerUnit: number
+    valuePerUnit: number
+    numberOfUnits: number
+  }>,
+) {
+  const user = await getCurrentUser()
+  const userId = user?.id
+
+  if (!userId) {
+    console.error("No user is currently logged in.")
+    return { success: false, error: "User not authenticated" }
+  }
+
+  try {
+    // Ensure numeric fields are converted to numbers
+    const processedData = Object.entries(updateData).reduce(
+      (acc, [key, value]) => {
+        if (["areaPerUnit", "valuePerUnit", "numberOfUnits"].includes(key)) {
+          acc[key] = Number(value)
+        } else {
+          acc[key] = value
+        }
+        return acc
+      },
+      {},
+    )
+
+    const updatedIncomeUnit =
+      await prisma.financialAnalysisBuildingIncome.update({
+        where: { id: incomeUnitId },
+        data: processedData,
+      })
+
+    console.log(`Updated income unit with ID: ${updatedIncomeUnit.id}.`)
+    revalidatePath(`/analyse/${updatedIncomeUnit.financialAnalysisBuildingId}`)
+
+    return { success: true, incomeUnit: updatedIncomeUnit }
+  } catch (error) {
+    console.error(`Error updating income unit with ID: ${incomeUnitId}`, error)
+    return { success: false, error: error.message }
+  }
+}

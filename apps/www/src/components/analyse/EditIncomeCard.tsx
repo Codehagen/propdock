@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { addIncomeUnits } from "@/actions/update-analysis"
+import { addIncomeUnits, updateIncomeUnit } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -39,6 +39,8 @@ import {
   TableRow,
 } from "@dingify/ui/components/table"
 import { Textarea } from "@dingify/ui/components/textarea"
+
+import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
   numberOfUnits: z.number().min(1, "Number of units must be at least 1"),
@@ -79,6 +81,79 @@ export function EditIncomeCard({
       valuePerUnit: 0,
     },
   })
+
+  const [editingCell, setEditingCell] = useState<{
+    id: string
+    field: string
+  } | null>(null)
+
+  const handleCellEdit = async (
+    id: string,
+    field: string,
+    value: string | number,
+  ) => {
+    setEditingCell(null)
+    try {
+      let parsedValue: string | number = value
+      if (
+        field === "numberOfUnits" ||
+        field === "areaPerUnit" ||
+        field === "valuePerUnit"
+      ) {
+        parsedValue = Number(value)
+        if (isNaN(parsedValue)) {
+          throw new Error(`Invalid number for ${field}`)
+        }
+      }
+
+      const result = await updateIncomeUnit(id, { [field]: parsedValue })
+      if (result.success) {
+        toast.success("Income unit updated successfully.")
+      } else {
+        throw new Error(result.error || "Failed to update income unit.")
+      }
+    } catch (error) {
+      toast.error(error.message)
+      console.error("Error updating income unit:", error)
+    }
+  }
+
+  const EditableCell = ({ unit, field, type = "text" }) => {
+    const isEditing =
+      editingCell?.id === unit.id && editingCell?.field === field
+    const value = unit[field]
+
+    return (
+      <TableCell
+        onClick={() => setEditingCell({ id: unit.id, field })}
+        className="relative cursor-pointer p-4"
+      >
+        {isEditing ? (
+          <Input
+            type={type}
+            defaultValue={value}
+            autoFocus
+            onBlur={(e) => handleCellEdit(unit.id, field, e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCellEdit(unit.id, field, e.currentTarget.value)
+              }
+            }}
+            className={cn(
+              "absolute inset-0 h-full w-full border-none bg-white p-4 focus:ring-1 focus:ring-blue-500",
+              type === "number" && "text-right",
+            )}
+          />
+        ) : (
+          <div className={cn(type === "number" && "text-right")}>
+            {type === "number" && value != null
+              ? Number(value).toLocaleString()
+              : value || ""}
+          </div>
+        )}
+      </TableCell>
+    )
+  }
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true)
@@ -267,10 +342,22 @@ export function EditIncomeCard({
                 const totalValue = unit.numberOfUnits * unit.valuePerUnit
                 return (
                   <TableRow key={unit.id}>
-                    <TableCell>{unit.numberOfUnits}</TableCell>
-                    <TableCell>{unit.typeDescription}</TableCell>
-                    <TableCell>{unit.areaPerUnit.toFixed(2)}</TableCell>
-                    <TableCell>{unit.valuePerUnit.toLocaleString()}</TableCell>
+                    <EditableCell
+                      unit={unit}
+                      field="numberOfUnits"
+                      type="number"
+                    />
+                    <EditableCell unit={unit} field="typeDescription" />
+                    <EditableCell
+                      unit={unit}
+                      field="areaPerUnit"
+                      type="number"
+                    />
+                    <EditableCell
+                      unit={unit}
+                      field="valuePerUnit"
+                      type="number"
+                    />
                     <TableCell>
                       {(unit.valuePerUnit / unit.areaPerUnit).toFixed(2)}
                     </TableCell>
