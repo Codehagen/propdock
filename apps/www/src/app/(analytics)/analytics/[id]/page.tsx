@@ -101,32 +101,43 @@ export default async function AnalysisDetailsPage({
                   analysisId={analysisDetails.id}
                   initialAnnualRent={analysisDetails.annualRent ?? 0}
                   initialOtherIncome={analysisDetails.otherIncome ?? 0}
+                  incomeUnits={analysisDetails.incomeUnits}
                 />
               </TabsContent>
               <TabsContent value="details">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <EditOwnerCostsCard
                     analysisId={analysisDetails.id}
-                    initialOwnerCostsMethod={analysisDetails.ownerCostsMethod}
+                    initialOwnerCostsMethod={
+                      analysisDetails.costs?.ownerCostsMethod ?? false
+                    }
                     initialOwnerCostsManual={
-                      analysisDetails.ownerCostsManual ?? 0
+                      analysisDetails.costs?.ownerCostsManual ?? 0
                     }
                     initialCostMaintenance={
-                      analysisDetails.costMaintenance ?? 0
+                      analysisDetails.costs?.costMaintenance ?? 0
                     }
-                    initialCostInsurance={analysisDetails.costInsurance ?? 0}
-                    initialCostRevision={analysisDetails.costRevision ?? 0}
-                    initialCostAdm={analysisDetails.costAdm ?? 0}
-                    initialCostOther={analysisDetails.costOther ?? 0}
+                    initialCostInsurance={
+                      analysisDetails.costs?.costInsurance ?? 0
+                    }
+                    initialCostRevision={
+                      analysisDetails.costs?.costRevision ?? 0
+                    }
+                    initialCostAdm={analysisDetails.costs?.costAdm ?? 0}
+                    initialCostOther={analysisDetails.costs?.costOther ?? 0}
                     initialCostNegotiation={
-                      analysisDetails.costNegotiation ?? 0
+                      analysisDetails.costs?.costNegotiation ?? 0
                     }
-                    initialCostLegalFees={analysisDetails.costLegalFees ?? 0}
+                    initialCostLegalFees={
+                      analysisDetails.costs?.costLegalFees ?? 0
+                    }
                     initialCostConsultFees={
-                      analysisDetails.costConsultFees ?? 0
+                      analysisDetails.costs?.costConsultFees ?? 0
                     }
-                    initialCostAssetMgmt={analysisDetails.costAssetMgmt ?? 0}
-                    initialCostSum={analysisDetails.costSum ?? 0}
+                    initialCostAssetMgmt={
+                      analysisDetails.costs?.costAssetMgmt ?? 0
+                    }
+                    initialCostSum={analysisDetails.costs?.costSum ?? 0}
                   />
                   <EditROICard
                     analysisId={analysisDetails.id}

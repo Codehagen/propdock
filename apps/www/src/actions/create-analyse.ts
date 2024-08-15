@@ -79,12 +79,9 @@ export async function createAnalysis(analysisData) {
         incomeUnits: {
           create: [
             {
-              numberOfUnits: 8,
               typeDescription: "Office Space",
               areaPerUnit: 125,
               valuePerUnit: 62500,
-              totalArea: 1000,
-              totalValue: 500000,
             },
             // You can add more income units here if needed
           ],

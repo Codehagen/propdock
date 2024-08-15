@@ -17,6 +17,7 @@ export async function getAnalysisDetails(analysisId: string) {
           },
         },
         costs: true, // Include the costs relation
+        incomeUnits: true,
       },
     })
 
