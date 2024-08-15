@@ -280,19 +280,7 @@ model FinancialAnalysisBuilding {
   kpi4             Float
   sumValueNow      Int
   sumValueExit     Int
-  ownerCostsMethod Boolean
-  ownerCostsManual Float?
-  costMaintenance  Float?
-  costInsurance    Float?
-  costRevision     Float?
-  costAdm          Float?
-  costOther        Float?
-  costNegotiation  Float?
-  costLegalFees    Float?
-  costConsultFees  Float?
-  costAssetMgmt    Float?
-  costSum          Float?
-  costBigExpenses  Json?
+  costs            FinancialAnalysisBuildingCosts?
   useCalcROI       Boolean
   roiWeightedYield Float?
   roiInflation     Float?
@@ -458,6 +446,30 @@ model FinancialAnalysisBuildingIncome {
   financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
 
   @@map("financial_analysis_building_income")
+}
+
+model FinancialAnalysisBuildingCosts {
+  id                          String                    @id @default(cuid())
+  financialAnalysisBuildingId String                    @unique
+  costName                    String?
+  costType                    String?
+  ownerCostsMethod            Boolean
+  ownerCostsManual            Float?
+  costMaintenance             Float?
+  costInsurance               Float?
+  costRevision                Float?
+  costAdm                     Float?
+  costOther                   Float?
+  costNegotiation             Float?
+  costLegalFees               Float?
+  costConsultFees             Float?
+  costAssetMgmt               Float?
+  costSum                     Float?
+  createdAt                   DateTime                  @default(now()) @map("created_at")
+  updatedAt                   DateTime                  @default(now()) @map("updated_at")
+  financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
+
+  @@map("financial_analysis_building_costs")
 }
 
 enum ContractType {

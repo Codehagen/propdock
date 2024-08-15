@@ -45,7 +45,7 @@ const FormSchema = z.object({
 })
 
 interface EditAnalysisNameCardProps {
-  analysisId: number
+  analysisId: string
   initialName: string
   initialDate: Date
 }

@@ -65,7 +65,7 @@ const FormSchema = z.object({
 })
 
 interface EditRentableAreaCardProps {
-  analysisId: number
+  analysisId: string
   initialRentableArea: number
   initialRatioAreaOffice: number
   initialRatioAreaMerch: number
