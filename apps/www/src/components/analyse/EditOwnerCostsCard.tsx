@@ -69,7 +69,7 @@ const FormSchema = z.object({
 })
 
 interface EditOwnerCostsCardProps {
-  analysisId: number
+  analysisId: string
   initialOwnerCostsMethod: boolean
   initialOwnerCostsManual?: number
   initialCostMaintenance?: number
@@ -99,8 +99,8 @@ export function EditOwnerCostsCard({
   initialCostAssetMgmt,
   initialCostSum,
 }: EditOwnerCostsCardProps) {
+  console.log(analysisId)
   const [isLoading, setIsLoading] = useState(false)
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -123,33 +123,32 @@ export function EditOwnerCostsCard({
     setIsLoading(true)
     try {
       const result = await updateAnalysis(analysisId, {
-        ownerCostsMethod: data.ownerCostsMethod,
-        ownerCostsManual: data.ownerCostsManual
-          ? Number(data.ownerCostsManual)
-          : undefined,
-        costMaintenance: data.costMaintenance
-          ? Number(data.costMaintenance)
-          : undefined,
-        costInsurance: data.costInsurance
-          ? Number(data.costInsurance)
-          : undefined,
-        costRevision: data.costRevision ? Number(data.costRevision) : undefined,
-        costAdm: data.costAdm ? Number(data.costAdm) : undefined,
-        costOther: data.costOther ? Number(data.costOther) : undefined,
-        costNegotiation: data.costNegotiation
-          ? Number(data.costNegotiation)
-          : undefined,
-        costLegalFees: data.costLegalFees
-          ? Number(data.costLegalFees)
-          : undefined,
-        costConsultFees: data.costConsultFees
-          ? Number(data.costConsultFees)
-          : undefined,
-        costAssetMgmt: data.costAssetMgmt
-          ? Number(data.costAssetMgmt)
-          : undefined,
-        costSum: data.costSum ? Number(data.costSum) : undefined,
+        costs: {
+          update: {
+            ownerCostsMethod: data.ownerCostsMethod,
+            ownerCostsManual: data.ownerCostsManual
+              ? Number(data.ownerCostsManual)
+              : 0,
+            costMaintenance: data.costMaintenance
+              ? Number(data.costMaintenance)
+              : 0,
+            costInsurance: data.costInsurance ? Number(data.costInsurance) : 0,
+            costRevision: data.costRevision ? Number(data.costRevision) : 0,
+            costAdm: data.costAdm ? Number(data.costAdm) : 0,
+            costOther: data.costOther ? Number(data.costOther) : 0,
+            costNegotiation: data.costNegotiation
+              ? Number(data.costNegotiation)
+              : 0,
+            costLegalFees: data.costLegalFees ? Number(data.costLegalFees) : 0,
+            costConsultFees: data.costConsultFees
+              ? Number(data.costConsultFees)
+              : 0,
+            costAssetMgmt: data.costAssetMgmt ? Number(data.costAssetMgmt) : 0,
+            costSum: data.costSum ? Number(data.costSum) : 0,
+          },
+        },
       })
+
       if (result.success) {
         toast.success("Analysen ble oppdatert.")
       } else {

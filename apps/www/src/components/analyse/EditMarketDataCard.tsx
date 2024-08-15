@@ -65,7 +65,7 @@ const FormSchema = z.object({
 })
 
 interface EditMarketDataCardProps {
-  analysisId: number
+  analysisId: string
   initialMarketRentOffice: number
   initialMarketRentMerch: number
   initialMarketRentMisc: number

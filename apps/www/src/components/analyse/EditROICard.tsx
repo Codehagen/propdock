@@ -35,7 +35,7 @@ const FormSchema = z.object({
 })
 
 interface EditROICardProps {
-  analysisId: number
+  analysisId: string
   initialUseCalcROI: boolean
   initialROIWeightedYield?: number
   initialROIInflation?: number

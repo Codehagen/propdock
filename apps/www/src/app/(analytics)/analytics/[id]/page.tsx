@@ -47,13 +47,7 @@ export default async function AnalysisDetailsPage({
         <DashboardHeader
           heading={analysisDetails.name}
           text="Detaljer om analysen."
-        >
-          {/* <Button>
-            <Link href={`/analytics/${analysisDetails.id}/edit`}>
-              Rediger Analyse
-            </Link>
-          </Button> */}
-        </DashboardHeader>
+        ></DashboardHeader>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
             <TabsTrigger value="overview">Oversikt</TabsTrigger>
@@ -97,18 +91,18 @@ export default async function AnalysisDetailsPage({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <EditOwnerCostsCard
                 analysisId={analysisDetails.id}
-                initialOwnerCostsMethod={analysisDetails.ownerCostsMethod}
-                initialOwnerCostsManual={analysisDetails.ownerCostsManual ?? 0}
-                initialCostMaintenance={analysisDetails.costMaintenance ?? 0}
-                initialCostInsurance={analysisDetails.costInsurance ?? 0}
-                initialCostRevision={analysisDetails.costRevision ?? 0}
-                initialCostAdm={analysisDetails.costAdm ?? 0}
-                initialCostOther={analysisDetails.costOther ?? 0}
-                initialCostNegotiation={analysisDetails.costNegotiation ?? 0}
-                initialCostLegalFees={analysisDetails.costLegalFees ?? 0}
-                initialCostConsultFees={analysisDetails.costConsultFees ?? 0}
-                initialCostAssetMgmt={analysisDetails.costAssetMgmt ?? 0}
-                initialCostSum={analysisDetails.costSum ?? 0}
+                initialOwnerCostsMethod={analysisDetails.costs.ownerCostsMethod}
+                initialOwnerCostsManual={analysisDetails.costs.ownerCostsManual}
+                initialCostMaintenance={analysisDetails.costs.costMaintenance}
+                initialCostInsurance={analysisDetails.costs.costInsurance}
+                initialCostRevision={analysisDetails.costs.costRevision}
+                initialCostAdm={analysisDetails.costs.costAdm}
+                initialCostOther={analysisDetails.costs.costOther}
+                initialCostNegotiation={analysisDetails.costs.costNegotiation}
+                initialCostLegalFees={analysisDetails.costs.costLegalFees}
+                initialCostConsultFees={analysisDetails.costs.costConsultFees}
+                initialCostAssetMgmt={analysisDetails.costs.costAssetMgmt}
+                initialCostSum={analysisDetails.costs.costSum}
               />
               <EditROICard
                 analysisId={analysisDetails.id}

@@ -53,7 +53,7 @@ const FormSchema = z.object({
 })
 
 interface EditKpiCardProps {
-  analysisId: number
+  analysisId: string
   initialKpi1: number
   initialKpi2: number
   initialKpi3: number

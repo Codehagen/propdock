@@ -14,7 +14,7 @@ export async function updateAnalysis(analysisId, updateData) {
 
   try {
     const updatedAnalysis = await prisma.financialAnalysisBuilding.update({
-      where: { id: parseInt(analysisId, 10) },
+      where: { id: analysisId },
       data: {
         ...updateData,
       },

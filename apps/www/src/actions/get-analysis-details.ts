@@ -4,19 +4,19 @@ import { prisma } from "@/lib/db"
 
 export async function getAnalysisDetails(analysisId: string) {
   try {
-    const numericId = parseInt(analysisId, 10)
-    if (isNaN(numericId)) {
+    if (!analysisId) {
       throw new Error("Invalid analysis ID")
     }
 
     const analysisDetails = await prisma.financialAnalysisBuilding.findUnique({
-      where: { id: numericId },
+      where: { id: analysisId },
       include: {
         building: {
           select: {
             name: true,
           },
         },
+        costs: true, // Include the costs relation
       },
     })
 
