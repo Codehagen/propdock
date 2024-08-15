@@ -9,23 +9,21 @@ import { CustomContext } from "../../types"
 const DEBUG: boolean = false // NB! Change to false before committing.
 
 export default async function internalAuthMiddleware(
-  c: Context<{
-    Bindings: Env
-    Variables: CustomContext
-  }>,
-  next: any,
-) {
-  // Skip all checks for the test endpoint and webhook
-  if (
-    c.req.path === "/api/test" ||
-    c.req.path === "/api/internal/esign/webhook" ||
-    c.req.path.startsWith("/api/internal/esign/documents/")
+    c: Context<{
+      Bindings: Env;
+      Variables: CustomContext;
+    }>,
+    next: any,
   ) {
-    if (DEBUG) {
-      console.debug("Middleware debug - skipping auth for test or webhook")
+    // Skip all checks for testing
+    if (
+      c.req.path === '/api/internal/oauth/fiken/callback-test' ||
+      c.req.path === "/api/internal/esign/webhook" ||         // TODO: Move to external
+      c.req.path.startsWith("/api/internal/esign/documents/") // TODO: Move to external?
+    ) {
+      if (DEBUG) { console.debug("Middleware - skipping auth") }
+      return next();
     }
-    return next()
-  }
 
   const FEKey = c.req.header("x-fe-key")
   if (DEBUG) {

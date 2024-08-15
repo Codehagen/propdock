@@ -49,13 +49,7 @@ export default async function AnalysisDetailsPage({
         <DashboardHeader
           heading={analysisDetails.name}
           text="Detaljer om analysen."
-        >
-          {/* <Button>
-            <Link href={`/analytics/${analysisDetails.id}/edit`}>
-              Rediger Analyse
-            </Link>
-          </Button> */}
-        </DashboardHeader>
+        ></DashboardHeader>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
             <TabsTrigger value="overview">Oversikt</TabsTrigger>

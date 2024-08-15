@@ -47,7 +47,7 @@ const FormSchema = z.object({
 })
 
 interface EditVacancyCardProps {
-  analysisId: number
+  analysisId: string
   initialVacancyPerYear: string // JSON-streng av ledighet per år
 }
 

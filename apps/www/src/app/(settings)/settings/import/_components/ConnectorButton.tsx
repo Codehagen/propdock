@@ -40,7 +40,10 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
   const handleOAuth = async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get(`/api/oauth/${serviceName}/initiate`, {
+      const url = `/api/oauth/${serviceName}/initiate`
+      console.log("Sending request to:", url)
+
+      const response = await axios.get(url, {
         headers: {
           "Cache-Control": "no-cache",
           Pragma: "no-cache",
@@ -50,10 +53,15 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
           _: new Date().getTime(),
         },
       })
-      console.debug("YYY: Axios URL content:", response)
+
+      console.log("Response received:", response)
+      console.log("Response data:", response.data)
+
       const data = response.data
       window.location.href = data.url
     } catch (error) {
+      console.error("Detailed error:", error)
+      console.error("Error response:", error.response)
       toast.error(`Error initiating OAuth: ${error.message}`)
     } finally {
       setIsLoading(false)

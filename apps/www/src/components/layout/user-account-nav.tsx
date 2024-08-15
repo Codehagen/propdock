@@ -68,10 +68,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link
-            href="/dashboard/settings"
-            className="flex items-center space-x-2.5"
-          >
+          <Link href="/settings" className="flex items-center space-x-2.5">
             <Settings className="h-4 w-4" />
             <p className="text-sm">Innstillinger</p>
           </Link>

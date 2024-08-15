@@ -91,7 +91,22 @@ export default async function InvoicePage({
     console.error("Error in InvoicePage:", error)
     return (
       <DashboardShell>
-        <DashboardHeader heading="Error" text={error.message} />
+        <DashboardHeader
+          heading="Faktura"
+          text="Du må først legge til regnskapsprogram for å sende faktura."
+        />
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="user" />
+          <EmptyPlaceholder.Title>
+            Legg til regnskapsprogram
+          </EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Legg til regnskapsprogram for å sende faktura.
+          </EmptyPlaceholder.Description>
+          <Button variant="outline">
+            <Link href="/settings/import">Legg til regnskapsprogram</Link>
+          </Button>
+        </EmptyPlaceholder>
       </DashboardShell>
     )
   }
