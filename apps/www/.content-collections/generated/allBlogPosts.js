@@ -7,7 +7,7 @@ export default [
     ],
     "publishedAt": "2024-08-06",
     "featured": false,
-    "image": "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/d0647475-6680-4d13-fb05-a25ba82a6200/public",
+    "image": "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/7d7c50d5-819b-4751-3869-09facbcdfb00/public",
     "author": "codehagen",
     "summary": "Vi er glade for å presentere Propdock Help Center, din nye ressurs for all informasjon om Propdock og eiendomsadministrasjon.",
     "related": [
