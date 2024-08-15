@@ -34,6 +34,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -51,10 +52,13 @@ const FormSchema = z.object({
 
 interface IncomeUnit {
   id: string
+  financialAnalysisBuildingId: string
   typeDescription: string
   areaPerUnit: number
   valuePerUnit: number
   numberOfUnits: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface EditIncomeCardProps {
@@ -178,6 +182,17 @@ export function EditIncomeCard({
       setIsLoading(false)
     }
   }
+
+  // Calculate totals
+  const totalArea = incomeUnits.reduce((sum, unit) => {
+    return sum + (unit.numberOfUnits || 1) * unit.areaPerUnit // Use 1 as the default if numberOfUnits is undefined
+  }, 0)
+
+  const totalValue = incomeUnits.reduce((sum, unit) => {
+    return sum + (unit.numberOfUnits || 1) * unit.valuePerUnit // Use 1 as the default if numberOfUnits is undefined
+  }, 0)
+
+  const averageValuePerArea = totalArea > 0 ? totalValue / totalArea : 0
 
   return (
     <>
@@ -332,14 +347,14 @@ export function EditIncomeCard({
                 <TableHead>kvm</TableHead>
                 <TableHead>kr</TableHead>
                 <TableHead>kr / kvm</TableHead>
-                <TableHead>Totalt kvm</TableHead>
-                <TableHead>Totalt kr</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {incomeUnits.map((unit) => {
-                const totalArea = unit.numberOfUnits * unit.areaPerUnit
-                const totalValue = unit.numberOfUnits * unit.valuePerUnit
+                const valuePerArea =
+                  unit.areaPerUnit > 0
+                    ? unit.valuePerUnit / unit.areaPerUnit
+                    : 0
                 return (
                   <TableRow key={unit.id}>
                     <EditableCell
@@ -358,46 +373,39 @@ export function EditIncomeCard({
                       field="valuePerUnit"
                       type="number"
                     />
-                    <TableCell>
-                      {(unit.valuePerUnit / unit.areaPerUnit).toFixed(2)}
+                    <TableCell className="text-right">
+                      {valuePerArea.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </TableCell>
-                    <TableCell>{totalArea.toFixed(2)}</TableCell>
-                    <TableCell>{totalValue.toLocaleString()}</TableCell>
                   </TableRow>
                 )
               })}
             </TableBody>
-            <TableRow>
-              <TableCell colSpan={4}>Totalt:</TableCell>
-              <TableCell>
-                {(
-                  incomeUnits.reduce(
-                    (sum, unit) => sum + unit.numberOfUnits * unit.valuePerUnit,
-                    0,
-                  ) /
-                  incomeUnits.reduce(
-                    (sum, unit) => sum + unit.numberOfUnits * unit.areaPerUnit,
-                    0,
-                  )
-                ).toFixed(2)}
-              </TableCell>
-              <TableCell>
-                {incomeUnits
-                  .reduce(
-                    (sum, unit) => sum + unit.numberOfUnits * unit.areaPerUnit,
-                    0,
-                  )
-                  .toFixed(2)}
-              </TableCell>
-              <TableCell>
-                {incomeUnits
-                  .reduce(
-                    (sum, unit) => sum + unit.numberOfUnits * unit.valuePerUnit,
-                    0,
-                  )
-                  .toLocaleString()}
-              </TableCell>
-            </TableRow>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={2}>Totalt:</TableCell>
+                <TableCell className="text-right font-medium">
+                  {totalArea.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </TableCell>
+                <TableCell className="text-right font-medium">
+                  {totalValue.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </TableCell>
+                <TableCell className="text-right font-medium">
+                  {averageValuePerArea.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </CardContent>
       </Card>
