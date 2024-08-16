@@ -11,12 +11,11 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
 } from "@propdock/ui/components/chart"
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 const chartData = [
   { month: "Jan", income: 310, expenses: 195 },
@@ -24,10 +23,10 @@ const chartData = [
   { month: "Mar", income: 350, expenses: 230 },
   { month: "Apr", income: 390, expenses: 300 },
   { month: "Mai", income: 425, expenses: 340 },
-  { month: "Jun", income: 430, expenses: 350 },
+  { month: "Jun", income: 430, expenses: 600 },
   { month: "Jul", income: 445, expenses: 360 },
   { month: "Aug", income: 460, expenses: 370 },
-  { month: "Sep", income: 475, expenses: 380 },
+  { month: "Sep", income: 475, expenses: 500 },
   { month: "Okt", income: 490, expenses: 390 },
   { month: "Nov", income: 505, expenses: 400 },
   { month: "Des", income: 520, expenses: 410 },
@@ -36,11 +35,11 @@ const chartData = [
 const chartConfig = {
   income: {
     label: "Inntekt",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-2))",
   },
   expenses: {
     label: "Utgifter",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
@@ -55,7 +54,7 @@ export function DashboardRevenueChart() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <AreaChart
+          <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
@@ -72,34 +71,44 @@ export function DashboardRevenueChart() {
               axisLine={false}
               tickMargin={8}
             />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Area
-              type="monotone"
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Line
+              type="natural"
               dataKey="expenses"
-              fill="var(--color-expenses)"
-              fillOpacity={0.4}
               stroke="var(--color-expenses)"
-              stackId="a"
+              strokeWidth={2}
+              dot={{
+                fill: "var(--color-expenses)",
+              }}
+              activeDot={{
+                r: 6,
+              }}
             />
-            <Area
-              type="monotone"
+            <Line
+              type="natural"
               dataKey="income"
-              fill="var(--color-income)"
-              fillOpacity={0.4}
               stroke="var(--color-income)"
-              stackId="a"
+              strokeWidth={2}
+              dot={{
+                fill: "var(--color-income)",
+              }}
+              activeDot={{
+                r: 6,
+              }}
             />
-          </AreaChart>
+          </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Inntekter øker med 5,2% denne måneden{" "}
-              <TrendingUp className="h-4 w-4" />
-            </div>
-          </div>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Inntekter øker med 5,2% denne måneden{" "}
+          <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Viser totale inntekter og utgifter for de siste 12 måneder
         </div>
       </CardFooter>
     </Card>
