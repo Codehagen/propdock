@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { updateAnalysis } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Percent } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -37,9 +38,9 @@ const FormSchema = z.object({
     .nonempty("Andel kontorareal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
       {
-        message: "Andel kontorareal må være et tall mellom 0 og 1.",
+        message: "Andel kontorareal må være et tall mellom 0 og 100.",
       },
     ),
   ratioAreaMerch: z
@@ -47,9 +48,9 @@ const FormSchema = z.object({
     .nonempty("Andel handelsareal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
       {
-        message: "Andel handelsareal må være et tall mellom 0 og 1.",
+        message: "Andel handelsareal må være et tall mellom 0 og 100.",
       },
     ),
   ratioAreaMisc: z
@@ -57,15 +58,15 @@ const FormSchema = z.object({
     .nonempty("Andel annet areal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 1,
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
       {
-        message: "Andel annet areal må være et tall mellom 0 og 1.",
+        message: "Andel annet areal må være et tall mellom 0 og 100.",
       },
     ),
 })
 
 interface EditRentableAreaCardProps {
-  analysisId: number
+  analysisId: string
   initialRentableArea: number
   initialRatioAreaOffice: number
   initialRatioAreaMerch: number
@@ -85,9 +86,9 @@ export function EditRentableAreaCard({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       rentableArea: initialRentableArea.toString(),
-      ratioAreaOffice: initialRatioAreaOffice.toString(),
-      ratioAreaMerch: initialRatioAreaMerch.toString(),
-      ratioAreaMisc: initialRatioAreaMisc.toString(),
+      ratioAreaOffice: (initialRatioAreaOffice * 100).toString(),
+      ratioAreaMerch: (initialRatioAreaMerch * 100).toString(),
+      ratioAreaMisc: (initialRatioAreaMisc * 100).toString(),
     },
   })
 
@@ -96,9 +97,9 @@ export function EditRentableAreaCard({
     try {
       const result = await updateAnalysis(analysisId, {
         rentableArea: Number(data.rentableArea),
-        ratioAreaOffice: Number(data.ratioAreaOffice),
-        ratioAreaMerch: Number(data.ratioAreaMerch),
-        ratioAreaMisc: Number(data.ratioAreaMisc),
+        ratioAreaOffice: Number(data.ratioAreaOffice) / 100,
+        ratioAreaMerch: Number(data.ratioAreaMerch) / 100,
+        ratioAreaMisc: Number(data.ratioAreaMisc) / 100,
       })
       if (result.success) {
         toast.success("Analysen ble oppdatert.")
@@ -146,11 +147,17 @@ export function EditRentableAreaCard({
                 <FormItem>
                   <FormLabel>Andel kontorareal</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Andel kontorareal"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        placeholder="Andel kontorareal"
+                        {...field}
+                      />
+                      <Percent
+                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        size={16}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,11 +170,17 @@ export function EditRentableAreaCard({
                 <FormItem>
                   <FormLabel>Andel handelsareal</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Andel handelsareal"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        placeholder="Andel handelsareal"
+                        {...field}
+                      />
+                      <Percent
+                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        size={16}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -180,11 +193,17 @@ export function EditRentableAreaCard({
                 <FormItem>
                   <FormLabel>Andel annet areal</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Andel annet areal"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        placeholder="Andel annet areal"
+                        {...field}
+                      />
+                      <Percent
+                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        size={16}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

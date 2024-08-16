@@ -1,5 +1,5 @@
-import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons";
-import { BellIcon, MapIcon, Share2Icon } from "lucide-react";
+import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons"
+import { BellIcon, MapIcon, Share2Icon } from "lucide-react"
 
 import {
   Command,
@@ -8,14 +8,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@dingify/ui/components/command";
+} from "@dingify/ui/components/command"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
-import { AnimatedBeamMultipleOutputDemo } from "./animated-beam-multiple-outputs";
-import { AnimatedListLanding } from "./animated-list-landing";
-import { BentoCard, BentoGrid } from "./bento-grid";
-import Marquee from "./marquee";
+import { AnimatedBeamMultipleOutputDemo } from "./animated-beam-multiple-outputs"
+import { AnimatedListLanding } from "./animated-list-landing"
+import { BentoCard, BentoGrid } from "./bento-grid"
+import Marquee from "./marquee"
 
 const files = [
   {
@@ -38,14 +38,14 @@ const files = [
     name: "Rådhusgata 2",
     body: "Rådhusgata 2 er en eiendom som ligger i nærheten av Oslo rådhus. Denne eiendommen er kjent for sin nærhet til byens viktigste landemerker.",
   },
-];
+]
 
 interface Item {
-  name: string;
-  description: string;
-  icon: string;
-  color: string;
-  time: string;
+  name: string
+  description: string
+  icon: string
+  color: string
+  time: string
 }
 
 const features = [
@@ -53,7 +53,7 @@ const features = [
     Icon: MapIcon,
     name: "Se alle dine eiendommer",
     description: "Få bedre oversikt over dine eiendommer",
-    href: "/",
+    href: "/features/verdsettelse",
     cta: "Les mer",
     className: "col-span-3 lg:col-span-1",
     background: (
@@ -88,7 +88,7 @@ const features = [
     Icon: InputIcon,
     name: "Få informasjonen du trenger",
     description: "Se over leiekontrakter, fakturaer og finansielle analyser",
-    href: "/",
+    href: "/blog/introduserer-propdock",
     cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
@@ -96,7 +96,7 @@ const features = [
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>Ingen resultat.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
+          <CommandGroup heading="Forslag">
             <CommandItem>Dronningens gate 18</CommandItem>
             <CommandItem>Kontrakt If Skadeforsriking</CommandItem>
             <CommandItem>Analyse Akersgata 16</CommandItem>
@@ -112,7 +112,7 @@ const features = [
     Icon: Share2Icon,
     name: "Integrasjoner",
     description: "Kan integrere med over 100+ integrasjoner and counting.",
-    href: "/",
+    href: "/integrations",
     cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
@@ -124,13 +124,13 @@ const features = [
     name: "Varslinger",
     description: "Få varslinger på viktige hendelser",
     className: "col-span-3 lg:col-span-1",
-    href: "/",
+    href: "/help",
     cta: "Se mer",
     background: (
       <AnimatedListLanding className="absolute right-2 top-4 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105 md:h-[150px] md:w-[300px]" />
     ),
   },
-];
+]
 
 export function BentoSectionLanding() {
   return (
@@ -139,5 +139,5 @@ export function BentoSectionLanding() {
         <BentoCard key={idx} {...feature} />
       ))}
     </BentoGrid>
-  );
+  )
 }

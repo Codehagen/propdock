@@ -81,22 +81,23 @@ model VerificationToken {
 }
 
 model Workspace {
-  id           String                 @id @default(cuid())
-  name         String
-  orgnr        Int?
-  address      String?
-  postalCode   String?
-  city         String?
-  createdAt    DateTime               @default(now()) @map("created_at")
-  updatedAt    DateTime               @default(now()) @map("updated_at")
-  buildings    Building[]
-  contracts    Contract[]
-  invoices     CustomerInvoice[]
-  Document     Document[]
-  properties   Property[]
-  apiKeys      WSApiKey[]
-  accessTokens WorkspaceAccessToken[]
-  users        User[]
+  id               String                 @id @default(cuid())
+  name             String
+  orgnr            Int?
+  address          String?
+  postalCode       String?
+  city             String?
+  createdAt        DateTime               @default(now()) @map("created_at")
+  updatedAt        DateTime               @default(now()) @map("updated_at")
+  buildings        Building[]
+  contracts        Contract[]
+  invoices         CustomerInvoice[]
+  Document         Document[]
+  properties       Property[]
+  apiKeys          WSApiKey[]
+  accessTokens     WorkspaceAccessToken[]
+  users            User[]
+  internalInvoices InternalInvoice[]
 }
 
 model Property {
@@ -257,10 +258,10 @@ model BalancedAccounts {
 }
 
 model FinancialAnalysisBuilding {
-  id               Int      @id @default(autoincrement())
+  id               String                            @id @default(cuid())
   buildingId       String
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @default(now()) @map("updated_at")
+  createdAt        DateTime                          @default(now()) @map("created_at")
+  updatedAt        DateTime                          @default(now()) @map("updated_at")
   name             String
   rentableArea     Int
   ratioAreaOffice  Float?
@@ -279,19 +280,7 @@ model FinancialAnalysisBuilding {
   kpi4             Float
   sumValueNow      Int
   sumValueExit     Int
-  ownerCostsMethod Boolean
-  ownerCostsManual Float?
-  costMaintenance  Float?
-  costInsurance    Float?
-  costRevision     Float?
-  costAdm          Float?
-  costOther        Float?
-  costNegotiation  Float?
-  costLegalFees    Float?
-  costConsultFees  Float?
-  costAssetMgmt    Float?
-  costSum          Float?
-  costBigExpenses  Json?
+  costs            FinancialAnalysisBuildingCosts?
   useCalcROI       Boolean
   roiWeightedYield Float?
   roiInflation     Float?
@@ -305,11 +294,12 @@ model FinancialAnalysisBuilding {
   manYieldMerch    Float?
   manYieldMisc     Float?
   manYieldWeighted Float?
-  building         Building @relation(fields: [buildingId], references: [id])
+  building         Building                          @relation(fields: [buildingId], references: [id])
+  incomeUnits      FinancialAnalysisBuildingIncome[]
 }
 
 model FinancialAnalysisProperty {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   propertyId String
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @map("updated_at")
@@ -422,6 +412,61 @@ model Document {
   @@index([tenantId])
   @@index([userId])
   @@index([workspaceId])
+}
+
+model InternalInvoice {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+  workspaceId   String
+  amount        Float?
+  currency      String?
+  dueDate       DateTime?
+  paidAt        DateTime?
+  status        String?
+  description   String?
+  invoiceNumber String?
+  downloadUrl   String?
+  workspace     Workspace @relation(fields: [workspaceId], references: [id])
+
+  @@map("internal_invoices")
+}
+
+model FinancialAnalysisBuildingIncome {
+  id                          String                    @id @default(cuid())
+  financialAnalysisBuildingId String
+  typeDescription             String?
+  areaPerUnit                 Float?
+  valuePerUnit                Float?
+  createdAt                   DateTime                  @default(now()) @map("created_at")
+  updatedAt                   DateTime                  @default(now()) @map("updated_at")
+  financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
+
+  @@map("financial_analysis_building_income")
+}
+
+model FinancialAnalysisBuildingCosts {
+  id                          String                    @id @default(cuid())
+  financialAnalysisBuildingId String                    @unique
+  costName                    String?
+  costType                    String?
+  ownerCostsMethod            Boolean
+  ownerCostsManual            Float?
+  costMaintenance             Float?
+  costInsurance               Float?
+  costRevision                Float?
+  costAdm                     Float?
+  costOther                   Float?
+  costNegotiation             Float?
+  costLegalFees               Float?
+  costConsultFees             Float?
+  costAssetMgmt               Float?
+  costSum                     Float?
+  createdAt                   DateTime                  @default(now()) @map("created_at")
+  updatedAt                   DateTime                  @default(now()) @map("updated_at")
+  financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
+
+  @@map("financial_analysis_building_costs")
 }
 
 enum ContractType {

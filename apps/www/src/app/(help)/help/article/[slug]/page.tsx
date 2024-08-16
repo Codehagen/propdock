@@ -133,7 +133,7 @@ export default async function HelpArticle({
             )}
             <div className="flex justify-center pt-5">
               <Link
-                href={`https://github.com/codehagen/propdock/blob/main/content/help/${params.slug}.mdx`}
+                href={`https://github.com/codehagen/propdock/blob/main/apps/www/src/content/help/${params.slug}.mdx`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-muted-foreground transition-colors hover:text-foreground"

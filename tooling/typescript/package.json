@@ -1,5 +1,5 @@
 {
-  "name": "@dingify/tsconfig",
+  "name": "@propdock/tsconfig",
   "private": true,
   "version": "0.1.0",
   "files": [

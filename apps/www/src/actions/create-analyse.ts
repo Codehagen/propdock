@@ -29,7 +29,7 @@ export async function createAnalysis(analysisData) {
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
         buildingId: analysisData.buildingId,
-        name: analysisData.name, // Include the name field
+        name: analysisData.name,
         rentableArea: 1000,
         ratioAreaOffice: 0.5,
         ratioAreaMerch: 0.3,
@@ -43,19 +43,6 @@ export async function createAnalysis(analysisData) {
         sumValueNow: 1000000,
         sumValueExit: 1200000,
         vacancyPerYear: JSON.stringify({ "2024": "10.5", "2025": "9.8" }),
-        ownerCostsMethod: true,
-        ownerCostsManual: 50000,
-        costMaintenance: 10000,
-        costInsurance: 5000,
-        costRevision: 3000,
-        costAdm: 2000,
-        costOther: 1000,
-        costNegotiation: 2000,
-        costLegalFees: 1000,
-        costConsultFees: 1500,
-        costAssetMgmt: 2500,
-        costSum: 45000,
-        costBigExpenses: JSON.stringify({ "2024": "100000", "2025": "20500" }),
         useCalcROI: true,
         roiWeightedYield: 0.05,
         roiInflation: 0.02,
@@ -73,6 +60,32 @@ export async function createAnalysis(analysisData) {
         kpi2: 0,
         kpi3: 0,
         kpi4: 0,
+        costs: {
+          create: {
+            ownerCostsMethod: true,
+            ownerCostsManual: 50000,
+            costMaintenance: 10000,
+            costInsurance: 5000,
+            costRevision: 3000,
+            costAdm: 2000,
+            costOther: 1000,
+            costNegotiation: 2000,
+            costLegalFees: 1000,
+            costConsultFees: 1500,
+            costAssetMgmt: 2500,
+            costSum: 45000,
+          },
+        },
+        incomeUnits: {
+          create: [
+            {
+              typeDescription: "Office Space",
+              areaPerUnit: 125,
+              valuePerUnit: 62500,
+            },
+            // You can add more income units here if needed
+          ],
+        },
       },
     })
     console.log(

@@ -1,5 +1,5 @@
 {
-  "name": "@dingify/ui",
+  "name": "@propdock/ui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -60,11 +60,11 @@
     "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
-    "@dingify/eslint-config": "workspace:*",
-    "@dingify/prettier-config": "workspace:*",
-    "@dingify/tailwind-config": "workspace:*",
-    "@dingify/tsconfig": "workspace:*",
+    "@propdock/eslint-config": "workspace:*",
+    "@propdock/prettier-config": "workspace:*",
+    "@propdock/tailwind-config": "workspace:*",
+    "@propdock/tsconfig": "workspace:*",
     "react": "18.2.0"
   },
-  "prettier": "@dingify/prettier-config"
+  "prettier": "@propdock/prettier-config"
 }

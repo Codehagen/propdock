@@ -1,5 +1,5 @@
 name: 🐛 Bug report
-description: Create a bug report to help us improve ProjectX ✨
+description: Create a bug report to help us improve Propdock ✨
 title: "Bug: "
 labels: [👀 Exploration Pending, 🐛 bug]
 body:
@@ -28,7 +28,9 @@ body:
     attributes:
       multiple: true
       label: Browsers
-      description: Select the browsers where the issue can be reproduced (that you know of).
+      description:
+        Select the browsers where the issue can be reproduced (that you know
+        of).
       options:
         - "Chrome"
         - "Firefox"
@@ -40,4 +42,5 @@ body:
     id: context
     attributes:
       label: Additional context (Is this in dev or production?)
-      description: Add any other context about the problem or helpful links here.
+      description:
+        Add any other context about the problem or helpful links here.

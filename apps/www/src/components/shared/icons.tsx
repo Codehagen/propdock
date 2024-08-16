@@ -2,6 +2,7 @@ import type { LucideIcon, LucideProps } from "lucide-react"
 import {
   AlertTriangle,
   ArrowRight,
+  BarChart,
   Bell,
   BrainCircuit,
   Building,
@@ -14,6 +15,7 @@ import {
   CoinsIcon,
   CreditCard,
   File,
+  FileSignature,
   FileText,
   FileTextIcon,
   HandIcon,
@@ -89,7 +91,8 @@ export const Icons = {
   coins: CoinsIcon,
   calendarClock: CalendarClock,
   percent: Percent,
-
+  signature: FileSignature,
+  barchart: BarChart,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

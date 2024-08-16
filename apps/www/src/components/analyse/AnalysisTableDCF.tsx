@@ -23,7 +23,38 @@ import {
 } from "@dingify/ui/components/tooltip"
 
 interface AnalysisTableDCFProps {
-  details: any
+  details: {
+    rentableArea: number
+    rentPerArea: number
+    kpi1: number
+    kpi2: number
+    kpi3: number
+    kpi4: number
+    appreciationDate: Date
+    useCalcROI: boolean
+    roiWeightedYield: number
+    roiInflation: number
+    roiCalculated: number
+    roiManual: number
+    usePrimeYield: boolean
+    manYieldWeighted: number
+    manYieldOffice: number
+    manYieldMerch: number
+    manYieldMisc: number
+    costs: {
+      ownerCostsMethod: boolean
+      ownerCostsManual: number
+      costMaintenance: number
+      costInsurance: number
+      costRevision: number
+      costAdm: number
+      costOther: number
+      costNegotiation: number
+      costLegalFees: number
+      costConsultFees: number
+      costAssetMgmt: number
+    }
+  }
 }
 
 export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
@@ -70,15 +101,15 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
   // Calculate the sum of individual cost items
   const calculateAutomaticCosts = () => {
     const sum =
-      (details.costMaintenance || 0) +
-      (details.costInsurance || 0) +
-      (details.costRevision || 0) +
-      (details.costAdm || 0) +
-      (details.costOther || 0) +
-      (details.costNegotiation || 0) +
-      (details.costLegalFees || 0) +
-      (details.costConsultFees || 0) +
-      (details.costAssetMgmt || 0)
+      (details.costs.costMaintenance || 0) +
+      (details.costs.costInsurance || 0) +
+      (details.costs.costRevision || 0) +
+      (details.costs.costAdm || 0) +
+      (details.costs.costOther || 0) +
+      (details.costs.costNegotiation || 0) +
+      (details.costs.costLegalFees || 0) +
+      (details.costs.costConsultFees || 0) +
+      (details.costs.costAssetMgmt || 0)
 
     return sum
   }
@@ -86,9 +117,9 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
   // Calculate the net rental incomes
   const netRentalIncomes = grossRentalIncomes.map((grossIncome, index) => {
     const year = years[index]
-    const totalCosts = details.ownerCostsMethod
+    const totalCosts = details.costs.ownerCostsMethod
       ? calculateAutomaticCosts()
-      : details.ownerCostsManual || 0
+      : details.costs.ownerCostsManual || 0
     const tenantAdjustments = bigExpenses[year] || 0
     return grossIncome - totalCosts - tenantAdjustments
   })
@@ -218,7 +249,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                 <TableRow className="text-sm text-muted-foreground">
                   <TableCell colSpan={years.length + 1}>Kostnader</TableCell>
                 </TableRow>
-                {details.ownerCostsMethod ? (
+                {details.costs.ownerCostsMethod ? (
                   <TableRow>
                     <TableCell>
                       <Tooltip>
@@ -255,7 +286,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                     </TableCell>
                     {years.map((year) => (
                       <TableCell key={year}>
-                        {formatNumber(details.ownerCostsManual || 0)}
+                        {formatNumber(details.costs.ownerCostsManual || 0)}
                       </TableCell>
                     ))}
                   </TableRow>

@@ -1,6 +1,7 @@
 import React from "react"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 
+import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { generateContractContent } from "@/components/editor/contractTemplate"
@@ -15,19 +16,25 @@ export default async function Home({ params }: { params: { id: string } }) {
   try {
     const tenantDetails = await getTenantDetails(tenantId)
 
-    if (tenantDetails?.name && parseInt(tenantDetails.name) > 0) {
+    if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
         <DashboardShell>
           <DashboardHeader
-            heading="Kontrakter"
-            text="Du må fikse følgende før du kan lage kontrakt."
+            heading="Legg til kontaktpersoner"
+            text="Du må først legge til kontatpersoner før du kan se dem her."
           />
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="help" />
-            <EmptyPlaceholder.Title>Du mangler følgende</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Icon name="user" />
+            <EmptyPlaceholder.Title>
+              Ingen kontaktpersoner
+            </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              Placeholder
+              Legg til kontaktpersoner tilknyttet leietakeren.
             </EmptyPlaceholder.Description>
+            <AddContactPersonSheet
+              tenantId={tenantDetails?.id}
+              currentPath={`/tenant/${tenantId}/contacts`}
+            />
           </EmptyPlaceholder>
         </DashboardShell>
       )

@@ -10,7 +10,7 @@
 		"node": "20.9.0"
 	},
 	"packageManager": "pnpm@8.15.5",
-	"prettier": "@dingify/prettier-config",
+	"prettier": "@propdock/prettier-config",
 	"scripts": {
 		"build": "turbo build",
 		"clean": "git clean -xdf node_modules",
@@ -28,7 +28,7 @@
 		"typecheck": "turbo typecheck"
 	},
 	"devDependencies": {
-		"@dingify/prettier-config": "workspace:*",
+		"@propdock/prettier-config": "workspace:*",
 		"husky": "^8.0.3",
 		"prettier": "^3.2.5",
 		"turbo": "^1.13.2",

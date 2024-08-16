@@ -60,7 +60,7 @@ app.post("/onboarding-finalize", async (c) => {
   // Get request.body params
   let workspaceId, token, serviceName
   try {
-    ;({ workspaceId, token, serviceName } = body)
+    ({ workspaceId, token, serviceName } = body)
   } catch (error) {
     console.error("Invalid or incomplete `body`")
     return c.json(
