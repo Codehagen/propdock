@@ -435,12 +435,9 @@ model InternalInvoice {
 model FinancialAnalysisBuildingIncome {
   id                          String                    @id @default(cuid())
   financialAnalysisBuildingId String
-  numberOfUnits               Int
-  typeDescription             String
+  typeDescription             String?
   areaPerUnit                 Float?
   valuePerUnit                Float?
-  totalArea                   Float?
-  totalValue                  Float?
   createdAt                   DateTime                  @default(now()) @map("created_at")
   updatedAt                   DateTime                  @default(now()) @map("updated_at")
   financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
