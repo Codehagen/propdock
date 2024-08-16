@@ -30,6 +30,11 @@ export default async function DashboardLayout({
       href: `/analytics/${params.id}/dcf`,
       icon: "piechart",
     },
+    {
+      title: "Sensitivitetsanalyse",
+      href: `/analytics/${params.id}/sensitivity`,
+      icon: "barchart",
+    },
   ]
 
   return (

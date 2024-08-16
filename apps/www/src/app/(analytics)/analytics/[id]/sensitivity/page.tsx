@@ -2,19 +2,12 @@ import Link from "next/link"
 import { getAnalysisDetails } from "@/actions/get-analysis-details"
 
 import { Button } from "@dingify/ui/components/button"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@dingify/ui/components/tabs"
 
-import { AnalysisDiagramDCF } from "@/components/analyse/AnalysisDiagramDCF"
-import { AnalysisTableDCF } from "@/components/analyse/AnalysisTableDCF"
+import { SensitivityAnalysisTable } from "@/components/analyse/SensitivityAnalysisTable"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 
-export default async function DCFDetailsPage({
+export default async function SensitivityAnalysisPage({
   params,
 }: {
   params: { id: string }
@@ -40,25 +33,12 @@ export default async function DCFDetailsPage({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading={analysisDetails.name}
-          text="Detaljer om analysen."
+          heading={`Sensitivity Analysis: ${analysisDetails.name}`}
+          text="Details of the sensitivity analysis."
         ></DashboardHeader>
-        <Tabs defaultValue="table" className="w-full">
-          <TabsList>
-            <TabsTrigger value="table">Tabell</TabsTrigger>
-            <TabsTrigger value="diagram">Diagram</TabsTrigger>
-          </TabsList>
-          <TabsContent value="table">
-            <div className="mt-4 space-y-4">
-              <AnalysisTableDCF details={analysisDetails} />
-            </div>
-          </TabsContent>
-          <TabsContent value="diagram">
-            <div className="mt-4 space-y-4">
-              <AnalysisDiagramDCF details={analysisDetails} />
-            </div>
-          </TabsContent>
-        </Tabs>
+        <div className="mt-4 space-y-4">
+          <SensitivityAnalysisTable analysis={analysisDetails} />
+        </div>
       </DashboardShell>
     )
   } catch (error) {
