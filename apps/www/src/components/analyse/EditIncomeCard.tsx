@@ -7,7 +7,7 @@ import {
   updateIncomeUnit,
 } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MinusCircle } from "lucide-react"
+import { MinusCircle, PlusCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -220,15 +220,247 @@ export function EditIncomeCard({
 
   return (
     <>
-      <Card className="mt-4">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Inntektsenheter</CardTitle>
-            <CardDescription>Overall income overview</CardDescription>
-          </div>
+      {incomeUnits.length > 0 ? (
+        <Card className="mt-4">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Inntektsenheter</CardTitle>
+              <CardDescription>Overall income overview</CardDescription>
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline">Legg til enheter</Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[400px] p-6">
+                <div className="mb-4">
+                  <h3 className="text-lg font-medium leading-none">
+                    Legg til ny inntektsenhet
+                  </h3>
+                </div>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4"
+                  >
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="numberOfUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Antall enheter</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Skriv inn antall enheter"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value))
+                                }
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Beskrivelse</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Skriv inn beskrivelse"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="areaPerUnit"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Areal per enhet (kvm)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Skriv inn areal per enhet"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseFloat(e.target.value))
+                                }
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="valuePerUnit"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Verdi per enhet (kr)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Skriv inn verdi per enhet"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseFloat(e.target.value))
+                                }
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormItem>
+                        <FormLabel>Totalt areal (kvm)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            value={(
+                              form.watch("numberOfUnits") *
+                                form.watch("areaPerUnit") || 0
+                            ).toFixed(2)}
+                            disabled
+                          />
+                        </FormControl>
+                      </FormItem>
+                      <FormItem>
+                        <FormLabel>Total verdi (kr)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            value={(
+                              form.watch("numberOfUnits") *
+                                form.watch("valuePerUnit") || 0
+                            ).toFixed(2)}
+                            disabled
+                          />
+                        </FormControl>
+                      </FormItem>
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" onClick={() => form.reset()}>
+                        Avbryt
+                      </Button>
+                      <Button type="submit" disabled={isLoading}>
+                        Lagre {form.watch("numberOfUnits")} stk
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </PopoverContent>
+            </Popover>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Type</TableHead>
+                  <TableHead className="text-right">Kvm</TableHead>
+                  <TableHead className="text-right">Kr pr enhet</TableHead>
+                  <TableHead className="text-right">Kr / Kvm</TableHead>
+                  <TableHead className="text-right">Slett</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {incomeUnits.map((unit) => {
+                  const valuePerArea =
+                    unit.areaPerUnit > 0
+                      ? unit.valuePerUnit / unit.areaPerUnit
+                      : 0
+                  return (
+                    <TableRow key={unit.id}>
+                      <EditableCell unit={unit} field="typeDescription" />
+                      <EditableCell
+                        unit={unit}
+                        field="areaPerUnit"
+                        type="number"
+                      />
+                      <EditableCell
+                        unit={unit}
+                        field="valuePerUnit"
+                        type="number"
+                      />
+                      <TableCell className="text-right">
+                        {valuePerArea.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              onClick={() => handleDeleteIncomeUnit(unit.id)}
+                              variant="ghost"
+                              size="icon"
+                            >
+                              <MinusCircle className="h-4 w-4 font-medium" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Slett enheten</TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell>
+                    Totalt:{" "}
+                    {incomeUnits.reduce(
+                      (sum, unit) => sum + (unit.numberOfUnits || 1),
+                      0,
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    {totalArea.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    {totalValue.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    {averageValuePerArea.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="mt-4 flex flex-col items-center justify-center p-6 text-center">
+          <PlusCircle className="mb-4 h-12 w-12 text-gray-400" />
+          <CardTitle className="mb-2">Ingen inntektsenheter ennå</CardTitle>
+          <CardDescription className="mb-4">
+            Klikk på "Legg til enheter" for å begynne å legge til
+            inntektsenheter.
+          </CardDescription>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline">Legg til enheter</Button>
+              <Button>Legg til enheter</Button>
             </PopoverTrigger>
             <PopoverContent className="w-[400px] p-6">
               <div className="mb-4">
@@ -361,94 +593,8 @@ export function EditIncomeCard({
               </Form>
             </PopoverContent>
           </Popover>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Kvm</TableHead>
-                <TableHead className="text-right">Kr pr enhet</TableHead>
-                <TableHead className="text-right">Kr / Kvm</TableHead>
-                <TableHead className="text-right">Slett</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {incomeUnits.map((unit) => {
-                const valuePerArea =
-                  unit.areaPerUnit > 0
-                    ? unit.valuePerUnit / unit.areaPerUnit
-                    : 0
-                return (
-                  <TableRow key={unit.id}>
-                    <EditableCell unit={unit} field="typeDescription" />
-                    <EditableCell
-                      unit={unit}
-                      field="areaPerUnit"
-                      type="number"
-                    />
-                    <EditableCell
-                      unit={unit}
-                      field="valuePerUnit"
-                      type="number"
-                    />
-                    <TableCell className="text-right">
-                      {valuePerArea.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            onClick={() => handleDeleteIncomeUnit(unit.id)}
-                            variant="ghost"
-                            size="icon"
-                          >
-                            <MinusCircle className="h-4 w-4 font-medium" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Slett enheten</TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell>
-                  Totalt:{" "}
-                  {incomeUnits.reduce(
-                    (sum, unit) => sum + (unit.numberOfUnits || 1),
-                    0,
-                  )}
-                </TableCell>
-                <TableCell className="text-right font-medium">
-                  {totalArea.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </TableCell>
-                <TableCell className="text-right font-medium">
-                  {totalValue.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </TableCell>
-                <TableCell className="text-right font-medium">
-                  {averageValuePerArea.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </CardContent>
-      </Card>
+        </Card>
+      )}
     </>
   )
 }
