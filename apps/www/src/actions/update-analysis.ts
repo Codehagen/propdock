@@ -120,3 +120,28 @@ export async function updateIncomeUnit(
     return { success: false, error: error.message }
   }
 }
+
+export async function deleteIncomeUnit(incomeUnitId: string) {
+  const user = await getCurrentUser()
+  const userId = user?.id
+
+  if (!userId) {
+    console.error("No user is currently logged in.")
+    return { success: false, error: "User not authenticated" }
+  }
+
+  try {
+    const deletedIncomeUnit =
+      await prisma.financialAnalysisBuildingIncome.delete({
+        where: { id: incomeUnitId },
+      })
+
+    console.log(`Deleted income unit with ID: ${deletedIncomeUnit.id}.`)
+    revalidatePath(`/analyse/${deletedIncomeUnit.financialAnalysisBuildingId}`)
+
+    return { success: true, incomeUnit: deletedIncomeUnit }
+  } catch (error) {
+    console.error(`Error deleting income unit with ID: ${incomeUnitId}`, error)
+    return { success: false, error: error.message }
+  }
+}

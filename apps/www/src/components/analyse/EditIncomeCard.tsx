@@ -1,8 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { addIncomeUnits, updateIncomeUnit } from "@/actions/update-analysis"
+import {
+  addIncomeUnits,
+  deleteIncomeUnit,
+  updateIncomeUnit,
+} from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { MinusCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -40,14 +45,19 @@ import {
   TableRow,
 } from "@dingify/ui/components/table"
 import { Textarea } from "@dingify/ui/components/textarea"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@dingify/ui/components/tooltip"
 
 import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
-  numberOfUnits: z.number().min(1, "Number of units must be at least 1"),
-  description: z.string().min(1, "Description is required"),
-  areaPerUnit: z.number().min(0, "Area must be a positive number"),
-  valuePerUnit: z.number().min(0, "Value must be a positive number"),
+  numberOfUnits: z.number().min(1, "Antall enheter må være minst 1"),
+  description: z.string().min(1, "Beskrivelse er påkrevd"),
+  areaPerUnit: z.number().min(0, "Areal må være et positivt tall"),
+  valuePerUnit: z.number().min(0, "Verdi må være et positivt tall"),
 })
 
 interface IncomeUnit {
@@ -112,7 +122,7 @@ export function EditIncomeCard({
 
       const result = await updateIncomeUnit(id, { [field]: parsedValue })
       if (result.success) {
-        toast.success("Income unit updated successfully.")
+        toast.success("Oppdateringen ble lagt til.")
       } else {
         throw new Error(result.error || "Failed to update income unit.")
       }
@@ -180,6 +190,20 @@ export function EditIncomeCard({
       console.error("Feil ved tillegging av inntektsenheter:", error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDeleteIncomeUnit = async (incomeUnitId: string) => {
+    try {
+      const result = await deleteIncomeUnit(incomeUnitId)
+      if (result.success) {
+        toast.success("Enheten ble slettet.")
+      } else {
+        throw new Error(result.error || "Kunne ikke slette enheten.")
+      }
+    } catch (error) {
+      toast.error(error.message)
+      console.error("Feil ved sletting av inntektsenhet:", error)
     }
   }
 
@@ -342,11 +366,11 @@ export function EditIncomeCard({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Antall</TableHead>
                 <TableHead>Type</TableHead>
-                <TableHead>kvm</TableHead>
-                <TableHead>kr</TableHead>
-                <TableHead>kr / kvm</TableHead>
+                <TableHead className="text-right">Kvm</TableHead>
+                <TableHead className="text-right">Kr pr enhet</TableHead>
+                <TableHead className="text-right">Kr / Kvm</TableHead>
+                <TableHead className="text-right">Slett</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -357,11 +381,6 @@ export function EditIncomeCard({
                     : 0
                 return (
                   <TableRow key={unit.id}>
-                    <EditableCell
-                      unit={unit}
-                      field="numberOfUnits"
-                      type="number"
-                    />
                     <EditableCell unit={unit} field="typeDescription" />
                     <EditableCell
                       unit={unit}
@@ -379,13 +398,33 @@ export function EditIncomeCard({
                         maximumFractionDigits: 2,
                       })}
                     </TableCell>
+                    <TableCell className="text-right">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={() => handleDeleteIncomeUnit(unit.id)}
+                            variant="ghost"
+                            size="icon"
+                          >
+                            <MinusCircle className="h-4 w-4 font-medium" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Slett enheten</TooltipContent>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 )
               })}
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={2}>Totalt:</TableCell>
+                <TableCell>
+                  Totalt:{" "}
+                  {incomeUnits.reduce(
+                    (sum, unit) => sum + (unit.numberOfUnits || 1),
+                    0,
+                  )}
+                </TableCell>
                 <TableCell className="text-right font-medium">
                   {totalArea.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
@@ -404,6 +443,7 @@ export function EditIncomeCard({
                     maximumFractionDigits: 2,
                   })}
                 </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableFooter>
           </Table>
