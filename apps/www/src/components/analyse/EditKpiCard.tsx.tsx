@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { updateAnalysis } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Percent } from "lucide-react" // Add this import
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -29,27 +30,43 @@ const FormSchema = z.object({
   kpi1: z
     .string()
     .nonempty("KPI 1 er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 1 må være et tall.",
-    }),
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "KPI 1 må være et tall mellom 0 og 100.",
+      },
+    ),
   kpi2: z
     .string()
     .nonempty("KPI 2 er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 2 må være et tall.",
-    }),
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "KPI 2 må være et tall mellom 0 og 100.",
+      },
+    ),
   kpi3: z
     .string()
     .nonempty("KPI 3 er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 3 må være et tall.",
-    }),
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "KPI 3 må være et tall mellom 0 og 100.",
+      },
+    ),
   kpi4: z
     .string()
     .nonempty("KPI 4 er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "KPI 4 må være et tall.",
-    }),
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "KPI 4 må være et tall mellom 0 og 100.",
+      },
+    ),
 })
 
 interface EditKpiCardProps {
@@ -72,10 +89,10 @@ export function EditKpiCard({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      kpi1: initialKpi1.toString(),
-      kpi2: initialKpi2.toString(),
-      kpi3: initialKpi3.toString(),
-      kpi4: initialKpi4.toString(),
+      kpi1: (initialKpi1 * 100).toString(),
+      kpi2: (initialKpi2 * 100).toString(),
+      kpi3: (initialKpi3 * 100).toString(),
+      kpi4: (initialKpi4 * 100).toString(),
     },
   })
 
@@ -83,10 +100,10 @@ export function EditKpiCard({
     setIsLoading(true)
     try {
       const result = await updateAnalysis(analysisId, {
-        kpi1: Number(data.kpi1),
-        kpi2: Number(data.kpi2),
-        kpi3: Number(data.kpi3),
-        kpi4: Number(data.kpi4),
+        kpi1: Number(data.kpi1) / 100,
+        kpi2: Number(data.kpi2) / 100,
+        kpi3: Number(data.kpi3) / 100,
+        kpi4: Number(data.kpi4) / 100,
       })
       if (result.success) {
         toast.success("Analysen ble oppdatert.")
@@ -118,7 +135,13 @@ export function EditKpiCard({
                   <FormItem>
                     <FormLabel>KPI 1</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="KPI 1" {...field} />
+                      <div className="relative">
+                        <Input type="text" placeholder="KPI 1" {...field} />
+                        <Percent
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          size={16}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -131,7 +154,13 @@ export function EditKpiCard({
                   <FormItem>
                     <FormLabel>KPI 2</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="KPI 2" {...field} />
+                      <div className="relative">
+                        <Input type="text" placeholder="KPI 2" {...field} />
+                        <Percent
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          size={16}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,7 +173,13 @@ export function EditKpiCard({
                   <FormItem>
                     <FormLabel>KPI 3</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="KPI 3" {...field} />
+                      <div className="relative">
+                        <Input type="text" placeholder="KPI 3" {...field} />
+                        <Percent
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          size={16}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -157,7 +192,13 @@ export function EditKpiCard({
                   <FormItem>
                     <FormLabel>KPI 4</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="KPI 4" {...field} />
+                      <div className="relative">
+                        <Input type="text" placeholder="KPI 4" {...field} />
+                        <Percent
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          size={16}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

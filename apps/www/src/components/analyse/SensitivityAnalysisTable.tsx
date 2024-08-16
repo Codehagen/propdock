@@ -16,9 +16,10 @@ import {
 
 interface SensitivityAnalysisTableProps {
   analysis: {
-    costSum: number
     sumValueNow: number
-    name: string
+    costs: {
+      costSum: number
+    }
     [key: string]: any
   }
 }
@@ -57,7 +58,7 @@ export function SensitivityAnalysisTable({
     buildCostsChange: number,
     gdvChange: number,
   ) => {
-    const baseBuildCosts = analysis.costSum
+    const baseBuildCosts = analysis.costs.costSum
     const baseGDV = analysis.sumValueNow
 
     const adjustedBuildCosts = baseBuildCosts * (1 + buildCostsChange / 100)

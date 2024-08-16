@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { updateAnalysis } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Percent } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -28,10 +29,50 @@ import { Switch } from "@dingify/ui/components/switch"
 
 const FormSchema = z.object({
   useCalcROI: z.boolean().default(false).optional(),
-  roiWeightedYield: z.string().nonempty("Vektet yield er påkrevd.").optional(),
-  roiInflation: z.string().nonempty("Inflasjon er påkrevd.").optional(),
-  roiCalculated: z.string().nonempty("Beregnet ROI er påkrevd.").optional(),
-  roiManual: z.string().nonempty("Manuell ROI er påkrevd.").optional(),
+  roiWeightedYield: z
+    .string()
+    .nonempty("Vektet yield er påkrevd.")
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "Vektet yield må være et tall mellom 0 og 100.",
+      },
+    )
+    .optional(),
+  roiInflation: z
+    .string()
+    .nonempty("Inflasjon er påkrevd.")
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "Inflasjon må være et tall mellom 0 og 100.",
+      },
+    )
+    .optional(),
+  roiCalculated: z
+    .string()
+    .nonempty("Beregnet ROI er påkrevd.")
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "Beregnet ROI må være et tall mellom 0 og 100.",
+      },
+    )
+    .optional(),
+  roiManual: z
+    .string()
+    .nonempty("Manuell ROI er påkrevd.")
+    .refine(
+      (value) =>
+        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      {
+        message: "Manuell ROI må være et tall mellom 0 og 100.",
+      },
+    )
+    .optional(),
 })
 
 interface EditROICardProps {
@@ -57,10 +98,16 @@ export function EditROICard({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       useCalcROI: initialUseCalcROI,
-      roiWeightedYield: initialROIWeightedYield?.toString() || "",
-      roiInflation: initialROIInflation?.toString() || "",
-      roiCalculated: initialROICalculated?.toString() || "",
-      roiManual: initialROIManual?.toString() || "",
+      roiWeightedYield: initialROIWeightedYield
+        ? (initialROIWeightedYield * 100).toString()
+        : "",
+      roiInflation: initialROIInflation
+        ? (initialROIInflation * 100).toString()
+        : "",
+      roiCalculated: initialROICalculated
+        ? (initialROICalculated * 100).toString()
+        : "",
+      roiManual: initialROIManual ? (initialROIManual * 100).toString() : "",
     },
   })
 
@@ -70,13 +117,15 @@ export function EditROICard({
       const result = await updateAnalysis(analysisId, {
         useCalcROI: data.useCalcROI,
         roiWeightedYield: data.roiWeightedYield
-          ? Number(data.roiWeightedYield)
+          ? Number(data.roiWeightedYield) / 100
           : undefined,
-        roiInflation: data.roiInflation ? Number(data.roiInflation) : undefined,
+        roiInflation: data.roiInflation
+          ? Number(data.roiInflation) / 100
+          : undefined,
         roiCalculated: data.roiCalculated
-          ? Number(data.roiCalculated)
+          ? Number(data.roiCalculated) / 100
           : undefined,
-        roiManual: data.roiManual ? Number(data.roiManual) : undefined,
+        roiManual: data.roiManual ? Number(data.roiManual) / 100 : undefined,
       })
       if (result.success) {
         toast.success("Analysen ble oppdatert.")
@@ -126,11 +175,17 @@ export function EditROICard({
                     <FormItem>
                       <FormLabel>Vektet yield</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Vektet yield"
-                          {...field}
-                        />
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            placeholder="Vektet yield"
+                            {...field}
+                          />
+                          <Percent
+                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            size={16}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -143,7 +198,17 @@ export function EditROICard({
                     <FormItem>
                       <FormLabel>Inflasjon</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Inflasjon" {...field} />
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            placeholder="Inflasjon"
+                            {...field}
+                          />
+                          <Percent
+                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            size={16}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -156,11 +221,17 @@ export function EditROICard({
                     <FormItem>
                       <FormLabel>Beregnet ROI</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Beregnet ROI"
-                          {...field}
-                        />
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            placeholder="Beregnet ROI"
+                            {...field}
+                          />
+                          <Percent
+                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            size={16}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -175,7 +246,17 @@ export function EditROICard({
                   <FormItem>
                     <FormLabel>Manuell ROI</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Manuell ROI" {...field} />
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          placeholder="Manuell ROI"
+                          {...field}
+                        />
+                        <Percent
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          size={16}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

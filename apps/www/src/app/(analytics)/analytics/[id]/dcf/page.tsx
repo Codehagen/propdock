@@ -2,7 +2,14 @@ import Link from "next/link"
 import { getAnalysisDetails } from "@/actions/get-analysis-details"
 
 import { Button } from "@dingify/ui/components/button"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@dingify/ui/components/tabs"
 
+import { AnalysisDiagramDCF } from "@/components/analyse/AnalysisDiagramDCF"
 import { AnalysisTableDCF } from "@/components/analyse/AnalysisTableDCF"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
@@ -36,9 +43,22 @@ export default async function DCFDetailsPage({
           heading={analysisDetails.name}
           text="Detaljer om analysen."
         ></DashboardHeader>
-        <div className="mt-4 space-y-4">
-          <AnalysisTableDCF details={analysisDetails} />
-        </div>
+        <Tabs defaultValue="table" className="w-full">
+          <TabsList>
+            <TabsTrigger value="table">Tabell</TabsTrigger>
+            <TabsTrigger value="diagram">Diagram</TabsTrigger>
+          </TabsList>
+          <TabsContent value="table">
+            <div className="mt-4 space-y-4">
+              <AnalysisTableDCF details={analysisDetails} />
+            </div>
+          </TabsContent>
+          <TabsContent value="diagram">
+            <div className="mt-4 space-y-4">
+              <AnalysisDiagramDCF details={analysisDetails} />
+            </div>
+          </TabsContent>
+        </Tabs>
       </DashboardShell>
     )
   } catch (error) {
