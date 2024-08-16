@@ -198,6 +198,9 @@ const components = {
         ))}
     </ul>
   ),
+  strong: (props: any) => (
+    <strong className="font-semibold text-foreground" {...props} />
+  ),
 }
 
 interface MDXProps {
