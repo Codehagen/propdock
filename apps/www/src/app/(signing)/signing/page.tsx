@@ -160,6 +160,9 @@ export default async function SigningPage() {
       createdAt: "desc",
     },
   })
+  console.log(userWorkspace)
+  
+  console.log(user)
 
   console.log(documents)
 
