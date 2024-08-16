@@ -20,6 +20,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/analytics"
     },
     {
+      title: "Signering",
+      href: "/signing"
+    },
+    {
       title: "Innstillinger",
       href: "/settings"
     },
