@@ -4,10 +4,12 @@ import {
   Airplay,
   BarChart,
   Building,
+  Cable,
   Globe,
   Import,
   Link2,
   Lock,
+  PartyPopper,
   QrCode,
   Settings,
   TrendingUp,
@@ -33,11 +35,15 @@ export const BLOG_CATEGORIES: {
   // {
 ]
 
-export const POPULAR_ARTICLES = ["introduserer-propdock"]
+export const POPULAR_ARTICLES = [
+  "introduserer-propdock",
+  "integrere-med-poweroffice",
+  "legge-til-leietaker",
+]
 
 export const HELP_CATEGORIES: {
   title: string
-  slug: "oversikt" | "starter" | "eiendomsforvaltning" | "api"
+  slug: "oversikt" | "starter" | "eiendomsforvaltning" | "api" | "integrasjoner"
   description: string
   icon: JSX.Element
 }[] = [
@@ -52,7 +58,13 @@ export const HELP_CATEGORIES: {
     title: "Kom i Gang",
     slug: "starter",
     description: "Lær hvordan du kommer i gang med Propdock.",
-    icon: <Settings className="h-6 w-6 text-gray-500" />,
+    icon: <PartyPopper className="h-6 w-6 text-gray-500" />,
+  },
+  {
+    title: "Integrasjoner",
+    slug: "integrasjoner",
+    description: "Lær hvordan du integrerer Propdock med andre systemer.",
+    icon: <Cable className="h-6 w-6 text-gray-500" />,
   },
   {
     title: "Eiendomsforvaltning",

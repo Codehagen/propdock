@@ -189,7 +189,15 @@ var HelpPost = defineCollection({
     updatedAt: z.string(),
     summary: z.string(),
     author: z.string(),
-    categories: z.array(z.enum(["oversikt", "starter", "eiendomsforvaltning", "api"])).default(["oversikt"]),
+    categories: z.array(
+      z.enum([
+        "oversikt",
+        "starter",
+        "eiendomsforvaltning",
+        "api",
+        "integrasjoner"
+      ])
+    ).default(["oversikt"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),
     slug: z.string().optional()

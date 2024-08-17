@@ -206,7 +206,15 @@ export const HelpPost = defineCollection({
     summary: z.string(),
     author: z.string(),
     categories: z
-      .array(z.enum(["oversikt", "starter", "eiendomsforvaltning", "api"]))
+      .array(
+        z.enum([
+          "oversikt",
+          "starter",
+          "eiendomsforvaltning",
+          "api",
+          "integrasjoner",
+        ]),
+      )
       .default(["oversikt"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),

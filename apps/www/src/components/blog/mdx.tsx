@@ -131,7 +131,7 @@ const components = {
     <div className="mt-4 rounded-md border border-border bg-card px-6 py-1 text-[0.95rem] leading-[1.4rem] shadow-md">
       <div className="-mb-6 flex items-center space-x-2 text-muted-foreground">
         <ListChecks size={20} />
-        <p className="text-sm font-medium uppercase">Prerequisites</p>
+        <p className="text-sm font-medium uppercase">Forutsetninger</p>
       </div>
       {props.children}
     </div>
