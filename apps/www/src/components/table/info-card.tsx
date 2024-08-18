@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react"
+import { File, MoreHorizontal, Pencil, Trash } from "lucide-react"
 
 import { Badge } from "@dingify/ui/components/badge"
 import { Button } from "@dingify/ui/components/button"
@@ -20,6 +20,14 @@ import {
 } from "@dingify/ui/components/dropdown-menu"
 import { Separator } from "@dingify/ui/components/separator"
 
+function formatNOK(amount: number): string {
+  const formatter = new Intl.NumberFormat("no-NO", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })
+  return `kr ${formatter.format(amount)}`
+}
+
 export default function InfoCard({
   data,
   type,
@@ -28,15 +36,20 @@ export default function InfoCard({
     id: string
     name: string
     createdAt: Date
-    buildings?: {
+    orgnr?: number
+    building?: { name: string }
+    floor?: { number: number } | null
+    officeSpace?: { name: string } | null
+    contracts?: {
       id: string
-      name: string
-      address: string
-      floors: { maxTotalKvm: number }[]
+      startDate: Date
+      endDate: Date
+      baseRent?: number
     }[]
-    tenants?: { id: string; name: string }[]
-    contracts?: { id: string; startDate: Date; endDate: Date }[]
-    analysis?: { id: string }[]
+    currentRent?: number | null
+    contractStartDate?: Date | null
+    contractEndDate?: Date | null
+    analysis?: { id: string; sumValueNow?: number; sumValueExit?: number }[]
   }
   type: "property" | "tenant"
 }) {
@@ -66,6 +79,39 @@ export default function InfoCard({
   // Calculate number of contracts
   const numberOfContracts = data?.contracts?.length || 0
 
+  // Calculate total rent
+  const totalRent =
+    data?.contracts?.reduce(
+      (acc, contract) => acc + (contract.baseRent || 0),
+      0,
+    ) || 0
+
+  // Calculate vacancy rate
+  const vacancyRate =
+    data?.buildings?.reduce((acc, building) => {
+      const totalArea = building.floors.reduce(
+        (sum, floor) => sum + floor.maxTotalKvm,
+        0,
+      )
+      const occupiedArea =
+        data.contracts?.reduce(
+          (sum, contract) =>
+            sum + (contract.baseRent ? contract.baseRent / 12 : 0),
+          0,
+        ) || 0
+      return acc + (totalArea - occupiedArea) / totalArea
+    }, 0) || 0
+
+  // Calculate average rent per sqm
+  const averageRentPerSqm =
+    totalRent /
+    (data?.buildings?.reduce(
+      (acc, building) =>
+        acc +
+        building.floors.reduce((sum, floor) => sum + floor.maxTotalKvm, 0),
+      0,
+    ) || 1)
+
   return (
     <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-start bg-muted/50">
@@ -89,10 +135,10 @@ export default function InfoCard({
               )
             ) : (
               <>
-                {data?.buildings?.[0]?.name
-                  ? data.buildings[0].name
+                {data?.building?.name
+                  ? data.building.name
                   : "Placeholder Building"}
-                {data?.floor && " - " + data.floor}
+                {data?.floor && " - " + data.floor.number}
               </>
             )}
           </CardDescription>
@@ -101,7 +147,7 @@ export default function InfoCard({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className="h-8 w-8" size="icon" variant="outline">
-                <MoveVerticalIcon className="h-3.5 w-3.5" />
+                <MoreHorizontal className="h-3.5 w-3.5" />
                 <span className="sr-only">More</span>
               </Button>
             </DropdownMenuTrigger>
@@ -129,31 +175,17 @@ export default function InfoCard({
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Navn</span>
-              <span>{data?.name || "Placeholder Name"}</span>
+              <span>{data?.name || "Ikke tilgjengelig"}</span>
             </li>
             {type === "tenant" && (
               <>
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Adresse</span>
-                  <span>
-                    {/* {data?.buildings?.[0]?.address || "Placeholder Adresse"} */}
-                  </span>
+                  <span className="text-muted-foreground">Bygning</span>
+                  <span>{data?.building?.name || "Ikke tilgjengelig"}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Building</span>
-                  {/* <span>
-                    {data?.buildings?.[0]?.name
-                      ? data.buildings[0].name
-                      : "Placeholder Building"}
-                  </span> */}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Floor</span>
-                  {/* <span>{data?.floor || "Placeholder Floor"}</span> */}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Office Space</span>
-                  {/* <span>{data?.officeSpace || "Placeholder Office Space"}</span> */}
+                  <span className="text-muted-foreground">Org.nr</span>
+                  <span>{data?.orgnr || "Ikke tilgjengelig"}</span>
                 </li>
               </>
             )}
@@ -162,18 +194,18 @@ export default function InfoCard({
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Adresse</span>
                   <span>
-                    {data?.buildings?.[0]?.address
-                      ? data.buildings[0].address
-                      : "Legg til adresse"}
+                    {data?.buildings?.[0]?.address || "Legg til adresse"}
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Type bygg</span>
                   <span>
-                    {data?.buildings?.[0]?.name
-                      ? data.buildings[0].name
-                      : "Legg til byggtype"}
+                    {data?.buildings?.[0]?.name || "Legg til byggtype"}
                   </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Org.nr</span>
+                  <span>{data?.orgnr || "Ikke tilgjengelig"}</span>
                 </li>
               </>
             )}
@@ -199,7 +231,7 @@ export default function InfoCard({
                 <span className="text-muted-foreground">Ledighet i %</span>
                 <span>
                   <Badge className="text-xs" variant="outline">
-                    14%
+                    {(vacancyRate * 100).toFixed(1)}%
                   </Badge>
                 </span>
               </li>
@@ -225,15 +257,17 @@ export default function InfoCard({
                 <dt className="text-muted-foreground">Måndelig leieinntekt</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    14.000 kr
+                    {formatNOK(data?.currentRent || 0)}
                   </Badge>
                 </dd>
               </div>
               <div className="flex items-center justify-between">
-                <dt className="text-muted-foreground">Pris pr kvm</dt>
+                <dt className="text-muted-foreground">Leieforholdet starter</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    3.100 kr
+                    {data?.contractStartDate
+                      ? format(data.contractStartDate, "dd.MM.yyyy")
+                      : "N/A"}
                   </Badge>
                 </dd>
               </div>
@@ -241,7 +275,9 @@ export default function InfoCard({
                 <dt className="text-muted-foreground">Leieforholdet utgår</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    6 måneder
+                    {data?.contractEndDate
+                      ? format(data.contractEndDate, "dd.MM.yyyy")
+                      : "N/A"}
                   </Badge>
                 </dd>
               </div>
@@ -256,7 +292,7 @@ export default function InfoCard({
                 <dt className="text-muted-foreground">Verdsettelse</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    52 MNOK
+                    {formatNOK(data?.analysis?.[0]?.sumValueNow || 0)}
                   </Badge>
                 </dd>
               </div>
@@ -264,7 +300,7 @@ export default function InfoCard({
                 <dt className="text-muted-foreground">Leie pr kvm</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    2870 kr
+                    {formatNOK(Number(averageRentPerSqm) || 0)}
                   </Badge>
                 </dd>
               </div>
@@ -272,7 +308,7 @@ export default function InfoCard({
                 <dt className="text-muted-foreground">Ledighet</dt>
                 <dd>
                   <Badge className="text-xs" variant="secondary">
-                    12%
+                    {(vacancyRate * 100).toFixed(1)}%
                   </Badge>
                 </dd>
               </div>

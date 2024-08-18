@@ -155,7 +155,17 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-      <InfoCard type={type} data={selected.original} />
+      <InfoCard
+        type={type}
+        data={{
+          ...selected.original,
+          buildings: selected.original.buildings,
+          tenants: selected.original.tenants,
+          contracts: selected.original.contracts,
+          analysis: selected.original.analysis,
+          orgnr: selected.original.orgnr,
+        }}
+      />
     </div>
   )
 }
