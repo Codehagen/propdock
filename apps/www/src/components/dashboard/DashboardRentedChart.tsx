@@ -1,84 +1,75 @@
-"use client";
-
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+"use client"
 
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@propdock/ui/components/chart"
+import { TrendingUp } from "lucide-react"
+import { Pie, PieChart } from "recharts"
 
-const data = [
-  { name: "Utleid", value: 70 },
-  { name: "Ledig", value: 30 },
-];
+const chartData = [
+  { status: "Utleid", value: 70, fill: "hsl(var(--chart-1))" },
+  { status: "Ledig", value: 30, fill: "hsl(var(--chart-2))" },
+]
 
-const COLORS = ["#82ca9d", "#8884d8"];
+const chartConfig = {
+  value: {
+    label: "Prosent",
+  },
+  Utleid: {
+    label: "Utleid",
+    color: "hsl(var(--chart-1))",
+  },
+  Ledig: {
+    label: "Ledig",
+    color: "hsl(var(--chart-2))",
+  },
+} satisfies ChartConfig
 
 export function DashboardRentedChart() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Oversitk utleie</CardTitle>
-        <CardDescription>
-          Oversikt over utleide og ikke utleide eiendommer
-        </CardDescription>
+    <Card className="flex flex-col">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Oversikt utleie </CardTitle>
+        <CardDescription>Hvor mye er ledig?</CardDescription>
       </CardHeader>
-      <CardContent className="pb-4">
-        <div className="h-[200px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={50}
-                outerRadius={80}
-                fill="#82ca9d"
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload?.length) {
-                    return (
-                      <div className="rounded-lg border bg-background p-2 shadow-sm">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
-                            {payload[0]?.name}
-                          </span>
-                          <span className="font-bold">
-                            {payload[0]?.value}%
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  }
-
-                  return null;
-                }}
-              />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+      <CardContent className="flex-1 pb-0">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-square max-h-[250px]"
+        >
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="status"
+              innerRadius={60}
+            />
+          </PieChart>
+        </ChartContainer>
       </CardContent>
+      <CardFooter className="flex-col gap-2 text-sm">
+        <div className="flex items-center gap-2 font-medium leading-none">
+          Økning på 5.2% denne måneden <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Viser oversikt over utleide og ledige eiendommer
+        </div>
+      </CardFooter>
     </Card>
-  );
+  )
 }
