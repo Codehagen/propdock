@@ -49,7 +49,11 @@ export default function InfoCard({
     currentRent?: number | null
     contractStartDate?: Date | null
     contractEndDate?: Date | null
-    analysis?: { id: string; sumValueNow?: number; sumValueExit?: number }[]
+    contactPerson?: {
+      name: string
+      email: string
+      phone?: string
+    } | null
   }
   type: "property" | "tenant"
 }) {
@@ -198,15 +202,15 @@ export default function InfoCard({
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Type bygg</span>
+                  <span className="text-muted-foreground">Bygg</span>
                   <span>
                     {data?.buildings?.[0]?.name || "Legg til byggtype"}
                   </span>
                 </li>
-                <li className="flex items-center justify-between">
+                {/* <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">Org.nr</span>
                   <span>{data?.orgnr || "Ikke tilgjengelig"}</span>
-                </li>
+                </li> */}
               </>
             )}
           </ul>
@@ -239,11 +243,19 @@ export default function InfoCard({
           )}
           {type === "tenant" && (
             <ul className="grid gap-3">
-              <div className="font-semibold">Placeholder</div>
+              <div className="font-semibold">Kontaktperson</div>
 
               <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Placeholder</span>
-                <span>Placeholder</span>
+                <span className="text-muted-foreground">Kontaktperson</span>
+                <span>{data?.contactPerson?.name || "Ikke tilgjengelig"}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">E-post</span>
+                <span>{data?.contactPerson?.email || "Ikke tilgjengelig"}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Telefon</span>
+                <span>{data?.contactPerson?.phone || "Ikke tilgjengelig"}</span>
               </li>
             </ul>
           )}
