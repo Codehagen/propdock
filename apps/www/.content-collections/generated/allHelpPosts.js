@@ -379,5 +379,53 @@ export default [
     "images": [],
     "tweetIds": [],
     "githubRepos": []
+  },
+  {
+    "content": "<Note variant=\"warning\">\n  Denne funksjonen er for øyeblikket under utvikling og vil snart være tilgjengelig.\n</Note>\n\nPropdock Engine er vår banebrytende løsning som forenkler integrasjonen med flere regnskapssystemer gjennom én enkelt API. Dette gjør det mulig for utviklere og bedrifter å effektivt koble seg til og hente data fra ulike regnskapssystemer uten å måtte håndtere flere APIer.\n\n## Hovedfunksjoner\n\n- **Én API for alle**: Koble til Poweroffice, Fiken, Tripletex og flere med én enkelt integrasjon.\n- **Enhetlig dataformat**: Få data i et konsistent format uavhengig av kildesystemet.\n- **Enkel implementering**: Bruk vårt SDK for rask og enkel integrasjon i dine applikasjoner.\n- **Fleksibel bruk**: Send fakturaer direkte fra Excel, hent regnskapsdata, eller integrer med dine egne systemer.\n\n## Bruksområder\n\nMed Propdock Engine kan du:\n\n1. Sende fakturaer fra eksterne systemer som Excel.\n2. Hente og analysere regnskapsdata på tvers av systemer.\n3. Automatisere dataoverføring mellom ulike plattformer.\n4. Bygge skreddersydde rapporter og dashboards.\n\n## Kom i gang\n\nSelv om Propdock Engine fortsatt er under utvikling, kan du allerede nå forberede deg på å ta i bruk denne kraftige funksjonaliteten.\n\n### Eksempel på SDK-kall\n\n<Code title=\"Eksempel på SDK-kall\" language=\"javascript\">\n{`\nimport { Propdock } from 'propdock';\n\nconst propdock = new Propdock({\n  token: \"Propdock_API_KEY\",\n});\n\n// Hent fakturaer fra alle tilkoblede systemer\nconst invoices = await propdock.getInvoices({\nstartDate: '2024-01-01',\nendDate: '2024-12-31'\n});\n\nconsole.log(invoices);\n`}\n</Code>\n\n\n\nDette enkle kallet vil hente fakturaer fra alle tilkoblede regnskapssystemer for hele året 2024, uavhengig av hvilket system de opprinnelig ble opprettet i.\n\n## Fremtidige muligheter\n\nVi jobber kontinuerlig med å utvide funksjonaliteten i Propdock Engine. Noen planlagte funksjoner inkluderer:\n\n- Sanntidssynkronisering av data\n- Avanserte filtreringsmuligheter\n- Støtte for flere regnskapssystemer\n\n## Hold deg oppdatert\n\nVil du være blant de første til å ta i bruk Propdock Engine? Registrer din interesse nå:\n\n\nVi vil holde deg oppdatert om utviklingen og gi deg tidlig tilgang når funksjonen er klar for lansering.\n\nHar du spørsmål eller ønsker om funksjonalitet? [Kontakt vårt utviklerteam](mailto:dev@propdock.no) - vi setter pris på din input!",
+    "title": "Propdock Engine - Én API for alle regnskapssystemer",
+    "updatedAt": "2024-08-18",
+    "summary": "Lær om Propdock Engine, vår innovative løsning som forenkler integrasjon med flere regnskapssystemer gjennom én enkelt API.",
+    "author": "codehagen",
+    "categories": [
+      "eiendomsforvaltning"
+    ],
+    "related": [
+      "legge-til-leietaker",
+      "e-signering"
+    ],
+    "slug": "propdock-engine",
+    "_meta": {
+      "filePath": "propdock-engine.mdx",
+      "fileName": "propdock-engine.mdx",
+      "directory": ".",
+      "extension": "mdx",
+      "path": "propdock-engine"
+    },
+    "mdx": "var Component=(()=>{var h=Object.create;var o=Object.defineProperty;var p=Object.getOwnPropertyDescriptor;var m=Object.getOwnPropertyNames;var u=Object.getPrototypeOf,f=Object.prototype.hasOwnProperty;var v=(r,e)=>()=>(e||r((e={exports:{}}).exports,e),e.exports),b=(r,e)=>{for(var i in e)o(r,i,{get:e[i],enumerable:!0})},d=(r,e,i,t)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let l of m(e))!f.call(r,l)&&l!==i&&o(r,l,{get:()=>e[l],enumerable:!(t=p(e,l))||t.enumerable});return r};var j=(r,e,i)=>(i=r!=null?h(u(r)):{},d(e||!r||!r.__esModule?o(i,\"default\",{value:r,enumerable:!0}):i,r)),x=r=>d(o({},\"__esModule\",{value:!0}),r);var s=v((P,a)=>{a.exports=_jsx_runtime});var y={};b(y,{default:()=>g});var n=j(s());function c(r){let e={a:\"a\",h2:\"h2\",h3:\"h3\",li:\"li\",ol:\"ol\",p:\"p\",span:\"span\",strong:\"strong\",ul:\"ul\",...r.components},{Code:i,Note:t}=e;return i||k(\"Code\",!0),t||k(\"Note\",!0),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(t,{variant:\"warning\",children:(0,n.jsx)(e.p,{children:\"Denne funksjonen er for \\xF8yeblikket under utvikling og vil snart v\\xE6re tilgjengelig.\"})}),`\n`,(0,n.jsx)(e.p,{children:\"Propdock Engine er v\\xE5r banebrytende l\\xF8sning som forenkler integrasjonen med flere regnskapssystemer gjennom \\xE9n enkelt API. Dette gj\\xF8r det mulig for utviklere og bedrifter \\xE5 effektivt koble seg til og hente data fra ulike regnskapssystemer uten \\xE5 m\\xE5tte h\\xE5ndtere flere APIer.\"}),`\n`,(0,n.jsxs)(e.h2,{id:\"hovedfunksjoner\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#hovedfunksjoner\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Hovedfunksjoner\"]}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"\\xC9n API for alle\"}),\": Koble til Poweroffice, Fiken, Tripletex og flere med \\xE9n enkelt integrasjon.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Enhetlig dataformat\"}),\": F\\xE5 data i et konsistent format uavhengig av kildesystemet.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Enkel implementering\"}),\": Bruk v\\xE5rt SDK for rask og enkel integrasjon i dine applikasjoner.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Fleksibel bruk\"}),\": Send fakturaer direkte fra Excel, hent regnskapsdata, eller integrer med dine egne systemer.\"]}),`\n`]}),`\n`,(0,n.jsxs)(e.h2,{id:\"bruksomr\\xE5der\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#bruksomr\\xE5der\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Bruksomr\\xE5der\"]}),`\n`,(0,n.jsx)(e.p,{children:\"Med Propdock Engine kan du:\"}),`\n`,(0,n.jsxs)(e.ol,{children:[`\n`,(0,n.jsx)(e.li,{children:\"Sende fakturaer fra eksterne systemer som Excel.\"}),`\n`,(0,n.jsx)(e.li,{children:\"Hente og analysere regnskapsdata p\\xE5 tvers av systemer.\"}),`\n`,(0,n.jsx)(e.li,{children:\"Automatisere dataoverf\\xF8ring mellom ulike plattformer.\"}),`\n`,(0,n.jsx)(e.li,{children:\"Bygge skreddersydde rapporter og dashboards.\"}),`\n`]}),`\n`,(0,n.jsxs)(e.h2,{id:\"kom-i-gang\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#kom-i-gang\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Kom i gang\"]}),`\n`,(0,n.jsx)(e.p,{children:\"Selv om Propdock Engine fortsatt er under utvikling, kan du allerede n\\xE5 forberede deg p\\xE5 \\xE5 ta i bruk denne kraftige funksjonaliteten.\"}),`\n`,(0,n.jsxs)(e.h3,{id:\"eksempel-p\\xE5-sdk-kall\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#eksempel-p\\xE5-sdk-kall\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Eksempel p\\xE5 SDK-kall\"]}),`\n`,(0,n.jsx)(i,{title:\"Eksempel p\\xE5 SDK-kall\",language:\"javascript\",children:`\nimport { Propdock } from 'propdock';\n\nconst propdock = new Propdock({\n  token: \"Propdock_API_KEY\",\n});\n\n// Hent fakturaer fra alle tilkoblede systemer\nconst invoices = await propdock.getInvoices({\nstartDate: '2024-01-01',\nendDate: '2024-12-31'\n});\n\nconsole.log(invoices);\n`}),`\n`,(0,n.jsx)(e.p,{children:\"Dette enkle kallet vil hente fakturaer fra alle tilkoblede regnskapssystemer for hele \\xE5ret 2024, uavhengig av hvilket system de opprinnelig ble opprettet i.\"}),`\n`,(0,n.jsxs)(e.h2,{id:\"fremtidige-muligheter\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#fremtidige-muligheter\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Fremtidige muligheter\"]}),`\n`,(0,n.jsx)(e.p,{children:\"Vi jobber kontinuerlig med \\xE5 utvide funksjonaliteten i Propdock Engine. Noen planlagte funksjoner inkluderer:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsx)(e.li,{children:\"Sanntidssynkronisering av data\"}),`\n`,(0,n.jsx)(e.li,{children:\"Avanserte filtreringsmuligheter\"}),`\n`,(0,n.jsx)(e.li,{children:\"St\\xF8tte for flere regnskapssystemer\"}),`\n`]}),`\n`,(0,n.jsxs)(e.h2,{id:\"hold-deg-oppdatert\",children:[(0,n.jsx)(e.a,{\"aria-hidden\":\"true\",tabIndex:\"-1\",href:\"#hold-deg-oppdatert\",children:(0,n.jsx)(e.span,{className:\"icon icon-link\"})}),\"Hold deg oppdatert\"]}),`\n`,(0,n.jsx)(e.p,{children:\"Vil du v\\xE6re blant de f\\xF8rste til \\xE5 ta i bruk Propdock Engine? Registrer din interesse n\\xE5:\"}),`\n`,(0,n.jsx)(e.p,{children:\"Vi vil holde deg oppdatert om utviklingen og gi deg tidlig tilgang n\\xE5r funksjonen er klar for lansering.\"}),`\n`,(0,n.jsxs)(e.p,{children:[\"Har du sp\\xF8rsm\\xE5l eller \\xF8nsker om funksjonalitet? \",(0,n.jsx)(e.a,{href:\"mailto:dev@propdock.no\",children:\"Kontakt v\\xE5rt utviklerteam\"}),\" - vi setter pris p\\xE5 din input!\"]})]})}function g(r={}){let{wrapper:e}=r.components||{};return e?(0,n.jsx)(e,{...r,children:(0,n.jsx)(c,{...r})}):c(r)}function k(r,e){throw new Error(\"Expected \"+(e?\"component\":\"object\")+\" `\"+r+\"` to be defined: you likely forgot to import, pass, or provide it.\")}return x(y);})();\n;return Component;",
+    "tableOfContents": [
+      {
+        "title": "Hovedfunksjoner",
+        "slug": "hovedfunksjoner"
+      },
+      {
+        "title": "Bruksområder",
+        "slug": "bruksområder"
+      },
+      {
+        "title": "Kom i gang",
+        "slug": "kom-i-gang"
+      },
+      {
+        "title": "Fremtidige muligheter",
+        "slug": "fremtidige-muligheter"
+      },
+      {
+        "title": "Hold deg oppdatert",
+        "slug": "hold-deg-oppdatert"
+      }
+    ],
+    "images": [],
+    "tweetIds": [],
+    "githubRepos": []
   }
 ];

@@ -1,0 +1,81 @@
+---
+title: Propdock Engine - Én API for alle regnskapssystemer
+updatedAt: 2024-08-18
+summary: Lær om Propdock Engine, vår innovative løsning som forenkler integrasjon med flere regnskapssystemer gjennom én enkelt API.
+image: https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/opprette-leiekontrakt/public
+author: codehagen
+categories:
+  - eiendomsforvaltning
+related:
+  - legge-til-leietaker
+  - e-signering
+slug: propdock-engine
+---
+
+
+<Note variant="warning">
+  Denne funksjonen er for øyeblikket under utvikling og vil snart være tilgjengelig.
+</Note>
+
+Propdock Engine er vår banebrytende løsning som forenkler integrasjonen med flere regnskapssystemer gjennom én enkelt API. Dette gjør det mulig for utviklere og bedrifter å effektivt koble seg til og hente data fra ulike regnskapssystemer uten å måtte håndtere flere APIer.
+
+## Hovedfunksjoner
+
+- **Én API for alle**: Koble til Poweroffice, Fiken, Tripletex og flere med én enkelt integrasjon.
+- **Enhetlig dataformat**: Få data i et konsistent format uavhengig av kildesystemet.
+- **Enkel implementering**: Bruk vårt SDK for rask og enkel integrasjon i dine applikasjoner.
+- **Fleksibel bruk**: Send fakturaer direkte fra Excel, hent regnskapsdata, eller integrer med dine egne systemer.
+
+## Bruksområder
+
+Med Propdock Engine kan du:
+
+1. Sende fakturaer fra eksterne systemer som Excel.
+2. Hente og analysere regnskapsdata på tvers av systemer.
+3. Automatisere dataoverføring mellom ulike plattformer.
+4. Bygge skreddersydde rapporter og dashboards.
+
+## Kom i gang
+
+Selv om Propdock Engine fortsatt er under utvikling, kan du allerede nå forberede deg på å ta i bruk denne kraftige funksjonaliteten.
+
+### Eksempel på SDK-kall
+
+<Code title="Eksempel på SDK-kall" language="javascript">
+{`
+import { Propdock } from 'propdock';
+
+const propdock = new Propdock({
+  token: "Propdock_API_KEY",
+});
+
+// Hent fakturaer fra alle tilkoblede systemer
+const invoices = await propdock.getInvoices({
+startDate: '2024-01-01',
+endDate: '2024-12-31'
+});
+
+console.log(invoices);
+`}
+</Code>
+
+
+
+Dette enkle kallet vil hente fakturaer fra alle tilkoblede regnskapssystemer for hele året 2024, uavhengig av hvilket system de opprinnelig ble opprettet i.
+
+## Fremtidige muligheter
+
+Vi jobber kontinuerlig med å utvide funksjonaliteten i Propdock Engine. Noen planlagte funksjoner inkluderer:
+
+- Sanntidssynkronisering av data
+- Avanserte filtreringsmuligheter
+- Støtte for flere regnskapssystemer
+
+## Hold deg oppdatert
+
+Vil du være blant de første til å ta i bruk Propdock Engine? Registrer din interesse nå:
+
+
+Vi vil holde deg oppdatert om utviklingen og gi deg tidlig tilgang når funksjonen er klar for lansering.
+
+Har du spørsmål eller ønsker om funksjonalitet? [Kontakt vårt utviklerteam](mailto:dev@propdock.no) - vi setter pris på din input!

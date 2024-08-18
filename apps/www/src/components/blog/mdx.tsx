@@ -16,6 +16,8 @@ import CopyBox from "./copy-box"
 import HelpArticleLink from "./help-article-link"
 import ExpandingArrow from "./icons/expanding-arrow"
 import ZoomImage from "./zoom-image"
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const CustomLink = (props: any) => {
   const href = props.href
@@ -200,6 +202,25 @@ const components = {
   ),
   strong: (props: any) => (
     <strong className="font-semibold text-foreground" {...props} />
+  ),
+  Code: ({ children, language, title }) => (
+    <div className="my-4">
+      {title && (
+        <div className="rounded-t-md bg-gray-800 px-4 py-2 text-sm text-white">
+          {title}
+        </div>
+      )}
+      <SyntaxHighlighter
+        language={language}
+        style={tomorrow}
+        customStyle={{
+          margin: 0,
+          borderRadius: title ? '0 0 0.375rem 0.375rem' : '0.375rem',
+        }}
+      >
+        {children}
+      </SyntaxHighlighter>
+    </div>
   ),
 }
 
