@@ -1,4 +1,5 @@
 import { getContractDetails } from "@/actions/get-contract-details"
+import { getTenantDetails } from "@/actions/get-tenant-details"
 import { format } from "date-fns"
 import { Plus, Settings } from "lucide-react"
 
@@ -15,6 +16,7 @@ import { EditContractSheet } from "@/components/buttons/EditContractDetails"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { ContractCheck } from "@/components/tenant/ContractCheck"
 
 export default async function EconomySettings({
   params,
@@ -32,7 +34,18 @@ export default async function EconomySettings({
   }
 
   try {
+    const tenantDetails = await getTenantDetails(tenantId)
     const contractDetails = await getContractDetails(tenantId)
+
+    if (!tenantDetails) {
+      return (
+        <DashboardShell>
+          <DashboardHeader heading="Error" text="Tenant details not found." />
+        </DashboardShell>
+      )
+    }
+
+    const hasContract = contractDetails && contractDetails.length > 0
 
     return (
       <DashboardShell>
@@ -61,34 +74,7 @@ export default async function EconomySettings({
           </EditContractSheet> */}
         </DashboardHeader>
 
-        {!contractDetails || contractDetails.length === 0 ? (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="receipt" />
-            <EmptyPlaceholder.Title>
-              Vilkår til leietakeren
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Legg til vilkårene til leietakeren.
-            </EmptyPlaceholder.Description>
-            <EditContractSheet
-              contractId={0}
-              initialValues={{
-                contractType: "LEASE",
-                startDate: new Date(),
-                endDate: new Date(),
-                negotiationDate: new Date(),
-                baseRent: 0,
-                indexationType: "MARKET",
-                indexValue: 0,
-                tenantid: tenantId,
-              }}
-              currentPath={`/tenant/${tenantId}/economy`}
-              tenantId={tenantId}
-            >
-              <Button variant="outline">Legg til kontrakt</Button>
-            </EditContractSheet>
-          </EmptyPlaceholder>
-        ) : (
+        {hasContract ? (
           <>
             <Card className="mb-6">
               <CardHeader>
@@ -203,6 +189,8 @@ export default async function EconomySettings({
               ))}
             </div>
           </>
+        ) : (
+          <ContractCheck tenantDetails={tenantDetails} />
         )}
       </DashboardShell>
     )

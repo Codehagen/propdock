@@ -40,8 +40,8 @@ const TenantSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),
   orgnr: z
     .string()
-    .min(1, "Organisasjonsnummer er påkrevd")
-    .regex(/^\d+$/, "Organisasjonsnummer må være et tall"),
+    .length(9, "Organisasjonsnummer må være 9 siffer")
+    .regex(/^\d{9}$/, "Organisasjonsnummer må være 9 siffer"),
   numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
   buildingId: z.string().optional(),

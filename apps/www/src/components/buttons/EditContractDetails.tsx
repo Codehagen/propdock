@@ -44,19 +44,14 @@ import {
 } from "@dingify/ui/components/sheet"
 
 import { cn } from "@/lib/utils"
+import { nb } from "date-fns/locale"
 
 // Define the validation schema
 const ContractSchema = z.object({
   contractType: z.enum(["LEASE", "SUBLEASE", "INTERNAL"]),
-  startDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Startdato er påkrevd",
-  }),
-  endDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Sluttdato er påkrevd",
-  }),
-  negotiationDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Forhandlingsdato er påkrevd",
-  }),
+  startDate: z.date({required_error: "Startdato påkrevd"}),
+  endDate: z.date({required_error: "Sluttdato påkrevd"}),
+  negotiationDate: z.date({required_error: "Forhandlingsdato påkrevd"}),
   baseRent: z
     .string()
     .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
@@ -91,16 +86,16 @@ export function EditContractSheet({
 
   // Convert dates to ISO strings if they are Date objects
   const formatDateString = (date) =>
-    date instanceof Date ? date.toISOString().split("T")[0] : date
+    date instanceof Date ? date : date
 
   const form = useForm({
     resolver: zodResolver(ContractSchema),
     defaultValues: {
       contractType: initialValues.contractType || undefined,
-      startDate: formatDateString(initialValues.startDate) || undefined,
-      endDate: formatDateString(initialValues.endDate) || undefined,
+      startDate: initialValues.startDate || undefined,
+      endDate: initialValues.endDate || undefined,
       negotiationDate:
-        formatDateString(initialValues.negotiationDate) || undefined,
+        initialValues.negotiationDate || undefined,
       baseRent: initialValues.baseRent?.toString() || undefined,
       indexationType: initialValues.indexationType || undefined,
       indexValue: initialValues.indexValue?.toString() || undefined,
@@ -202,7 +197,7 @@ export function EditContractSheet({
                           )}
                         >
                           {field.value ? (
-                            format(parseISO(field.value), "PPP")
+                            format(field.value, "PPP", { locale: nb })
                           ) : (
                             <span>Velg en dato</span>
                           )}
@@ -213,15 +208,17 @@ export function EditContractSheet({
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={nb}
                         selected={
-                          field.value ? parseISO(field.value) : undefined
+                          field.value ? field.value : undefined
                         }
-                        onSelect={(date) =>
+                        onSelect={(date) => {
                           field.onChange(
-                            date ? date.toISOString().split("T")[0] : "",
+                            date ? date : "",
                           )
                         }
-                        initialFocus
+                          
+                        }
                       />
                     </PopoverContent>
                   </Popover>
@@ -246,7 +243,7 @@ export function EditContractSheet({
                           )}
                         >
                           {field.value ? (
-                            format(parseISO(field.value), "PPP")
+                            format(field.value, "PPP", {locale: nb})
                           ) : (
                             <span>Velg en dato</span>
                           )}
@@ -256,16 +253,16 @@ export function EditContractSheet({
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
+                      locale={nb}
                         mode="single"
                         selected={
-                          field.value ? parseISO(field.value) : undefined
+                          field.value ? field.value : undefined
                         }
                         onSelect={(date) =>
                           field.onChange(
-                            date ? date.toISOString().split("T")[0] : "",
+                            date ? date : "",
                           )
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -290,7 +287,7 @@ export function EditContractSheet({
                           )}
                         >
                           {field.value ? (
-                            format(parseISO(field.value), "PPP")
+                            format(field.value, "PPP", {locale: nb})
                           ) : (
                             <span>Velg en dato</span>
                           )}
@@ -300,16 +297,16 @@ export function EditContractSheet({
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
+                      locale={nb}
                         mode="single"
                         selected={
-                          field.value ? parseISO(field.value) : undefined
+                          field.value ? field.value : undefined
                         }
                         onSelect={(date) =>
                           field.onChange(
-                            date ? date.toISOString().split("T")[0] : "",
+                            date ? date : "",
                           )
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
