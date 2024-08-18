@@ -36,6 +36,13 @@ export async function getTenants(workspaceId: string) {
             baseRent: true,
             startDate: true,
             endDate: true,
+            contact: {
+              select: {
+                name: true,
+                email: true,
+                phone: true,
+              },
+            },
           },
           orderBy: {
             startDate: "desc",
@@ -56,6 +63,7 @@ export async function getTenants(workspaceId: string) {
         currentRent: tenant.contracts[0]?.baseRent ?? null,
         contractStartDate: tenant.contracts[0]?.startDate ?? null,
         contractEndDate: tenant.contracts[0]?.endDate ?? null,
+        contactPerson: tenant.contracts[0]?.contact ?? null,
       })),
     }
   } catch (error) {
