@@ -1,94 +1,179 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createProperty } from "@/actions/create-property";
-import { toast } from "sonner";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { createProperty } from "@/actions/create-property"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@dingify/ui/components/button"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@dingify/ui/components/dialog";
-import { Input } from "@dingify/ui/components/input";
-import { Label } from "@dingify/ui/components/label";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@dingify/ui/components/form"
+import { Input } from "@dingify/ui/components/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@dingify/ui/components/select"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@dingify/ui/components/sheet"
+
+// Define the validation schema
+const PropertySchema = z.object({
+  name: z.string().min(1, "Eiendomsnavn er påkrevd"),
+  type: z.string().min(1, "Eiendomstype er påkrevd"),
+  countryCode: z.string().min(2, "Landkode er påkrevd").max(2),
+})
 
 export function AddPropertyButton() {
-  const [propertyName, setPropertyName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+  const form = useForm({
+    resolver: zodResolver(PropertySchema),
+    defaultValues: {
+      name: "",
+      type: "",
+      countryCode: "NO",
+    },
+  })
+
+  const onSubmit = async (data) => {
+    setIsLoading(true)
 
     try {
-      const result = await createProperty(propertyName);
+      const result = await createProperty(
+        data.name,
+        data.type,
+        data.countryCode,
+      )
 
       if (!result.success) {
-        throw new Error(result.error || "Feil ved oppretting av eiendom.");
+        throw new Error(result.error || "Feil ved oppretting av eiendom.")
       }
 
-      toast.success(`Eiendommen "${propertyName}" ble lagt til.`);
-
-      // Optionally, you can refresh the page or navigate to the new property
-      router.push(`/property/${result.property?.id}`);
+      toast.success(`Eiendommen "${data.name}" ble lagt til.`)
+      form.reset()
+      router.push(`/property/${result.property?.id}`)
     } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+      toast.error(error.message)
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="default" disabled={isLoading}>
-          Legg til eiendom
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <DialogHeader>
-            <DialogTitle>Legg til eiendom</DialogTitle>
-            <DialogDescription>
-              Skriv inn navnet på den nye eiendommen eller bygningen
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 pt-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="propertyName" className="col-span-1 text-right">
-                Navn
-              </Label>
-              <Input
-                id="propertyName"
-                name="propertyName"
-                placeholder="Hva kaller du byggningen..."
-                className="col-span-3"
-                value={propertyName}
-                onChange={(e) => setPropertyName(e.target.value)}
-                required
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="default">Legg til eiendom</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Legg til eiendom</SheetTitle>
+          <SheetDescription>
+            Skriv inn informasjon om den nye eiendommen
+          </SheetDescription>
+        </SheetHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Navn på eiendom</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Hva kaller du eiendommen..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Eiendomstype</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Velg eiendomstype" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="residential">Bolig</SelectItem>
+                      <SelectItem value="commercial">Næringseiendom</SelectItem>
+                      <SelectItem value="industrial">Industri</SelectItem>
+                      <SelectItem value="land">Tomt</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="countryCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Land</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Velg land" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="NO">Norge</SelectItem>
+                      <SelectItem value="SE">Sverige</SelectItem>
+                      <SelectItem value="DK">Danmark</SelectItem>
+                      <SelectItem value="FI">Finland</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <SheetFooter>
+              <Button
+                type="submit"
                 disabled={isLoading}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isLoading ? "Lagrer..." : "Lagre ny bygning"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+                className="w-full sm:w-auto"
+              >
+                {isLoading ? "Lagrer..." : "Lagre ny eiendom"}
+              </Button>
+            </SheetFooter>
+          </form>
+        </Form>
+      </SheetContent>
+    </Sheet>
+  )
 }

@@ -5,7 +5,11 @@ import { revalidatePath } from "next/cache"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
-export async function createProperty(propertyName: string) {
+export async function createProperty(
+  propertyName: string,
+  propertyType: string,
+  countryCode: string,
+) {
   const user = await getCurrentUser()
   const userId = user?.id
 
@@ -25,11 +29,12 @@ export async function createProperty(propertyName: string) {
       throw new Error("No workspace found for this user")
     }
 
-    // Create a new property within the found workspace with a default type
+    // Create a new property within the found workspace with the provided type and country code
     const newProperty = await prisma.property.create({
       data: {
         name: propertyName,
-        type: "defaultType", // Set your default type here
+        type: propertyType,
+        countryCode: countryCode,
         workspaceId: workspace.id,
       },
     })

@@ -130,6 +130,8 @@ model Building {
   bnr         Int
   snr         Int
   fnr         Int
+  latitude    Float?
+  longitude   Float?
   workspaceId String
   propertyId  String
   createdAt   DateTime                    @default(now()) @map("created_at")

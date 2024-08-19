@@ -154,7 +154,7 @@ export function AddBuildingSheet({ propertyId }) {
         <SheetHeader>
           <SheetTitle>Legg til ny bygning</SheetTitle>
           <SheetDescription>
-            Legg til byggninger som hører til {propertyId}
+            Legg til byggninger som hører til eiendommen.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>

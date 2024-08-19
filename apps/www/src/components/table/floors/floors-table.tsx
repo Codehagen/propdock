@@ -147,7 +147,6 @@ export default function FloorsTable({ floors }) {
               <TableHead className="font-medium">Ledige kontorer</TableHead>
               <TableHead className="font-medium">Utleid</TableHead>
               <TableHead className="font-medium">Actions</TableHead>
-              <TableHead className="font-medium">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -177,33 +176,6 @@ export default function FloorsTable({ floors }) {
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button size="sm" className="h-8 gap-1">
-                                <PlusCircle className="h-3.5 w-3.5" />
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                  Opprett
-                                </span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Lag ny</DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem onClick={handleKontraktClick}>
-                                Kontrakt
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>Faktura</DropdownMenuItem>
-                              <DropdownMenuItem>
-                                Endre leietaker
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                <AddOfficeSpaceSheet floorId={floor.id} />
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild></DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
                                 <span className="sr-only">Åpne meny</span>
                                 <MoreHorizontal className="h-4 w-4" />
@@ -211,6 +183,19 @@ export default function FloorsTable({ floors }) {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Handlinger</DropdownMenuLabel>
+                              <DropdownMenuItem onClick={handleKontraktClick}>
+                                Opprett kontrakt
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                Opprett faktura
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                Endre leietaker
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <AddOfficeSpaceSheet floorId={floor.id} />
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
                               <DropdownMenuItem asChild>
                                 <EditFloorDetailsSheet
                                   floorId={floor.id}

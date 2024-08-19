@@ -5,6 +5,7 @@ import { updateContractDetails } from "@/actions/update-contract-details"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format, parseISO } from "date-fns"
+import { nb } from "date-fns/locale"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -43,15 +44,14 @@ import {
   SheetTrigger,
 } from "@dingify/ui/components/sheet"
 
+import { currencies } from "@/lib/currencies"
 import { cn } from "@/lib/utils"
-import { nb } from "date-fns/locale"
 
 // Define the validation schema
 const ContractSchema = z.object({
   contractType: z.enum(["LEASE", "SUBLEASE", "INTERNAL"]),
-  startDate: z.date({required_error: "Startdato påkrevd"}),
-  endDate: z.date({required_error: "Sluttdato påkrevd"}),
-  negotiationDate: z.date({required_error: "Forhandlingsdato påkrevd"}),
+  startDate: z.date({ required_error: "Startdato påkrevd" }),
+  endDate: z.date({ required_error: "Sluttdato påkrevd" }),
   baseRent: z
     .string()
     .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
@@ -72,6 +72,7 @@ const ContractSchema = z.object({
     .transform((val) =>
       val === null || val === "" ? null : parseFloat(val || "0"),
     ),
+  currencyIso: z.string().min(1, "Currency is required"),
 })
 
 export function EditContractSheet({
@@ -85,8 +86,7 @@ export function EditContractSheet({
   const [isOpen, setIsOpen] = useState(false)
 
   // Convert dates to ISO strings if they are Date objects
-  const formatDateString = (date) =>
-    date instanceof Date ? date : date
+  const formatDateString = (date) => (date instanceof Date ? date : date)
 
   const form = useForm({
     resolver: zodResolver(ContractSchema),
@@ -94,11 +94,10 @@ export function EditContractSheet({
       contractType: initialValues.contractType || undefined,
       startDate: initialValues.startDate || undefined,
       endDate: initialValues.endDate || undefined,
-      negotiationDate:
-        initialValues.negotiationDate || undefined,
       baseRent: initialValues.baseRent?.toString() || undefined,
       indexationType: initialValues.indexationType || undefined,
       indexValue: initialValues.indexValue?.toString() || undefined,
+      currencyIso: initialValues.currencyIso || undefined,
     },
   })
 
@@ -119,7 +118,6 @@ export function EditContractSheet({
       ...data,
       startDate: new Date(data.startDate),
       endDate: new Date(data.endDate),
-      negotiationDate: new Date(data.negotiationDate),
       tenantId,
     }
 
@@ -209,16 +207,10 @@ export function EditContractSheet({
                       <Calendar
                         mode="single"
                         locale={nb}
-                        selected={
-                          field.value ? field.value : undefined
-                        }
+                        selected={field.value ? field.value : undefined}
                         onSelect={(date) => {
-                          field.onChange(
-                            date ? date : "",
-                          )
-                        }
-                          
-                        }
+                          field.onChange(date ? date : "")
+                        }}
                       />
                     </PopoverContent>
                   </Popover>
@@ -243,7 +235,7 @@ export function EditContractSheet({
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP", {locale: nb})
+                            format(field.value, "PPP", { locale: nb })
                           ) : (
                             <span>Velg en dato</span>
                           )}
@@ -253,60 +245,10 @@ export function EditContractSheet({
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
-                      locale={nb}
+                        locale={nb}
                         mode="single"
-                        selected={
-                          field.value ? field.value : undefined
-                        }
-                        onSelect={(date) =>
-                          field.onChange(
-                            date ? date : "",
-                          )
-                        }
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="negotiationDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Forhandlingsdato</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground",
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP", {locale: nb})
-                          ) : (
-                            <span>Velg en dato</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                      locale={nb}
-                        mode="single"
-                        selected={
-                          field.value ? field.value : undefined
-                        }
-                        onSelect={(date) =>
-                          field.onChange(
-                            date ? date : "",
-                          )
-                        }
+                        selected={field.value ? field.value : undefined}
+                        onSelect={(date) => field.onChange(date ? date : "")}
                       />
                     </PopoverContent>
                   </Popover>
@@ -329,6 +271,33 @@ export function EditContractSheet({
                       onChange={handleBaseRentChange}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="currencyIso"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Valuta</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Velg valuta" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {currencies.map((currency) => (
+                        <SelectItem key={currency.code} value={currency.code}>
+                          {currency.name} ({currency.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -377,6 +346,7 @@ export function EditContractSheet({
                 </FormItem>
               )}
             />
+
             <SheetFooter className="flex justify-end">
               <Button
                 type="submit"

@@ -146,9 +146,9 @@ export function AddTenantSheet() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Navn</FormLabel>
+                  <FormLabel>Bedriftsnavn</FormLabel>
                   <FormControl>
-                    <Input placeholder="Navn..." {...field} />
+                    <Input placeholder="Bedriftsnavn..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -2,11 +2,12 @@
 
 import { revalidatePath } from "next/cache"
 
+import { currencies } from "@/lib/currencies" // Added this import
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
 export async function updateContractDetails(
-  contractId: number | null,
+  contractId: string | null,
   data: any,
   currentPath: string,
 ) {
@@ -53,34 +54,33 @@ export async function updateContractDetails(
       }
     }
 
+    const contractData = {
+      contractType: data.contractType,
+      startDate: new Date(data.startDate),
+      endDate: new Date(data.endDate),
+      baseRent: data.baseRent,
+      indexationType: data.indexationType,
+      indexValue: data.indexValue,
+      currencyIso: data.currencyIso,
+      currency:
+        currencies.find((c) => c.code === data.currencyIso)?.name ||
+        data.currencyIso,
+    }
+
     let contract
 
-    if (contractId && contractId !== 0) {
+    if (contractId && contractId !== "0") {
       // Update existing contract
       contract = await prisma.contract.update({
         where: { id: contractId },
-        data: {
-          contractType: data.contractType,
-          startDate: new Date(data.startDate),
-          endDate: new Date(data.endDate),
-          negotiationDate: new Date(data.negotiationDate),
-          baseRent: data.baseRent,
-          indexationType: data.indexationType,
-          indexValue: data.indexValue,
-        },
+        data: contractData,
       })
     } else {
       // Create new contract
       contract = await prisma.contract.create({
         data: {
+          ...contractData,
           tenantId: data.tenantId,
-          contractType: data.contractType,
-          startDate: new Date(data.startDate),
-          endDate: new Date(data.endDate),
-          negotiationDate: new Date(data.negotiationDate),
-          baseRent: data.baseRent,
-          indexationType: data.indexationType,
-          indexValue: data.indexValue,
           buildingId: tenant.building.id,
           workspaceId: userWorkspace.id,
           propertyId: tenant.property.id,
