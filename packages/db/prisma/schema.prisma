@@ -100,6 +100,7 @@ model Workspace {
   users            User[]
   internalInvoices InternalInvoice[]
   invites          WorkspaceInvite[]
+  accountingData   AccountingData[]
 }
 
 model Property {
@@ -111,6 +112,7 @@ model Property {
   accountingId Int?
   createdAt    DateTime                    @default(now()) @map("created_at")
   updatedAt    DateTime                    @default(now()) @map("updated_at")
+  countryCode  String?
   accounting   BalancedAccounts?
   buildings    Building[]
   contracts    Contract[]
@@ -395,9 +397,20 @@ model CustomerInvoice {
   updatedAt   DateTime  @default(now()) @map("updated_at")
   currency    String?
   currencyIso String?
+  status      String
+  amount      Int
+  isPaid      Boolean
   workspaceId String
   tenantId    String
   tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model AccountingData {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @map("updated_at")
+  workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
 }
 
