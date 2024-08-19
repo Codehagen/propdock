@@ -1,7 +1,7 @@
 import { getContractDetails } from "@/actions/get-contract-details"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 import { format } from "date-fns"
-import { Plus, Settings } from "lucide-react"
+import { Building, Home, Settings } from "lucide-react"
 
 import { Button } from "@dingify/ui/components/button"
 import {
@@ -10,12 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@dingify/ui/components/card"
-import { Skeleton } from "@dingify/ui/components/skeleton"
 
 import { EditContractSheet } from "@/components/buttons/EditContractDetails"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import { ContractCheck } from "@/components/tenant/ContractCheck"
 
 export default async function EconomySettings({
@@ -28,7 +26,10 @@ export default async function EconomySettings({
   if (!tenantId) {
     return (
       <DashboardShell>
-        <DashboardHeader heading="Tenant not found" text="Invalid tenant ID." />
+        <DashboardHeader
+          heading="Leietaker ikke funnet"
+          text="Ugyldig leietaker-ID."
+        />
       </DashboardShell>
     )
   }
@@ -36,11 +37,15 @@ export default async function EconomySettings({
   try {
     const tenantDetails = await getTenantDetails(tenantId)
     const contractDetails = await getContractDetails(tenantId)
+    console.log(contractDetails)
 
     if (!tenantDetails) {
       return (
         <DashboardShell>
-          <DashboardHeader heading="Error" text="Tenant details not found." />
+          <DashboardHeader
+            heading="Feil"
+            text="Leietakerdetaljer ikke funnet."
+          />
         </DashboardShell>
       )
     }
@@ -51,144 +56,120 @@ export default async function EconomySettings({
       <DashboardShell>
         <DashboardHeader
           heading="Økonomi"
-          text="Endre økonomiske innstillinger for leietakeren."
-        >
-          {/* <EditContractSheet
-            contractId={0}
-            initialValues={{
-              contractType: "LEASE",
-              startDate: new Date(),
-              endDate: new Date(),
-              negotiationDate: new Date(),
-              baseRent: 0,
-              indexationType: "MARKET",
-              indexValue: 0,
-              tenantid: tenantId,
-            }}
-            currentPath={`/tenant/${tenantId}/economy`}
-            tenantId={tenantId}
-          >
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> Legg til kontrakt
-            </Button>
-          </EditContractSheet> */}
-        </DashboardHeader>
+          text="Økonomisk oversikt for leietakeren."
+        />
 
         {hasContract ? (
-          <>
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Kontraktoversikt</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      Totalt antall kontrakter
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {contractDetails.length}
-                    </p>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-2xl font-bold">
+                Kontraktoversikt
+              </CardTitle>
+              <EditContractSheet
+                contractId={contractDetails[0].id}
+                initialValues={{
+                  contractType: contractDetails[0].contractType,
+                  startDate: contractDetails[0].startDate,
+                  endDate: contractDetails[0].endDate,
+                  negotiationDate: contractDetails[0].negotiationDate,
+                  baseRent: contractDetails[0].baseRent,
+                  indexationType: contractDetails[0].indexationType,
+                  indexValue: contractDetails[0].indexValue || 0,
+                }}
+                currentPath={`/tenant/${tenantId}/finance`}
+                tenantId={tenantId}
+              >
+                <Button size="sm" variant="outline">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Rediger kontrakt
+                </Button>
+              </EditContractSheet>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Månedlig leie
+                  </p>
+                  <p className="text-2xl font-bold">
+                    {new Intl.NumberFormat("no-NO", {
+                      style: "currency",
+                      currency: contractDetails[0].currencyIso,
+                    }).format(contractDetails[0].baseRent ?? 0)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Årlig leie
+                  </p>
+                  <p className="text-2xl font-bold">
+                    {new Intl.NumberFormat("no-NO", {
+                      style: "currency",
+                      currency: contractDetails[0].currencyIso,
+                    }).format((contractDetails[0].baseRent ?? 0) * 12)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Indeksering
+                  </p>
+                  <p className="text-2xl font-bold">
+                    {contractDetails[0].indexationType} (
+                    {contractDetails[0].indexValue}%)
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Start dato:</span>
+                  <span>
+                    {format(
+                      new Date(contractDetails[0].startDate),
+                      "dd.MM.yyyy",
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Slutt dato:</span>
+                  <span>
+                    {format(new Date(contractDetails[0].endDate), "dd.MM.yyyy")}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Kontrakttype:</span>
+                  <span>{contractDetails[0].contractType}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Valuta:</span>
+                  <span>
+                    {contractDetails[0].currency} (
+                    {contractDetails[0].currencyIso})
+                  </span>
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="mb-2 text-lg font-semibold">
+                  Eiendomsinformasjon
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Home className="mr-2 h-4 w-4" />
+                    <span className="text-sm">
+                      {contractDetails[0].property.name} (
+                      {contractDetails[0].property.type})
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      Total leie
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {new Intl.NumberFormat("no-NO", {
-                        style: "currency",
-                        currency: "NOK",
-                      }).format(
-                        contractDetails.reduce(
-                          (sum, contract) => sum + (contract.baseRent ?? 0),
-                          0,
-                        ),
-                      )}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      Gjennomsnittlig leie
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {new Intl.NumberFormat("no-NO", {
-                        style: "currency",
-                        currency: "NOK",
-                      }).format(
-                        contractDetails.reduce(
-                          (sum, contract) => sum + (contract.baseRent ?? 0),
-                          0,
-                        ) / contractDetails.length,
-                      )}
-                    </p>
+                  <div className="flex items-center">
+                    <Building className="mr-2 h-4 w-4" />
+                    <span className="text-sm">
+                      {contractDetails[0].building.name},{" "}
+                      {contractDetails[0].building.address}
+                    </span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {contractDetails.map((contract) => (
-                <Card key={contract.id} className="flex flex-col">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {contract.contractType}
-                    </CardTitle>
-                    <EditContractSheet
-                      contractId={contract.id}
-                      initialValues={{
-                        contractType: contract.contractType,
-                        startDate: contract.startDate,
-                        endDate: contract.endDate,
-                        negotiationDate: contract.negotiationDate,
-                        baseRent: contract.baseRent,
-                        indexationType: contract.indexationType,
-                        indexValue: contract.indexValue || 0,
-                      }}
-                      currentPath={`/tenant/${tenantId}/economy`}
-                      tenantId={tenantId}
-                    >
-                      <Button size="sm" variant="ghost">
-                        <Settings className="h-4 w-4" />
-                      </Button>
-                    </EditContractSheet>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
-                      {new Intl.NumberFormat("no-NO", {
-                        style: "currency",
-                        currency: "NOK",
-                      }).format(contract.baseRent ?? 0)}
-                    </div>
-                    <p className="text-xs text-muted-foreground">per måned</p>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Start dato:
-                        </span>
-                        <span>
-                          {format(new Date(contract.startDate), "dd.MM.yyyy")}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Slutt dato:
-                        </span>
-                        <span>
-                          {format(new Date(contract.endDate), "dd.MM.yyyy")}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Indeksering:
-                        </span>
-                        <span>{contract.indexationType}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </>
+              </div>
+            </CardContent>
+          </Card>
         ) : (
           <ContractCheck tenantDetails={tenantDetails} />
         )}
@@ -198,7 +179,7 @@ export default async function EconomySettings({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading="Error"
+          heading="Feil"
           text="Det oppstod en feil ved henting av kontraktdetaljer."
         />
         <Card>
@@ -211,30 +192,4 @@ export default async function EconomySettings({
       </DashboardShell>
     )
   }
-}
-
-function LoadingState() {
-  return (
-    <div className="space-y-4">
-      <Skeleton className="h-8 w-[250px]" />
-      <Skeleton className="h-4 w-[300px]" />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[...Array(3)].map((_, i) => (
-          <Card key={i}>
-            <CardHeader className="space-y-0 pb-2">
-              <Skeleton className="h-5 w-[100px]" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-8 w-[120px]" />
-              <div className="mt-4 space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  )
 }

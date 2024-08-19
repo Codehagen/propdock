@@ -7,6 +7,7 @@ import format from "date-fns/format"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { toast } from "sonner"
 
+import { Badge } from "@dingify/ui/components/badge"
 import { Button } from "@dingify/ui/components/button"
 import {
   DropdownMenu,
@@ -54,7 +55,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex w-full space-x-2 md:w-[500px]">
+        <div className="flex w-full space-x-2 md:w-[250px]">
           <Link href={`/tenant/${row.original.id}`}>
             <span className="truncate font-medium">{row.original.name}</span>
           </Link>
@@ -66,7 +67,9 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     accessorKey: "isRenting",
     header: "Leiestatus",
     cell: ({ row }) => (
-      <div>{row.getValue("isRenting") ? "Leier" : "Leier ikke"}</div>
+      <Badge variant={row.getValue("isRenting") ? "default" : "secondary"}>
+        {row.getValue("isRenting") ? "Leier" : "Leier ikke"}
+      </Badge>
     ),
   },
   {
@@ -74,7 +77,11 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     header: "Nåværende leie",
     cell: ({ row }) => {
       const amount = row.getValue("currentRent")
-      return amount ? `${amount.toLocaleString()} NOK` : "N/A"
+      return amount ? (
+        `${amount.toLocaleString()} NOK`
+      ) : (
+        <Badge variant="secondary">Ingen leie</Badge>
+      )
     },
   },
   {
@@ -82,7 +89,11 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     header: "Kontraktstart",
     cell: ({ row }) => {
       const date = row.getValue("contractStartDate")
-      return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
+      return date ? (
+        format(new Date(date), "dd.MM.yyyy")
+      ) : (
+        <Badge variant="secondary">Ingen dato</Badge>
+      )
     },
   },
   {
@@ -90,7 +101,11 @@ export const TenantColumns: ColumnDef<tenants>[] = [
     header: "Kontraktslutt",
     cell: ({ row }) => {
       const date = row.getValue("contractEndDate")
-      return date ? format(new Date(date), "dd.MM.yyyy") : "N/A"
+      return date ? (
+        format(new Date(date), "dd.MM.yyyy")
+      ) : (
+        <Badge variant="secondary">Ingen dato</Badge>
+      )
     },
   },
   {
