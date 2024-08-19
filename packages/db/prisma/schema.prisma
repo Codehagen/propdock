@@ -375,7 +375,7 @@ model TenantCommunications {
 }
 
 model Timeline {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @map("updated_at")
   type       String
