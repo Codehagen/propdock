@@ -98,6 +98,7 @@ model Workspace {
   accessTokens     WorkspaceAccessToken[]
   users            User[]
   internalInvoices InternalInvoice[]
+  invites          WorkspaceInvite[]
 }
 
 model Property {
@@ -221,6 +222,8 @@ model Contract {
   indexValue       Float?
   indexationDate   DateTime?
   baseRent         Float?
+  currency         String?
+  currencyIso      String?
   rentPeriod       Int?
   vatTerms         String?
   businessCategory String?
@@ -467,6 +470,18 @@ model FinancialAnalysisBuildingCosts {
   financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
 
   @@map("financial_analysis_building_costs")
+}
+
+model WorkspaceInvite {
+  id          String    @id @default(cuid())
+  email       String
+  expires     DateTime
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  createdAt   DateTime  @default(now())
+
+  @@unique([email, workspaceId])
+  @@index([workspaceId])
 }
 
 enum ContractType {
