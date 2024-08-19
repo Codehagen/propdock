@@ -66,6 +66,7 @@ model User {
   apiKeys                UserApiKey[]
   accounts               Account[]
   sessions               Session[]
+  timeline               Timeline[]
   workspace              Workspace?             @relation(fields: [workspaceId], references: [id])
 
   @@map("users")
@@ -370,6 +371,18 @@ model TenantCommunications {
   userId     String
   tenantId   String
   tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Timeline {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @map("updated_at")
+  type       String
+  identifier String?
+  title      String
+  content    String
+  userId     String
   user       User     @relation(fields: [userId], references: [id])
 }
 
