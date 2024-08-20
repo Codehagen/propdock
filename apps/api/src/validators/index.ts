@@ -1,138 +1,195 @@
-import { OpenAPIHono, z } from "@hono/zod-openapi";
-import * as yaml from "yaml";
+import { OpenAPIHono, z } from "@hono/zod-openapi"
+import * as yaml from "yaml"
 import {
   createDocument,
   extendZodWithOpenApi,
   ZodOpenApiOperationObject,
-} from "zod-openapi";
+} from "zod-openapi"
 
-extendZodWithOpenApi(z);
+extendZodWithOpenApi(z)
 
-const app = new OpenAPIHono();
-const registry = app.openAPIRegistry;
+const app = new OpenAPIHono()
+const registry = app.openAPIRegistry
 
-// Define the Event Schema with detailed OpenAPI extensions
-export const EventSchema = z
+// User Schema
+const UserSchema = z
   .object({
-    name: z.string().openapi({
-      description: "The name of the event.",
-      example: "Annual Meetup",
-    }),
-    channel: z.string().openapi({
-      description: "The channel name associated with the event.",
-      example: "Main Channel",
-    }),
-    userId: z.string().openapi({
-      description: "Associated ID that you want to have on the user",
-      example: "user999 OR John Doe",
-    }),
-    icon: z.string().optional().openapi({
-      description: "An optional icon for visual representation of the event.",
-      example: "icon_event.png",
-    }),
-    notify: z.boolean().openapi({
-      description:
-        "Flag indicating whether users should be notified about the event.",
-      example: true,
-    }),
-    tags: z
-      .record(z.string())
-      .optional()
-      .openapi({
-        description:
-          "Tags providing additional context or categorization for the event.",
-        example: { Networking: "Yes", Tech: "Yes" },
-      }),
+    id: z.number(),
+    email: z.string().email(),
+    workspaceId: z.string().nullable(),
+    apiKey: z.string(),
   })
-  .openapi({ ref: "Event" });
+  .openapi({ ref: "User" })
 
-// Schema for creating an event
-export const EventCreateSchema = z
+// Property Schema
+const PropertySchema = z
   .object({
-    name: z.string().openapi({
-      description: "The name of the event.",
-      example: "You got a new payment",
-    }),
-    channel: z.string().openapi({
-      description: "The channel name where the event is registered.",
-      example: "new-channel-name",
-    }),
-    userId: z.string().openapi({
-      description: "The ID of the user associated with the event.",
-      example: "user-999",
-    }),
-    icon: z.string().optional().openapi({
-      description: "An optional icon representing the event.",
-      example: "🎉",
-    }),
-    notify: z.boolean().openapi({
-      description: "Whether to notify users about the event.",
-      example: true,
-    }),
-    tags: z
-      .record(z.string())
-      .optional()
-      .openapi({
-        description: "Additional tags providing context for the event.",
-        example: { plan: "premium", cycle: "monthly" },
-      }),
+    id: z.string(),
+    name: z.string(),
+    type: z.string(),
+    workspaceId: z.string(),
   })
-  .openapi({ ref: "EventCreate" });
+  .openapi({ ref: "Property" })
 
-// CRUD operations for Events
-export const logEvent: ZodOpenApiOperationObject = {
-  operationId: "logEvent",
-  summary: "Log a new event",
-  description: "Logs a new event for a user in a specified channel.",
+// Building Schema
+const BuildingSchema = z
+  .object({
+    id: z.string(),
+    propertyId: z.string(),
+    // Add other relevant fields based on your application's needs
+  })
+  .openapi({ ref: "Building" })
+
+// Property Create Schema
+const PropertyCreateSchema = z
+  .object({
+    name: z.string(),
+    type: z.string(),
+  })
+  .openapi({ ref: "PropertyCreate" })
+
+// Building Create Schema
+const BuildingCreateSchema = z
+  .object({
+    propertyId: z.string(),
+    // Add other relevant fields based on your application's needs
+  })
+  .openapi({ ref: "BuildingCreate" })
+
+// CRUD operations for Properties
+const createProperty: ZodOpenApiOperationObject = {
+  operationId: "createProperty",
+  summary: "Create a new property",
   requestBody: {
-    description: "Details of the event to log.",
     content: {
       "application/json": {
-        schema: EventCreateSchema,
+        schema: PropertyCreateSchema,
       },
     },
   },
   responses: {
     "201": {
-      description: "Event logged successfully.",
+      description: "Property created successfully.",
       content: {
         "application/json": {
-          schema: EventSchema,
+          schema: PropertySchema,
         },
       },
-    },
-    "404": {
-      description: "Channel or project not found.",
     },
     "400": {
       description: "Invalid input data.",
     },
+    "500": {
+      description: "Server error.",
+    },
   },
-};
+}
+
+const getAllProperties: ZodOpenApiOperationObject = {
+  operationId: "getAllProperties",
+  summary: "Get all properties for a workspace",
+  responses: {
+    "200": {
+      description: "List of properties retrieved successfully.",
+      content: {
+        "application/json": {
+          schema: z.array(PropertySchema),
+        },
+      },
+    },
+    "500": {
+      description: "Server error.",
+    },
+  },
+}
+
+// CRUD operations for Buildings
+const createBuilding: ZodOpenApiOperationObject = {
+  operationId: "createBuilding",
+  summary: "Create a new building",
+  requestBody: {
+    content: {
+      "application/json": {
+        schema: BuildingCreateSchema,
+      },
+    },
+  },
+  responses: {
+    "201": {
+      description: "Building created successfully.",
+      content: {
+        "application/json": {
+          schema: BuildingSchema,
+        },
+      },
+    },
+    "400": {
+      description: "Invalid input data.",
+    },
+    "500": {
+      description: "Server error.",
+    },
+  },
+}
+
+const getAllBuildings: ZodOpenApiOperationObject = {
+  operationId: "getAllBuildings",
+  summary: "Get all buildings for a workspace",
+  responses: {
+    "200": {
+      description: "List of buildings retrieved successfully.",
+      content: {
+        "application/json": {
+          schema: z.array(BuildingSchema),
+        },
+      },
+    },
+    "500": {
+      description: "Server error.",
+    },
+  },
+}
 
 // Generate an OpenAPI document
-const document = createDocument({
-  openapi: "3.1.0",
-  info: {
-    title: "User and Event Management API",
-    description: "API for managing users, their events, and projects.",
-    version: "1.0.0",
-  },
-  servers: [
-    {
-      url: "https://example.com",
-      description: "The production server.",
+export function generateOpenAPIDocument() {
+  return createDocument({
+    openapi: "3.1.0",
+    info: {
+      title: "Propdock API",
+      description: "API for managing properties and buildings.",
+      version: "1.0.0",
     },
-  ],
-  paths: {
-    "/events": { post: logEvent },
-  },
-  components: {
-    schemas: {
-      Event: EventSchema,
-      EventCreate: EventCreateSchema,
+    servers: [
+      {
+        url: "https://api.vegard.workers.dev",
+        description: "Production server.",
+      },
+    ],
+    paths: {
+      "/properties": {
+        post: createProperty,
+        get: getAllProperties,
+      },
+      "/buildings": {
+        post: createBuilding,
+        get: getAllBuildings,
+      },
     },
-  },
-});
-
-console.log(yaml.stringify(document));
+    components: {
+      schemas: {
+        User: UserSchema,
+        Property: PropertySchema,
+        Building: BuildingSchema,
+        PropertyCreate: PropertyCreateSchema,
+        BuildingCreate: BuildingCreateSchema,
+      },
+      securitySchemes: {
+        Bearer: {
+          type: "http",
+          scheme: "bearer",
+        },
+      },
+    },
+    security: [{ Bearer: [] }],
+  })
+}
