@@ -37,7 +37,6 @@ export default async function EconomySettings({
   try {
     const tenantDetails = await getTenantDetails(tenantId)
     const contractDetails = await getContractDetails(tenantId)
-    console.log(contractDetails)
 
     if (!tenantDetails) {
       return (

@@ -25,7 +25,7 @@ export async function createContract(contractData) {
       select: {
         id: true,
       },
-    });
+    })
 
     if (!userWorkspace) {
       console.error("No workspace found for this user.")
@@ -36,21 +36,21 @@ export async function createContract(contractData) {
     const newContract = await prisma.contract.create({
       data: {
         workspace: {
-          connect: { id: userWorkspace.id }
+          connect: { id: userWorkspace.id },
         },
         tenant: {
-          connect: { id: contractData.tenantId }
+          connect: { id: contractData.tenantId },
         },
         property: {
-          connect: { id: contractData.propertyId }
+          connect: { id: contractData.propertyId },
         },
         building: {
-          connect: { id: contractData.buildingId }
+          connect: { id: contractData.buildingId },
         },
         floors: contractData.floors,
         officeSpaces: contractData.officeSpaces,
         contact: {
-          connect: { id: contractData.contactId }
+          connect: { id: contractData.contactId },
         },
         landlordOrgnr: contractData.landlordOrgnr,
         landlordName: contractData.landlordName,
@@ -67,14 +67,19 @@ export async function createContract(contractData) {
         indexValue: contractData.indexValue,
         indexationDate: contractData.indexationDate,
         baseRent: contractData.baseRent,
+        currency: contractData.currency || "NOK", // Default to NOK if not provided
+        currencyIso: contractData.currencyIso || "NOK", // Default to NOK if not provided
         rentPeriod: contractData.rentPeriod,
         vatTerms: contractData.vatTerms,
         businessCategory: contractData.businessCategory,
         collateral: contractData.collateral,
+        isContinuousRent: contractData.isContinuousRent || false,
       },
     })
 
-    console.log(`Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`)
+    console.log(
+      `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`,
+    )
 
     return { success: true, contract: newContract }
   } catch (error) {
