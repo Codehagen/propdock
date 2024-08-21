@@ -54,6 +54,9 @@ export function ContractCheck({
         vatTerms: "",
         businessCategory: "",
         collateral: null,
+        currency: "NOK", // Default to NOK
+        currencyIso: "NOK", // Default to NOK
+        isContinuousRent: false,
       }
 
       const result = await createContract(contractData)

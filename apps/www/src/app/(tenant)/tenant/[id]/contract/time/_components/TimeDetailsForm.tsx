@@ -54,6 +54,7 @@ const TimeSchema = z.object({
   }),
   isRenewable: z.boolean().optional(),
   renewablePeriod: z.string().optional().nullable(),
+  isContinuousRent: z.boolean(),
 })
 
 export function TimeDetailsForm({ tenantDetails }) {
@@ -75,6 +76,7 @@ export function TimeDetailsForm({ tenantDetails }) {
       renewablePeriod: tenantDetails.contracts[0]?.renewablePeriod
         ? tenantDetails.contracts[0]?.renewablePeriod.toString()
         : "",
+      isContinuousRent: tenantDetails.contracts[0]?.isContinuousRent || false,
     },
   })
 
@@ -92,6 +94,7 @@ export function TimeDetailsForm({ tenantDetails }) {
         endDate,
         isRenewable: data.isRenewable,
         renewablePeriod,
+        isContinuousRent: data.isContinuousRent,
       })
 
       if (!result.success) {
@@ -254,6 +257,23 @@ export function TimeDetailsForm({ tenantDetails }) {
                 )}
               />
             )}
+            <FormField
+              control={form.control}
+              name="isContinuousRent"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Løpende leie</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </CardContent>
           <CardFooter className="justify-between space-x-2">
             <Button type="submit" disabled={isLoading}>

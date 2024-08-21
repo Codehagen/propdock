@@ -227,6 +227,7 @@ model Contract {
   indexValue       Float?
   indexationDate   DateTime?
   baseRent         Float?
+  isContinuousRent Boolean         @default(false)
   currency         String?
   currencyIso      String?
   rentPeriod       Int?
