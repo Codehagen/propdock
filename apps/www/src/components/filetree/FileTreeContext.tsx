@@ -20,23 +20,23 @@ export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [fileTreeData, setFileTreeData] = useState<TreeViewElement[]>([
     {
       id: "1",
-      name: "src",
+      name: "Eiendom",
       children: [
         {
           id: "2",
-          name: "app.tsx",
+          name: "fullmakt.pdf",
         },
         {
           id: "3",
-          name: "components",
+          name: "Kontrakter",
           children: [
             {
               id: "20",
-              name: "pages",
+              name: "Eiendom 1",
               children: [
                 {
                   id: "21",
-                  name: "interface.ts",
+                  name: "kontrakt.pdf",
                 },
               ],
             },
@@ -44,11 +44,11 @@ export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
         },
         {
           id: "6",
-          name: "ui",
+          name: "Økonomi",
           children: [
             {
               id: "7",
-              name: "carousel.tsx",
+              name: "budsjett.excel",
             },
           ],
         },

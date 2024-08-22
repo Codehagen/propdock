@@ -55,6 +55,11 @@ export default async function DashboardLayout({
       href: `/tenant/${params.id}/esign`,
       icon: "signature",
     },
+    {
+      title: "Dokumenter",
+      href: `/tenant/${params.id}/files`,
+      icon: "file",
+    },
   ]
 
   return (

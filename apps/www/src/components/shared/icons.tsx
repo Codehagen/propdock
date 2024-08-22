@@ -93,6 +93,7 @@ export const Icons = {
   percent: Percent,
   signature: FileSignature,
   barchart: BarChart,
+  file: File,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
