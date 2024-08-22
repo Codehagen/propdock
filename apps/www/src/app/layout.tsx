@@ -1,20 +1,19 @@
-import "../styles/globals.css";
+import "../styles/globals.css"
 
-import { Metadata } from "next";
-import { fontHeading, fontSans, fontUrban } from "@/assets/fonts";
+import { Metadata } from "next"
+import { fontHeading, fontSans, fontUrban } from "@/assets/fonts"
+import { Toaster } from "@propdock/ui/components/sonner"
 
-import { Toaster } from "@dingify/ui/components/sonner";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Analytics } from "@/components/analytics";
-import { ModalProvider } from "@/components/modal-provider";
-import { Providers } from "@/components/providers";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { Analytics } from "@/components/analytics"
 import GlobalSearch from "@/components/command-window"
+import { ModalProvider } from "@/components/modal-provider"
+import { Providers } from "@/components/providers"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const metadata = {
@@ -63,7 +62,7 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
-};
+}
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -84,8 +83,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ModalProvider />
           <TailwindIndicator />
         </Providers>
-        <GlobalSearch/> 
+        <GlobalSearch />
       </body>
     </html>
-  );
+  )
 }

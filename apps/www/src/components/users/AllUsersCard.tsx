@@ -1,21 +1,16 @@
-"use client";
+"use client"
 
-import { useRouter } from "next/navigation";
-import { deleteCustomer } from "@/actions/Dingify/delete-customer";
-import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import { CircleIcon, Tag, TrashIcon } from "lucide-react";
-import { toast } from "sonner";
-
-import { Badge } from "@dingify/ui/components/badge";
-import { Button } from "@dingify/ui/components/button";
+import { useRouter } from "next/navigation"
+import { deleteCustomer } from "@/actions/Dingify/delete-customer"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,34 +18,38 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Separator } from "@dingify/ui/components/separator";
+} from "@propdock/ui/components/dropdown-menu"
+import { Separator } from "@propdock/ui/components/separator"
+import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
+import { format } from "date-fns"
+import { CircleIcon, Tag, TrashIcon } from "lucide-react"
+import { toast } from "sonner"
 
-import { EditCustomerSheet } from "./EditCustomerSheet";
+import { EditCustomerSheet } from "./EditCustomerSheet"
 
 export function AllUsersCards({ customerDetails }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleDelete = async (customerId) => {
     // Add logic to delete customer if needed
     try {
-      deleteCustomer(customerId);
-      toast.success("The customer has been deleted successfully.");
-      router.refresh();
+      deleteCustomer(customerId)
+      toast.success("The customer has been deleted successfully.")
+      router.refresh()
     } catch (error) {
-      toast.error("There was an error deleting the customer.");
-      console.error("Error deleting customer:", error);
+      toast.error("There was an error deleting the customer.")
+      console.error("Error deleting customer:", error)
     }
-  };
+  }
 
   const handleEdit = (customerId) => {
     // Display a toast message on edit click
-    toast.info(`Edit customer with ID: ${customerId}`);
-  };
+    toast.info(`Edit customer with ID: ${customerId}`)
+  }
 
   const handleRedirect = (customerId) => {
-    router.push(`/dashboard/users/${customerId}`);
-  };
+    router.push(`/dashboard/users/${customerId}`)
+  }
 
   return (
     <div>
@@ -116,5 +115,5 @@ export function AllUsersCards({ customerDetails }) {
         </Card>
       ))}
     </div>
-  );
+  )
 }

@@ -1,6 +1,26 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
+import { Button } from "@propdock/ui/components/button"
+import { Checkbox } from "@propdock/ui/components/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@propdock/ui/components/dropdown-menu"
+import { Input } from "@propdock/ui/components/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@propdock/ui/components/table"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,29 +32,8 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-
-import { Button } from "@dingify/ui/components/button";
-import { Checkbox } from "@dingify/ui/components/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Input } from "@dingify/ui/components/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@dingify/ui/components/table";
+} from "@tanstack/react-table"
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
 const data: SalaryBand[] = [
   {
@@ -92,14 +91,14 @@ const data: SalaryBand[] = [
     seniority: "Senior",
     salary: "800,000 NOK",
   },
-];
+]
 
 export type SalaryBand = {
-  id: string;
-  title: string;
-  seniority: string;
-  salary: string;
-};
+  id: string
+  title: string
+  seniority: string
+  salary: string
+}
 
 export const columns: ColumnDef<SalaryBand>[] = [
   {
@@ -117,16 +116,16 @@ export const columns: ColumnDef<SalaryBand>[] = [
     header: "Lønn",
     cell: ({ row }) => <div>{row.getValue("salary")}</div>,
   },
-];
+]
 
 export function OpenSalaryTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
-  );
+  )
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
     data,
@@ -145,7 +144,7 @@ export function OpenSalaryTable() {
       columnVisibility,
       rowSelection,
     },
-  });
+  })
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -168,7 +167,7 @@ export function OpenSalaryTable() {
                               header.getContext(),
                             )}
                       </TableHead>
-                    );
+                    )
                   })}
                 </TableRow>
               ))}
@@ -205,5 +204,5 @@ export function OpenSalaryTable() {
         </div>
       </div>
     </section>
-  );
+  )
 }

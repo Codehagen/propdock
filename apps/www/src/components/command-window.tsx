@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,7 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@dingify/ui/components/command"
+} from "@propdock/ui/components/command"
 
 export default function GlobalSearch() {
   const [open, setOpen] = useState(false)

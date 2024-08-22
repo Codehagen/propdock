@@ -1,11 +1,10 @@
-import Balancer from "react-wrap-balancer";
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@dingify/ui/components/accordion";
+} from "@propdock/ui/components/accordion"
+import Balancer from "react-wrap-balancer"
 
 const pricingFaqData = [
   {
@@ -44,7 +43,7 @@ const pricingFaqData = [
     answer:
       "The Pro plan includes everything in the Basic plan plus advanced analytics, priority support, higher event volume, custom API integrations, and access to new features before they're publicly released.",
   },
-];
+]
 
 export function PricingFaq() {
   return (
@@ -70,5 +69,5 @@ export function PricingFaq() {
         ))}
       </Accordion>
     </section>
-  );
+  )
 }
