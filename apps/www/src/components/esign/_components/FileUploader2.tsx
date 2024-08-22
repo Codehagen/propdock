@@ -3,13 +3,12 @@
 import type { DropzoneProps, FileRejection } from "react-dropzone"
 import * as React from "react"
 import Image from "next/image"
+import { Button } from "@propdock/ui/components/button"
+import { Progress } from "@propdock/ui/components/progress"
+import { ScrollArea } from "@propdock/ui/components/scroll-area"
 import { Cross2Icon, FileTextIcon, UploadIcon } from "@radix-ui/react-icons"
 import Dropzone from "react-dropzone"
 import { toast } from "sonner"
-
-import { Button } from "@dingify/ui/components/button"
-import { Progress } from "@dingify/ui/components/progress"
-import { ScrollArea } from "@dingify/ui/components/scroll-area"
 
 import { cn } from "@/lib/utils"
 import { useControllableState } from "@/hooks/use-controllable-state"

@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
-import { useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useId, useRef, useState } from "react"
+import Link from "next/link"
+import { buttonVariants } from "@propdock/ui/components/button"
+import { motion, useAnimation, useInView } from "framer-motion"
 import {
   BarChart,
   Building,
@@ -15,13 +16,11 @@ import {
   Plug,
   Rss,
   Shield,
-} from "lucide-react";
+} from "lucide-react"
 
-import { buttonVariants } from "@dingify/ui/components/button";
+import { cn } from "@/lib/utils"
 
-import { cn } from "@/lib/utils";
-
-import Marquee from "../ui/marquee";
+import Marquee from "../ui/marquee"
 
 const tiles = [
   {
@@ -60,39 +59,39 @@ const tiles = [
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-orange-600 via-rose-600 to-violet-600 opacity-70 blur-[20px] filter"></div>
     ),
   },
-];
+]
 
 const shuffleArray = (array: any[]) => {
   let currentIndex = array.length,
-    randomIndex;
+    randomIndex
   // While there remain elements to shuffle.
   while (currentIndex !== 0) {
     // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
+    ;[array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
       array[currentIndex],
-    ];
+    ]
   }
-  return array;
-};
+  return array
+}
 
 const Card = (card: { icon: JSX.Element; bg: JSX.Element }) => {
-  const id = useId();
-  const controls = useAnimation();
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  const id = useId()
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true })
 
   useEffect(() => {
     if (inView) {
       controls.start({
         opacity: 1,
         transition: { delay: Math.random() * 2, ease: "easeOut", duration: 1 },
-      });
+      })
     }
-  }, [controls, inView]);
+  }, [controls, inView])
 
   return (
     <motion.div
@@ -111,24 +110,24 @@ const Card = (card: { icon: JSX.Element; bg: JSX.Element }) => {
       {card.icon}
       {card.bg}
     </motion.div>
-  );
-};
+  )
+}
 
 export default function CallToActionSection() {
-  const [randomTiles1, setRandomTiles1] = useState<typeof tiles>([]);
-  const [randomTiles2, setRandomTiles2] = useState<typeof tiles>([]);
-  const [randomTiles3, setRandomTiles3] = useState<typeof tiles>([]);
-  const [randomTiles4, setRandomTiles4] = useState<typeof tiles>([]);
+  const [randomTiles1, setRandomTiles1] = useState<typeof tiles>([])
+  const [randomTiles2, setRandomTiles2] = useState<typeof tiles>([])
+  const [randomTiles3, setRandomTiles3] = useState<typeof tiles>([])
+  const [randomTiles4, setRandomTiles4] = useState<typeof tiles>([])
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Ensures this runs client-side
-      setRandomTiles1(shuffleArray([...tiles]));
-      setRandomTiles2(shuffleArray([...tiles]));
-      setRandomTiles3(shuffleArray([...tiles]));
-      setRandomTiles4(shuffleArray([...tiles]));
+      setRandomTiles1(shuffleArray([...tiles]))
+      setRandomTiles2(shuffleArray([...tiles]))
+      setRandomTiles3(shuffleArray([...tiles]))
+      setRandomTiles4(shuffleArray([...tiles]))
     }
-  }, []);
+  }, [])
 
   return (
     <section id="cta">
@@ -207,5 +206,5 @@ export default function CallToActionSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

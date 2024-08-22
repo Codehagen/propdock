@@ -1,4 +1,4 @@
-import { Separator } from "@dingify/ui/components/separator";
+import { Separator } from "@propdock/ui/components/separator"
 
 export default function OpenUsersText() {
   return (
@@ -15,5 +15,5 @@ export default function OpenUsersText() {
         </p>
       </div>
     </section>
-  );
+  )
 }

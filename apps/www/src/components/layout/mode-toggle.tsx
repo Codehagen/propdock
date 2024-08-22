@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Icons } from "@/components/shared/icons";
-import { useTheme } from "next-themes";
-
-import { Button } from "@dingify/ui/components/button";
+import * as React from "react"
+import { Button } from "@propdock/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
+} from "@propdock/ui/components/dropdown-menu"
+import { useTheme } from "next-themes"
+
+import { Icons } from "@/components/shared/icons"
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme } = useTheme()
 
   return (
     <DropdownMenu>
@@ -39,5 +39,5 @@ export function ModeToggle() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { getPropertyDetails } from "@/actions/get-property-details"
-
-import { Badge } from "@dingify/ui/components/badge"
+import { Badge } from "@propdock/ui/components/badge"
 import {
   Card,
   CardContent,
@@ -9,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 
 import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet"
 import { DashboardHeader } from "@/components/dashboard/header"

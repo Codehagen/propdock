@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -8,17 +8,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
-import { Input } from "@dingify/ui/components/input";
-import { Label } from "@dingify/ui/components/label";
+} from "@propdock/ui/components/card"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select";
-import { Textarea } from "@dingify/ui/components/textarea";
+} from "@propdock/ui/components/select"
+import { Textarea } from "@propdock/ui/components/textarea"
 
 export function InputRightSideTest() {
   return (
@@ -81,5 +81,5 @@ export function InputRightSideTest() {
         <Button>Submit</Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

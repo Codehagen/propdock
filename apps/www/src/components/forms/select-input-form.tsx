@@ -1,69 +1,68 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { selectOption } from "@/actions/Dingify/select-option";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { selectOption } from "@/actions/Dingify/select-option"
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormLabel,
-} from "@dingify/ui/components//form";
-import { Switch } from "@dingify/ui/components//switch";
+} from "@propdock/ui/components//form"
+import { Switch } from "@propdock/ui/components//switch"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import { X } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import * as z from "zod"
 
 export function SelectInputForm({ options, image }) {
-  const router = useRouter();
-  const [activeSwitch, setActiveSwitch] = useState(null);
+  const router = useRouter()
+  const [activeSwitch, setActiveSwitch] = useState(null)
 
   const dynamicSchema = options.reduce((acc, option) => {
-    acc[option.key] = z.boolean();
-    return acc;
-  }, {});
+    acc[option.key] = z.boolean()
+    return acc
+  }, {})
 
   const form = useForm({
     resolver: zodResolver(z.object(dynamicSchema)),
-  });
+  })
 
   const handleSwitchChange = async (option) => {
-    setActiveSwitch(option.label);
+    setActiveSwitch(option.label)
 
     // Get the content of the selected option
-    const selectedOptionContent = option.description;
+    const selectedOptionContent = option.description
 
     // Call the server action to update the selected option in the database
     try {
-      const result = await selectOption(option.imageId, selectedOptionContent); // Use selectedOptionContent here
+      const result = await selectOption(option.imageId, selectedOptionContent) // Use selectedOptionContent here
       if (!result.success) {
         // If an error occurs, log it and display a toast notification
-        console.error("Failed to update the selected option:", result.error);
-        toast.error("Failed to update the selected option. Please try again.");
+        console.error("Failed to update the selected option:", result.error)
+        toast.error("Failed to update the selected option. Please try again.")
       } else {
-        router.refresh();
-        console.log("Selected option updated successfully");
+        router.refresh()
+        console.log("Selected option updated successfully")
       }
     } catch (error) {
-      console.error("An unexpected error occurred:", error);
-      toast.error("An unexpected error occurred. Please try again.");
+      console.error("An unexpected error occurred:", error)
+      toast.error("An unexpected error occurred. Please try again.")
     }
-  };
+  }
 
   const onSubmit = (data) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
     <Form {...form}>
@@ -103,7 +102,7 @@ export function SelectInputForm({ options, image }) {
                 render={({ field }) => (
                   <div
                     onClick={() => {
-                      handleSwitchChange(option);
+                      handleSwitchChange(option)
                     }}
                     className="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border p-4"
                   >
@@ -120,7 +119,7 @@ export function SelectInputForm({ options, image }) {
                         type="submit"
                         checked={activeSwitch === option.label}
                         onClick={() => {
-                          handleSwitchChange(option);
+                          handleSwitchChange(option)
                         }}
                         {...field}
                       />
@@ -133,5 +132,5 @@ export function SelectInputForm({ options, image }) {
         )}
       </form>
     </Form>
-  );
+  )
 }

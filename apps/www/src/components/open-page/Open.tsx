@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 
 export default function OpenCardSection() {
   return (
@@ -106,5 +106,5 @@ export default function OpenCardSection() {
         </Card>
       </div>
     </section>
-  );
+  )
 }

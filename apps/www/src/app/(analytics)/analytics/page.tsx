@@ -2,13 +2,12 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { getAnalyses } from "@/actions/get-analyst"
-
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Table,
   TableBody,
@@ -16,13 +15,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@dingify/ui/components/tabs"
+} from "@propdock/ui/components/tabs"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"

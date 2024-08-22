@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
-import { DocsButton } from "../buttons/DocsButton";
+import { DocsButton } from "../buttons/DocsButton"
 
 export default function NoPhotoPlaceholder() {
   return (
@@ -20,5 +20,5 @@ export default function NoPhotoPlaceholder() {
         <DocsButton />
       </div>
     </EmptyPlaceholder>
-  );
+  )
 }

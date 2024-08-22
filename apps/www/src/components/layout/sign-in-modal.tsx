@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import { Button } from "@propdock/ui/components/button"
 import { signIn } from "next-auth/react"
-
-import { Button } from "@dingify/ui/components/button"
 
 import { siteConfig } from "@/config/site"
 import { useSigninModal } from "@/hooks/use-signin-modal"

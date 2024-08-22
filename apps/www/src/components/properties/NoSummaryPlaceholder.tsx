@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { Button } from "@propdock/ui/components/button"
 
-import { Button } from "@dingify/ui/components/button";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 export default function NoSummaryPlaceholder({ propertyId, slug }) {
   return (
@@ -14,5 +14,5 @@ export default function NoSummaryPlaceholder({ propertyId, slug }) {
       </EmptyPlaceholder.Description>
       <Button />
     </EmptyPlaceholder>
-  );
+  )
 }

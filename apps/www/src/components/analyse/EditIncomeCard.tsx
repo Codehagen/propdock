@@ -7,19 +7,14 @@ import {
   updateIncomeUnit,
 } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MinusCircle, PlusCircle } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Form,
   FormControl,
@@ -27,14 +22,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@dingify/ui/components/popover"
+} from "@propdock/ui/components/popover"
 import {
   Table,
   TableBody,
@@ -43,13 +38,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
-import { Textarea } from "@dingify/ui/components/textarea"
+} from "@propdock/ui/components/table"
+import { Textarea } from "@propdock/ui/components/textarea"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@dingify/ui/components/tooltip"
+} from "@propdock/ui/components/tooltip"
+import { MinusCircle, PlusCircle } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 import { cn } from "@/lib/utils"
 

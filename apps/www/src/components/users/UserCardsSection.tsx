@@ -1,11 +1,10 @@
-import { differenceInDays, format, formatDistanceToNow } from "date-fns"
-
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
+import { differenceInDays, format, formatDistanceToNow } from "date-fns"
 
 import { EmptyPlaceholder } from "../shared/empty-placeholder"
 

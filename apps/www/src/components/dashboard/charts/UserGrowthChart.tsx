@@ -1,5 +1,11 @@
-"use client";
+"use client"
 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@propdock/ui/components/card"
 import {
   Area,
   AreaChart,
@@ -8,14 +14,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@dingify/ui/components/card";
+} from "recharts"
 
 // Placeholder data for the past week
 const PREVIOUS_WEEK_DATA = [
@@ -25,7 +24,7 @@ const PREVIOUS_WEEK_DATA = [
   { name: "3rd Dec", users: 60 },
   { name: "4th Dec", users: 70 },
   { name: "5th Dec", users: 65 },
-];
+]
 
 export default function UserGrowthTrend() {
   return (
@@ -71,5 +70,5 @@ export default function UserGrowthTrend() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

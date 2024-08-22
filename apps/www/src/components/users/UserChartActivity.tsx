@@ -1,12 +1,4 @@
-"use client";
-
-import {
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+"use client"
 
 import {
   Card,
@@ -14,9 +6,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import { Legend, Line, LineChart, ResponsiveContainer, Tooltip } from "recharts"
 
-import { nFormatter } from "@/lib/utils";
+import { nFormatter } from "@/lib/utils"
 
 const lineChartData = [
   { month: "Jan", revenue: 400000, costs: 240000 },
@@ -31,12 +24,12 @@ const lineChartData = [
   { month: "Okt", revenue: 390000, costs: 46000 },
   { month: "Nov", revenue: 139000, costs: 22000 },
   { month: "Des", revenue: 240000, costs: 19000 },
-];
+]
 
 // Add net income to each data point
 lineChartData.forEach((data) => {
-  data.netIncome = data.revenue - data.costs;
-});
+  data.netIncome = data.revenue - data.costs
+})
 
 export function UserChartActivity() {
   return (
@@ -80,10 +73,10 @@ export function UserChartActivity() {
                           </span>
                         </div>
                       </div>
-                    );
+                    )
                   }
 
-                  return null;
+                  return null
                 }}
               />
               <Line
@@ -109,5 +102,5 @@ export function UserChartActivity() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

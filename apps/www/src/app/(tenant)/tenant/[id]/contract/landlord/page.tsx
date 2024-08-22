@@ -1,8 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"

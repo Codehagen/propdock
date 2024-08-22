@@ -1,8 +1,5 @@
-import { format } from "date-fns"
-import { File, MoreHorizontal, Pencil, Trash } from "lucide-react"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Button } from "@dingify/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -10,15 +7,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
-import { Separator } from "@dingify/ui/components/separator"
+} from "@propdock/ui/components/dropdown-menu"
+import { Separator } from "@propdock/ui/components/separator"
+import { format } from "date-fns"
+import { File, MoreHorizontal, Pencil, Trash } from "lucide-react"
 
 function formatNOK(amount: number): string {
   const formatter = new Intl.NumberFormat("no-NO", {

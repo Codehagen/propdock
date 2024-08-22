@@ -1,17 +1,12 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
-import { updatePropertyDetails } from "@/actions/Dingify/update-property-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 as Spinner } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-
-import { Input } from "@dingify/ui/components//input";
-import { Label } from "@dingify/ui/components//label";
-import { Textarea } from "@dingify/ui/components//textarea";
-import { Button } from "@dingify/ui/components/button";
+import React, { useState } from "react"
+import { updatePropertyDetails } from "@/actions/Dingify/update-property-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Input } from "@propdock/ui/components//input"
+import { Label } from "@propdock/ui/components//label"
+import { Textarea } from "@propdock/ui/components//textarea"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -19,7 +14,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import { Loader2 as Spinner } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import * as z from "zod"
 
 // Define your schema as per your requirements
 const propertyFormSchema = z.object({
@@ -29,29 +28,29 @@ const propertyFormSchema = z.object({
   p_rom: z.string(),
   bra: z.string(),
   // ... add other fields as necessary
-});
+})
 
 export function UpdatePropertyForm2({ defaultValues, propertyId }) {
-  const [isLoading, setIsLoading] = useState(false); // Add this line
+  const [isLoading, setIsLoading] = useState(false) // Add this line
   const form = useForm({
     resolver: zodResolver(propertyFormSchema),
     defaultValues: defaultValues,
-  });
+  })
 
   const onSubmit = async (data) => {
-    setIsLoading(true); // Start loading
+    setIsLoading(true) // Start loading
     try {
-      const response = await updatePropertyDetails(propertyId, data);
+      const response = await updatePropertyDetails(propertyId, data)
       if (response.success) {
-        toast.success("Property details updated successfully.");
+        toast.success("Property details updated successfully.")
       } else {
-        throw new Error(response.error);
+        throw new Error(response.error)
       }
     } catch (error) {
-      toast.error("Failed to update property details.");
+      toast.error("Failed to update property details.")
     }
-    setIsLoading(false); // Stop loading
-  };
+    setIsLoading(false) // Stop loading
+  }
 
   return (
     <Card>
@@ -110,5 +109,5 @@ export function UpdatePropertyForm2({ defaultValues, propertyId }) {
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

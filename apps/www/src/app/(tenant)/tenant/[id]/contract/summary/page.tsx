@@ -1,7 +1,6 @@
 import React from "react"
 import { getTenantDetails } from "@/actions/get-tenant-details"
-
-import { Card } from "@dingify/ui/components/card"
+import { Card } from "@propdock/ui/components/card"
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"

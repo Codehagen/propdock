@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import { Input } from "@propdock/ui/components/input"
+import { toast } from "sonner"
 
-import { Input } from "@dingify/ui/components/input";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils"
 
-type DocsSearchProps = React.HTMLAttributes<HTMLFormElement>;
+type DocsSearchProps = React.HTMLAttributes<HTMLFormElement>
 
 export function DocsSearch({ className, ...props }: DocsSearchProps) {
   function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
+    event.preventDefault()
 
     return toast.info("We're still working on the search.")
   }
@@ -30,5 +30,5 @@ export function DocsSearch({ className, ...props }: DocsSearchProps) {
         <span className="text-xs">⌘</span>K
       </kbd>
     </form>
-  );
+  )
 }

@@ -5,10 +5,7 @@ import type { User } from "@prisma/client"
 import { useTransition } from "react"
 import { updateUserName } from "@/actions/Dingify/update-user-name"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-
-import { buttonVariants } from "@dingify/ui/components/button"
+import { buttonVariants } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -16,9 +13,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
-import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
+} from "@propdock/ui/components/card"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 import { cn } from "@/lib/utils"
 import { userNameSchema } from "@/lib/validations/user"

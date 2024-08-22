@@ -1,12 +1,10 @@
-import { format } from "date-fns"
-
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Table,
   TableBody,
@@ -14,7 +12,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
+import { format } from "date-fns"
 
 interface AnalysisDetailsTableProps {
   details: any

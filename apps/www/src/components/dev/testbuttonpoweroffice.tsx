@@ -1,9 +1,8 @@
 "use client"
 
 import React from "react"
+import { Button } from "@propdock/ui/components/button"
 import axios from "axios"
-
-import { Button } from "@dingify/ui/components/button"
 
 const TestPowerofficeButton = () => {
   const handleOAuth = async () => {

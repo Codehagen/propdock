@@ -1,11 +1,9 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createChannel } from "@/actions/Dingify/create-channel";
-import { toast } from "sonner";
-
-import { Button } from "@dingify/ui/components/button";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { createChannel } from "@/actions/Dingify/create-channel"
+import { Button } from "@propdock/ui/components/button"
 import {
   Dialog,
   DialogContent,
@@ -14,37 +12,38 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@dingify/ui/components/dialog";
-import { Input } from "@dingify/ui/components/input";
-import { Label } from "@dingify/ui/components/label";
+} from "@propdock/ui/components/dialog"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
+import { toast } from "sonner"
 
 export function AddChannelButton() {
-  const [channelName, setChannelName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [channelName, setChannelName] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+    event.preventDefault()
+    setIsLoading(true)
 
     try {
-      const result = await createChannel(channelName);
+      const result = await createChannel(channelName)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to add channel");
+        throw new Error(result.error || "Failed to add channel")
       }
 
-      toast.success(`Channel "${channelName}" created successfully.`);
+      toast.success(`Channel "${channelName}" created successfully.`)
 
       // Optionally, you can refresh the page or navigate to the new channel
-      router.push(`/dashboard/channels/${result.channel?.id}`);
+      router.push(`/dashboard/channels/${result.channel?.id}`)
     } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+      toast.error(error.message)
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <Dialog>
@@ -90,5 +89,5 @@ export function AddChannelButton() {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

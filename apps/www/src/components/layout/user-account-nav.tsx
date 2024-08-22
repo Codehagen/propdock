@@ -3,6 +3,13 @@
 import type { User } from "next-auth"
 import Link from "next/link"
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@propdock/ui/components/dropdown-menu"
+import {
   Book,
   CreditCard,
   LayoutDashboard,
@@ -10,14 +17,6 @@ import {
   Settings,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
 
 import { UserAvatar } from "@/components/shared/user-avatar"
 

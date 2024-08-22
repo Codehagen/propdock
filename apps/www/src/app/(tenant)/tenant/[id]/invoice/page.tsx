@@ -1,9 +1,8 @@
 import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
 import { getWsApiKeys } from "@/actions/get-ws-api-keys"
+import { Button } from "@propdock/ui/components/button"
 import { getServerSession } from "next-auth/next"
-
-import { Button } from "@dingify/ui/components/button"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"

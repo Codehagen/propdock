@@ -5,11 +5,7 @@ import { createAnalysis } from "@/actions/create-analyse"
 import { getBuildings } from "@/actions/get-buildings" // Import this function
 import { getProperties } from "@/actions/get-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Form,
   FormControl,
@@ -17,15 +13,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select"
+} from "@propdock/ui/components/select"
 import {
   Sheet,
   SheetContent,
@@ -34,7 +30,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet"
+} from "@propdock/ui/components/sheet"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const AnalysisSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),

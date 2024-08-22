@@ -1,7 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
-
-import { Button, buttonVariants } from "@dingify/ui/components/button"
+import { Button, buttonVariants } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -9,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Table,
   TableBody,
@@ -19,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
 
 const leaseExpirationData = [
   {

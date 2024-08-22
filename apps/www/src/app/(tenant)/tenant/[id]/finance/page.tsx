@@ -1,15 +1,14 @@
 import { getContractDetails } from "@/actions/get-contract-details"
 import { getTenantDetails } from "@/actions/get-tenant-details"
-import { format } from "date-fns"
-import { Building, Home, Settings } from "lucide-react"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
+import { format } from "date-fns"
+import { Building, Home, Settings } from "lucide-react"
 
 import { EditContractSheet } from "@/components/buttons/EditContractDetails"
 import { DashboardHeader } from "@/components/dashboard/header"

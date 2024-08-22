@@ -1,18 +1,11 @@
-import {
-  ChevronDownIcon,
-  CircleIcon,
-  PlusIcon,
-  StarIcon,
-} from "@radix-ui/react-icons";
-
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -21,8 +14,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Separator } from "@dingify/ui/components/separator";
+} from "@propdock/ui/components/dropdown-menu"
+import { Separator } from "@propdock/ui/components/separator"
+import {
+  ChevronDownIcon,
+  CircleIcon,
+  PlusIcon,
+  StarIcon,
+} from "@radix-ui/react-icons"
 
 export function ChannelCard2({ channelDetails }) {
   return (
@@ -87,5 +86,5 @@ export function ChannelCard2({ channelDetails }) {
         </Card>
       ))}
     </div>
-  );
+  )
 }

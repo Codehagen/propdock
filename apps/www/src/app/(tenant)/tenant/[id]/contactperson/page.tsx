@@ -1,13 +1,12 @@
 import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Settings } from "lucide-react"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
+import { Settings } from "lucide-react"
 
 import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
 import { EditContactPersonSheet } from "@/components/buttons/EditContactPersonSheet"

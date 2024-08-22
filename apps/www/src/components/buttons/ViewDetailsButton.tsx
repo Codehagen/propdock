@@ -1,15 +1,13 @@
-"use client";
+"use client"
 
-import { BellIcon, InfoIcon } from "lucide-react";
-
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   Dialog,
   DialogContent,
@@ -17,7 +15,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-} from "@dingify/ui/components/dialog";
+} from "@propdock/ui/components/dialog"
+import { BellIcon, InfoIcon } from "lucide-react"
 
 export function ViewDetailsButton({ event }) {
   return (
@@ -87,5 +86,5 @@ export function ViewDetailsButton({ event }) {
         <DialogFooter></DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

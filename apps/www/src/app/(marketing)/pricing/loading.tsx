@@ -1,4 +1,4 @@
-import { Skeleton } from "@dingify/ui/components/skeleton";
+import { Skeleton } from "@propdock/ui/components/skeleton"
 
 export default function Loading() {
   return (
@@ -24,5 +24,5 @@ export default function Loading() {
 
       <hr className="container" />
     </div>
-  );
+  )
 }

@@ -2,10 +2,8 @@
 
 import type { ColumnDef } from "@tanstack/react-table"
 import Link from "next/link"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Button } from "@dingify/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { propertyLabels, propertyStatuses } from "./propertystatus"
 

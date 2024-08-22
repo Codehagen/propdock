@@ -1,25 +1,24 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import Balancer from "react-wrap-balancer";
-
-import { buttonVariants } from "@dingify/ui/components/button";
+import Link from "next/link"
+import { buttonVariants } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import Balancer from "react-wrap-balancer"
 
-import { getGreeting } from "@/lib/utils";
+import { getGreeting } from "@/lib/utils"
 
-import { cn } from "../../lib/utils";
-import { GetStartedButton } from "../buttons/GetStartedButton";
-import SalesFunnelChart from "./charts/SalesFunnelChart";
+import { cn } from "../../lib/utils"
+import { GetStartedButton } from "../buttons/GetStartedButton"
+import SalesFunnelChart from "./charts/SalesFunnelChart"
 
 export default function HeroSection2() {
-  const greeting = getGreeting();
+  const greeting = getGreeting()
   return (
     <section className="space-y-6 pb-12 pt-16 lg:py-6">
       <div className="container px-4 md:px-6">
@@ -83,5 +82,5 @@ export default function HeroSection2() {
         </div>
       </div>
     </section>
-  );
+  )
 }

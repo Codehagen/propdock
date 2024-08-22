@@ -2,10 +2,9 @@
 
 import React, { useState } from "react"
 import { deleteWsApiKey } from "@/actions/delete-ws-api-key"
+import { Button } from "@propdock/ui/components/button"
 import axios from "axios"
 import { toast } from "sonner"
-
-import { Button } from "@dingify/ui/components/button"
 
 interface ConnectorButtonProps {
   serviceName: string

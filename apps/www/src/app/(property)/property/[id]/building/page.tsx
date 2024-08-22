@@ -1,13 +1,12 @@
 import Link from "next/link"
 import { getPropertyDetails } from "@/actions/get-property-details"
-
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 
 import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet"
 import { DashboardHeader } from "@/components/dashboard/header"
@@ -65,7 +64,7 @@ export default async function PropertyPage({
               <AddBuildingSheet propertyId={propertyId} />
             </EmptyPlaceholder>
           ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
               {propertyDetails.buildings.map((building) => (
                 <Card key={building.id}>
                   <CardHeader className="mb-5 bg-gradient-to-b from-muted/50 to-muted/10">

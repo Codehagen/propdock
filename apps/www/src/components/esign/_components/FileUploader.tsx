@@ -11,6 +11,8 @@ import {
   useRef,
   useState,
 } from "react"
+import { buttonVariants } from "@propdock/ui/components/button"
+import { Input } from "@propdock/ui/components/input"
 import { Trash2 as RemoveIcon } from "lucide-react"
 import {
   DropzoneOptions,
@@ -19,9 +21,6 @@ import {
   useDropzone,
 } from "react-dropzone"
 import { toast } from "sonner"
-
-import { buttonVariants } from "@dingify/ui/components/button"
-import { Input } from "@dingify/ui/components/input"
 
 import { cn } from "@/lib/utils"
 

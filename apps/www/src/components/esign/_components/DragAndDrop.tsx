@@ -1,8 +1,7 @@
 import { useState } from "react"
+import { Button } from "@propdock/ui/components/button"
 import { FileIcon, UploadIcon, XIcon } from "lucide-react"
 import { DropzoneOptions, useDropzone } from "react-dropzone"
-
-import { Button } from "@dingify/ui/components/button"
 
 import { cn } from "@/lib/utils"
 

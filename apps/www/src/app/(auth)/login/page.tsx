@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
-import Link from "next/link";
-import { UserAuthForm } from "@/components/forms/user-auth-form";
-import { Icons } from "@/components/shared/icons";
-import { cn } from "@/lib/utils";
+import type { Metadata } from "next"
+import { Suspense } from "react"
+import Link from "next/link"
+import { buttonVariants } from "@propdock/ui/components/button"
 
-import { buttonVariants } from "@dingify/ui/components/button";
+import { cn } from "@/lib/utils"
+import { UserAuthForm } from "@/components/forms/user-auth-form"
+import { Icons } from "@/components/shared/icons"
 
 export const metadata: Metadata = {
   title: "Login",
   description: "Login to your account",
-};
+}
 
 export default function LoginPage() {
   return (
@@ -19,7 +19,7 @@ export default function LoginPage() {
         href="/"
         className={cn(
           buttonVariants({ variant: "outline", size: "sm" }),
-          "absolute left-4 top-4 md:left-8 md:top-8"
+          "absolute left-4 top-4 md:left-8 md:top-8",
         )}
       >
         <>
@@ -50,5 +50,5 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

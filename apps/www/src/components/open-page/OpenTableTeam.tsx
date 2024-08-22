@@ -7,6 +7,26 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table"
 import * as React from "react"
+import { Button } from "@propdock/ui/components/button"
+import { Checkbox } from "@propdock/ui/components/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@propdock/ui/components/dropdown-menu"
+import { Input } from "@propdock/ui/components/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@propdock/ui/components/table"
 import {
   flexRender,
   getCoreRowModel,
@@ -16,27 +36,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-
-import { Button } from "@dingify/ui/components/button"
-import { Checkbox } from "@dingify/ui/components/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
-import { Input } from "@dingify/ui/components/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@dingify/ui/components/table"
 
 const data: TeamMember[] = [
   {

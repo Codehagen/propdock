@@ -1,6 +1,5 @@
-import Link from "next/link";
-
-import { Button } from "@dingify/ui/components/button";
+import Link from "next/link"
+import { Button } from "@propdock/ui/components/button"
 import {
   Dialog,
   DialogContent,
@@ -9,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@dingify/ui/components/dialog";
-import { Input } from "@dingify/ui/components/input";
-import { Label } from "@dingify/ui/components/label";
+} from "@propdock/ui/components/dialog"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
 
 export function SubmitProperty() {
   return (
@@ -33,5 +32,5 @@ export function SubmitProperty() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -1,9 +1,8 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { updateUserLanguage } from "@/actions/Dingify/update-language";
-
-import { Button } from "@dingify/ui/components/button";
+import { useState } from "react"
+import { updateUserLanguage } from "@/actions/Dingify/update-language"
+import { Button } from "@propdock/ui/components/button"
 import {
   Select,
   SelectContent,
@@ -12,34 +11,34 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select";
+} from "@propdock/ui/components/select"
 
-import { useLanguageModal } from "@/hooks/use-language-modal";
-import { Modal } from "@/components/shared/modal";
+import { useLanguageModal } from "@/hooks/use-language-modal"
+import { Modal } from "@/components/shared/modal"
 
 // Add any additional imports for user feedback or styling
 
 export const LanguageModal = () => {
-  const languageModal = useLanguageModal();
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const languageModal = useLanguageModal()
+  const [selectedLanguage, setSelectedLanguage] = useState("")
 
   const handleLanguageSubmit = async () => {
     try {
-      const response = await updateUserLanguage(selectedLanguage);
+      const response = await updateUserLanguage(selectedLanguage)
       if (response.success) {
-        console.log("Language update successful");
+        console.log("Language update successful")
         // Optionally add user feedback here (like a toast notification)
       } else {
-        console.error("Language update failed:", response.error);
+        console.error("Language update failed:", response.error)
         // Optionally add error feedback here
       }
     } catch (error) {
-      console.error("Error updating language:", error);
+      console.error("Error updating language:", error)
       // Optionally add error feedback here
     } finally {
-      languageModal.onClose(); // Close the modal after submission
+      languageModal.onClose() // Close the modal after submission
     }
-  };
+  }
 
   return (
     <Modal
@@ -78,5 +77,5 @@ export const LanguageModal = () => {
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}

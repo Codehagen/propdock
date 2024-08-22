@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 
 import { AddContactPersonSheet } from "../buttons/AddContactPersonSheet"
 import { EmptyPlaceholder } from "../shared/empty-placeholder"

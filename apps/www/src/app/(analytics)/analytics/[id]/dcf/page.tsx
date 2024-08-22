@@ -1,13 +1,12 @@
 import Link from "next/link"
 import { getAnalysisDetails } from "@/actions/get-analysis-details"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@dingify/ui/components/tabs"
+} from "@propdock/ui/components/tabs"
 
 import { AnalysisDiagramDCF } from "@/components/analyse/AnalysisDiagramDCF"
 import { AnalysisTableDCF } from "@/components/analyse/AnalysisTableDCF"

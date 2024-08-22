@@ -3,12 +3,7 @@
 import { useEffect, useState } from "react"
 import { updateContract } from "@/actions/update-contract" // Import the update function
 import { zodResolver } from "@hookform/resolvers/zod"
-import { addYears, format, parseISO } from "date-fns"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -16,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Form,
   FormControl,
@@ -24,16 +19,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select"
-import { Switch } from "@dingify/ui/components/switch"
+} from "@propdock/ui/components/select"
+import { Switch } from "@propdock/ui/components/switch"
+import { addYears, format, parseISO } from "date-fns"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 // Define validation schema
 const TermsSchema = z.object({

@@ -7,21 +7,12 @@ import {
   quickDeleteOfficeSpace,
 } from "@/actions/create-quick-office-space"
 import { quickDeleteFloor } from "@/actions/update-floor-details"
-import {
-  ChevronDown,
-  MinusCircle,
-  MoreHorizontal,
-  PlusCircle,
-  Trash2,
-} from "lucide-react"
-import { toast } from "sonner"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@dingify/ui/components/collapsible"
+} from "@propdock/ui/components/collapsible"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -38,13 +29,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@dingify/ui/components/tooltip"
+} from "@propdock/ui/components/tooltip"
+import {
+  ChevronDown,
+  MinusCircle,
+  MoreHorizontal,
+  PlusCircle,
+  Trash2,
+} from "lucide-react"
+import { toast } from "sonner"
 
 import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet"
 import { EditFloorDetailsSheet } from "@/components/buttons/EditFloorDetailsSheet"

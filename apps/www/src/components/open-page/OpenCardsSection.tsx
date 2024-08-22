@@ -1,16 +1,15 @@
 import {
-  ActivityIcon,
-  GitBranchIcon,
-  GitPullRequestIcon,
-  StarIcon,
-} from "lucide-react";
-
-import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import {
+  ActivityIcon,
+  GitBranchIcon,
+  GitPullRequestIcon,
+  StarIcon,
+} from "lucide-react"
 
 // Static data - replace these with actual data fetched from GitHub if needed
 const githubData = {
@@ -18,7 +17,7 @@ const githubData = {
   openIssues: 43,
   mergedPRs: 366,
   totalContributors: 43,
-};
+}
 
 // @ts-ignore
 export default function OpenCardSection({ githubData }) {
@@ -67,5 +66,5 @@ export default function OpenCardSection({ githubData }) {
         </Card>
       </div>
     </section>
-  );
+  )
 }

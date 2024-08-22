@@ -1,14 +1,10 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useParams } from "next/navigation";
-import { updateFloorDetails } from "@/actions/update-floor-details";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
-import { Button } from "@dingify/ui/components/button";
+import { useState } from "react"
+import { useParams } from "next/navigation"
+import { updateFloorDetails } from "@/actions/update-floor-details"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@propdock/ui/components/button"
 import {
   Form,
   FormControl,
@@ -16,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form";
-import { Input } from "@dingify/ui/components/input";
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Sheet,
   SheetContent,
@@ -26,56 +22,59 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet";
+} from "@propdock/ui/components/sheet"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 // Define the validation schema
 const EditFloorDetailsSchema = z.object({
   number: z.number().min(1, "Floor number is required"),
   maxTotalKvm: z.number().min(1, "Total KVM is required"),
-});
+})
 
 export function EditFloorDetailsSheet({
   floorId,
   currentNumber,
   currentMaxTotalKvm,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(EditFloorDetailsSchema),
     defaultValues: {
       number: currentNumber,
       maxTotalKvm: currentMaxTotalKvm,
     },
-  });
-  const params = useParams();
+  })
+  const params = useParams()
   const propertyId = Array.isArray(params.propertyId)
     ? params.propertyId[0]
-    : params.propertyId;
+    : params.propertyId
   const buildingId = Array.isArray(params.buildingId)
     ? params.buildingId[0]
-    : params.buildingId;
-  const currentPath = `/property/${propertyId}/building/${buildingId}`;
+    : params.buildingId
+  const currentPath = `/property/${propertyId}/building/${buildingId}`
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     try {
-      const result = await updateFloorDetails(floorId, data, currentPath);
+      const result = await updateFloorDetails(floorId, data, currentPath)
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to update floor details.");
+        throw new Error(result.error || "Failed to update floor details.")
       }
 
-      toast.success(`Floor details updated.`);
-      form.reset();
+      toast.success(`Floor details updated.`)
+      form.reset()
       // Optionally, refresh the page or update the state to show the updated floor details
     } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+      toast.error(error.message)
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <Sheet>
@@ -138,5 +137,5 @@ export function EditFloorDetailsSheet({
         </Form>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

@@ -1,16 +1,11 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { updateNotificationSettings } from "@/actions/Dingify/change-notification-settings";
-import { testWebhook } from "@/actions/Dingify/testwebhook";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ExternalLinkIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
-import { Button } from "@dingify/ui/components/button";
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { updateNotificationSettings } from "@/actions/Dingify/change-notification-settings"
+import { testWebhook } from "@/actions/Dingify/testwebhook"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -18,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   Form,
   FormControl,
@@ -27,15 +22,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form";
-import { Input } from "@dingify/ui/components/input";
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select";
+} from "@propdock/ui/components/select"
+import { Check, ExternalLinkIcon } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -47,10 +46,10 @@ const FormSchema = z.object({
   webhook: z.string().min(2, {
     message: "Webhook must be at least 2 characters.",
   }),
-});
+})
 
 export function NotificationAlert({ initialSettings }) {
-  const [isTesting, setIsTesting] = useState(false); // Manage testing state
+  const [isTesting, setIsTesting] = useState(false) // Manage testing state
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -58,56 +57,56 @@ export function NotificationAlert({ initialSettings }) {
       provider: initialSettings?.type || "",
       webhook: initialSettings?.details?.webhook || "",
     },
-  });
+  })
 
-  const selectedProvider = form.watch("provider");
+  const selectedProvider = form.watch("provider")
 
   useEffect(() => {
     form.reset({
       name: initialSettings?.details?.name || "",
       provider: initialSettings?.type || "",
       webhook: initialSettings?.details?.webhook || "",
-    });
-  }, [initialSettings, form]);
+    })
+  }, [initialSettings, form])
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(updateNotificationSettings(data), {
       loading: "Updating...",
       success: (result) => {
         if (result.success) {
-          return "Notification Settings Updated.";
+          return "Notification Settings Updated."
         } else {
-          throw new Error(result.error);
+          throw new Error(result.error)
         }
       },
       error: (err) => `Error updating notification settings: ${err.message}`,
-    });
+    })
   }
 
   async function handleTestWebhook() {
-    const data = form.getValues(); // Get current form values
-    setIsTesting(true);
+    const data = form.getValues() // Get current form values
+    setIsTesting(true)
 
     toast.promise(
       testWebhook(data)
         .then((result) => {
-          setIsTesting(false);
+          setIsTesting(false)
           if (result.success) {
-            return "Webhook is working!";
+            return "Webhook is working!"
           } else {
-            throw new Error(result.error);
+            throw new Error(result.error)
           }
         })
         .catch((error) => {
-          setIsTesting(false);
-          throw new Error(`Error testing webhook: ${error.message}`);
+          setIsTesting(false)
+          throw new Error(`Error testing webhook: ${error.message}`)
         }),
       {
         loading: "Testing webhook...",
         success: "Webhook is working!",
         error: (err) => `Error testing webhook: ${err.message}`,
       },
-    );
+    )
   }
 
   return (
@@ -243,5 +242,5 @@ export function NotificationAlert({ initialSettings }) {
         </form>
       </Form>
     </>
-  );
+  )
 }

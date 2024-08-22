@@ -1,10 +1,7 @@
 import { redirect } from "next/navigation"
 import { getWsApiKeys } from "@/actions/get-ws-api-keys"
-import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react"
-import { getServerSession } from "next-auth"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Button } from "@dingify/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -20,7 +17,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
+import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react"
+import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"

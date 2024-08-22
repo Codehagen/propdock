@@ -2,11 +2,7 @@
 
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Pencil, SendIcon, Trash2 } from "lucide-react"
-import { useFieldArray, useForm } from "react-hook-form"
-import * as z from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Form,
   FormControl,
@@ -15,10 +11,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
-import { Progress } from "@dingify/ui/components/progress"
-import { Textarea } from "@dingify/ui/components/textarea"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
+import { Progress } from "@propdock/ui/components/progress"
+import { Textarea } from "@propdock/ui/components/textarea"
+import { Pencil, SendIcon, Trash2 } from "lucide-react"
+import { useFieldArray, useForm } from "react-hook-form"
+import * as z from "zod"
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Tittel er påkrevd" }),

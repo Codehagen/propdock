@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react"
 import { createContract } from "@/actions/create-contract"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -15,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Form,
   FormControl,
@@ -23,14 +19,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
+} from "@propdock/ui/components/form"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select"
+} from "@propdock/ui/components/select"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 // Define the validation schema
 const ContractSchema = z.object({

@@ -1,21 +1,20 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import Balancer from "react-wrap-balancer";
-
-import { buttonVariants } from "@dingify/ui/components/button";
+import Link from "next/link"
+import { buttonVariants } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import Balancer from "react-wrap-balancer"
 
-import { cn } from "../../lib/utils";
-import { GetStartedButton } from "../buttons/GetStartedButton";
-import { Icons } from "../shared/icons";
-import AlertsOverviewChart from "./charts/AlertsOverviewChart";
+import { cn } from "../../lib/utils"
+import { GetStartedButton } from "../buttons/GetStartedButton"
+import { Icons } from "../shared/icons"
+import AlertsOverviewChart from "./charts/AlertsOverviewChart"
 
 export default function HeroSection() {
   return (
@@ -78,5 +77,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

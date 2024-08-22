@@ -3,12 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { createBuilding } from "@/actions/create-building"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import fetchProperties from "src/lib/address-search"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -24,8 +19,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Sheet,
   SheetContent,
@@ -34,7 +29,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet"
+} from "@propdock/ui/components/sheet"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import fetchProperties from "src/lib/address-search"
+import { z } from "zod"
 
 // Define the validation schema
 const BuildingSchema = z.object({

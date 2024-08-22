@@ -1,4 +1,4 @@
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -6,12 +6,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
-import { Progress } from "@dingify/ui/components/progress";
+} from "@propdock/ui/components/card"
+import { Progress } from "@propdock/ui/components/progress"
 
-import { CreateEventButton } from "@/components/buttons/CreatEventButton";
+import { CreateEventButton } from "@/components/buttons/CreatEventButton"
 
-import { EventDashboardDetailsSheet } from "./EventDashboardDetailsSheet";
+import { EventDashboardDetailsSheet } from "./EventDashboardDetailsSheet"
 
 export default function EventsDashboardCards({ eventStats }) {
   return (
@@ -74,5 +74,5 @@ export default function EventsDashboardCards({ eventStats }) {
         </CardFooter>
       </Card>
     </>
-  );
+  )
 }

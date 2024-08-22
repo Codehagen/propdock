@@ -1,23 +1,24 @@
-import React from "react";
-import Link from "next/link";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import NoPhotoPlaceholder from "@/components/properties/NoPhotoPlaceholder copy";
-import PropertyImageWithOptions from "@/components/properties/PropertyImageWithOptions";
+import React from "react"
+import Link from "next/link"
+import { Button } from "@propdock/ui/components/button"
 
-import { prisma } from "@dingify/db";
-import { Button } from "@dingify/ui/components/button";
+import { prisma } from "@dingify/db"
 
-const MAX_PHOTOS = 20; // Set the maximum number of photos allowed
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import NoPhotoPlaceholder from "@/components/properties/NoPhotoPlaceholder copy"
+import PropertyImageWithOptions from "@/components/properties/PropertyImageWithOptions"
+
+const MAX_PHOTOS = 20 // Set the maximum number of photos allowed
 
 export default async function PropertyPage({ params }) {
-  const propertyId = params.id;
+  const propertyId = params.id
 
   // Fetch property data
-  const propertyData = await getPropertyData(propertyId);
-  const hasPhotos = (propertyData?.images.length ?? 0) > 0;
-  const canAddMorePhotos = (propertyData?.images.length ?? 0) < MAX_PHOTOS;
-  MAX_PHOTOS;
+  const propertyData = await getPropertyData(propertyId)
+  const hasPhotos = (propertyData?.images.length ?? 0) > 0
+  const canAddMorePhotos = (propertyData?.images.length ?? 0) < MAX_PHOTOS
+  MAX_PHOTOS
 
   // Function to get property data
   async function getPropertyData(id) {
@@ -25,10 +26,10 @@ export default async function PropertyPage({ params }) {
       return await prisma.property.findUnique({
         where: { id },
         include: { images: true },
-      });
+      })
     } catch (error) {
-      console.error("Error fetching property:", error);
-      return null;
+      console.error("Error fetching property:", error)
+      return null
     }
   }
 
@@ -58,5 +59,5 @@ export default async function PropertyPage({ params }) {
         <Button>Back to top</Button>
       </Link>
     </DashboardShell>
-  );
+  )
 }

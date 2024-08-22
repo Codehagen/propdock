@@ -1,35 +1,34 @@
-"use client";
+"use client"
 
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { useMap } from "react-leaflet";
-
+import React, { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
+import { useMap } from "react-leaflet"
 
-import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css"
 
 // Dynamic imports for react-leaflet components
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
   { ssr: false },
-);
+)
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
   { ssr: false },
-);
+)
 const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
   { ssr: false },
-);
+)
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
   ssr: false,
-});
+})
 
 const properties = [
   {
@@ -45,30 +44,30 @@ const properties = [
     longitude: 14.379180886149735,
   },
   // Add more properties as needed
-];
+]
 
 const FitBounds = ({ properties }) => {
-  const map = useMap();
+  const map = useMap()
 
   useEffect(() => {
     if (map && properties.length > 0) {
       const bounds = properties.map((property) => [
         property.latitude,
         property.longitude,
-      ]);
-      map.fitBounds(bounds);
+      ])
+      map.fitBounds(bounds)
     }
-  }, [map, properties]);
+  }, [map, properties])
 
-  return null;
-};
+  return null
+}
 
 export default function PropertyMap() {
-  const [L, setL] = useState<any>(null);
+  const [L, setL] = useState<any>(null)
 
   useEffect(() => {
     const loadLeaflet = async () => {
-      const leaflet = await import("leaflet");
+      const leaflet = await import("leaflet")
 
       leaflet.Icon.Default.mergeOptions({
         iconRetinaUrl:
@@ -76,16 +75,16 @@ export default function PropertyMap() {
         iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
         shadowUrl:
           "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-      });
+      })
 
-      setL(leaflet);
-    };
+      setL(leaflet)
+    }
 
-    loadLeaflet();
-  }, []);
+    loadLeaflet()
+  }, [])
 
   if (!L) {
-    return <div>Loading...</div>; // Or any other loading indicator
+    return <div>Loading...</div> // Or any other loading indicator
   }
 
   return (
@@ -122,5 +121,5 @@ export default function PropertyMap() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

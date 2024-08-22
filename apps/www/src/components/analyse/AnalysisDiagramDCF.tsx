@@ -1,5 +1,19 @@
 "use client"
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@propdock/ui/components/card"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@propdock/ui/components/chart"
 import { TrendingUp } from "lucide-react"
 import {
   Bar,
@@ -10,21 +24,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@dingify/ui/components/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@dingify/ui/components/chart"
 
 interface AnalysisDiagramDCFProps {
   details: {

@@ -1,6 +1,3 @@
-import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons"
-import { BellIcon, MapIcon, Share2Icon } from "lucide-react"
-
 import {
   Command,
   CommandEmpty,
@@ -8,7 +5,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@dingify/ui/components/command"
+} from "@propdock/ui/components/command"
+import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons"
+import { BellIcon, MapIcon, Share2Icon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 

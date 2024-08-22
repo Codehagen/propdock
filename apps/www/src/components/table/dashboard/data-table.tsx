@@ -7,6 +7,22 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table"
 import { useState } from "react"
+import { Button } from "@propdock/ui/components/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@propdock/ui/components/card"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@propdock/ui/components/table"
 import {
   flexRender,
   getCoreRowModel,
@@ -17,23 +33,6 @@ import {
 } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
-
-import { Button } from "@dingify/ui/components/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@dingify/ui/components/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@dingify/ui/components/table"
 
 import InfoCard from "../info-card"
 import { DataTableToolbar } from "./data-table-toolbar"

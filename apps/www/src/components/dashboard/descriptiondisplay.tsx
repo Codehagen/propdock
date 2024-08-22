@@ -1,15 +1,14 @@
-import React from "react";
-
+import React from "react"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 
-import GenerateDescriptionButton2 from "../buttons/GenerateDescriptionButton2";
-import NoTextPlaceholder from "../properties/NoTextPlaceholder";
+import GenerateDescriptionButton2 from "../buttons/GenerateDescriptionButton2"
+import NoTextPlaceholder from "../properties/NoTextPlaceholder"
 
 const DescriptionDisplay = ({
   descriptionData,
@@ -23,19 +22,19 @@ const DescriptionDisplay = ({
         propertyId={propertyId}
         setDescriptionData={setDescriptionData}
       />
-    );
+    )
   }
 
-  let parsedData;
+  let parsedData
   try {
     // Attempt to parse the JSON string in descriptionData
-    parsedData = JSON.parse(descriptionData.replace(/```json\n|\n```/g, ""));
+    parsedData = JSON.parse(descriptionData.replace(/```json\n|\n```/g, ""))
     // parsedData = JSON.parse("invalid json"); // For testing error message
   } catch (error) {
     console.error(
       `Error parsing description data for property ID ${propertyId}:`,
-      error
-    );
+      error,
+    )
 
     // Render a user-friendly error message with a retry option
     return (
@@ -55,7 +54,7 @@ const DescriptionDisplay = ({
           />
         </CardFooter>
       </Card>
-    );
+    )
   }
 
   // Function to recursively render content
@@ -66,18 +65,18 @@ const DescriptionDisplay = ({
           <h3 className="font-semibold capitalize">{key}</h3>
           {renderContent(value, true)}
         </div>
-      ));
+      ))
     } else if (Array.isArray(data)) {
       return data.map((item, index) => (
         <div key={index} className="mt-4">
           {item.title && <h4 className="font-semibold">{item.title}</h4>}
           {renderContent(item.details || item, true)}
         </div>
-      ));
+      ))
     } else {
-      return <p className="text-muted-foreground">{data}</p>;
+      return <p className="text-muted-foreground">{data}</p>
     }
-  };
+  }
 
   // Render the parsed content
   return (
@@ -90,7 +89,7 @@ const DescriptionDisplay = ({
         />
       </CardFooter>
     </Card>
-  );
-};
+  )
+}
 
-export default DescriptionDisplay;
+export default DescriptionDisplay

@@ -1,11 +1,10 @@
 import React from "react"
-
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 
 export function SummaryDetailsForm({ tenantDetails }) {
   return (

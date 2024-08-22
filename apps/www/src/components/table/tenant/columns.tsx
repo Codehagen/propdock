@@ -3,12 +3,8 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import Link from "next/link"
 import { deleteTenant } from "@/actions/delete-tenant"
-import format from "date-fns/format"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { toast } from "sonner"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Button } from "@dingify/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +13,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu"
+import format from "date-fns/format"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { toast } from "sonner"
 
 import { EditTenantSheet } from "@/components/buttons/EditTenantSheet"
 

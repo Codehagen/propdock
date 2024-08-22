@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { getAnalysisDetails } from "@/actions/get-analysis-details"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 
 import { SensitivityAnalysisTable } from "@/components/analyse/SensitivityAnalysisTable"
 import { DashboardHeader } from "@/components/dashboard/header"

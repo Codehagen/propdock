@@ -1,5 +1,11 @@
-"use client";
+"use client"
 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@propdock/ui/components/card"
 import {
   Bar,
   BarChart,
@@ -11,14 +17,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@dingify/ui/components/card";
+} from "recharts"
 
 const lineChartData = [
   { month: "Jan", events: 400 },
@@ -33,7 +32,7 @@ const lineChartData = [
   { month: "Oct", events: 390 },
   { month: "Nov", events: 139 },
   { month: "Dec", events: 240 },
-];
+]
 
 const barChartData = [
   { eventType: "Login", count: 120 },
@@ -42,7 +41,7 @@ const barChartData = [
   { eventType: "Signup", count: 80 },
   { eventType: "Profile Update", count: 150 },
   { eventType: "Password Reset", count: 60 },
-];
+]
 
 export default function EventsTrendOverTimeChart(
   {
@@ -101,10 +100,10 @@ export default function EventsTrendOverTimeChart(
                             </div>
                           </div>
                         </div>
-                      );
+                      )
                     }
 
-                    return null;
+                    return null
                   }}
                 />
                 <Legend />
@@ -155,10 +154,10 @@ export default function EventsTrendOverTimeChart(
                             </div>
                           </div>
                         </div>
-                      );
+                      )
                     }
 
-                    return null;
+                    return null
                   }}
                 />
                 <Legend />
@@ -177,5 +176,5 @@ export default function EventsTrendOverTimeChart(
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

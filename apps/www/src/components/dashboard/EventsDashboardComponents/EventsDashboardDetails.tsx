@@ -1,11 +1,7 @@
-import { useRouter } from "next/navigation";
-import { deleteEvent } from "@/actions/Dingify/delete-event";
-import { format } from "date-fns";
-import { File, Pencil, Trash } from "lucide-react";
-import { toast } from "sonner";
-
-import { Badge } from "@dingify/ui/components/badge";
-import { Button } from "@dingify/ui/components/button";
+import { useRouter } from "next/navigation"
+import { deleteEvent } from "@/actions/Dingify/delete-event"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -13,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,29 +17,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu";
-import { Separator } from "@dingify/ui/components/separator";
+} from "@propdock/ui/components/dropdown-menu"
+import { Separator } from "@propdock/ui/components/separator"
+import { format } from "date-fns"
+import { File, Pencil, Trash } from "lucide-react"
+import { toast } from "sonner"
 
-import { ViewDetailsButton } from "@/components/buttons/ViewDetailsButton";
-import { UserBadge } from "@/components/UserBadge";
+import { ViewDetailsButton } from "@/components/buttons/ViewDetailsButton"
+import { UserBadge } from "@/components/UserBadge"
 
 export default function EventsDashboardDetails({ event }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleDelete = async () => {
     try {
-      await deleteEvent(event.id);
-      toast.success("The event has been deleted successfully.");
-      router.refresh();
+      await deleteEvent(event.id)
+      toast.success("The event has been deleted successfully.")
+      router.refresh()
     } catch (error) {
-      toast.error("There was an error deleting the event.");
-      console.error("Error deleting event:", error);
+      toast.error("There was an error deleting the event.")
+      console.error("Error deleting event:", error)
     }
-  };
+  }
 
   const handleUserClick = (customerId) => {
-    router.push(`dashboard/users/${customerId}`);
-  };
+    router.push(`dashboard/users/${customerId}`)
+  }
 
   return (
     <>
@@ -185,7 +184,7 @@ export default function EventsDashboardDetails({ event }) {
         </CardFooter>
       </Card>
     </>
-  );
+  )
 }
 
 function TruckIcon(props) {
@@ -208,7 +207,7 @@ function TruckIcon(props) {
       <circle cx="17" cy="18" r="2" />
       <circle cx="7" cy="18" r="2" />
     </svg>
-  );
+  )
 }
 
 function MoveVerticalIcon(props) {
@@ -229,7 +228,7 @@ function MoveVerticalIcon(props) {
       <polyline points="8 6 12 2 16 6" />
       <line x1="12" x2="12" y1="2" y2="22" />
     </svg>
-  );
+  )
 }
 
 function InfoIcon(props) {
@@ -250,5 +249,5 @@ function InfoIcon(props) {
       <path d="M12 16v-4" />
       <path d="M12 8h.01" />
     </svg>
-  );
+  )
 }

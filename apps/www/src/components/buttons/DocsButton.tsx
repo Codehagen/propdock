@@ -1,8 +1,7 @@
-import Link from "next/link";
+import Link from "next/link"
+import { buttonVariants } from "@propdock/ui/components/button"
 
-import { buttonVariants } from "@dingify/ui/components/button";
-
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 export function DocsButton() {
   return (
@@ -12,5 +11,5 @@ export function DocsButton() {
     >
       Explore Docs
     </Link>
-  );
+  )
 }

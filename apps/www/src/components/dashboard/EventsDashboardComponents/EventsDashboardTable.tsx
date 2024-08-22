@@ -1,6 +1,5 @@
-import { useRouter } from "next/navigation";
-
-import { Badge } from "@dingify/ui/components/badge";
+import { useRouter } from "next/navigation"
+import { Badge } from "@propdock/ui/components/badge"
 import {
   Card,
   CardContent,
@@ -8,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card";
+} from "@propdock/ui/components/card"
 import {
   Table,
   TableBody,
@@ -16,26 +15,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table";
+} from "@propdock/ui/components/table"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@dingify/ui/components/tabs";
+} from "@propdock/ui/components/tabs"
 
-import { UserBadge } from "@/components/UserBadge";
+import { UserBadge } from "@/components/UserBadge"
 
 export default function EventsDashboardTable({
   events,
   setSelectedEventId,
   selectedEventId,
 }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleUserClick = (customerId) => {
-    router.push(`dashboard/users/${customerId}`);
-  };
+    router.push(`dashboard/users/${customerId}`)
+  }
 
   return (
     <>
@@ -149,7 +148,7 @@ export default function EventsDashboardTable({
         </TabsContent>
       </Tabs>
     </>
-  );
+  )
 }
 
 function FileIcon(props) {
@@ -169,7 +168,7 @@ function FileIcon(props) {
       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
     </svg>
-  );
+  )
 }
 
 function ListFilterIcon(props) {
@@ -190,5 +189,5 @@ function ListFilterIcon(props) {
       <path d="M7 12h10" />
       <path d="M10 18h4" />
     </svg>
-  );
+  )
 }

@@ -3,13 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
-import { Calendar } from "@dingify/ui/components/calendar"
+import { Button } from "@propdock/ui/components/button"
+import { Calendar } from "@propdock/ui/components/calendar"
 import {
   Card,
   CardContent,
@@ -17,8 +12,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
-import { Checkbox } from "@dingify/ui/components/checkbox"
+} from "@propdock/ui/components/card"
+import { Checkbox } from "@propdock/ui/components/checkbox"
 import {
   Form,
   FormControl,
@@ -27,24 +22,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@dingify/ui/components/popover"
+} from "@propdock/ui/components/popover"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@dingify/ui/components/select"
-import { Switch } from "@dingify/ui/components/switch"
-import { Textarea } from "@dingify/ui/components/textarea"
-import { toast } from "@dingify/ui/components/use-toast"
+} from "@propdock/ui/components/select"
+import { Switch } from "@propdock/ui/components/switch"
+import { Textarea } from "@propdock/ui/components/textarea"
+import { toast } from "@propdock/ui/components/use-toast"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import { format } from "date-fns"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { cn } from "@/lib/utils"
 

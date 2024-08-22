@@ -1,4 +1,4 @@
-import { Skeleton } from "@dingify/ui/components/skeleton";
+import { Skeleton } from "@propdock/ui/components/skeleton"
 
 export default function PicturesLoading() {
   return (
@@ -28,5 +28,5 @@ export default function PicturesLoading() {
         </div>
       </div>
     </div>
-  );
+  )
 }

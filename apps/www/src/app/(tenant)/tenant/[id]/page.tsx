@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { getTenantDetails } from "@/actions/get-tenant-details"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 
 import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
 import { DashboardHeader } from "@/components/dashboard/header"

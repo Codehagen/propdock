@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-
+import { ReactNode } from "react"
 import {
   Command,
   CommandEmpty,
@@ -7,17 +6,17 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@dingify/ui/components/command";
+} from "@propdock/ui/components/command"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface FeatureCardProps {
-  Icon: ReactNode;
-  name: string;
-  description: string;
-  href: string;
-  cta: string;
-  background: ReactNode;
+  Icon: ReactNode
+  name: string
+  description: string
+  href: string
+  cta: string
+  background: ReactNode
 }
 
 export function FeatureCard({
@@ -44,5 +43,5 @@ export function FeatureCard({
         {cta}
       </a>
     </div>
-  );
+  )
 }

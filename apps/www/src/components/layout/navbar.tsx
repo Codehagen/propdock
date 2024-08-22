@@ -2,8 +2,7 @@
 
 import type { MainNavItem } from "@/types"
 import type { User } from "next-auth"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 
 import useScroll from "@/hooks/use-scroll"
 import { useSigninModal } from "@/hooks/use-signin-modal"

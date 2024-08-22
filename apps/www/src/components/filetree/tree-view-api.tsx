@@ -9,11 +9,11 @@ import React, {
   useMemo,
   useState,
 } from "react"
+import { Button } from "@propdock/ui/components/button"
+import { ScrollArea } from "@propdock/ui/components/scroll-area"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react"
 
-import { Button } from "@dingify/ui/components/button"
-import { ScrollArea } from "@dingify/ui/components/scroll-area"
 import { cn } from "@dingify/ui/utils"
 
 type TreeViewElement = {

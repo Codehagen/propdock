@@ -3,14 +3,9 @@
 import { useEffect, useState } from "react"
 import { createFloor } from "@/actions/create-floor"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2Icon } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
-import { Card, CardContent } from "@dingify/ui/components/card"
-import { Checkbox } from "@dingify/ui/components/checkbox"
+import { Button } from "@propdock/ui/components/button"
+import { Card, CardContent } from "@propdock/ui/components/card"
+import { Checkbox } from "@propdock/ui/components/checkbox"
 import {
   Form,
   FormControl,
@@ -19,10 +14,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
-import { Separator } from "@dingify/ui/components/separator"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
+import { Separator } from "@propdock/ui/components/separator"
 import {
   Sheet,
   SheetContent,
@@ -31,7 +26,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet"
+} from "@propdock/ui/components/sheet"
+import { Loader2Icon } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 import { PlusIcon } from "../shared/icons"
 

@@ -1,17 +1,16 @@
-"use client";
+"use client"
 
-import { useRef } from "react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { useInView } from "framer-motion";
+import { useRef } from "react"
+import { Button } from "@propdock/ui/components/button"
+import { ArrowRightIcon } from "@radix-ui/react-icons"
+import { useInView } from "framer-motion"
 
-import { Button } from "@dingify/ui/components/button";
-
-import { BorderBeam } from "../ui/border-beam";
-import TextShimmer from "../ui/text-shimmer";
+import { BorderBeam } from "../ui/border-beam"
+import TextShimmer from "../ui/text-shimmer"
 
 export default function HeroSectionNew() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-100px" })
   return (
     <section
       id="hero"
@@ -66,5 +65,5 @@ export default function HeroSectionNew() {
         </div>
       </div>
     </section>
-  );
+  )
 }

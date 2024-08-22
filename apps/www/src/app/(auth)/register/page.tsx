@@ -1,7 +1,6 @@
 import { Suspense } from "react"
 import Link from "next/link"
-
-import { buttonVariants } from "@dingify/ui/components/button"
+import { buttonVariants } from "@propdock/ui/components/button"
 
 import { cn } from "@/lib/utils"
 import { UserAuthForm } from "@/components/forms/user-auth-form"

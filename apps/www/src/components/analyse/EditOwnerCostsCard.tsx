@@ -3,18 +3,14 @@
 import { useState } from "react"
 import { updateAnalysis } from "@/actions/update-analysis"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@dingify/ui/components/card"
+} from "@propdock/ui/components/card"
 import {
   Form,
   FormControl,
@@ -22,9 +18,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
-import { Switch } from "@dingify/ui/components/switch"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
+import { Switch } from "@propdock/ui/components/switch"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const FormSchema = z.object({
   ownerCostsMethod: z.boolean().default(false).optional(),

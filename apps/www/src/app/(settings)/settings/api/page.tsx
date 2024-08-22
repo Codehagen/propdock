@@ -1,9 +1,7 @@
 // pages/settings/api.js
 import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Separator } from "@dingify/ui/components/separator"
+import { Badge } from "@propdock/ui/components/badge"
+import { Separator } from "@propdock/ui/components/separator"
 import {
   Table,
   TableBody,
@@ -11,7 +9,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@dingify/ui/components/table"
+} from "@propdock/ui/components/table"
+import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"

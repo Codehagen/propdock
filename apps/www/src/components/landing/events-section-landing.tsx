@@ -1,11 +1,7 @@
-"use client";
+"use client"
 
-import { useRef } from "react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { useInView } from "framer-motion";
-import { FileInputIcon } from "lucide-react";
-
-import { Button } from "@dingify/ui/components/button";
+import { useRef } from "react"
+import { Button } from "@propdock/ui/components/button"
 import {
   Command,
   CommandEmpty,
@@ -13,13 +9,16 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@dingify/ui/components/command";
+} from "@propdock/ui/components/command"
+import { ArrowRightIcon } from "@radix-ui/react-icons"
+import { useInView } from "framer-motion"
+import { FileInputIcon } from "lucide-react"
 
-import { BentoCard } from "../ui/bento-grid";
+import { BentoCard } from "../ui/bento-grid"
 
 export default function EventsSectionLanding() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
     <section className="relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8">
@@ -62,5 +61,5 @@ export default function EventsSectionLanding() {
         plass
       </p>
     </section>
-  );
+  )
 }

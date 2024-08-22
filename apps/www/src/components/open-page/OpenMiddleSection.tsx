@@ -1,4 +1,4 @@
-import { Separator } from "@dingify/ui/components/separator";
+import { Separator } from "@propdock/ui/components/separator"
 
 export default function OpenMiddleSection() {
   return (
@@ -16,5 +16,5 @@ export default function OpenMiddleSection() {
       </div>
       <Separator />
     </section>
-  );
+  )
 }

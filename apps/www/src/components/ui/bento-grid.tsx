@@ -1,16 +1,15 @@
-import { ReactNode } from "react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { ReactNode } from "react"
+import { Button } from "@propdock/ui/components/button"
+import { ArrowRightIcon } from "@radix-ui/react-icons"
 
-import { Button } from "@dingify/ui/components/button";
-
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 const BentoGrid = ({
   children,
   className,
 }: {
-  children: ReactNode;
-  className?: string;
+  children: ReactNode
+  className?: string
 }) => {
   return (
     <div
@@ -21,8 +20,8 @@ const BentoGrid = ({
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
 const BentoCard = ({
   name,
@@ -33,13 +32,13 @@ const BentoCard = ({
   href,
   cta,
 }: {
-  name: string;
-  className: string;
-  background: ReactNode;
-  Icon: any;
-  description: string;
-  href: string;
-  cta: string;
+  name: string
+  className: string
+  background: ReactNode
+  Icon: any
+  description: string
+  href: string
+  cta: string
 }) => (
   <div
     key={name}
@@ -75,6 +74,6 @@ const BentoCard = ({
     </div>
     <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
-);
+)
 
-export { BentoCard, BentoGrid };
+export { BentoCard, BentoGrid }

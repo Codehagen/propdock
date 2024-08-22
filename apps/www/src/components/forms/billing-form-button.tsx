@@ -1,17 +1,16 @@
-"use client";
+"use client"
 
-import type { SubscriptionPlan, UserSubscriptionPlan } from "@/types";
-import { useTransition } from "react";
-import { generateUserStripe } from "@/actions/Dingify/generate-user-stripe";
+import type { SubscriptionPlan, UserSubscriptionPlan } from "@/types"
+import { useTransition } from "react"
+import { generateUserStripe } from "@/actions/Dingify/generate-user-stripe"
+import { Button } from "@propdock/ui/components/button"
 
-import { Button } from "@dingify/ui/components/button";
-
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/shared/icons"
 
 interface BillingFormButtonProps {
-  offer: SubscriptionPlan;
-  subscriptionPlan: UserSubscriptionPlan;
-  year: boolean;
+  offer: SubscriptionPlan
+  subscriptionPlan: UserSubscriptionPlan
+  year: boolean
 }
 
 export function BillingFormButton({
@@ -19,16 +18,16 @@ export function BillingFormButton({
   offer,
   subscriptionPlan,
 }: BillingFormButtonProps) {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition()
   const generateUserStripeSession = generateUserStripe.bind(
     null,
     // @ts-expect-error
     offer.stripeIds[year ? "yearly" : "monthly"],
-  );
+  )
 
   const stripeSessionAction = () =>
     // @ts-expect-error
-    startTransition(async () => await generateUserStripeSession());
+    startTransition(async () => await generateUserStripeSession())
 
   return (
     <Button
@@ -50,5 +49,5 @@ export function BillingFormButton({
         </>
       )}
     </Button>
-  );
+  )
 }
