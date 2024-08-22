@@ -418,34 +418,37 @@ model AccountingData {
 }
 
 model Document {
-  id          String     @id
+  id          String    @id @default(cuid())
   title       String?
   description String?
-  externalId  String?    @unique
-  status      String?
-  storageKey  String?
-  contentType String?
+  externalId  String?   @unique // This could be the Signicat document ID
+  status      String? // e.g., "PENDING", "SIGNED", "EXPIRED"
+  storageKey  String? // The R2 storage key
+  contentType String? // e.g., "application/pdf"
   signedAt    DateTime?
   signers     Json?
   downloadUrl String?
-  tenantId    String?
-  propertyId  String?
-  userId      String?
-  workspaceId String?
-  buildingId  String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime
-  Building    Building?  @relation(fields: [buildingId], references: [id])
-  Property    Property?  @relation(fields: [propertyId], references: [id])
-  Tenant      Tenant?    @relation(fields: [tenantId], references: [id])
-  users       User?      @relation(fields: [userId], references: [id])
-  Workspace   Workspace? @relation(fields: [workspaceId], references: [id])
 
-  @@index([buildingId])
-  @@index([propertyId])
+  // Relationships
+  tenantId    String?
+  tenant      Tenant?    @relation(fields: [tenantId], references: [id])
+  propertyId  String?
+  property    Property?  @relation(fields: [propertyId], references: [id])
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id])
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  buildingId  String?
+  building    Building?  @relation(fields: [buildingId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([tenantId])
+  @@index([propertyId])
   @@index([userId])
   @@index([workspaceId])
+  @@index([buildingId])
 }
 
 model InternalInvoice {
