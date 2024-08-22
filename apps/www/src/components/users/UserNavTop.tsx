@@ -3,10 +3,7 @@
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createSmsTenant } from "@/actions/create-sms-tenant"
-import { ChevronDown, File, MessageSquare, PlusCircle } from "lucide-react"
-import { toast } from "sonner"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Dialog,
   DialogClose,
@@ -16,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@dingify/ui/components/dialog"
+} from "@propdock/ui/components/dialog"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -25,10 +22,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@dingify/ui/components/dropdown-menu"
-import { Input } from "@dingify/ui/components/input"
-import { Label } from "@dingify/ui/components/label"
-import { Textarea } from "@dingify/ui/components/textarea"
+} from "@propdock/ui/components/dropdown-menu"
+import { Input } from "@propdock/ui/components/input"
+import { Label } from "@propdock/ui/components/label"
+import { Textarea } from "@propdock/ui/components/textarea"
+import { ChevronDown, File, MessageSquare, PlusCircle } from "lucide-react"
+import { toast } from "sonner"
 
 export function UserNavTop({ tenantDetails }) {
   const router = useRouter()

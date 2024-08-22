@@ -1,33 +1,33 @@
-"use client";
+"use client"
 
-import type { UserSubscriptionPlan } from "@/types";
-import { Suspense, useState } from "react";
-import Link from "next/link";
-import { BillingFormButton } from "@/components/forms/billing-form-button";
-import { Icons } from "@/components/shared/icons";
-import { pricingData } from "@/config/subscriptions";
-import { useSigninModal } from "@/hooks/use-signin-modal";
-import Balancer from "react-wrap-balancer";
+import type { UserSubscriptionPlan } from "@/types"
+import { Suspense, useState } from "react"
+import Link from "next/link"
+import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { Switch } from "@propdock/ui/components/switch"
+import Balancer from "react-wrap-balancer"
 
-import { Button, buttonVariants } from "@dingify/ui/components/button";
-import { Switch } from "@dingify/ui/components/switch";
+import { pricingData } from "@/config/subscriptions"
+import { useSigninModal } from "@/hooks/use-signin-modal"
+import { BillingFormButton } from "@/components/forms/billing-form-button"
+import { Icons } from "@/components/shared/icons"
 
 interface PricingCardsProps {
-  userId?: string;
-  subscriptionPlan?: UserSubscriptionPlan;
+  userId?: string
+  subscriptionPlan?: UserSubscriptionPlan
 }
 
 export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
   const isYearlyDefault =
     !subscriptionPlan?.interval || subscriptionPlan.interval === "year"
       ? true
-      : false;
-  const [isYearly, setIsYearly] = useState<boolean>(!!isYearlyDefault);
-  const signInModal = useSigninModal();
+      : false
+  const [isYearly, setIsYearly] = useState<boolean>(!!isYearlyDefault)
+  const signInModal = useSigninModal()
 
   const toggleBilling = () => {
-    setIsYearly(!isYearly);
-  };
+    setIsYearly(!isYearly)
+  }
 
   return (
     <section className="container flex flex-col items-center text-center">
@@ -154,5 +154,5 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         </Balancer>
       </p>
     </section>
-  );
+  )
 }

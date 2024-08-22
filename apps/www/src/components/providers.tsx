@@ -8,12 +8,11 @@ import {
   useContext,
   useState,
 } from "react"
+import { TooltipProvider } from "@propdock/ui/components/tooltip"
 import { SessionProvider } from "next-auth/react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { ThemeProviderProps } from "next-themes/dist/types"
 import { Provider as BalancerProvider } from "react-wrap-balancer"
-
-import { TooltipProvider } from "@dingify/ui/components/tooltip"
 
 import useCMDK from "./blog/cmdk"
 

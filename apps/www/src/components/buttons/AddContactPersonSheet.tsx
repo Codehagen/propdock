@@ -3,11 +3,7 @@
 import { useState } from "react"
 import { createContactPerson } from "@/actions/create-contact-person"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-
-import { Button } from "@dingify/ui/components/button"
+import { Button } from "@propdock/ui/components/button"
 import {
   Form,
   FormControl,
@@ -15,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form"
-import { Input } from "@dingify/ui/components/input"
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Sheet,
   SheetClose,
@@ -26,7 +22,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet"
+} from "@propdock/ui/components/sheet"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 // Define the validation schema
 const ContactPersonSchema = z.object({

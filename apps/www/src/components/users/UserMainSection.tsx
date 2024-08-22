@@ -1,5 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Badge } from "@propdock/ui/components/badge"
+import { Button } from "@propdock/ui/components/button"
 import {
   ChevronLeft,
   Home,
@@ -14,9 +16,6 @@ import {
   Upload,
   Users2,
 } from "lucide-react"
-
-import { Badge } from "@dingify/ui/components/badge"
-import { Button } from "@dingify/ui/components/button"
 
 import UserChangeStatusCard from "./UserChangeStatusCard"
 import { UserChartActivity } from "./UserChartActivity"

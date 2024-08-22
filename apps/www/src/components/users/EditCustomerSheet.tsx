@@ -1,15 +1,10 @@
 // components/sheets/EditCustomerSheet.tsx
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { changeCustomerDetails } from "@/actions/Dingify/change-customer-details";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil, StarIcon, User, UserCog } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
-import { Button } from "@dingify/ui/components/button";
+import { useEffect } from "react"
+import { changeCustomerDetails } from "@/actions/Dingify/change-customer-details"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@propdock/ui/components/button"
 import {
   Form,
   FormControl,
@@ -18,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@dingify/ui/components/form";
-import { Input } from "@dingify/ui/components/input";
+} from "@propdock/ui/components/form"
+import { Input } from "@propdock/ui/components/input"
 import {
   Sheet,
   SheetClose,
@@ -29,12 +24,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@dingify/ui/components/sheet";
+} from "@propdock/ui/components/sheet"
+import { Pencil, StarIcon, User, UserCog } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const FormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
-});
+})
 
 export function EditCustomerSheet({ customer }) {
   const form = useForm({
@@ -43,11 +42,11 @@ export function EditCustomerSheet({ customer }) {
       name: customer.name || "",
       email: customer.email || "",
     },
-  });
+  })
 
   const onSubmit = async (data) => {
     try {
-      const result = await changeCustomerDetails(customer.id, data);
+      const result = await changeCustomerDetails(customer.id, data)
       if (result.success) {
         toast.message(
           <div className="flex flex-col">
@@ -58,14 +57,14 @@ export function EditCustomerSheet({ customer }) {
               </code>
             </pre>
           </div>,
-        );
-        form.reset();
+        )
+        form.reset()
       }
     } catch (error) {
-      toast.error("There was an error updating the customer.");
-      console.error("Error updating customer:", error);
+      toast.error("There was an error updating the customer.")
+      console.error("Error updating customer:", error)
     }
-  };
+  }
 
   return (
     <Sheet>
@@ -115,5 +114,5 @@ export function EditCustomerSheet({ customer }) {
         </Form>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

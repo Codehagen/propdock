@@ -36,6 +36,11 @@ export default async function DashboardLayout({
       icon: "user",
     },
     {
+      title: "Tidslinje",
+      href: `/tenant/${params.id}/timeline`,
+      icon: "calendarClock",
+    },
+    {
       title: "Økonomi",
       href: `/tenant/${params.id}/finance`,
       icon: "piechart",

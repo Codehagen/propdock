@@ -1,10 +1,9 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
+import { Button } from "@propdock/ui/components/button"
 import { FileDown, Loader2 } from "lucide-react"
 import { usePDF } from "react-to-pdf"
-
-import { Button } from "@dingify/ui/components/button"
 
 import Editor from "@/components/editor/editor"
 

@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@dingify/ui/components/button";
+import { Button } from "@propdock/ui/components/button"
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
@@ -10,5 +10,5 @@ export default function Error({ reset }: { reset: () => void }) {
         Try again
       </Button>
     </div>
-  );
+  )
 }

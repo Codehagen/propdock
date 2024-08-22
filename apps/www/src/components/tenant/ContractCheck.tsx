@@ -3,9 +3,8 @@
 import React from "react"
 import { useRouter } from "next/navigation"
 import { createContract } from "@/actions/create-contract"
+import { Button } from "@propdock/ui/components/button"
 import { toast } from "sonner"
-
-import { Button } from "@dingify/ui/components/button"
 
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
