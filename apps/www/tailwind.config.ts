@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss"
+import baseConfig from "@propdock/tailwind-config"
 import { fontFamily } from "tailwindcss/defaultTheme"
-
-import baseConfig from "@dingify/tailwind-config"
 
 const config: Config = {
   // Append the path to the UI package to the content array
