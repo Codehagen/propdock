@@ -1,3 +1,15 @@
+"use client"
+
+import React, { useState } from "react"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@propdock/ui/components/context-menu"
+import { Input } from "@propdock/ui/components/input"
+
+import { FileTreeProvider, useFileTree } from "./FileTreeContext"
 import {
   CollapseButton,
   File,
@@ -6,104 +18,83 @@ import {
   TreeViewElement,
 } from "./tree-view-api"
 
-type TOCProps = {
-  toc: TreeViewElement[]
-}
+const TOC = () => {
+  const { fileTreeData } = useFileTree()
 
-const TOC = ({ toc }: TOCProps) => {
   return (
-    <Tree className="h-60 w-full rounded-md bg-background p-2" indicator={true}>
-      {toc.map((element, _) => (
-        <TreeItem key={element.id} elements={[element]} />
-      ))}
-      <CollapseButton elements={toc} expandAll={true} />
+    <Tree
+      className="h-60 w-full rounded-md bg-background p-2"
+      initialSelectedId="21"
+      elements={fileTreeData}
+    >
+      <TreeItem elements={fileTreeData} />
+      <CollapseButton elements={fileTreeData} />
     </Tree>
   )
 }
 
-type TreeItemProps = {
-  elements: TreeViewElement[]
-}
+const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
+  const { deleteItem, renameItem } = useFileTree()
+  const [isRenaming, setIsRenaming] = useState<string | null>(null)
+  const [newName, setNewName] = useState("")
 
-export const TreeItem = ({ elements }: TreeItemProps) => {
+  const handleRename = (id: string) => {
+    setIsRenaming(id)
+    setNewName(elements.find((e) => e.id === id)?.name || "")
+  }
+
+  const submitRename = (id: string) => {
+    renameItem(id, newName)
+    setIsRenaming(null)
+  }
+
   return (
-    <ul className="w-full space-y-1">
+    <>
       {elements.map((element) => (
-        <li key={element.id} className="w-full space-y-2">
-          {element.children && element.children?.length > 0 ? (
-            <Folder
-              element={element.name}
-              value={element.id}
-              isSelectable={element.isSelectable}
-              className="px-px pr-1"
-            >
-              <TreeItem
-                key={element.id}
-                aria-label={`folder ${element.name}`}
-                elements={element.children}
-              />
-            </Folder>
-          ) : (
-            <File
-              key={element.id}
-              value={element.id}
-              isSelectable={element.isSelectable}
-            >
-              <span>{element?.name}</span>
-            </File>
-          )}
-        </li>
+        <ContextMenu key={element.id}>
+          <ContextMenuTrigger>
+            {element.children && element.children.length > 0 ? (
+              <Folder element={element.name} value={element.id}>
+                <TreeItem elements={element.children} />
+              </Folder>
+            ) : (
+              <File value={element.id}>
+                {isRenaming === element.id ? (
+                  <Input
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    onBlur={() => submitRename(element.id)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && submitRename(element.id)
+                    }
+                    className="h-6 px-1 py-0"
+                  />
+                ) : (
+                  <p>{element.name}</p>
+                )}
+              </File>
+            )}
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem onSelect={() => handleRename(element.id)}>
+              Rename
+            </ContextMenuItem>
+            <ContextMenuItem onSelect={() => deleteItem(element.id)}>
+              Delete
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
       ))}
-    </ul>
+    </>
   )
 }
 
 const TOCWrapper = () => {
-  const toc = [
-    {
-      id: "1",
-      name: "components",
-      children: [
-        {
-          id: "2",
-          name: "extension",
-          children: [
-            {
-              id: "3",
-              name: "tree-view.tsx",
-            },
-            {
-              id: "4",
-              name: "tree-view-api.tsx",
-            },
-          ],
-        },
-        {
-          id: "5",
-          name: "dashboard-tree.tsx",
-        },
-      ],
-    },
-    {
-      id: "6",
-      name: "pages",
-      children: [
-        {
-          id: "7",
-          name: "page.tsx",
-        },
-        {
-          id: "8",
-          name: "page-guide.tsx",
-        },
-      ],
-    },
-    {
-      id: "18",
-      name: "env.ts",
-    },
-  ]
-  return <TOC toc={toc} />
+  return (
+    <FileTreeProvider>
+      <TOC />
+    </FileTreeProvider>
+  )
 }
 
 export default TOCWrapper
