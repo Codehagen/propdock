@@ -1,6 +1,4 @@
 import { redirect } from "next/navigation"
-import { getUserCredits } from "@/actions/Dingify/get-credits"
-import { getEventStats } from "@/actions/stats/get-events-stats"
 
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"

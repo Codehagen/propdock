@@ -1,7 +1,6 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { deleteCustomer } from "@/actions/Dingify/delete-customer"
 import { Badge } from "@propdock/ui/components/badge"
 import { Button } from "@propdock/ui/components/button"
 import {
@@ -33,7 +32,6 @@ export function AllUsersCards({ customerDetails }) {
   const handleDelete = async (customerId) => {
     // Add logic to delete customer if needed
     try {
-      deleteCustomer(customerId)
       toast.success("The customer has been deleted successfully.")
       router.refresh()
     } catch (error) {

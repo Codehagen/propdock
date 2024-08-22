@@ -1,8 +1,6 @@
-"use client";
+"use client"
 
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
-
-import GenerateDescriptionButton2 from "../buttons/GenerateDescriptionButton2";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 export default function NoTextPlaceholder({ propertyId, setDescriptionData }) {
   return (
@@ -12,11 +10,7 @@ export default function NoTextPlaceholder({ propertyId, setDescriptionData }) {
       <EmptyPlaceholder.Description>
         Let Propwrite make the summary and text for you.
       </EmptyPlaceholder.Description>
-      <GenerateDescriptionButton2
-        propertyId={propertyId}
-        onDescriptionGenerated={setDescriptionData}
-      />
       {/* <AddFilesButton slug={slug} propertyId={propertyId} /> */}
     </EmptyPlaceholder>
-  );
+  )
 }

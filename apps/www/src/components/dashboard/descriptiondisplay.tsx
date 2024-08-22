@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "@propdock/ui/components/card"
 
-import GenerateDescriptionButton2 from "../buttons/GenerateDescriptionButton2"
 import NoTextPlaceholder from "../properties/NoTextPlaceholder"
 
 const DescriptionDisplay = ({
@@ -47,12 +46,7 @@ const DescriptionDisplay = ({
             Please try again or contact support if the issue persists.
           </p>
         </CardContent>
-        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
-          <GenerateDescriptionButton2
-            propertyId={propertyId}
-            onDescriptionGenerated={setDescriptionData}
-          />
-        </CardFooter>
+        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0"></CardFooter>
       </Card>
     )
   }
@@ -82,12 +76,7 @@ const DescriptionDisplay = ({
   return (
     <Card>
       <CardContent>{renderContent(parsedData)}</CardContent>
-      <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
-        <GenerateDescriptionButton2
-          propertyId={propertyId}
-          onDescriptionGenerated={setDescriptionData}
-        />
-      </CardFooter>
+      <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0"></CardFooter>
     </Card>
   )
 }

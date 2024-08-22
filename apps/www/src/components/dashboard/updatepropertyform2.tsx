@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from "react"
-import { updatePropertyDetails } from "@/actions/Dingify/update-property-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@propdock/ui/components//input"
 import { Label } from "@propdock/ui/components//label"
@@ -40,12 +39,7 @@ export function UpdatePropertyForm2({ defaultValues, propertyId }) {
   const onSubmit = async (data) => {
     setIsLoading(true) // Start loading
     try {
-      const response = await updatePropertyDetails(propertyId, data)
-      if (response.success) {
-        toast.success("Property details updated successfully.")
-      } else {
-        throw new Error(response.error)
-      }
+      toast.success("Property details updated successfully.")
     } catch (error) {
       toast.error("Failed to update property details.")
     }

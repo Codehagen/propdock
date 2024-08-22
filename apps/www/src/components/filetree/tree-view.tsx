@@ -4,7 +4,7 @@ import React, { forwardRef, useCallback, useRef } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import useResizeObserver from "use-resize-observer"
 
-import { cn } from "@dingify/ui/utils"
+import { cn } from "@/lib/utils"
 
 import {
   CollapseButton,

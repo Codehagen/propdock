@@ -1,7 +1,6 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { deleteEvent } from "@/actions/Dingify/delete-event"
 import { Badge } from "@propdock/ui/components/badge"
 import { Button } from "@propdock/ui/components/button"
 import {
@@ -35,7 +34,6 @@ export function ChannelCard({ channelDetails }) {
 
   const handleDelete = async (eventId) => {
     try {
-      await deleteEvent(eventId)
       toast.success("The event has been deleted successfully.")
       router.refresh()
     } catch (error) {

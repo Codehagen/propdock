@@ -1,11 +1,11 @@
-import { Pool, PrismaClient, PrismaNeon } from "@dingify/db";
+import { Pool, PrismaClient, PrismaNeon } from "@propdock/db"
 
-import { env } from "@/env";
+import { env } from "@/env"
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 
-const pool = new Pool({ connectionString: env.DATABASE_URL });
-const adapter = new PrismaNeon(pool);
+const pool = new Pool({ connectionString: env.DATABASE_URL })
+const adapter = new PrismaNeon(pool)
 
 export const prisma =
   globalForPrisma.prisma ||
@@ -13,6 +13,6 @@ export const prisma =
     adapter: adapter,
     log:
       env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+  })
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma

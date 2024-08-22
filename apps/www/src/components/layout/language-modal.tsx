@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { updateUserLanguage } from "@/actions/Dingify/update-language"
 import { Button } from "@propdock/ui/components/button"
 import {
   Select,
@@ -12,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@propdock/ui/components/select"
+import { toast } from "@propdock/ui/components/use-toast"
 
 import { useLanguageModal } from "@/hooks/use-language-modal"
 import { Modal } from "@/components/shared/modal"
@@ -23,21 +23,7 @@ export const LanguageModal = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("")
 
   const handleLanguageSubmit = async () => {
-    try {
-      const response = await updateUserLanguage(selectedLanguage)
-      if (response.success) {
-        console.log("Language update successful")
-        // Optionally add user feedback here (like a toast notification)
-      } else {
-        console.error("Language update failed:", response.error)
-        // Optionally add error feedback here
-      }
-    } catch (error) {
-      console.error("Error updating language:", error)
-      // Optionally add error feedback here
-    } finally {
-      languageModal.onClose() // Close the modal after submission
-    }
+    console.log("yeah")
   }
 
   return (
