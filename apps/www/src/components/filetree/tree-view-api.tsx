@@ -14,7 +14,7 @@ import { ScrollArea } from "@propdock/ui/components/scroll-area"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react"
 
-import { cn } from "@dingify/ui/utils"
+import { cn } from "@/lib/utils"
 
 type TreeViewElement = {
   id: string
