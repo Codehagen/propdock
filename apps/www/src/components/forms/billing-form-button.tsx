@@ -2,7 +2,7 @@
 
 import type { SubscriptionPlan, UserSubscriptionPlan } from "@/types"
 import { useTransition } from "react"
-import { generateUserStripe } from "@/actions/Dingify/generate-user-stripe"
+import { generateUserStripe } from "@/actions/create-user-stripe"
 import { Button } from "@propdock/ui/components/button"
 
 import { Icons } from "@/components/shared/icons"

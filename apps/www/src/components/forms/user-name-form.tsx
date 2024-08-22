@@ -1,9 +1,9 @@
 "use client"
 
-import type { FormData } from "@/actions/Dingify/update-user-name"
+import type { FormData } from "@/actions/update-user-name"
 import type { User } from "@prisma/client"
 import { useTransition } from "react"
-import { updateUserName } from "@/actions/Dingify/update-user-name"
+import { updateUserName } from "@/actions/update-user-name"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { buttonVariants } from "@propdock/ui/components/button"
 import {

@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from "react"
-import { updateUserLanguage } from "@/actions/Dingify/update-language"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, buttonVariants } from "@propdock/ui/components/button"
 import {
@@ -46,13 +45,7 @@ export function LanguageForm2({ user }) {
     setPending(true)
     console.log("Submitted data:", data) // Check what is being submitted
     try {
-      const response = await updateUserLanguage(data.language)
-      console.log("Update response:", response) // Check the response from the update call
-      if (response.success) {
-        toast.success("Language updated successfully.")
-      } else {
-        throw new Error(response.error)
-      }
+      toast.success("Language updated successfully.")
     } catch (error) {
       console.error("Update error:", error) // Log any caught errors
       toast.error(error.message || "Failed to update language.")

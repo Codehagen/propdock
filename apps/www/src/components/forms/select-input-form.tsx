@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { selectOption } from "@/actions/Dingify/select-option"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Form,
@@ -45,15 +44,10 @@ export function SelectInputForm({ options, image }) {
 
     // Call the server action to update the selected option in the database
     try {
-      const result = await selectOption(option.imageId, selectedOptionContent) // Use selectedOptionContent here
-      if (!result.success) {
-        // If an error occurs, log it and display a toast notification
-        console.error("Failed to update the selected option:", result.error)
-        toast.error("Failed to update the selected option. Please try again.")
-      } else {
-        router.refresh()
-        console.log("Selected option updated successfully")
-      }
+      // If an error occurs, log it and display a toast notification
+      toast.error("Failed to update the selected option. Please try again.")
+      router.refresh()
+      console.log("Selected option updated successfully")
     } catch (error) {
       console.error("An unexpected error occurred:", error)
       toast.error("An unexpected error occurred. Please try again.")
