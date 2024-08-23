@@ -140,7 +140,7 @@ async function getNewAccessToken(env: Env, client_key: string): Promise<Record<s
 }
 
 
-async function getRequestHeaders(env: Env, workspaceId: string) {
+async function getRequestHeaders(env: Env, workspaceId: string): Promise<Record<string, string>> {
     const token = await getAccessToken(env, workspaceId)
 
     const headers = {
