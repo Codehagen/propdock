@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
+import { Button } from "@propdock/ui/components/button"
 import {
   Card,
   CardContent,
@@ -9,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@propdock/ui/components/card"
+import { Input } from "@propdock/ui/components/input"
+import { Search } from "lucide-react"
 import { useMap } from "react-leaflet"
 
 import "leaflet/dist/leaflet.css"
@@ -64,6 +67,8 @@ const FitBounds = ({ properties }) => {
 
 export default function PropertyMap() {
   const [L, setL] = useState<any>(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const mapRef = useRef<L.Map | null>(null)
 
   useEffect(() => {
     const loadLeaflet = async () => {
@@ -71,10 +76,11 @@ export default function PropertyMap() {
 
       leaflet.Icon.Default.mergeOptions({
         iconRetinaUrl:
-          "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-        iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon-2x.png",
+        iconUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
         shadowUrl:
-          "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
       })
 
       setL(leaflet)
@@ -83,22 +89,47 @@ export default function PropertyMap() {
     loadLeaflet()
   }, [])
 
+  const handleSearch = () => {
+    const property = properties.find(
+      (p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.address.toLowerCase().includes(searchQuery.toLowerCase()),
+    )
+    if (property && mapRef.current) {
+      mapRef.current.setView([property.latitude, property.longitude], 16)
+    }
+  }
+
   if (!L) {
-    return <div>Loading...</div> // Or any other loading indicator
+    return <div>Loading...</div>
   }
 
   return (
-    <Card>
+    <Card className="mx-auto w-full max-w-4xl">
       <CardHeader>
         <CardTitle>Eiendomskart</CardTitle>
         <CardDescription>Viser plasseringen av eiendommene</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[400px]">
+        <div className="mb-4 flex space-x-2">
+          <Input
+            type="text"
+            placeholder="Søk etter eiendomsnavn eller adresse"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Button onClick={handleSearch}>
+            <Search className="mr-2 h-4 w-4" /> Søk
+          </Button>
+        </div>
+        <div className="h-[500px]">
           <MapContainer
             center={[60.472, 8.4689]}
             zoom={6}
             style={{ height: "100%", width: "100%" }}
+            whenCreated={(map) => {
+              mapRef.current = map
+            }}
           >
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -111,9 +142,17 @@ export default function PropertyMap() {
                 position={[property.latitude, property.longitude]}
               >
                 <Popup>
-                  <strong>{property.name}</strong>
-                  <br />
-                  {property.address}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>{property.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>
+                        <strong>Adresse:</strong> {property.address}
+                      </p>
+                      {/* Add more property details here if available */}
+                    </CardContent>
+                  </Card>
                 </Popup>
               </Marker>
             ))}
