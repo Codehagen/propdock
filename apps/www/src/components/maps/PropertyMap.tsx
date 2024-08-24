@@ -16,6 +16,8 @@ import { useMap, useMapEvents } from "react-leaflet"
 
 import "leaflet/dist/leaflet.css"
 
+import fetchProperties from "@/lib/address-search"
+
 // Dynamic imports for react-leaflet components
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -65,6 +67,7 @@ export default function PropertyMap() {
   const mapRef = useRef<L.Map | null>(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [propertyData, setPropertyData] = useState(null)
+  const [nearbyAddresses, setNearbyAddresses] = useState([])
   const initialPosition = [67.2802, 14.405] // Bodø coordinates
 
   useEffect(() => {
@@ -86,11 +89,31 @@ export default function PropertyMap() {
   const handleMapClick = async (latlng) => {
     setSelectedLocation(latlng)
     setPropertyData(null)
+    setNearbyAddresses([])
+
     try {
-      const response = await fetchPropertyData(latlng.lat, latlng.lng)
-      setPropertyData(response)
+      const response = await fetchNearbyAddresses(latlng.lat, latlng.lng)
+      setNearbyAddresses(response.adresser)
+
+      if (response.adresser.length > 0) {
+        const nearestAddress = response.adresser[0]
+        setPropertyData({
+          name: nearestAddress.adressetekst,
+          address: `${nearestAddress.adressetekst}, ${nearestAddress.postnummer} ${nearestAddress.poststed}`,
+          latitude: nearestAddress.representasjonspunkt.lat,
+          longitude: nearestAddress.representasjonspunkt.lon,
+          kommunenummer: nearestAddress.kommunenummer,
+          kommunenavn: nearestAddress.kommunenavn,
+          gardsnummer: nearestAddress.gardsnummer,
+          bruksnummer: nearestAddress.bruksnummer,
+          festenummer: nearestAddress.festenummer,
+          undernummer: nearestAddress.undernummer,
+          objtype: nearestAddress.objtype,
+          // Add any other fields you find useful
+        })
+      }
     } catch (error) {
-      console.error("Error fetching property data:", error)
+      console.error("Error fetching nearby addresses:", error)
     }
   }
 
@@ -100,19 +123,12 @@ export default function PropertyMap() {
     mapRef.current?.setView([property.latitude, property.longitude], 15)
   }
 
-  const fetchPropertyData = async (lat, lng) => {
-    // Replace this with your actual API call
-    console.log(`Searching for property at ${lat}, ${lng}`)
-    return new Promise((resolve) =>
-      setTimeout(
-        () =>
-          resolve({
-            address: "Sample Address",
-            propertyType: "Residential",
-          }),
-        1000,
-      ),
-    )
+  const fetchNearbyAddresses = async (lat, lon) => {
+    const radius = 100 // Search radius in meters
+    const url = `https://ws.geonorge.no/adresser/v1/punktsok?lat=${lat}&lon=${lon}&radius=${radius}&treffPerSide=5`
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
   }
 
   if (!L) {
@@ -204,7 +220,7 @@ export default function PropertyMap() {
         </Card>
       </div>
       <div className="w-1/3 p-4">
-        <Card className="h-full">
+        <Card className="h-full overflow-auto">
           <CardHeader>
             <CardTitle>Eiendomsinformasjon</CardTitle>
           </CardHeader>
@@ -219,15 +235,48 @@ export default function PropertyMap() {
                 {propertyData ? (
                   <div className="mt-4">
                     <p>
-                      <strong>Navn:</strong> {propertyData.name || "N/A"}
+                      <strong>Navn:</strong> {propertyData.name}
                     </p>
                     <p>
                       <strong>Adresse:</strong> {propertyData.address}
+                    </p>
+                    <p>
+                      <strong>Kommune:</strong> {propertyData.kommunenavn} (
+                      {propertyData.kommunenummer})
+                    </p>
+                    <p>
+                      <strong>Gårdsnummer:</strong> {propertyData.gardsnummer}
+                    </p>
+                    <p>
+                      <strong>Bruksnummer:</strong> {propertyData.bruksnummer}
+                    </p>
+                    {propertyData.festenummer && (
+                      <p>
+                        <strong>Festenummer:</strong> {propertyData.festenummer}
+                      </p>
+                    )}
+                    {propertyData.undernummer && (
+                      <p>
+                        <strong>Undernummer:</strong> {propertyData.undernummer}
+                      </p>
+                    )}
+                    <p>
+                      <strong>Type:</strong> {propertyData.objtype}
                     </p>
                     <Button className="mt-4 w-full">Vurder eiendom</Button>
                   </div>
                 ) : (
                   <p className="mt-4">Søker etter eiendomsdata...</p>
+                )}
+                {nearbyAddresses.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="font-bold">Nærliggende adresser:</h3>
+                    <ul className="mt-2 list-disc pl-5">
+                      {nearbyAddresses.map((address, index) => (
+                        <li key={index}>{address.adressetekst}</li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </>
             ) : (
