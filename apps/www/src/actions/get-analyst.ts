@@ -6,11 +6,7 @@ export async function getAnalyses(workspaceId: string) {
   try {
     const analyses = await prisma.financialAnalysisBuilding.findMany({
       where: {
-        building: {
-          property: {
-            workspaceId,
-          },
-        },
+        workspaceId: workspaceId,
       },
       select: {
         id: true,

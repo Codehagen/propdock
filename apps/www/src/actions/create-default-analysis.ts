@@ -5,32 +5,39 @@ import { revalidatePath } from "next/cache"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
-export async function createAnalysis(analysisData: { name: string }) {
-  const user = await getCurrentUser()
-  const userId = user?.id
-
-  if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
-  }
-
+export async function generateDefaultAnalysis(propertyData: any) {
   try {
-    const workspace = await prisma.workspace.findFirst({
-      where: { users: { some: { id: userId } } },
-      select: { id: true },
+    const user = await getCurrentUser()
+    const userId = user?.id
+
+    if (!userId) {
+      console.error("No user is currently logged in.")
+      return { success: false, error: "User not authenticated" }
+    }
+
+    const userWorkspace = await prisma.workspace.findFirst({
+      where: {
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
     })
 
-    if (!workspace) {
-      throw new Error("No workspace found for this user")
+    if (!userWorkspace) {
+      console.error("No workspace found for this user.")
+      return { success: false, error: "No workspace found" }
     }
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
-        name: analysisData.name,
-        workspace: {
-          connect: { id: workspace.id },
-        },
-        rentableArea: 1000,
+        name: `Analyse for ${propertyData.name || "Ukjent eiendom"} ${new Date().toISOString().split("T")[0]}`,
+        workspaceId: userWorkspace.id,
+        rentableArea: propertyData.rentableArea || 1000,
         ratioAreaOffice: 0.5,
         ratioAreaMerch: 0.3,
         ratioAreaMisc: 0.2,
@@ -88,13 +95,13 @@ export async function createAnalysis(analysisData: { name: string }) {
       },
     })
 
-    console.log(`Created analysis with ID: ${newAnalysis.id}.`)
+    console.log(`Generated new analysis with ID: ${newAnalysis.id}`)
 
     revalidatePath("/analytics")
 
     return { success: true, analysis: newAnalysis }
   } catch (error) {
-    console.error(`Error creating analysis for user ID: ${userId}`, error)
+    console.error("Error generating default analysis:", error)
     return { success: false, error: error.message }
   }
 }

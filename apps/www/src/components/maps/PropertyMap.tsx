@@ -184,37 +184,10 @@ export default function PropertyMap() {
 
   if (isLoading) {
     return (
-      <div className="flex h-[calc(100vh-4rem)] w-full">
-        <div className="w-2/3 p-4">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Eiendomskart</CardTitle>
-              <CardDescription>Laster kart...</CardDescription>
-            </CardHeader>
-            <CardContent className="h-[calc(100%-5rem)]">
-              <Skeleton className="h-full w-full" />
-            </CardContent>
-          </Card>
-        </div>
-        <div className="w-1/3 p-4">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Eiendomsinformasjon</CardTitle>
-              <CardDescription>Laster informasjon...</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-                <div className="grid grid-cols-2 gap-4">
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-20 w-full" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="flex h-[calc(100vh-4rem)] w-full items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="mx-auto h-8 w-8 animate-spin" />
+          <p className="mt-2 text-sm text-gray-500">Laster kart...</p>
         </div>
       </div>
     )
