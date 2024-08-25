@@ -11,7 +11,23 @@ import {
   CardTitle,
 } from "@propdock/ui/components/card"
 import { Input } from "@propdock/ui/components/input"
-import { Search } from "lucide-react"
+import { Separator } from "@propdock/ui/components/separator"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@propdock/ui/components/tabs"
+import {
+  Building,
+  Calendar,
+  DollarSign,
+  Home,
+  MapPin,
+  Search,
+  Users,
+  Warehouse,
+} from "lucide-react"
 import { useMap, useMapEvents } from "react-leaflet"
 
 import "leaflet/dist/leaflet.css"
@@ -69,6 +85,33 @@ export default function PropertyMap() {
   const [propertyData, setPropertyData] = useState(null)
   const [nearbyAddresses, setNearbyAddresses] = useState([])
   const initialPosition = [67.2802, 14.405] // Bodø coordinates
+  const [orgnr, setOrgnr] = useState("")
+  const [mockCompanyData, setMockCompanyData] = useState(null)
+  const [propertyDetails, setPropertyDetails] = useState({
+    tomtetype: "Selveier tomt",
+    tomteareal: "5 268 m²",
+    antallBygninger: 1,
+    antallBygningstyper: 1,
+    bygningstype: "Kjøpesenter",
+    byggeaar: 2014,
+    bra: "24591 m²",
+  })
+
+  const handleOrgnrSubmit = (e) => {
+    e.preventDefault()
+    // Mock data - in a real scenario, this would be fetched from an API
+    setMockCompanyData({
+      eier: "Eiendom AS",
+      inntekter: "5.000.000 NOK",
+      kostnader: "3.500.000 NOK",
+      antallLeietakere: 12,
+      sumDriftsinntekter: "7.500.000 NOK",
+      driftsResultat: "2.000.000 NOK",
+      resultatForSkatt: "1.800.000 NOK",
+      aarsresultat: "1.400.000 NOK",
+      sumEiendeler: "25.000.000 NOK",
+    })
+  }
 
   useEffect(() => {
     const loadLeaflet = async () => {
@@ -223,64 +266,227 @@ export default function PropertyMap() {
         <Card className="h-full overflow-auto">
           <CardHeader>
             <CardTitle>Eiendomsinformasjon</CardTitle>
+            <CardDescription>
+              {selectedLocation
+                ? `Valgt lokasjon: ${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
+                : "Velg en lokasjon på kartet"}
+            </CardDescription>
+            {propertyData && propertyData.address && (
+              <div className="mt-2 flex items-center space-x-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>{propertyData.address}</span>
+              </div>
+            )}
           </CardHeader>
           <CardContent>
             {selectedLocation ? (
-              <>
-                <p className="mb-2">
-                  <strong>Koordinater:</strong>
-                </p>
-                <p>Latitude: {selectedLocation.lat.toFixed(6)}</p>
-                <p>Longitude: {selectedLocation.lng.toFixed(6)}</p>
-                {propertyData ? (
-                  <div className="mt-4">
-                    <p>
-                      <strong>Navn:</strong> {propertyData.name}
+              <Tabs defaultValue="property" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="property">Eiendom</TabsTrigger>
+                  <TabsTrigger value="company">Selskap</TabsTrigger>
+                </TabsList>
+                <TabsContent value="property">
+                  {propertyData ? (
+                    <div className="space-y-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2">
+                          <MapPin className="h-5 w-5" />
+                          <div>
+                            <p className="font-semibold">{propertyData.name}</p>
+                            <p className="text-sm text-gray-500">
+                              {propertyData.address}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-sm font-medium">Kommune</p>
+                            <p>
+                              {propertyData.kommunenavn} (
+                              {propertyData.kommunenummer})
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">Type</p>
+                            <p>{propertyData.objtype}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">Gårdsnummer</p>
+                            <p>{propertyData.gardsnummer}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">Bruksnummer</p>
+                            <p>{propertyData.bruksnummer}</p>
+                          </div>
+                          {/* {propertyData.festenummer && (
+                            <div>
+                              <p className="text-sm font-medium">Festenummer</p>
+                              <p>{propertyData.festenummer}</p>
+                            </div>
+                          )} */}
+                          {propertyData.undernummer && (
+                            <div>
+                              <p className="text-sm font-medium">Undernummer</p>
+                              <p>{propertyData.undernummer}</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <Separator />
+
+                      <div>
+                        <h3 className="mb-4 font-semibold">Nøkkelinfo</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Home className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">
+                                {propertyDetails.tomtetype}
+                              </p>
+                              <p>{propertyDetails.tomteareal}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Building className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">Bygninger</p>
+                              <p>{propertyDetails.antallBygninger}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Warehouse className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">
+                                Bygningstyper
+                              </p>
+                              {/* <p>{propertyDetails.antallBygningstyper}</p> */}
+                              <p className="text-xs text-gray-500">
+                                {propertyDetails.bygningstype}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Calendar className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">Byggeår</p>
+                              {/* <p>
+                                {propertyDetails.antallBygninger} av{" "}
+                                {propertyDetails.antallBygninger} bygning
+                              </p> */}
+                              <p>{propertyDetails.byggeaar}</p>
+                            </div>
+                          </div>
+                          <div className="col-span-2 flex items-center space-x-2">
+                            <Building className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">
+                                BRA Matrikkel
+                              </p>
+                              {/* <p>
+                                {propertyDetails.antallBygninger} av{" "}
+                                {propertyDetails.antallBygninger} bygning
+                              </p> */}
+                              <p>{propertyDetails.bra}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="py-4 text-center">
+                      Søker etter eiendomsdata...
                     </p>
-                    <p>
-                      <strong>Adresse:</strong> {propertyData.address}
-                    </p>
-                    <p>
-                      <strong>Kommune:</strong> {propertyData.kommunenavn} (
-                      {propertyData.kommunenummer})
-                    </p>
-                    <p>
-                      <strong>Gårdsnummer:</strong> {propertyData.gardsnummer}
-                    </p>
-                    <p>
-                      <strong>Bruksnummer:</strong> {propertyData.bruksnummer}
-                    </p>
-                    {propertyData.festenummer && (
-                      <p>
-                        <strong>Festenummer:</strong> {propertyData.festenummer}
-                      </p>
-                    )}
-                    {propertyData.undernummer && (
-                      <p>
-                        <strong>Undernummer:</strong> {propertyData.undernummer}
-                      </p>
-                    )}
-                    <p>
-                      <strong>Type:</strong> {propertyData.objtype}
-                    </p>
-                    <Button className="mt-4 w-full">Vurder eiendom</Button>
-                  </div>
-                ) : (
-                  <p className="mt-4">Søker etter eiendomsdata...</p>
-                )}
-                {nearbyAddresses.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="font-bold">Nærliggende adresser:</h3>
-                    <ul className="mt-2 list-disc pl-5">
-                      {nearbyAddresses.map((address, index) => (
-                        <li key={index}>{address.adressetekst}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </>
+                  )}
+                </TabsContent>
+                <TabsContent value="company">
+                  <form onSubmit={handleOrgnrSubmit} className="space-y-4">
+                    <div className="flex space-x-2">
+                      <Input
+                        type="text"
+                        placeholder="Organisasjonsnummer"
+                        value={orgnr}
+                        onChange={(e) => setOrgnr(e.target.value)}
+                      />
+                      <Button type="submit">Søk</Button>
+                    </div>
+                  </form>
+
+                  {mockCompanyData && (
+                    <div className="mt-6 space-y-6">
+                      <div className="flex items-center space-x-2">
+                        <Building className="h-5 w-5" />
+                        <p className="font-semibold">{mockCompanyData.eier}</p>
+                      </div>
+                      <div>
+                        <h3 className="mb-4 font-semibold">Nøkkeltall</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="flex items-center space-x-2">
+                            <DollarSign className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">Inntekter</p>
+                              <p>{mockCompanyData.inntekter}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <DollarSign className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">Kostnader</p>
+                              <p>{mockCompanyData.kostnader}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Users className="h-5 w-5" />
+                            <div>
+                              <p className="text-sm font-medium">
+                                Antall Leietakere
+                              </p>
+                              <p>{mockCompanyData.antallLeietakere}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="mb-4 font-semibold">
+                          Finansiell informasjon
+                        </h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-sm font-medium">
+                              Sum driftsinntekter
+                            </p>
+                            <p>{mockCompanyData.sumDriftsinntekter}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">
+                              Driftsresultat
+                            </p>
+                            <p>{mockCompanyData.driftsResultat}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">
+                              Resultat før skatt
+                            </p>
+                            <p>{mockCompanyData.resultatForSkatt}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">Årsresultat</p>
+                            <p>{mockCompanyData.aarsresultat}</p>
+                          </div>
+                          <div className="col-span-2">
+                            <p className="text-sm font-medium">Sum eiendeler</p>
+                            <p>{mockCompanyData.sumEiendeler}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
             ) : (
-              <p>Velg en lokasjon på kartet for å se eiendomsinformasjon.</p>
+              <p className="py-4 text-center">
+                Velg en lokasjon på kartet for å se eiendomsinformasjon.
+              </p>
             )}
           </CardContent>
         </Card>
