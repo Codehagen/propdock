@@ -12,6 +12,7 @@ import {
 } from "@propdock/ui/components/card"
 import { Input } from "@propdock/ui/components/input"
 import { Separator } from "@propdock/ui/components/separator"
+import { Skeleton } from "@propdock/ui/components/skeleton"
 import {
   Tabs,
   TabsContent,
@@ -23,6 +24,7 @@ import {
   Calendar,
   DollarSign,
   Home,
+  Loader2,
   MapPin,
   Search,
   Users,
@@ -78,6 +80,7 @@ const MapClickHandler = ({ onMapClick }) => {
 }
 
 export default function PropertyMap() {
+  const [isLoading, setIsLoading] = useState(true)
   const [L, setL] = useState<any>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const mapRef = useRef<L.Map | null>(null)
@@ -96,6 +99,7 @@ export default function PropertyMap() {
     byggeaar: 2014,
     bra: "24591 m²",
   })
+  const [isPropertyDataLoading, setIsPropertyDataLoading] = useState(false)
 
   const handleOrgnrSubmit = (e) => {
     e.preventDefault()
@@ -125,6 +129,7 @@ export default function PropertyMap() {
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
       })
       setL(leaflet)
+      setIsLoading(false)
     }
     loadLeaflet()
   }, [])
@@ -133,6 +138,7 @@ export default function PropertyMap() {
     setSelectedLocation(latlng)
     setPropertyData(null)
     setNearbyAddresses([])
+    setIsPropertyDataLoading(true)
 
     try {
       const response = await fetchNearbyAddresses(latlng.lat, latlng.lng)
@@ -155,8 +161,10 @@ export default function PropertyMap() {
           // Add any other fields you find useful
         })
       }
+      setIsPropertyDataLoading(false)
     } catch (error) {
       console.error("Error fetching nearby addresses:", error)
+      setIsPropertyDataLoading(false)
     }
   }
 
@@ -172,6 +180,44 @@ export default function PropertyMap() {
     const response = await fetch(url)
     const data = await response.json()
     return data
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-4rem)] w-full">
+        <div className="w-2/3 p-4">
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Eiendomskart</CardTitle>
+              <CardDescription>Laster kart...</CardDescription>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-5rem)]">
+              <Skeleton className="h-full w-full" />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="w-1/3 p-4">
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Eiendomsinformasjon</CardTitle>
+              <CardDescription>Laster informasjon...</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <div className="grid grid-cols-2 gap-4">
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   if (!L) {
@@ -286,7 +332,18 @@ export default function PropertyMap() {
                   <TabsTrigger value="company">Selskap</TabsTrigger>
                 </TabsList>
                 <TabsContent value="property">
-                  {propertyData ? (
+                  {isPropertyDataLoading ? (
+                    <div className="space-y-4">
+                      <Skeleton className="h-4 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                      <div className="grid grid-cols-2 gap-4">
+                        <Skeleton className="h-20 w-full" />
+                        <Skeleton className="h-20 w-full" />
+                        <Skeleton className="h-20 w-full" />
+                        <Skeleton className="h-20 w-full" />
+                      </div>
+                    </div>
+                  ) : propertyData ? (
                     <div className="space-y-6">
                       <div className="space-y-4">
                         <div className="flex items-center space-x-2">
@@ -394,8 +451,8 @@ export default function PropertyMap() {
                       </div>
                     </div>
                   ) : (
-                    <p className="py-4 text-center">
-                      Søker etter eiendomsdata...
+                    <p className="py-4 text-center text-muted-foreground">
+                      Velg en lokasjon på kartet for å se eiendomsinformasjon.
                     </p>
                   )}
                 </TabsContent>
