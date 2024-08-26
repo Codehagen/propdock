@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
+import { generateDefaultAnalysis } from "@/actions/create-default-analysis"
 import { Button } from "@propdock/ui/components/button"
 import {
   Card,
@@ -31,6 +32,7 @@ import {
   Warehouse,
 } from "lucide-react"
 import { useMap, useMapEvents } from "react-leaflet"
+import { toast } from "sonner"
 
 import "leaflet/dist/leaflet.css"
 
@@ -180,6 +182,41 @@ export default function PropertyMap() {
     const response = await fetch(url)
     const data = await response.json()
     return data
+  }
+
+  const handleCreateAnalysis = async () => {
+    if (!propertyData) {
+      toast.error("No property selected. Please select a property first.")
+      return
+    }
+
+    const analysisData = {
+      name: propertyData.name || "Ukjent eiendom",
+      rentableArea: propertyDetails.bra
+        ? parseInt(propertyDetails.bra.replace(/[^\d]/g, ""))
+        : undefined,
+      address: propertyData.address,
+      gardsnummer: propertyData.gardsnummer,
+      bruksnummer: propertyData.bruksnummer,
+      kommunenummer: propertyData.kommunenummer,
+      kommunenavn: propertyData.kommunenavn,
+      sumDriftsinntekter: mockCompanyData?.sumDriftsinntekter
+        ? parseFloat(mockCompanyData.sumDriftsinntekter.replace(/[^\d.]/g, ""))
+        : undefined,
+      // Add any other fields you want to pass from the frontend
+    }
+
+    toast.promise(generateDefaultAnalysis(analysisData), {
+      loading: "Creating new analysis...",
+      success: (result) => {
+        if (result.success) {
+          return `New analysis created successfully for ${analysisData.name}`
+        } else {
+          throw new Error(result.error)
+        }
+      },
+      error: (err) => `Failed to create analysis: ${err.message}`,
+    })
   }
 
   if (isLoading) {
@@ -422,6 +459,12 @@ export default function PropertyMap() {
                           </div>
                         </div>
                       </div>
+
+                      <Separator />
+
+                      <Button onClick={handleCreateAnalysis} className="w-full">
+                        Opprett ny analyse
+                      </Button>
                     </div>
                   ) : (
                     <p className="py-4 text-center text-muted-foreground">

@@ -33,11 +33,15 @@ export async function generateDefaultAnalysis(propertyData: any) {
       return { success: false, error: "No workspace found" }
     }
 
+    const bra = propertyData.rentableArea || 0
+    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0
+
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
-        name: `Analyse for ${propertyData.name || "Ukjent eiendom"} ${new Date().toISOString().split("T")[0]}`,
+        name: `Analyse for ${propertyData.name || "Ukjent eiendom"}`,
         workspaceId: userWorkspace.id,
-        rentableArea: propertyData.rentableArea || 1000,
+        buildingId: propertyData.buildingId,
+        rentableArea: bra,
         ratioAreaOffice: 0.5,
         ratioAreaMerch: 0.3,
         ratioAreaMisc: 0.2,
@@ -87,8 +91,8 @@ export async function generateDefaultAnalysis(propertyData: any) {
           create: [
             {
               typeDescription: "Office Space",
-              areaPerUnit: 125,
-              valuePerUnit: 62500,
+              areaPerUnit: bra,
+              valuePerUnit: sumDriftsinntekter,
             },
           ],
         },
