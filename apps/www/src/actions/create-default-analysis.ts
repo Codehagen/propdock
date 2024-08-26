@@ -5,32 +5,44 @@ import { revalidatePath } from "next/cache"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
-export async function createAnalysis(analysisData: { name: string }) {
-  const user = await getCurrentUser()
-  const userId = user?.id
-
-  if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
-  }
-
+export async function generateDefaultAnalysis(propertyData: any) {
   try {
-    const workspace = await prisma.workspace.findFirst({
-      where: { users: { some: { id: userId } } },
-      select: { id: true },
+    const user = await getCurrentUser()
+    const userId = user?.id
+
+    if (!userId) {
+      console.error("No user is currently logged in.")
+      return { success: false, error: "User not authenticated" }
+    }
+
+    const userWorkspace = await prisma.workspace.findFirst({
+      where: {
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
     })
 
-    if (!workspace) {
-      throw new Error("No workspace found for this user")
+    if (!userWorkspace) {
+      console.error("No workspace found for this user.")
+      return { success: false, error: "No workspace found" }
     }
+
+    const bra = propertyData.rentableArea || 0
+    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0
+    const ownerCostsManual = propertyData.ownerCostsManual || 0
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
-        name: analysisData.name,
-        workspace: {
-          connect: { id: workspace.id },
-        },
-        rentableArea: 1000,
+        name: `Analyse for ${propertyData.name || "Ukjent eiendom"}`,
+        workspaceId: userWorkspace.id,
+        buildingId: propertyData.buildingId,
+        rentableArea: bra,
         ratioAreaOffice: 0.5,
         ratioAreaMerch: 0.3,
         ratioAreaMisc: 0.2,
@@ -45,8 +57,8 @@ export async function createAnalysis(analysisData: { name: string }) {
         vacancyPerYear: JSON.stringify({ "2024": "10.5", "2025": "9.8" }),
         useCalcROI: true,
         roiWeightedYield: 0.05,
-        roiInflation: 0.02,
-        roiCalculated: 0.07,
+        roiInflation: 0.03,
+        roiCalculated: 0.08,
         roiManual: 0.06,
         marketRentOffice: 600,
         marketRentMerch: 400,
@@ -63,7 +75,7 @@ export async function createAnalysis(analysisData: { name: string }) {
         costs: {
           create: {
             ownerCostsMethod: true,
-            ownerCostsManual: 50000,
+            ownerCostsManual: ownerCostsManual,
             costMaintenance: 10000,
             costInsurance: 5000,
             costRevision: 3000,
@@ -80,21 +92,21 @@ export async function createAnalysis(analysisData: { name: string }) {
           create: [
             {
               typeDescription: "Office Space",
-              areaPerUnit: 125,
-              valuePerUnit: 62500,
+              areaPerUnit: bra,
+              valuePerUnit: sumDriftsinntekter,
             },
           ],
         },
       },
     })
 
-    console.log(`Created analysis with ID: ${newAnalysis.id}.`)
+    console.log(`Generated new analysis with ID: ${newAnalysis.id}`)
 
     revalidatePath("/analytics")
 
     return { success: true, analysis: newAnalysis }
   } catch (error) {
-    console.error(`Error creating analysis for user ID: ${userId}`, error)
+    console.error("Error generating default analysis:", error)
     return { success: false, error: error.message }
   }
 }

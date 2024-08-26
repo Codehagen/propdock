@@ -30,7 +30,7 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
   }
 
   const dataRows = [
-    { label: "Building", value: details.building.name },
+    // { label: "Building", value: details.building.name },
     { label: "Rentable Area", value: details.rentableArea },
     { label: "Rent Per Area", value: details.rentPerArea },
     { label: "Sum Value Now", value: details.sumValueNow },
