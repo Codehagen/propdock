@@ -82,25 +82,26 @@ model VerificationToken {
 }
 
 model Workspace {
-  id               String                 @id @default(cuid())
-  name             String
-  orgnr            Int?
-  address          String?
-  postalCode       String?
-  city             String?
-  createdAt        DateTime               @default(now()) @map("created_at")
-  updatedAt        DateTime               @default(now()) @map("updated_at")
-  buildings        Building[]
-  contracts        Contract[]
-  invoices         CustomerInvoice[]
-  Document         Document[]
-  properties       Property[]
-  apiKeys          WSApiKey[]
-  accessTokens     WorkspaceAccessToken[]
-  users            User[]
-  internalInvoices InternalInvoice[]
-  invites          WorkspaceInvite[]
-  accountingData   AccountingData[]
+  id                String                      @id @default(cuid())
+  name              String
+  orgnr             Int?
+  address           String?
+  postalCode        String?
+  city              String?
+  createdAt         DateTime                    @default(now()) @map("created_at")
+  updatedAt         DateTime                    @default(now()) @map("updated_at")
+  buildings         Building[]
+  contracts         Contract[]
+  invoices          CustomerInvoice[]
+  Document          Document[]
+  properties        Property[]
+  apiKeys           WSApiKey[]
+  accessTokens      WorkspaceAccessToken[]
+  users             User[]
+  internalInvoices  InternalInvoice[]
+  invites           WorkspaceInvite[]
+  accountingData    AccountingData[]
+  financialAnalyses FinancialAnalysisBuilding[]
 }
 
 model Property {
@@ -267,10 +268,11 @@ model BalancedAccounts {
 }
 
 model FinancialAnalysisBuilding {
-  id               String                            @id @default(cuid())
-  buildingId       String
-  createdAt        DateTime                          @default(now()) @map("created_at")
-  updatedAt        DateTime                          @default(now()) @map("updated_at")
+  id               String                             @id @default(cuid())
+  buildingId       String?
+  workspaceId      String
+  createdAt        DateTime                           @default(now()) @map("created_at")
+  updatedAt        DateTime                           @default(now()) @map("updated_at")
   name             String
   rentableArea     Int
   ratioAreaOffice  Float?
@@ -303,8 +305,10 @@ model FinancialAnalysisBuilding {
   manYieldMerch    Float?
   manYieldMisc     Float?
   manYieldWeighted Float?
-  building         Building                          @relation(fields: [buildingId], references: [id])
+  building         Building?                          @relation(fields: [buildingId], references: [id])
+  workspace        Workspace                          @relation(fields: [workspaceId], references: [id])
   incomeUnits      FinancialAnalysisBuildingIncome[]
+  tenants          FinancialAnalysisBuildingTenants[]
 }
 
 model FinancialAnalysisProperty {
@@ -516,6 +520,27 @@ model WorkspaceInvite {
 
   @@unique([email, workspaceId])
   @@index([workspaceId])
+}
+
+model FinancialAnalysisBuildingTenants {
+  id                          String                    @id @default(cuid())
+  financialAnalysisBuildingId String
+  name                        String
+  organizationNumber          String?
+  address                     String?
+  NACEcode                    String?
+  employees                   Int?
+  operatingIncome             Float?
+  wagesCosts                  Float?
+  totalOperatingCosts         Float?
+  operatingResult             Float?
+  netFinance                  Float?
+  resultBeforeTax             Float?
+  createdAt                   DateTime                  @default(now()) @map("created_at")
+  updatedAt                   DateTime                  @default(now()) @map("updated_at")
+  financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
+
+  @@map("financial_analysis_building_tenants")
 }
 
 enum ContractType {

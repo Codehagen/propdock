@@ -35,6 +35,7 @@ export async function generateDefaultAnalysis(propertyData: any) {
 
     const bra = propertyData.rentableArea || 0
     const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0
+    const ownerCostsManual = propertyData.ownerCostsManual || 0
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
@@ -56,8 +57,8 @@ export async function generateDefaultAnalysis(propertyData: any) {
         vacancyPerYear: JSON.stringify({ "2024": "10.5", "2025": "9.8" }),
         useCalcROI: true,
         roiWeightedYield: 0.05,
-        roiInflation: 0.02,
-        roiCalculated: 0.07,
+        roiInflation: 0.03,
+        roiCalculated: 0.08,
         roiManual: 0.06,
         marketRentOffice: 600,
         marketRentMerch: 400,
@@ -74,7 +75,7 @@ export async function generateDefaultAnalysis(propertyData: any) {
         costs: {
           create: {
             ownerCostsMethod: true,
-            ownerCostsManual: 50000,
+            ownerCostsManual: ownerCostsManual,
             costMaintenance: 10000,
             costInsurance: 5000,
             costRevision: 3000,
