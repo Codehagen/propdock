@@ -68,10 +68,10 @@ export async function generateDefaultAnalysis(propertyData: any) {
         manYieldMerch: 0.04,
         manYieldMisc: 0.03,
         manYieldWeighted: 0.045,
-        kpi1: 0,
-        kpi2: 0,
-        kpi3: 0,
-        kpi4: 0,
+        kpi1: 1,
+        kpi2: 2,
+        kpi3: 3,
+        kpi4: 4,
         costs: {
           create: {
             ownerCostsMethod: true,

@@ -10,6 +10,7 @@ import {
 import { format } from "date-fns"
 import { Building, Home, Settings } from "lucide-react"
 
+import { formatCurrency } from "@/lib/utils"
 import { EditContractSheet } from "@/components/buttons/EditContractDetails"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
@@ -90,10 +91,10 @@ export default async function EconomySettings({
                     Månedlig leie
                   </p>
                   <p className="text-2xl font-bold">
-                    {new Intl.NumberFormat("no-NO", {
-                      style: "currency",
-                      currency: contractDetails[0].currencyIso,
-                    }).format(contractDetails[0].baseRent ?? 0)}
+                    {formatCurrency(
+                      contractDetails[0].baseRent ?? 0,
+                      contractDetails[0].currencyIso,
+                    )}
                   </p>
                 </div>
                 <div>
@@ -101,10 +102,10 @@ export default async function EconomySettings({
                     Årlig leie
                   </p>
                   <p className="text-2xl font-bold">
-                    {new Intl.NumberFormat("no-NO", {
-                      style: "currency",
-                      currency: contractDetails[0].currencyIso,
-                    }).format((contractDetails[0].baseRent ?? 0) * 12)}
+                    {formatCurrency(
+                      (contractDetails[0].baseRent ?? 0) * 12,
+                      contractDetails[0].currencyIso,
+                    )}
                   </p>
                 </div>
                 <div>

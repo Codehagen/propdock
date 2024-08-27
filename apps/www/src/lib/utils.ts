@@ -18,6 +18,15 @@ export function formatDate(input: string | number): string {
   })
 }
 
+export function formatCurrency(value: number | null): string {
+  if (value === null) return "-"
+  const formattedNumber = new Intl.NumberFormat("nb-NO", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value)
+  return `${formattedNumber} kr`
+}
+
 export function absoluteUrl(path: string) {
   return `${env.NEXT_PUBLIC_APP_URL}${path}`
 }
