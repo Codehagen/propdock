@@ -35,6 +35,11 @@ export default async function DashboardLayout({
       href: `/analytics/${params.id}/sensitivity`,
       icon: "barchart",
     },
+    {
+      title: "Leietakere",
+      href: `/analytics/${params.id}/tenants`,
+      icon: "user",
+    },
   ]
 
   return (
