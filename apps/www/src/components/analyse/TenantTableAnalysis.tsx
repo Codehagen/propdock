@@ -11,6 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu"
+import { ScrollArea } from "@propdock/ui/components/scroll-area"
+import { Separator } from "@propdock/ui/components/separator"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@propdock/ui/components/sheet"
 import {
   Table,
   TableBody,
@@ -28,15 +39,21 @@ import {
 import {
   AlertCircle,
   ArrowUpDown,
+  Briefcase,
   Building2,
+  Calendar,
   CheckCircle,
   DollarSign,
   ExternalLink,
   MoreHorizontal,
   PiggyBank,
+  TrendingDown,
+  TrendingUp,
   Users,
+  X,
   XCircle,
 } from "lucide-react"
+import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts"
 
 import { formatCurrency } from "@/lib/utils" // Add this import
 
@@ -54,6 +71,11 @@ interface Tenant {
   netFinance: number | null
   resultBeforeTax: number | null
   rating: "good" | "average" | "poor"
+  description: string
+  foundedYear: number
+  industry: string
+  liquidityScore: number
+  lastYearLiquidityScore: number
 }
 
 // Sample data (replace this with your actual data)
@@ -71,6 +93,11 @@ const tenants: Tenant[] = [
     netFinance: -50000,
     resultBeforeTax: 200000,
     rating: "good",
+    description: "A trendsetting company in the entertainment industry.",
+    foundedYear: 2015,
+    industry: "Entertainment",
+    liquidityScore: 0.48,
+    lastYearLiquidityScore: 0.55,
   },
   {
     financialAnalysisBuildingId: "B002",
@@ -85,6 +112,30 @@ const tenants: Tenant[] = [
     netFinance: -100000,
     resultBeforeTax: 1150000,
     rating: "average",
+    description: "A trendsetting company in the entertainment industry.",
+    foundedYear: 2015,
+    industry: "Entertainment",
+    liquidityScore: 0.75,
+    lastYearLiquidityScore: 0.68,
+  },
+  {
+    financialAnalysisBuildingId: "B003",
+    name: "Struggling Enterprise AS",
+    organizationNumber: "123456789",
+    address: "789 Trouble Lane, Challengeville, Norway",
+    employees: 15,
+    operatingIncome: 500000,
+    wagesCosts: 400000,
+    totalOperatingCosts: 550000,
+    operatingResult: -50000,
+    netFinance: -20000,
+    resultBeforeTax: -70000,
+    rating: "poor",
+    description: "A company facing significant financial challenges.",
+    foundedYear: 2018,
+    industry: "Retail",
+    liquidityScore: 0.25,
+    lastYearLiquidityScore: 0.35,
   },
   // Add more sample data here...
 ]
@@ -117,9 +168,17 @@ function getTenantRatingBadge(rating: Tenant["rating"]) {
   )
 }
 
+// Add this function to calculate the color based on the score
+function getScoreColor(score: number): string {
+  if (score >= 0.7) return "hsl(var(--chart-2))" // Green-yellow for 70% and above
+  if (score >= 0.3) return "hsl(var(--chart-4))" // Teal for 30% to 70%
+  return "hsl(var(--chart-1))" // Orange-red for below 30%
+}
+
 export default function TenantTableAnalysis() {
   const [sortColumn, setSortColumn] = useState<keyof Tenant | null>(null)
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
+  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null)
 
   const sortedTenants = [...tenants].sort((a, b) => {
     if (sortColumn) {
@@ -183,7 +242,15 @@ export default function TenantTableAnalysis() {
           <TableBody>
             {sortedTenants.map((tenant) => (
               <TableRow key={tenant.financialAnalysisBuildingId}>
-                <TableCell className="font-medium">{tenant.name}</TableCell>
+                <TableCell className="font-medium">
+                  <Button
+                    variant="link"
+                    className="h-auto p-0"
+                    onClick={() => setSelectedTenant(tenant)}
+                  >
+                    {tenant.name}
+                  </Button>
+                </TableCell>
                 <TableCell className="text-right">
                   {tenant.employees || "-"}
                 </TableCell>
@@ -245,6 +312,168 @@ export default function TenantTableAnalysis() {
           </TableBody>
         </Table>
       </div>
+
+      <Sheet
+        open={selectedTenant !== null}
+        onOpenChange={() => setSelectedTenant(null)}
+      >
+        <SheetContent className="sm:max-w-[425px]">
+          <SheetHeader>
+            <SheetTitle>{selectedTenant?.name}</SheetTitle>
+            <SheetDescription>
+              Detaljert informasjon om leietakeren
+            </SheetDescription>
+          </SheetHeader>
+          <Separator className="my-4" />
+          {selectedTenant && (
+            <ScrollArea className="h-[calc(100vh-200px)] pr-4">
+              <div className="space-y-6">
+                <div className="flex items-center space-x-4">
+                  <Building2 className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">Bransje</p>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedTenant.industry}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Calendar className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">
+                      Grunnlagt
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedTenant.foundedYear}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Users className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">Ansatte</p>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedTenant.employees}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <DollarSign className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">
+                      Driftsinntekter
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatCurrency(selectedTenant.operatingIncome)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <PiggyBank className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">
+                      Resultat før skatt
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatCurrency(selectedTenant.resultBeforeTax)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Briefcase className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">
+                      Vurdering
+                    </p>
+                    <div className="mt-1">
+                      {getTenantRatingBadge(selectedTenant.rating)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <h3 className="mb-2 text-lg font-semibold">
+                    Likviditetsscore
+                  </h3>
+                  <div className="mx-auto w-full max-w-[250px]">
+                    <RadialBarChart
+                      width={250}
+                      height={250}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="60%"
+                      outerRadius="80%"
+                      barSize={10}
+                      data={[
+                        {
+                          name: "Likviditet",
+                          value: selectedTenant.liquidityScore,
+                        },
+                      ]}
+                      startAngle={180}
+                      endAngle={0}
+                    >
+                      <PolarAngleAxis
+                        type="number"
+                        domain={[0, 1]}
+                        angleAxisId={0}
+                        tick={false}
+                      />
+                      <RadialBar
+                        background
+                        dataKey="value"
+                        cornerRadius={10}
+                        fill={getScoreColor(selectedTenant.liquidityScore)}
+                      />
+                      <text
+                        x="50%"
+                        y="50%"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        className="fill-foreground text-3xl font-bold"
+                      >
+                        {selectedTenant.liquidityScore.toFixed(2)}
+                      </text>
+                    </RadialBarChart>
+                  </div>
+                  <div className="mt-2 text-center">
+                    <p className="text-sm font-medium">
+                      {selectedTenant.liquidityScore >= 0.5 ? (
+                        <span className="flex items-center justify-center text-green-600">
+                          Økende trend <TrendingUp className="ml-1 h-4 w-4" />
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center text-red-600">
+                          Synkende trend{" "}
+                          <TrendingDown className="ml-1 h-4 w-4" />
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Sammenlignet med i fjor:{" "}
+                      {selectedTenant.lastYearLiquidityScore.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-2 text-sm font-medium leading-none">
+                    Beskrivelse
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedTenant.description}
+                  </p>
+                </div>
+              </div>
+            </ScrollArea>
+          )}
+          <SheetFooter className="mt-4">
+            <SheetClose asChild>
+              <Button variant="outline">Lukk</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
