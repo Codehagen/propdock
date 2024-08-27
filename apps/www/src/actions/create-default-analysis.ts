@@ -97,6 +97,35 @@ export async function generateDefaultAnalysis(propertyData: any) {
             },
           ],
         },
+        tenants: {
+          create: [
+            {
+              name: "Me Without The Boys AS",
+              organizationNumber: "919415754",
+              address: "123 Main St, City",
+              NACEcode: "62.010",
+              employees: 50,
+              operatingIncome: 1000000,
+              wagesCosts: 500000,
+              totalOperatingCosts: 750000,
+              operatingResult: 250000,
+              netFinance: -50000,
+              resultBeforeTax: 200000,
+            },
+            {
+              name: "Corponor AS",
+              organizationNumber: "969026155",
+              NACEcode: "70.220",
+              employees: 30,
+              operatingIncome: 750000,
+              wagesCosts: 375000,
+              totalOperatingCosts: 562500,
+              operatingResult: 187500,
+              netFinance: -37500,
+              resultBeforeTax: 150000,
+            },
+          ],
+        },
       },
     })
 
