@@ -7,6 +7,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@propdock/ui/components/tabs"
+import {
+  BarChart2,
+  Building2,
+  LayoutGrid,
+  TrendingUp,
+  Wallet,
+} from "lucide-react"
 
 import { AnalysisDetailsTable } from "@/components/analyse/AnalysisDetailsTable"
 import { AnalysisInfoCard } from "@/components/analyse/AnalysisInfoCard"
@@ -51,12 +58,29 @@ export default async function AnalysisDetailsPage({
         ></DashboardHeader>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
-            <TabsTrigger value="overview">Oversikt</TabsTrigger>
-            <TabsTrigger value="inntekt">Inntekt</TabsTrigger>
-            <TabsTrigger value="details">Kostnader</TabsTrigger>
-            <TabsTrigger value="market-data">Markedsdata</TabsTrigger>
+            <TabsTrigger value="overview">
+              <LayoutGrid className="mr-2 h-4 w-4" />
+              Oversikt
+            </TabsTrigger>
+            <TabsTrigger value="inntekt">
+              <Building2 className="mr-2 h-4 w-4" />
+              Inntekt
+            </TabsTrigger>
+
+            <TabsTrigger value="details">
+              <Wallet className="mr-2 h-4 w-4" />
+              Kostnader
+            </TabsTrigger>
+            <TabsTrigger value="avkastning">
+              <BarChart2 className="mr-2 h-4 w-4" />
+              Avkastning
+            </TabsTrigger>
+            <TabsTrigger value="market-data">
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Markedsdata
+            </TabsTrigger>
           </TabsList>
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="mt-2 grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="order-2 lg:order-1 lg:col-span-2">
               <TabsContent value="overview">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -104,7 +128,7 @@ export default async function AnalysisDetailsPage({
                 />
               </TabsContent>
               <TabsContent value="details">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="">
                   <EditOwnerCostsCard
                     analysisId={analysisDetails.id}
                     initialOwnerCostsMethod={
@@ -138,17 +162,19 @@ export default async function AnalysisDetailsPage({
                     }
                     initialCostSum={analysisDetails.costs?.costSum ?? 0}
                   />
-                  <EditROICard
-                    analysisId={analysisDetails.id}
-                    initialUseCalcROI={analysisDetails.useCalcROI}
-                    initialROIWeightedYield={
-                      analysisDetails.roiWeightedYield ?? 0
-                    }
-                    initialROIInflation={analysisDetails.roiInflation ?? 0}
-                    initialROICalculated={analysisDetails.roiCalculated ?? 0}
-                    initialROIManual={analysisDetails.roiManual ?? 0}
-                  />
                 </div>
+              </TabsContent>
+              <TabsContent value="avkastning">
+                <EditROICard
+                  analysisId={analysisDetails.id}
+                  initialUseCalcROI={analysisDetails.useCalcROI}
+                  initialROIWeightedYield={
+                    analysisDetails.roiWeightedYield ?? 0
+                  }
+                  initialROIInflation={analysisDetails.roiInflation ?? 0}
+                  initialROICalculated={analysisDetails.roiCalculated ?? 0}
+                  initialROIManual={analysisDetails.roiManual ?? 0}
+                />
               </TabsContent>
               <TabsContent value="market-data">
                 <EditMarketDataCard
@@ -171,9 +197,6 @@ export default async function AnalysisDetailsPage({
                 <AnalysisInfoCard analysisDetails={analysisDetails} />
               </div>
             </div>
-          </div>
-          <div className="mt-8">
-            <AnalysisDetailsTable details={analysisDetails} />
           </div>
         </Tabs>
       </DashboardShell>

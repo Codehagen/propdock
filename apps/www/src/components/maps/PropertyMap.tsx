@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
+import { useRouter } from "next/navigation"
 import { generateDefaultAnalysis } from "@/actions/create-default-analysis"
 import { Button } from "@propdock/ui/components/button"
 import {
@@ -82,6 +83,7 @@ const MapClickHandler = ({ onMapClick }) => {
 }
 
 export default function PropertyMap() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [L, setL] = useState<any>(null)
   const [searchQuery, setSearchQuery] = useState("")
@@ -210,7 +212,8 @@ export default function PropertyMap() {
       loading: "Creating new analysis...",
       success: (result) => {
         if (result.success) {
-          return `New analysis created successfully for ${analysisData.name}`
+          router.push(`/analytics/${result.analysis.id}`)
+          return `Ny analyse opprettet for ${analysisData.name}`
         } else {
           throw new Error(result.error)
         }

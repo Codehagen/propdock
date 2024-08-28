@@ -68,10 +68,10 @@ export async function generateDefaultAnalysis(propertyData: any) {
         manYieldMerch: 0.04,
         manYieldMisc: 0.03,
         manYieldWeighted: 0.045,
-        kpi1: 1,
-        kpi2: 2,
-        kpi3: 3,
-        kpi4: 4,
+        kpi1: 0.01,
+        kpi2: 0.02,
+        kpi3: 0.03,
+        kpi4: 0.04,
         costs: {
           create: {
             ownerCostsMethod: true,
@@ -131,7 +131,8 @@ export async function generateDefaultAnalysis(propertyData: any) {
 
     console.log(`Generated new analysis with ID: ${newAnalysis.id}`)
 
-    revalidatePath("/analytics")
+    // Update the revalidatePath call
+    // revalidatePath(`/analytics/${newAnalysis.id}`)
 
     return { success: true, analysis: newAnalysis }
   } catch (error) {

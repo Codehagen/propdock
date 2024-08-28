@@ -14,6 +14,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -142,9 +143,9 @@ export function EditROICard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>ROI-inndata</CardTitle>
+        <CardTitle>Avkastning</CardTitle>
         <CardDescription>
-          Rediger ROI-inndata og relaterte verdier.
+          Angi metode for beregning av avkastingskrav.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -155,7 +156,12 @@ export function EditROICard({
               name="useCalcROI"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
-                  <FormLabel>Bruk beregnet ROI</FormLabel>
+                  <div>
+                    <FormLabel>Bruk beregnet Yield</FormLabel>
+                    <FormDescription>
+                      Velg mellom manuell yield eller beregnet yield.
+                    </FormDescription>
+                  </div>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -173,11 +179,15 @@ export function EditROICard({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Vektet yield</FormLabel>
+                      <FormDescription>
+                        Den gjennomsnittlige avkastningen for eiendommen,
+                        justert for ulike faktorer.
+                      </FormDescription>
                       <FormControl>
                         <div className="relative">
                           <Input
                             type="text"
-                            placeholder="Vektet yield"
+                            placeholder="F.eks. 5.5"
                             {...field}
                           />
                           <Percent
@@ -196,11 +206,14 @@ export function EditROICard({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Inflasjon</FormLabel>
+                      <FormDescription>
+                        Forventet årlig prisstigning som påvirker avkastningen.
+                      </FormDescription>
                       <FormControl>
                         <div className="relative">
                           <Input
                             type="text"
-                            placeholder="Inflasjon"
+                            placeholder="F.eks. 2.5"
                             {...field}
                           />
                           <Percent
@@ -218,7 +231,11 @@ export function EditROICard({
                   name="roiCalculated"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Beregnet ROI</FormLabel>
+                      <FormLabel>Beregnet Yield</FormLabel>
+                      <FormDescription>
+                        Den totale beregnede avkastningen basert på yield og
+                        inflasjon.
+                      </FormDescription>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -243,12 +260,15 @@ export function EditROICard({
                 name="roiManual"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Manuell ROI</FormLabel>
+                    <FormLabel>Manuell Yield</FormLabel>
+                    <FormDescription>
+                      Angi en manuell Yield / Avkastingskrav.
+                    </FormDescription>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type="text"
-                          placeholder="Manuell ROI"
+                          placeholder="F.eks. 7.5"
                           {...field}
                         />
                         <Percent

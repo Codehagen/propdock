@@ -26,6 +26,7 @@ import {
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
+import { AnalysesTable } from "@/components/analyse/AnalysesTable"
 import { AddAnalysisSheet } from "@/components/buttons/AddAnalysisSheet"
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
 import { DashboardHeader } from "@/components/dashboard/header"
@@ -113,64 +114,13 @@ export default async function DashboardPage() {
           <AddAnalysisSheet />
         </EmptyPlaceholder>
       ) : (
-        <Tabs defaultValue="table" className="w-full">
+        <Tabs defaultValue="map" className="w-full">
           <TabsList>
-            <TabsTrigger value="table">Eiendommer</TabsTrigger>
             <TabsTrigger value="map">Kart</TabsTrigger>
+            <TabsTrigger value="table">Eiendommer</TabsTrigger>
           </TabsList>
           <TabsContent value="table">
-            <Card>
-              <CardHeader>
-                <CardTitle>Analyser</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Navn</TableHead>
-                      <TableHead>Bygning</TableHead>
-                      <TableHead className="text-right">
-                        Utleibart areal (m²)
-                      </TableHead>
-                      <TableHead className="text-right">
-                        Leiepris (NOK/m²/år)
-                      </TableHead>
-                      <TableHead className="text-right">Nåverdi</TableHead>
-                      <TableHead className="text-right">Exit verdi</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {analyses.map((analysis) => (
-                      <TableRow key={analysis.id}>
-                        <TableCell>
-                          <Link
-                            href={`/analytics/${analysis.id}`}
-                            className="font-medium hover:underline"
-                          >
-                            {analysis.name}
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          {analysis.building?.name || "N/A"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {analysis.rentableArea.toLocaleString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {analysis.rentPerArea.toLocaleString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {analysis.sumValueNow}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {analysis.sumValueExit}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+            <AnalysesTable analyses={analyses} />
           </TabsContent>
           <TabsContent value="map">
             <PropertyMap />
