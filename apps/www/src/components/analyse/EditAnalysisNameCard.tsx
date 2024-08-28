@@ -28,6 +28,7 @@ import {
 } from "@propdock/ui/components/popover"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
+import { nb } from "date-fns/locale"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -123,7 +124,7 @@ export function EditAnalysisNameCard({
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "PPP", { locale: nb })
                           ) : (
                             <span>Velg en dato</span>
                           )}
@@ -140,6 +141,7 @@ export function EditAnalysisNameCard({
                           date > new Date() || date < new Date("1900-01-01")
                         }
                         initialFocus
+                        locale={nb}
                       />
                     </PopoverContent>
                   </Popover>
