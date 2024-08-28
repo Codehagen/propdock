@@ -14,6 +14,12 @@ import {
   TableRow,
 } from "@propdock/ui/components/table"
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@propdock/ui/components/tabs"
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -176,277 +182,290 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
     discountValues[discountValues.length - 1].discountFactor
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Kontantstrøm</CardTitle>
-          <CardDescription>Kontantstrøm for eiendommen</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <TooltipProvider>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>NOK</TableHead>
-                  {years.map((year) => (
-                    <TableHead key={year}>{year}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Utleibart areal</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Dette representerer utleibart areal</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {years.map((year) => (
-                    <TableCell key={year}>
-                      {formatNumber(details.rentableArea)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Løpende leie</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Dette representerer løpende leie</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {roundedRentalIncomes.map((income, index) => (
-                    <TableCell key={years[index]}>
-                      {formatNumber(income)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow className="font-bold">
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Brutto leieinntekter</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Utleibart areal x løpende leie</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {grossRentalIncomes.map((income, index) => (
-                    <TableCell key={years[index]}>
-                      {formatNumber(income)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow className="text-sm text-muted-foreground">
-                  <TableCell colSpan={years.length + 1}>Kostnader</TableCell>
-                </TableRow>
-                {details.costs.ownerCostsMethod ? (
-                  <TableRow>
-                    <TableCell>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span>Automatisk regnet kostnader</span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>
-                            Sum av alle individuelle kostnader: vedlikehold,
-                            forsikring, revisjon, administrasjon, andre
-                            driftskostnader, megling/utleie, juridiske
-                            honorarer, honorar konsulenter, asset management.
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                    {years.map((year) => (
-                      <TableCell key={year}>
-                        {formatNumber(calculateAutomaticCosts())}
+    <div className="space-y-6">
+      <Tabs defaultValue="cashflow">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="cashflow">Kontantstrøm</TabsTrigger>
+          <TabsTrigger value="summary">Sammendrag</TabsTrigger>
+        </TabsList>
+        <TabsContent value="cashflow">
+          <Card>
+            <CardHeader>
+              <CardTitle>Kontantstrøm</CardTitle>
+              <CardDescription>Kontantstrøm for eiendommen</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TooltipProvider>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>NOK</TableHead>
+                      {years.map((year) => (
+                        <TableHead key={year}>{year}</TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Utleibart areal</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Dette representerer utleibart areal</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
-                    ))}
-                  </TableRow>
-                ) : (
-                  <TableRow>
-                    <TableCell>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span>Manuelle eierkostnader</span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Totale manuelle eierkostnader</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                    {years.map((year) => (
-                      <TableCell key={year}>
-                        {formatNumber(details.costs.ownerCostsManual || 0)}
+                      {years.map((year) => (
+                        <TableCell key={year}>
+                          {formatNumber(details.rentableArea)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Løpende leie</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Dette representerer løpende leie</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
-                    ))}
-                  </TableRow>
-                )}
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Leietakertilpassninger</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Kostnader for leietakertilpassninger</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {years.map((year) => (
-                    <TableCell key={year}>
-                      {formatNumber(bigExpenses[year] || 0)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow className="font-bold">
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Netto leieinntekter</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Brutto leieinntekter minus kostnader og
-                          leietakertilpassninger
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {netRentalIncomes.map((income, index) => (
-                    <TableCell key={years[index]}>
-                      {formatNumber(income)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow className="text-sm text-muted-foreground">
-                  <TableCell colSpan={years.length + 1}>
-                    Diskonteringsdetaljer
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Andel inkludert i DCF</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Andel inkludert i DCF for hver periode. Første året er
-                          antall dager mellom verdsettelsesdato og slutten av
-                          året delt på 365. For påfølgende år er det 365 dager
-                          delt på 365.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {andelInkludertIDCF.map((percentage, index) => (
-                    <TableCell key={years[index]}>
-                      {(percentage * 100).toFixed(2)}%
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Diskonteringsperiode</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Periode for diskontering. For første året er det andel
-                          inkludert i DCF. For påfølgende år er det året + andel
-                          inkludert i DCF.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {discountValues.map((value, index) => (
-                    <TableCell key={years[index]}>
-                      {value.discountPeriod.toFixed(2)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Diskonteringsfaktor</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Faktor for diskontering, beregnet som 1 / (1 +
-                          diskonteringsrate) ^ diskonteringsperiode.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {discountValues.map((value, index) => (
-                    <TableCell key={years[index]}>
-                      {value.discountFactor.toFixed(4)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span>Nåverdi kontantstrøm</span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Nåverdi av kontantstrøm, beregnet som netto
-                          leieinntekter multiplisert med diskonteringsfaktor.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                  {discountValues.map((value, index) => (
-                    <TableCell key={years[index]}>
-                      {formatNumber(value.discountedCashFlow)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TooltipProvider>
-        </CardContent>
-      </Card>
-
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Sum Nåverdi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>{formatNumber(sumNaverdi)}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Exit Verdi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>{formatNumber(exitVerdi)}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Eiendomsverdi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>{formatNumber(totalEiendomsverdi)}</p>
-          </CardContent>
-        </Card>
-      </div>
-    </>
+                      {roundedRentalIncomes.map((income, index) => (
+                        <TableCell key={years[index]}>
+                          {formatNumber(income)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow className="font-bold">
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Brutto leieinntekter</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Utleibart areal x løpende leie</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {grossRentalIncomes.map((income, index) => (
+                        <TableCell key={years[index]}>
+                          {formatNumber(income)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow className="text-sm text-muted-foreground">
+                      <TableCell colSpan={years.length + 1}>
+                        Kostnader
+                      </TableCell>
+                    </TableRow>
+                    {details.costs.ownerCostsMethod ? (
+                      <TableRow>
+                        <TableCell>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>Automatisk regnet kostnader</span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>
+                                Sum av alle individuelle kostnader: vedlikehold,
+                                forsikring, revisjon, administrasjon, andre
+                                driftskostnader, megling/utleie, juridiske
+                                honorarer, honorar konsulenter, asset
+                                management.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TableCell>
+                        {years.map((year) => (
+                          <TableCell key={year}>
+                            {formatNumber(calculateAutomaticCosts())}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ) : (
+                      <TableRow>
+                        <TableCell>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>Manuelle eierkostnader</span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Totale manuelle eierkostnader</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TableCell>
+                        {years.map((year) => (
+                          <TableCell key={year}>
+                            {formatNumber(details.costs.ownerCostsManual || 0)}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    )}
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Leietakertilpassninger</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Kostnader for leietakertilpassninger</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {years.map((year) => (
+                        <TableCell key={year}>
+                          {formatNumber(bigExpenses[year] || 0)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow className="font-bold">
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Netto leieinntekter</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              Brutto leieinntekter minus kostnader og
+                              leietakertilpassninger
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {netRentalIncomes.map((income, index) => (
+                        <TableCell key={years[index]}>
+                          {formatNumber(income)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow className="text-sm text-muted-foreground">
+                      <TableCell colSpan={years.length + 1}>
+                        Diskonteringsdetaljer
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Andel inkludert i DCF</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              Andel inkludert i DCF for hver periode. Første
+                              året er antall dager mellom verdsettelsesdato og
+                              slutten av året delt på 365. For påfølgende år er
+                              det 365 dager delt på 365.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {andelInkludertIDCF.map((percentage, index) => (
+                        <TableCell key={years[index]}>
+                          {(percentage * 100).toFixed(2)}%
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Diskonteringsperiode</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              Periode for diskontering. For første året er det
+                              andel inkludert i DCF. For påfølgende år er det
+                              året + andel inkludert i DCF.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {discountValues.map((value, index) => (
+                        <TableCell key={years[index]}>
+                          {value.discountPeriod.toFixed(2)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Diskonteringsfaktor</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              Faktor for diskontering, beregnet som 1 / (1 +
+                              diskonteringsrate) ^ diskonteringsperiode.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {discountValues.map((value, index) => (
+                        <TableCell key={years[index]}>
+                          {value.discountFactor.toFixed(4)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>Nåverdi kontantstrøm</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              Nåverdi av kontantstrøm, beregnet som netto
+                              leieinntekter multiplisert med
+                              diskonteringsfaktor.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      {discountValues.map((value, index) => (
+                        <TableCell key={years[index]}>
+                          {formatNumber(value.discountedCashFlow)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TooltipProvider>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="summary">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Sum Nåverdi</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{formatNumber(sumNaverdi)}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Exit Verdi</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{formatNumber(exitVerdi)}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Total Eiendomsverdi</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{formatNumber(totalEiendomsverdi)}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
