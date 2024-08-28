@@ -15,11 +15,7 @@ export async function getAnalyses(workspaceId: string) {
         rentPerArea: true,
         sumValueNow: true,
         sumValueExit: true,
-        building: {
-          select: {
-            name: true,
-          },
-        },
+        appreciationDate: true,
       },
       orderBy: {
         name: "asc",
