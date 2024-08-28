@@ -14,53 +14,61 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@propdock/ui/components/form"
 import { Input } from "@propdock/ui/components/input"
+import { Separator } from "@propdock/ui/components/separator"
 import { Switch } from "@propdock/ui/components/switch"
+import { Percent } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 const FormSchema = z.object({
-  marketRentOffice: z
-    .string()
-    .nonempty("Markedsleie kontor er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "Markedsleie kontor må være et tall.",
-    }),
-  marketRentMerch: z
-    .string()
-    .nonempty("Markedsleie handel er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "Markedsleie handel må være et tall.",
-    }),
-  marketRentMisc: z
-    .string()
-    .nonempty("Markedsleie annet er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "Markedsleie annet må være et tall.",
-    }),
-  usePrimeYield: z.boolean().default(false).optional(),
+  marketRentOffice: z.string().nonempty("Markedsleie kontor er påkrevd."),
+  marketRentMerch: z.string().nonempty("Markedsleie handel er påkrevd."),
+  marketRentMisc: z.string().nonempty("Markedsleie annet er påkrevd."),
+  usePrimeYield: z.boolean(),
   manYieldOffice: z
     .string()
-    .nonempty("Manuell yield kontor er påkrevd.")
-    .optional(),
+    .optional()
+    .refine(
+      (value) =>
+        !value ||
+        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
+      { message: "Yield kontor må være et tall mellom 0 og 100." },
+    ),
   manYieldMerch: z
     .string()
-    .nonempty("Manuell yield handel er påkrevd.")
-    .optional(),
+    .optional()
+    .refine(
+      (value) =>
+        !value ||
+        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
+      { message: "Yield handel må være et tall mellom 0 og 100." },
+    ),
   manYieldMisc: z
     .string()
-    .nonempty("Manuell yield annet er påkrevd.")
-    .optional(),
+    .optional()
+    .refine(
+      (value) =>
+        !value ||
+        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
+      { message: "Yield annet må være et tall mellom 0 og 100." },
+    ),
   manYieldWeighted: z
     .string()
-    .nonempty("Manuell vektet yield er påkrevd.")
-    .optional(),
+    .optional()
+    .refine(
+      (value) =>
+        !value ||
+        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
+      { message: "Vektet yield må være et tall mellom 0 og 100." },
+    ),
 })
 
 interface EditMarketDataCardProps {
@@ -95,10 +103,18 @@ export function EditMarketDataCard({
       marketRentMerch: initialMarketRentMerch.toString(),
       marketRentMisc: initialMarketRentMisc.toString(),
       usePrimeYield: initialUsePrimeYield,
-      manYieldOffice: initialManYieldOffice?.toString() || "",
-      manYieldMerch: initialManYieldMerch?.toString() || "",
-      manYieldMisc: initialManYieldMisc?.toString() || "",
-      manYieldWeighted: initialManYieldWeighted?.toString() || "",
+      manYieldOffice: initialManYieldOffice
+        ? (initialManYieldOffice * 100).toString()
+        : "",
+      manYieldMerch: initialManYieldMerch
+        ? (initialManYieldMerch * 100).toString()
+        : "",
+      manYieldMisc: initialManYieldMisc
+        ? (initialManYieldMisc * 100).toString()
+        : "",
+      manYieldWeighted: initialManYieldWeighted
+        ? (initialManYieldWeighted * 100).toString()
+        : "",
     },
   })
 
@@ -111,176 +127,175 @@ export function EditMarketDataCard({
         marketRentMisc: Number(data.marketRentMisc),
         usePrimeYield: data.usePrimeYield,
         manYieldOffice: data.manYieldOffice
-          ? Number(data.manYieldOffice)
+          ? Number(data.manYieldOffice) / 100
           : undefined,
         manYieldMerch: data.manYieldMerch
-          ? Number(data.manYieldMerch)
+          ? Number(data.manYieldMerch) / 100
           : undefined,
-        manYieldMisc: data.manYieldMisc ? Number(data.manYieldMisc) : undefined,
+        manYieldMisc: data.manYieldMisc
+          ? Number(data.manYieldMisc) / 100
+          : undefined,
         manYieldWeighted: data.manYieldWeighted
-          ? Number(data.manYieldWeighted)
+          ? Number(data.manYieldWeighted) / 100
           : undefined,
       })
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Markedsdata og prime yield ble oppdatert.")
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(
+          result.error || "Kunne ikke oppdatere markedsdata og prime yield.",
+        )
       }
     } catch (error) {
       toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      console.error(
+        "Feil ved oppdatering av markedsdata og prime yield:",
+        error,
+      )
     } finally {
       setIsLoading(false)
     }
   }
 
+  const marketRentFields = [
+    {
+      name: "marketRentOffice",
+      label: "Markedsleie kontor",
+      description: "Gjennomsnittlig markedsleie for kontorarealer per kvm/år",
+    },
+    {
+      name: "marketRentMerch",
+      label: "Markedsleie handel",
+      description: "Gjennomsnittlig markedsleie for handelsarealer per kvm/år",
+    },
+    {
+      name: "marketRentMisc",
+      label: "Markedsleie annet",
+      description: "Gjennomsnittlig markedsleie for andre arealer per kvm/år",
+    },
+  ]
+
+  const yieldFields = [
+    {
+      name: "manYieldOffice",
+      label: "Yield kontor",
+      description: "Prime yield for kontorarealer",
+    },
+    {
+      name: "manYieldMerch",
+      label: "Yield handel",
+      description: "Prime yield for handelsarealer",
+    },
+    {
+      name: "manYieldMisc",
+      label: "Yield annet",
+      description: "Prime yield for andre arealer",
+    },
+    {
+      name: "manYieldWeighted",
+      label: "Vektet yield",
+      description: "Vektet prime yield for alle arealer",
+    },
+  ]
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Markedsdata</CardTitle>
-        <CardDescription>Rediger markedsleie og yield-data.</CardDescription>
+        <CardTitle>Markedsdata og Prime Yield</CardTitle>
+        <CardDescription>
+          Rediger markedsleie og prime yield for ulike arealtyper.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="marketRentOffice"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Markedsleie kontor</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Markedsleie kontor"
-                      {...field}
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+              <h3 className="mb-4 text-lg font-medium">Markedsleie</h3>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {marketRentFields.map((field) => (
+                  <FormField
+                    key={field.name}
+                    control={form.control}
+                    name={field.name as keyof z.infer<typeof FormSchema>}
+                    render={({ field: formField }) => (
+                      <FormItem>
+                        <FormLabel>{field.label}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder={field.label}
+                            {...formField}
+                            onChange={(e) => formField.onChange(e.target.value)}
+                          />
+                        </FormControl>
+                        <FormDescription>{field.description}</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <Separator className="my-6" />
+
+            <div>
+              <h3 className="mb-4 text-lg font-medium">Prime Yield</h3>
+              <FormField
+                control={form.control}
+                name="usePrimeYield"
+                render={({ field }) => (
+                  <FormItem className="mb-4 flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">
+                        Bruk prime yield
+                      </FormLabel>
+                      <FormDescription>
+                        Aktiver for å bruke prime yield i beregninger
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              {form.watch("usePrimeYield") && (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {yieldFields.map((field) => (
+                    <FormField
+                      key={field.name}
+                      control={form.control}
+                      name={field.name as keyof z.infer<typeof FormSchema>}
+                      render={({ field: formField }) => (
+                        <FormItem>
+                          <FormLabel>{field.label}</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                type="text"
+                                placeholder="F.eks. 5.5"
+                                {...formField}
+                              />
+                              <Percent
+                                className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                                size={16}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormDescription>{field.description}</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                  ))}
+                </div>
               )}
-            />
-            <FormField
-              control={form.control}
-              name="marketRentMerch"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Markedsleie handel</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Markedsleie handel"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="marketRentMisc"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Markedsleie annet</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Markedsleie annet"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="usePrimeYield"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between">
-                  <FormLabel>Bruk prime yield</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            {form.watch("usePrimeYield") && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="manYieldOffice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Manuell yield kontor</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Manuell yield kontor"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="manYieldMerch"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Manuell yield handel</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Manuell yield handel"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="manYieldMisc"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Manuell yield annet</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Manuell yield annet"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="manYieldWeighted"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Manuell vektet yield</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Manuell vektet yield"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
+            </div>
+
             <Button type="submit" disabled={isLoading}>
               {isLoading ? "Lagrer..." : "Lagre"}
             </Button>

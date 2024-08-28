@@ -128,7 +128,7 @@ export default async function AnalysisDetailsPage({
                 />
               </TabsContent>
               <TabsContent value="details">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="">
                   <EditOwnerCostsCard
                     analysisId={analysisDetails.id}
                     initialOwnerCostsMethod={
@@ -197,9 +197,6 @@ export default async function AnalysisDetailsPage({
                 <AnalysisInfoCard analysisDetails={analysisDetails} />
               </div>
             </div>
-          </div>
-          <div className="mt-8">
-            <AnalysisDetailsTable details={analysisDetails} />
           </div>
         </Tabs>
       </DashboardShell>

@@ -159,7 +159,7 @@ export function EditROICard({
                   <div>
                     <FormLabel>Bruk beregnet Yield</FormLabel>
                     <FormDescription>
-                      Velg mellom beregnet yield eller manuell yield.
+                      Velg mellom manuell yield eller beregnet yield.
                     </FormDescription>
                   </div>
                   <FormControl>
