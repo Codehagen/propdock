@@ -186,7 +186,7 @@ export default async function SigningPage() {
           ) : (
             // data
         )} */}
-        <SigningTable data={data} columns={columnsSigning} />
+        <SigningTable data={documents} columns={columnsSigning} />
       </div>
     </DashboardShell>
   )

@@ -3,6 +3,7 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
+import { Badge } from "@dingify/ui/components/badge"
 import { Button } from "@dingify/ui/components/button"
 import {
   DropdownMenu,
@@ -12,12 +13,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@dingify/ui/components/dropdown-menu"
+import { cn } from "@dingify/ui/utils"
 
 import type { SignSchema } from "../data/schema"
 
 import { DataTableColumnHeader } from "./data-table-column-header"
-import { Badge } from "@dingify/ui/components/badge"
-import { cn } from "@dingify/ui/utils"
+import { format } from "date-fns"
+import { nb } from "date-fns/locale"
 
 export const columnsSigning: ColumnDef<SignSchema>[] = [
   {
@@ -34,13 +36,13 @@ export const columnsSigning: ColumnDef<SignSchema>[] = [
         </div>
       )
     },
-/*     filterFn: (row, id, value) => {
+    /*     filterFn: (row, id, value) => {
       console.log(id)
       console.log(value)
       return value.includes(row.getValue(id))
     }, */
   },
-  {
+    {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Opprettet" />
@@ -49,29 +51,34 @@ export const columnsSigning: ColumnDef<SignSchema>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("createdAt")}
+            {format(row.getValue("createdAt"), "PPP", { locale: nb })}
           </span>
         </div>
       )
     },
   },
   {
-    accessorKey: "signers", // ?????
+    accessorKey: "signers", 
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mottakere" />
     ),
     cell: ({ row }) => {
-      const users: string[] = row.getValue("signers")
+      const users: SignSchema["signers"] = row.getValue("signers")
+      const formatedUsers = users.map(
+        (user) =>
+          user.fullName ??
+          `${user?.signerInfo?.firstName ?? ""} ${user?.signerInfo?.lastName ?? ""}`,
+      )
       return (
         <div className="flex space-x-2">
-          <span title={users.join(", ")} className="max-w-[250px] truncate font-medium">
-            {users.join(", ")} {/* //TODO: Avatar ? Popover ? */}
+          <span className="max-w-[250px] truncate font-medium">
+            {formatedUsers.join("- ")}
           </span>
         </div>
       )
     },
   },
-  {
+    {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="status" />

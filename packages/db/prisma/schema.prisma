@@ -62,6 +62,7 @@ model User {
   workspaceId            String?
   Document               Document[]
   communications         TenantCommunications[]
+  Timeline               Timeline[]
   accessTokens           UserAccessToken[]
   apiKeys                UserApiKey[]
   accounts               Account[]
@@ -89,6 +90,7 @@ model Workspace {
   city             String?
   createdAt        DateTime               @default(now()) @map("created_at")
   updatedAt        DateTime               @default(now()) @map("updated_at")
+  AccountingData   AccountingData[]
   buildings        Building[]
   contracts        Contract[]
   invoices         CustomerInvoice[]
@@ -96,8 +98,9 @@ model Workspace {
   properties       Property[]
   apiKeys          WSApiKey[]
   accessTokens     WorkspaceAccessToken[]
-  users            User[]
+  WorkspaceInvite  WorkspaceInvite[]
   internalInvoices InternalInvoice[]
+  users            User[]
 }
 
 model Property {
@@ -109,6 +112,7 @@ model Property {
   accountingId Int?
   createdAt    DateTime                    @default(now()) @map("created_at")
   updatedAt    DateTime                    @default(now()) @map("updated_at")
+  countryCode  String?
   accounting   BalancedAccounts?
   buildings    Building[]
   contracts    Contract[]
@@ -126,6 +130,8 @@ model Building {
   bnr         Int
   snr         Int
   fnr         Int
+  latitude    Float?
+  longitude   Float?
   workspaceId String
   propertyId  String
   createdAt   DateTime                    @default(now()) @map("created_at")
@@ -221,6 +227,9 @@ model Contract {
   indexValue       Float?
   indexationDate   DateTime?
   baseRent         Float?
+  isContinuousRent Boolean         @default(false)
+  currency         String?
+  currencyIso      String?
   rentPeriod       Int?
   vatTerms         String?
   businessCategory String?
@@ -280,7 +289,6 @@ model FinancialAnalysisBuilding {
   kpi4             Float
   sumValueNow      Int
   sumValueExit     Int
-  costs            FinancialAnalysisBuildingCosts?
   useCalcROI       Boolean
   roiWeightedYield Float?
   roiInflation     Float?
@@ -295,6 +303,7 @@ model FinancialAnalysisBuilding {
   manYieldMisc     Float?
   manYieldWeighted Float?
   building         Building                          @relation(fields: [buildingId], references: [id])
+  costs            FinancialAnalysisBuildingCosts?
   incomeUnits      FinancialAnalysisBuildingIncome[]
 }
 
@@ -377,6 +386,11 @@ model CustomerInvoice {
   id          String    @id @default(cuid())
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @default(now()) @map("updated_at")
+  currency    String?
+  currencyIso String?
+  status      String
+  amount      Int
+  isPaid      Boolean
   workspaceId String
   tenantId    String
   tenant      Tenant    @relation(fields: [tenantId], references: [id])
@@ -467,6 +481,38 @@ model FinancialAnalysisBuildingCosts {
   financialAnalysisBuilding   FinancialAnalysisBuilding @relation(fields: [financialAnalysisBuildingId], references: [id])
 
   @@map("financial_analysis_building_costs")
+}
+
+model AccountingData {
+  id          String    @id
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
+  workspaceId String
+  Workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model Timeline {
+  id         String   @id
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  type       String
+  identifier String?
+  title      String
+  content    String
+  userId     String
+  users      User     @relation(fields: [userId], references: [id])
+}
+
+model WorkspaceInvite {
+  id          String    @id
+  email       String
+  expires     DateTime
+  workspaceId String
+  createdAt   DateTime  @default(now())
+  Workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([email, workspaceId])
+  @@index([workspaceId])
 }
 
 enum ContractType {
