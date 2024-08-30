@@ -4,118 +4,172 @@ import {
   CardHeader,
   CardTitle,
 } from "@propdock/ui/components/card"
-import { BarChart, Calendar, PieChart, TrendingUp } from "lucide-react"
+import { format } from "date-fns"
 
 import { EmptyPlaceholder } from "../shared/empty-placeholder"
+import AnalysesScoreBuilding from "./AnalysesScoreBuilding"
 
 export function AnalystCardsSection({ analysisDetails }) {
-  const totalDataPoints = analysisDetails.dataPoints || 0
-  const averageScore = analysisDetails.averageScore || 0
-  const lastUpdated = analysisDetails.lastUpdated
-    ? new Date(analysisDetails.lastUpdated)
-    : null
-  const trendPercentage = analysisDetails.trendPercentage || 0
+  const {
+    name,
+    rentableArea,
+    rentPerArea,
+    sumValueNow,
+    roiCalculated,
+    tenants,
+  } = analysisDetails
 
   return (
-    <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {totalDataPoints > 0 ? (
+    <div className="-mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {rentableArea > 0 ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 1 0 1 1 0 7.75" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">
+              {new Intl.NumberFormat("no-NO").format(rentableArea)} m²
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Totale leieinntekter for dette året
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <EmptyPlaceholder className="min-h-[100px]">
+          <EmptyPlaceholder.Icon name="coins" />
+          <EmptyPlaceholder.Title>Ingen leieinntekter</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Det er ingen leieinntekter registrert for denne leietakeren.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
+
+      {rentPerArea > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Data Points
+              KPI regulering
             </CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalDataPoints}</div>
+            <div className="text-xl font-bold">
+              {new Intl.NumberFormat("no-NO").format(rentPerArea)} NOK/m²
+            </div>
             <p className="text-xs text-muted-foreground">
-              Analyzed in this report
+              Avtalte KPI reguleringen
             </p>
           </CardContent>
         </Card>
       ) : (
         <EmptyPlaceholder className="min-h-[100px]">
-          <EmptyPlaceholder.Icon name="search" />
-          <EmptyPlaceholder.Title>No Data Points</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Icon name="linechart" />
+          <EmptyPlaceholder.Title>Ingen KPI regulering</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
-            There are no data points recorded for this analysis.
+            Det er ingen KPI regulering registrert for denne leietakeren.
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
 
-      {averageScore > 0 ? (
+      {roiCalculated > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Score</CardTitle>
-            <PieChart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{averageScore.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
-              Overall analysis score
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <EmptyPlaceholder className="min-h-[100px]">
-          <EmptyPlaceholder.Icon name="user" />
-          <EmptyPlaceholder.Title>No Average Score</EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            There is no average score calculated for this analysis.
-          </EmptyPlaceholder.Description>
-        </EmptyPlaceholder>
-      )}
-
-      {lastUpdated ? (
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Last Updated</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              Leiekontrakten går ut
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <rect width="20" height="14" x="2" y="5" rx="2" />
+              <path d="M2 10h20" />
+            </svg>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {lastUpdated.toLocaleDateString()}
+              {(roiCalculated * 100).toFixed(2)}%
             </div>
-            <p className="text-xs text-muted-foreground">
-              Date of last analysis update
-            </p>
+            <p className="text-xs text-muted-foreground">igjen av leietiden</p>
           </CardContent>
         </Card>
       ) : (
         <EmptyPlaceholder className="min-h-[100px]">
-          <EmptyPlaceholder.Icon name="user" />
-          <EmptyPlaceholder.Title>No Update Date</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Icon name="map" />
+          <EmptyPlaceholder.Title>Ingen leiekontrakt</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
-            There is no last update date recorded for this analysis.
+            Det er ingen aktiv leiekontrakt registrert for denne leietakeren.
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
 
-      {trendPercentage !== 0 ? (
+      {tenants.length > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Trend</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              Sendte faktura
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {trendPercentage > 0 ? "+" : ""}
-              {trendPercentage}%
-            </div>
+            <div className="text-2xl font-bold">{tenants.length}</div>
             <p className="text-xs text-muted-foreground">
-              Change from previous period
+              Totalt sendte faktura
             </p>
           </CardContent>
         </Card>
       ) : (
         <EmptyPlaceholder className="min-h-[100px]">
-          <EmptyPlaceholder.Icon name="search" />
-          <EmptyPlaceholder.Title>No Trend Data</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Icon name="piechart" />
+          <EmptyPlaceholder.Title>Ingen faktura sendt</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
-            There is no trend data available for this analysis.
+            Det er ingen faktura sendt for denne leietakeren.
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
+      <AnalysesScoreBuilding />
     </div>
   )
 }
