@@ -24,7 +24,7 @@ export function AnalystCardsSection({ analysisDetails }) {
       {rentableArea > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
+            <CardTitle className="text-sm font-medium">Areal</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -45,7 +45,7 @@ export function AnalystCardsSection({ analysisDetails }) {
               {new Intl.NumberFormat("no-NO").format(rentableArea)} m²
             </div>
             <p className="text-xs text-muted-foreground">
-              Totale leieinntekter for dette året
+              Totalt areal for eiendommen
             </p>
           </CardContent>
         </Card>
@@ -62,9 +62,7 @@ export function AnalystCardsSection({ analysisDetails }) {
       {rentPerArea > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              KPI regulering
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Pris pr m²</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -83,7 +81,7 @@ export function AnalystCardsSection({ analysisDetails }) {
               {new Intl.NumberFormat("no-NO").format(rentPerArea)} NOK/m²
             </div>
             <p className="text-xs text-muted-foreground">
-              Avtalte KPI reguleringen
+              Leiepris pr kvm for leietakeren
             </p>
           </CardContent>
         </Card>
@@ -138,7 +136,7 @@ export function AnalystCardsSection({ analysisDetails }) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Sendte faktura
+              Antall leietakere
             </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +154,7 @@ export function AnalystCardsSection({ analysisDetails }) {
           <CardContent>
             <div className="text-2xl font-bold">{tenants.length}</div>
             <p className="text-xs text-muted-foreground">
-              Totalt sendte faktura
+              Antall leietakere i eiendommen
             </p>
           </CardContent>
         </Card>
@@ -169,7 +167,10 @@ export function AnalystCardsSection({ analysisDetails }) {
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
+      {/* <AnalysesScoreBuilding />
       <AnalysesScoreBuilding />
+      <AnalysesScoreBuilding />
+      <AnalysesScoreBuilding /> */}
     </div>
   )
 }

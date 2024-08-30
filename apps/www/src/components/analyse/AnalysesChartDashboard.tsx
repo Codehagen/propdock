@@ -4,7 +4,6 @@ import type { ChartConfig } from "@propdock/ui/components/chart"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -14,13 +13,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
+import { TrendingDown, TrendingUp } from "lucide-react"
 import {
   Area,
   AreaChart,
   CartesianGrid,
   ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
 } from "recharts"
@@ -53,151 +51,126 @@ const chartConfig = {
 export function AnalysesChartDashboard() {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Sum driftsinntekter</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-[200px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={revenueData}
-                margin={{
-                  top: 10,
-                  right: 10,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="year"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tick={{ fontSize: 12 }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(value) => `$${value / 1000000}M`}
-                  domain={["auto", "dataMax + 200000"]}
-                  tick={{ fontSize: 12 }}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <defs>
-                  <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={chartConfig.revenue.color}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={chartConfig.revenue.color}
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                </defs>
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke={chartConfig.revenue.color}
-                  fill="url(#fillRevenue)"
-                  fillOpacity={0.4}
-                  dot={{ fill: chartConfig.revenue.color, r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter>
-          <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 font-medium leading-none">
-                Økt inntekt med 20% i 2024 <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                Sammenligning av driftsinntekter de siste årene
-              </div>
-            </div>
-          </div>
-        </CardFooter>
-      </Card>
+      <ChartCard
+        title="Driftsinntekter"
+        data={revenueData}
+        config={chartConfig.revenue}
+        trend={{ value: 20, isPositive: true }}
+      />
+      <ChartCard
+        title="Driftskostnader"
+        data={expenseData}
+        config={chartConfig.expenses}
+        trend={{ value: 18, isPositive: false }}
+      />
+    </div>
+  )
+}
 
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Sum driftskostnader</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-[200px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={expenseData}
-                margin={{
-                  top: 10,
-                  right: 10,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="year"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tick={{ fontSize: 12 }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(value) => `$${value / 1000000}M`}
-                  domain={["auto", "dataMax + 200000"]}
-                  tick={{ fontSize: 12 }}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <defs>
-                  <linearGradient id="fillExpenses" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={chartConfig.expenses.color}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={chartConfig.expenses.color}
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                </defs>
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke={chartConfig.expenses.color}
-                  fill="url(#fillExpenses)"
-                  fillOpacity={0.4}
-                  dot={{ fill: chartConfig.expenses.color, r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter>
-          <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 font-medium leading-none">
-                Økt kostnader med 18% i 2024 <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                Sammenligning av driftskostnader de siste årene
-              </div>
+interface ChartCardProps {
+  title: string
+  data: { year: string; value: number }[]
+  config: { label: string; color: string }
+  trend: { value: number; isPositive: boolean }
+}
+
+function ChartCard({ title, data, config, trend }: ChartCardProps) {
+  return (
+    <Card className="w-full">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>{title}</CardTitle>
+        <TrendIcon trend={trend} />
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={data}
+              margin={{
+                top: 10,
+                right: 10,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="year"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(value) => `$${value / 1000000}M`}
+                domain={["auto", "dataMax + 200000"]}
+                tick={{ fontSize: 12 }}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <defs>
+                <linearGradient
+                  id={`fill${config.label}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor={config.color}
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={config.color}
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              </defs>
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke={config.color}
+                fill={`url(#fill${config.label})`}
+                fillOpacity={0.4}
+                dot={{ fill: config.color, r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter>
+        <div className="flex w-full items-start gap-2 text-sm">
+          <div className="grid gap-2">
+            <div className="flex items-center gap-2 font-medium leading-none">
+              {trend.isPositive ? "Økt" : "Redusert"} {title.toLowerCase()} med{" "}
+              {trend.value}% i 2024
+            </div>
+            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+              Sammenligning av {title.toLowerCase()} de siste årene
             </div>
           </div>
-        </CardFooter>
-      </Card>
+        </div>
+      </CardFooter>
+    </Card>
+  )
+}
+
+function TrendIcon({
+  trend,
+}: {
+  trend: { value: number; isPositive: boolean }
+}) {
+  const Icon = trend.isPositive ? TrendingUp : TrendingDown
+  const colorClass = trend.isPositive ? "text-green-500" : "text-red-500"
+
+  return (
+    <div className={`flex items-center gap-1 ${colorClass}`}>
+      <Icon className="h-5 w-5" />
+      <span className="text-sm font-medium">{trend.value}%</span>
     </div>
   )
 }

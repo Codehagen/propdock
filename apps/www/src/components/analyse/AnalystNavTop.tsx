@@ -72,7 +72,7 @@ export function AnalystNavTop({ analysisDetails }) {
         >
           <File className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Export
+            Eksporter
           </span>
         </Button>
         <Button
@@ -83,7 +83,7 @@ export function AnalystNavTop({ analysisDetails }) {
         >
           <BarChart className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Chart
+            Diagram
           </span>
         </Button>
         <DropdownMenu>
@@ -91,19 +91,19 @@ export function AnalystNavTop({ analysisDetails }) {
             <Button size="sm" className="h-8 gap-1">
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Create
+                Opprett
               </span>
               <ChevronDown className="ml-1 h-3.5 w-3.5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Create new</DropdownMenuLabel>
+            <DropdownMenuLabel>Opprett ny</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleCreateNewAnalysis}>
-              Analysis
+              Analyse
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleChartClick}>
-              Chart
+              Diagram
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -111,26 +111,26 @@ export function AnalystNavTop({ analysisDetails }) {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Create New Chart</DialogTitle>
+            <DialogTitle>Opprett nytt diagram</DialogTitle>
             <DialogDescription>
-              Enter the details for your new chart.
+              Skriv inn detaljene for ditt nye diagram.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="chartName">Chart Name</Label>
+              <Label htmlFor="chartName">Navn på diagram</Label>
               <Input
                 id="chartName"
-                placeholder="Enter chart name"
+                placeholder="Skriv inn navn på diagram"
                 value={analysisName}
                 onChange={(e) => setAnalysisName(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="chartDescription">Description</Label>
+              <Label htmlFor="chartDescription">Beskrivelse</Label>
               <Textarea
                 id="chartDescription"
-                placeholder="Enter chart description"
+                placeholder="Skriv inn beskrivelse"
                 rows={4}
                 value={analysisDescription}
                 onChange={(e) => setAnalysisDescription(e.target.value)}
@@ -140,11 +140,11 @@ export function AnalystNavTop({ analysisDetails }) {
           </div>
           <DialogFooter className="sm:justify-start">
             <Button type="button" onClick={handleSubmit} disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create Chart"}
+              {isLoading ? "Oppretter..." : "Opprett diagram"}
             </Button>
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                Cancel
+                Avbryt
               </Button>
             </DialogClose>
           </DialogFooter>

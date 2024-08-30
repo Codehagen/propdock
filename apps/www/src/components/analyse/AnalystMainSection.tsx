@@ -1,5 +1,6 @@
 import { UserChartActivity } from "../users/UserChartActivity"
 import { AnalysesChartDashboard } from "./AnalysesChartDashboard"
+import AnalysesRaitingBuilding from "./AnalysesRaitingBuilding"
 import AnalysesScoreBuilding from "./AnalysesScoreBuilding"
 
 export function AnalystMainSection({ analysisDetails }) {
@@ -10,6 +11,7 @@ export function AnalystMainSection({ analysisDetails }) {
           <AnalysesChartDashboard />
         </div>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+          <AnalysesRaitingBuilding analysisDetails={analysisDetails} />
           <UserChartActivity />
           <UserChartActivity />
           <AnalysesScoreBuilding />
