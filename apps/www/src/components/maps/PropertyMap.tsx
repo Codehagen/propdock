@@ -212,7 +212,7 @@ export default function PropertyMap() {
       loading: "Creating new analysis...",
       success: (result) => {
         if (result.success) {
-          router.push(`/analytics/${result.analysis.id}`)
+          router.push(`/analytics/${result.analysis.id}/dashboard`)
           return `Ny analyse opprettet for ${analysisData.name}`
         } else {
           throw new Error(result.error)
