@@ -8,6 +8,10 @@ import { format } from "date-fns"
 
 import { EmptyPlaceholder } from "../shared/empty-placeholder"
 import AnalysesScoreBuilding from "./AnalysesScoreBuilding"
+import { CapitalizationRateCard } from "./CapitalizationRateCard"
+import { NetOperatingIncomeCard } from "./NetOperatingIncomeCard"
+import { OccupancyRateCard } from "./OccupancyRateCard"
+import { ValuationMetricsCard } from "./ValuationMetricsCard"
 
 export function AnalystCardsSection({ analysisDetails }) {
   const {
@@ -167,10 +171,10 @@ export function AnalystCardsSection({ analysisDetails }) {
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
-      {/* <AnalysesScoreBuilding />
-      <AnalysesScoreBuilding />
-      <AnalysesScoreBuilding />
-      <AnalysesScoreBuilding /> */}
+      <ValuationMetricsCard />
+      <CapitalizationRateCard />
+      <OccupancyRateCard />
+      <NetOperatingIncomeCard />
     </div>
   )
 }

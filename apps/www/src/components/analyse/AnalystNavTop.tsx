@@ -144,7 +144,7 @@ export function AnalystNavTop({ analysisDetails }) {
             </Button>
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                Avbryt
+                Cancel
               </Button>
             </DialogClose>
           </DialogFooter>
