@@ -21,9 +21,14 @@ export default async function DashboardLayout({
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
-      title: "Informasjon",
+      title: "Dashboard",
+      href: `/analytics/${params.id}/dashboard`,
+      icon: "layout",
+    },
+    {
+      title: "Endre verdier",
       href: `/analytics/${params.id}`,
-      icon: "home",
+      icon: "pen",
     },
     {
       title: "Kontantstrøm",

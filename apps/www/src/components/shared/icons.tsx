@@ -24,12 +24,14 @@ import {
   Image,
   Key,
   Laptop,
+  LayoutDashboard,
   LineChart,
   Loader2,
   Map,
   Moon,
   MoreVertical,
   PartyPopper,
+  Pen,
   Percent,
   PieChart,
   Plus,
@@ -94,6 +96,8 @@ export const Icons = {
   signature: FileSignature,
   barchart: BarChart,
   file: File,
+  layout: LayoutDashboard,
+  pen: Pen,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
