@@ -2,6 +2,7 @@
 	"name": "@propdock/db",
 	"version": "0.1.0",
 	"private": true,
+	"license": "MIT",
 	"type": "module",
 	"exports": {
 		".": {
@@ -9,22 +10,22 @@
 			"default": "./index.ts"
 		}
 	},
-	"license": "MIT",
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
-		"format": "prettier --check . --ignore-path ../../.gitignore",
-		"lint": "eslint .",
-		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
-		"with-env": "dotenv -e ../../.env --",
+		"db:force": "pnpm with-env prisma db push --force-reset",
 		"db:generate": "pnpm with-env prisma generate",
-		"db:push": "pnpm with-env prisma db push --skip-generate",
+		"db:migrate:deploy": "pnpm with-env prisma migrate deploy",
 		"db:migrate:dev": "pnpm with-env prisma migrate dev",
 		"db:migrate:reset": "pnpm with-env prisma migrate reset",
-		"db:migrate:deploy": "pnpm with-env prisma migrate deploy",
+		"db:push": "pnpm with-env prisma db push --skip-generate",
 		"db:studio": "pnpm with-env prisma studio",
-		"db:force": "pnpm with-env prisma db push --force-reset",
-		"postinstall": "pnpm db:generate"
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"postinstall": "pnpm db:generate",
+		"lint": "eslint .",
+		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
+		"with-env": "dotenv -e ../../.env --"
 	},
+	"prettier": "@propdock/prettier-config",
 	"dependencies": {
 		"@neondatabase/serverless": "^0.9.3",
 		"@prisma/adapter-neon": "^5.13.0",
@@ -40,6 +41,5 @@
 		"prettier": "^3.2.5",
 		"prisma": "^5.12.1",
 		"typescript": "^5.4.5"
-	},
-	"prettier": "@propdock/prettier-config"
+	}
 }

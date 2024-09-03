@@ -6,11 +6,6 @@
 		"name": "Christer",
 		"url": "https://twitter.com/Codehagen"
 	},
-	"engines": {
-		"node": "20.9.0"
-	},
-	"packageManager": "pnpm@8.15.5",
-	"prettier": "@propdock/prettier-config",
 	"scripts": {
 		"build": "turbo build",
 		"clean": "git clean -xdf node_modules",
@@ -21,19 +16,26 @@
 		"dev": "turbo dev --parallel",
 		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
 		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+		"postinstall": "pnpm sort-packages && pnpm lint:ws",
 		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:ws": "pnpm dlx sherif@latest",
-		"postinstall": "pnpm lint:ws",
+		"sort-packages": "sort-package-json \"**/package.json\"",
 		"typecheck": "turbo typecheck"
 	},
+	"prettier": "@propdock/prettier-config",
 	"devDependencies": {
+		"@commitlint/cli": "^18.2.0",
+		"@commitlint/config-conventional": "^18.1.0",
 		"@propdock/prettier-config": "workspace:*",
 		"husky": "^8.0.3",
 		"prettier": "^3.2.5",
+		"sort-package-json": "^2.10.1",
 		"turbo": "^1.13.2",
-		"typescript": "^5.4.5",
-		"@commitlint/cli": "^18.2.0",
-		"@commitlint/config-conventional": "^18.1.0"
+		"typescript": "^5.4.5"
+	},
+	"packageManager": "pnpm@8.15.5",
+	"engines": {
+		"node": "20.10.0"
 	}
 }
