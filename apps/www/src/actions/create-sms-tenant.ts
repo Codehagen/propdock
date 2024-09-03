@@ -49,8 +49,8 @@ export async function createSmsTenant(tenantId, message) {
     }
 
     const payload = {
-      user: "sailsdock",
-      password: "ch5433",
+      user: process.env.SMS_API_USER,
+      password: process.env.SMS_API_PASSWORD,
       simulate: 0,
       messages: [
         {
