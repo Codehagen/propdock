@@ -10,13 +10,13 @@
 		}
 	},
 	"scripts": {
-		"dev": "wrangler dev",
 		"build": "tsc",
-		"deploy": "wrangler deploy --minify src/index.ts"
+		"deploy": "wrangler deploy --minify src/index.ts",
+		"dev": "wrangler dev"
 	},
 	"dependencies": {
-		"@propdock/db": "workspace:*",
 		"@hono/zod-openapi": "^0.11.0",
+		"@propdock/db": "workspace:*",
 		"@unkey/api": "^0.20.2",
 		"hono": "^4.3.6",
 		"uuid": "^10.0.0",

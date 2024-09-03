@@ -6,14 +6,15 @@
   "scripts": {
     "build": "pnpm with-env next build",
     "clean": "git clean -xdf .next .turbo node_modules",
+    "content-collections": "content-collections-build",
     "dev": "pnpm with-env next dev",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint ./src",
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --",
-    "content-collections": "content-collections-build"
+    "with-env": "dotenv -e ../../.env --"
   },
+  "prettier": "@propdock/prettier-config",
   "dependencies": {
     "@content-collections/core": "^0.6.4",
     "@content-collections/next": "^0.2.0",
@@ -116,6 +117,5 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
     "unist-util-visit": "^5.0.0"
-  },
-  "prettier": "@propdock/prettier-config"
+  }
 }

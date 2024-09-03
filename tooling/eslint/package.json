@@ -1,7 +1,7 @@
 {
   "name": "@propdock/eslint-config",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "exports": {
     "./base": "./base.js",
@@ -13,14 +13,15 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
+  "prettier": "@propdock/prettier-config",
   "dependencies": {
     "@next/eslint-plugin-next": "^14.2.0",
-    "typescript-eslint": "^7.6.0",
     "eslint-config-turbo": "^1.13.2",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript-eslint": "^7.6.0"
   },
   "devDependencies": {
     "@propdock/prettier-config": "workspace:*",
@@ -28,6 +29,5 @@
     "eslint": "^9.0.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
-  },
-  "prettier": "@propdock/prettier-config"
+  }
 }
