@@ -52,10 +52,10 @@ export default async function TenantDetailsPage({
 
     return (
       <DashboardShell>
-        {/* <DashboardHeader
+        <DashboardHeader
           heading={tenantDetails.name}
           text="Detaljer om leietaker."
-        /> */}
+        />
         <div>
           <UserCard tenantDetails={tenantDetails} />
         </div>

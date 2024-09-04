@@ -38,14 +38,13 @@ export default function UserCardsSection({ tenantDetails }) {
       return null // No active or future contracts
     }
 
-    console.log("Active Contract:", activeContract)
     return differenceInDays(new Date(activeContract.endDate), currentDate)
   }
 
   const remainingDays = getRemainingDays(tenantDetails.contracts)
 
   return (
-    <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="-mt-4  grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {totalBaseRent > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
