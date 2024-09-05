@@ -1,8 +1,9 @@
 "use client"
 
 import React, { useEffect, useReducer, useState } from "react"
-import { useParams } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import { createFloor } from "@/actions/create-floor"
+import { quickAddOfficeSpace } from "@/actions/create-quick-office-space"
 import {
   Alert,
   AlertDescription,
@@ -47,6 +48,8 @@ interface OfficeSpace {
   id: string
   name: string
   sizeKvm: number
+  exclusiveAreaKvm: number
+  commonAreaKvm: number
   isRented: boolean
   tenants: { name: string }[]
 }
@@ -77,7 +80,7 @@ type Action =
       field: keyof OfficeSpace
       value: any
     }
-  | { type: "ADD_OFFICE"; floorId: string }
+  | { type: "ADD_OFFICE"; floorId: string; office: OfficeSpace }
   | { type: "SORT"; key: keyof OfficeSpace }
 
 function reducer(state: State, action: Action): State {
@@ -116,16 +119,7 @@ function reducer(state: State, action: Action): State {
           floor.id === action.floorId
             ? {
                 ...floor,
-                officeSpaces: [
-                  ...floor.officeSpaces,
-                  {
-                    id: `office-${floor.officeSpaces.length + 1}`,
-                    name: `Office ${floor.officeSpaces.length + 1}`,
-                    sizeKvm: 0,
-                    isRented: false,
-                    tenants: [],
-                  },
-                ],
+                officeSpaces: [...floor.officeSpaces, action.office],
               }
             : floor,
         ),
@@ -165,6 +159,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     field: string
   } | null>(null)
   const params = useParams()
+  const pathname = usePathname()
   const buildingId = Array.isArray(params.buildingId)
     ? params.buildingId[0]
     : params.buildingId
@@ -291,7 +286,11 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
   }
 
   const calculateTotalOfficeArea = (offices: OfficeSpace[]) => {
-    return offices.reduce((total, office) => total + office.sizeKvm, 0)
+    return offices.reduce(
+      (total, office) =>
+        total + Number(office.sizeKvm) + Number(office.commonAreaKvm),
+      0,
+    )
   }
 
   const handleAddFloor = async () => {
@@ -328,6 +327,39 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     }
   }
 
+  const handleQuickAddOffice = async (floorId: string) => {
+    try {
+      const result = await quickAddOfficeSpace(
+        floorId,
+        {
+          name: `Office ${state.floors.find((f) => f.id === floorId)?.officeSpaces.length + 1 || 1}`,
+          sizeKvm: 0,
+          exclusiveAreaKvm: 0,
+          commonAreaKvm: 0,
+          isRented: false,
+        },
+        pathname,
+      )
+
+      if (result.success && result.office) {
+        const officeWithTenants = {
+          ...result.office,
+          tenants: [], // Initialize tenants as an empty array
+        }
+        dispatch({
+          type: "ADD_OFFICE",
+          floorId,
+          office: officeWithTenants,
+        })
+        toast.success(`Office ${result.office.name} has been added`)
+      } else {
+        throw new Error(result.error || "Failed to add office")
+      }
+    } catch (error) {
+      toast.error("Error adding office: " + error.message)
+    }
+  }
+
   return (
     <div className="container mx-auto space-y-8 p-4">
       {state.floors.map((floor) => {
@@ -348,9 +380,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  dispatch({ type: "ADD_OFFICE", floorId: floor.id })
-                }
+                onClick={() => handleQuickAddOffice(floor.id)}
               >
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add office
@@ -374,9 +404,16 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                       onClick={() => dispatch({ type: "SORT", key: "sizeKvm" })}
                       className="cursor-pointer"
                     >
-                      Area (sqm) {renderSortIcon("sizeKvm")}
+                      Exclusive area (sqm) {renderSortIcon("sizeKvm")}
                     </TableHead>
-                    <TableHead>Common area (sqm)</TableHead>
+                    <TableHead
+                      onClick={() =>
+                        dispatch({ type: "SORT", key: "commonAreaKvm" })
+                      }
+                      className="cursor-pointer"
+                    >
+                      Common area (sqm) {renderSortIcon("commonAreaKvm")}
+                    </TableHead>
                     <TableHead>Total area (sqm)</TableHead>
                     <TableHead
                       onClick={() =>
@@ -401,13 +438,16 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                       <TableCell>
                         {renderEditableCell(floor, office, "sizeKvm")}
                       </TableCell>
-                      <TableCell>0</TableCell>{" "}
-                      {/* Add common area if available in your data */}
-                      <TableCell>{office.sizeKvm}</TableCell>
+                      <TableCell>
+                        {renderEditableCell(floor, office, "commonAreaKvm")}
+                      </TableCell>
+                      <TableCell>
+                        {Number(office.sizeKvm) + Number(office.commonAreaKvm)}
+                      </TableCell>
                       <TableCell>
                         <Select
                           value={
-                            office.tenants.length > 0
+                            office.tenants && office.tenants.length > 0
                               ? office.tenants[0].name
                               : "none"
                           }
