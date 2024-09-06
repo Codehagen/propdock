@@ -4,6 +4,7 @@ import React, { useEffect, useReducer, useState } from "react"
 import { useParams, usePathname } from "next/navigation"
 import { createFloor } from "@/actions/create-floor"
 import { quickAddOfficeSpace } from "@/actions/create-quick-office-space"
+import { updateOfficeSpace } from "@/actions/update-office-space"
 import {
   Alert,
   AlertDescription,
@@ -155,7 +156,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [editingCell, setEditingCell] = useState<{
     floorId: string
-    officeId?: string
+    officeId: string
     field: string
   } | null>(null)
   const params = useParams()
@@ -168,95 +169,87 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     dispatch({ type: "SET_FLOORS", floors })
   }, [floors])
 
-  const handleCellClick = (
+  const handleCellEdit = async (
     floorId: string,
-    officeId: string | undefined,
+    officeId: string,
     field: string,
+    value: string | number,
   ) => {
-    setEditingCell({ floorId, officeId, field })
-  }
-
-  const handleCellBlur = () => {
     setEditingCell(null)
-  }
+    try {
+      let parsedValue: string | number = value
+      if (field === "sizeKvm" || field === "commonAreaKvm") {
+        parsedValue = Number(value)
+        if (isNaN(parsedValue)) {
+          throw new Error(`Invalid number for ${field}`)
+        }
+      }
 
-  const handleCellChange = (
-    floorId: string,
-    officeId: string | undefined,
-    field: string,
-    value: any,
-  ) => {
-    if (officeId) {
-      if (field === "tenants") {
-        // Update both tenants and isRented
-        dispatch({
-          type: "UPDATE_OFFICE",
-          floorId,
-          officeId,
-          field: "tenants",
-          value: value === "none" ? [] : [{ name: value }],
-        })
-        dispatch({
-          type: "UPDATE_OFFICE",
-          floorId,
-          officeId,
-          field: "isRented",
-          value: value !== "none",
-        })
-      } else {
+      const result = await updateOfficeSpace(
+        officeId,
+        { [field]: parsedValue },
+        pathname,
+      )
+      if (result.success) {
         dispatch({
           type: "UPDATE_OFFICE",
           floorId,
           officeId,
           field: field as keyof OfficeSpace,
-          value,
+          value: parsedValue,
         })
+        toast.success("Office space updated successfully.")
+      } else {
+        throw new Error(result.error || "Failed to update office space.")
       }
-    } else {
-      dispatch({
-        type: "UPDATE_FLOOR",
-        floorId,
-        field: field as keyof Floor,
-        value,
-      })
+    } catch (error) {
+      toast.error(error.message)
+      console.error("Error updating office space:", error)
     }
   }
 
-  const renderEditableCell = (
-    floor: Floor,
-    office: OfficeSpace | undefined,
-    field: string,
-  ) => {
-    const editing =
+  const EditableCell = ({ floor, office, field, type = "text" }) => {
+    const isEditing =
       editingCell?.floorId === floor.id &&
-      editingCell?.officeId === office?.id &&
+      editingCell?.officeId === office.id &&
       editingCell?.field === field
-    const value = office
-      ? office[field as keyof OfficeSpace]
-      : floor[field as keyof Floor]
-
-    if (editing) {
-      return (
-        <Input
-          type={typeof value === "number" ? "number" : "text"}
-          value={value}
-          onChange={(e) =>
-            handleCellChange(floor.id, office?.id, field, e.target.value)
-          }
-          onBlur={handleCellBlur}
-          autoFocus
-          className="w-full"
-        />
-      )
-    }
+    const value = office[field]
 
     return (
-      <span
-        onClick={() => handleCellClick(floor.id, office?.id, field)}
-        className="cursor-pointer rounded p-1 hover:bg-gray-100"
+      <TableCell
+        onClick={() =>
+          setEditingCell({ floorId: floor.id, officeId: office.id, field })
+        }
+        className="relative cursor-pointer p-4"
       >
-        {value}
-      </span>
+        {isEditing ? (
+          <Input
+            type={type}
+            defaultValue={value}
+            autoFocus
+            onBlur={(e) =>
+              handleCellEdit(floor.id, office.id, field, e.target.value)
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCellEdit(
+                  floor.id,
+                  office.id,
+                  field,
+                  e.currentTarget.value,
+                )
+              }
+            }}
+            className="absolute inset-0 h-full w-full border-none bg-white p-4 focus:ring-1 focus:ring-blue-500"
+          />
+        ) : (
+          <div className={type === "number" ? "text-right" : ""}>
+            {type === "number" && value != null
+              ? Number(value).toLocaleString()
+              : value || ""}
+          </div>
+        )}
+      </TableCell>
     )
   }
 
@@ -370,11 +363,16 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
           <Card key={floor.id}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-2xl font-bold">
-                Floor {renderEditableCell(floor, undefined, "number")}
+                Floor {floor.number}
               </CardTitle>
               <div className="flex items-center space-x-2">
                 <span className="font-semibold">Total floor area:</span>
-                {renderEditableCell(floor, undefined, "maxTotalKvm")}
+                <EditableCell
+                  floor={floor}
+                  office={floor}
+                  field="maxTotalKvm"
+                  type="number"
+                />
                 <span>sqm</span>
               </div>
               <Button
@@ -432,17 +430,27 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                       key={office.id}
                       className={office.isRented ? "bg-green-50" : "bg-red-50"}
                     >
-                      <TableCell>
-                        {renderEditableCell(floor, office, "name")}
-                      </TableCell>
-                      <TableCell>
-                        {renderEditableCell(floor, office, "sizeKvm")}
-                      </TableCell>
-                      <TableCell>
-                        {renderEditableCell(floor, office, "commonAreaKvm")}
-                      </TableCell>
-                      <TableCell>
-                        {Number(office.sizeKvm) + Number(office.commonAreaKvm)}
+                      <EditableCell
+                        floor={floor}
+                        office={office}
+                        field="name"
+                      />
+                      <EditableCell
+                        floor={floor}
+                        office={office}
+                        field="sizeKvm"
+                        type="number"
+                      />
+                      <EditableCell
+                        floor={floor}
+                        office={office}
+                        field="commonAreaKvm"
+                        type="number"
+                      />
+                      <TableCell className="text-right">
+                        {(
+                          Number(office.sizeKvm) + Number(office.commonAreaKvm)
+                        ).toLocaleString()}
                       </TableCell>
                       <TableCell>
                         <Select
