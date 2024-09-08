@@ -43,7 +43,6 @@ Propdock is a monorepo managed by [Turborepo](https://turbo.build/repo). The mon
     │    ├── db                      # Prisma DB connector
     │    └── ui                      # Shared UI components (Shadcn)
     ├── tooling                      # are the shared configuration that are used by the apps and packages
-    │    ├── biome                   # Shared biome presets
     │    ├── tailwind                # Shared tailwind configuration
     │    └── typescript              # Shared tsconfig you can extend from
     ├── LICENSE
