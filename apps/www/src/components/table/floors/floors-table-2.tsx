@@ -2,6 +2,7 @@
 
 import React, { useEffect, useReducer, useState } from "react"
 import { useParams, usePathname } from "next/navigation"
+import { assignTenantToOffice } from "@/actions/assign-tenant-to-office"
 import { createFloor } from "@/actions/create-floor"
 import {
   quickAddOfficeSpace,
@@ -74,7 +75,7 @@ interface Floor {
 
 interface State {
   floors: Floor[]
-  tenants: string[]
+  tenants: { id: string; name: string }[]
   sortConfig: {
     key: keyof OfficeSpace | null
     direction: "ascending" | "descending"
@@ -174,16 +175,21 @@ function reducer(state: State, action: Action): State {
 
 const initialState: State = {
   floors: [],
-  tenants: ["Leietaker A", "Leietaker B", "Leietaker C"], // You might want to fetch this from the database
+  tenants: [],
   sortConfig: { key: null, direction: "ascending" },
 }
 
 interface FloorsTable2Props {
   floors: Floor[]
+  tenants: { id: string; name: string }[]
 }
 
-export default function FloorsTable2({ floors }: FloorsTable2Props) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
+  const [state, dispatch] = useReducer(reducer, {
+    floors: [],
+    tenants: tenants,
+    sortConfig: { key: null, direction: "ascending" },
+  })
   const [editingCell, setEditingCell] = useState<{
     floorId: string
     officeId: string
@@ -258,42 +264,51 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     value: string | boolean,
   ) => {
     try {
-      let updateData: any = { [field]: value }
+      let result
 
-      // If changing tenant, we need to update both tenants and isRented
       if (field === "tenants") {
-        updateData = {
-          tenants: value === "none" ? [] : [{ name: value }],
-          isRented: value !== "none",
+        // Use the new assignTenantToOffice action
+        const tenantId =
+          value === "none"
+            ? null
+            : state.tenants.find((t) => t.name === value)?.id
+        if (value !== "none" && !tenantId) {
+          throw new Error("Selected tenant not found")
         }
+        result = await assignTenantToOffice(officeId, tenantId, pathname)
+      } else {
+        // For other fields, use the existing updateOfficeSpace action
+        result = await updateOfficeSpace(officeId, { [field]: value }, pathname)
       }
 
-      // Update local state immediately
-      dispatch({
-        type: "UPDATE_OFFICE",
-        floorId,
-        officeId,
-        field: field as keyof OfficeSpace,
-        value: updateData[field],
-      })
-
-      // Call the server action
-      const result = await updateOfficeSpace(officeId, updateData)
-
       if (result.success) {
+        // Update local state
+        dispatch({
+          type: "UPDATE_OFFICE",
+          floorId,
+          officeId,
+          field: field as keyof OfficeSpace,
+          value: result.office[field as keyof OfficeSpace],
+        })
         toast.success("Kontorlokale oppdatert.")
       } else {
         throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
       }
     } catch (error) {
       // Revert the local state update if there's an error
-      dispatch({
-        type: "UPDATE_OFFICE",
-        floorId,
-        officeId,
-        field: field as keyof OfficeSpace,
-        value: office[field as keyof OfficeSpace],
-      })
+      const currentOffice = state.floors
+        .find((f) => f.id === floorId)
+        ?.officeSpaces.find((o) => o.id === officeId)
+
+      if (currentOffice) {
+        dispatch({
+          type: "UPDATE_OFFICE",
+          floorId,
+          officeId,
+          field: field as keyof OfficeSpace,
+          value: currentOffice[field as keyof OfficeSpace],
+        })
+      }
       toast.error(error.message)
       console.error("Feil ved oppdatering av kontorlokale:", error)
     }
@@ -667,8 +682,8 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                               Ingen leietaker
                             </SelectItem>
                             {state.tenants.map((tenant) => (
-                              <SelectItem key={tenant} value={tenant}>
-                                {tenant}
+                              <SelectItem key={tenant.id} value={tenant.name}>
+                                {tenant.name}
                               </SelectItem>
                             ))}
                           </SelectContent>

@@ -2,6 +2,7 @@
 
 import { Suspense } from "react"
 import { getBuildingDetails } from "@/actions/get-building-details"
+import { getWorkspaceTenants } from "@/actions/get-workspace-tenants"
 
 import { AddFloorSheet } from "@/components/buttons/AddFloorSheet"
 import { DashboardHeader } from "@/components/dashboard/header"
@@ -27,7 +28,6 @@ export default async function BuildingPage({ params }) {
 
   try {
     const buildingDetails = await getBuildingDetails(buildingId)
-    console.log(buildingDetails)
 
     if (!buildingDetails) {
       return (
@@ -38,6 +38,14 @@ export default async function BuildingPage({ params }) {
           />
         </DashboardShell>
       )
+    }
+
+    // Fetch tenants for the workspace
+    const workspaceId = buildingDetails.workspaceId // Assuming this is available in buildingDetails
+    const { success, tenants } = await getWorkspaceTenants(workspaceId)
+
+    if (!success) {
+      console.error("Failed to fetch tenants")
     }
 
     return (
@@ -62,7 +70,12 @@ export default async function BuildingPage({ params }) {
             </EmptyPlaceholder>
           ) : (
             <Suspense fallback={<FloorsTable2Loading />}>
-              <FloorsTable2 floors={buildingDetails.floors} />
+              <FloorsTable2
+                floors={buildingDetails.floors}
+                tenants={
+                  tenants?.map((t) => ({ id: t.id, name: t.name })) || []
+                }
+              />
             </Suspense>
           )}
         </div>
