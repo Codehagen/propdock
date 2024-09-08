@@ -19,13 +19,13 @@ export async function generateDefaultAnalysis(propertyData: any) {
       where: {
         users: {
           some: {
-            id: userId
-          }
-        }
+            id: userId,
+          },
+        },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     if (!userWorkspace) {
@@ -85,17 +85,17 @@ export async function generateDefaultAnalysis(propertyData: any) {
             costLegalFees: 1000,
             costConsultFees: 1500,
             costAssetMgmt: 2500,
-            costSum: 45000
-          }
+            costSum: 45000,
+          },
         },
         incomeUnits: {
           create: [
             {
               typeDescription: "Office Space",
               areaPerUnit: bra,
-              valuePerUnit: sumDriftsinntekter
-            }
-          ]
+              valuePerUnit: sumDriftsinntekter,
+            },
+          ],
         },
         tenants: {
           create: [
@@ -110,7 +110,7 @@ export async function generateDefaultAnalysis(propertyData: any) {
               totalOperatingCosts: 750000,
               operatingResult: 250000,
               netFinance: -50000,
-              resultBeforeTax: 200000
+              resultBeforeTax: 200000,
             },
             {
               name: "Corponor AS",
@@ -122,11 +122,11 @@ export async function generateDefaultAnalysis(propertyData: any) {
               totalOperatingCosts: 562500,
               operatingResult: 187500,
               netFinance: -37500,
-              resultBeforeTax: 150000
-            }
-          ]
-        }
-      }
+              resultBeforeTax: 150000,
+            },
+          ],
+        },
+      },
     });
 
     console.log(`Generated new analysis with ID: ${newAnalysis.id}`);

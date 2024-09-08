@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { ChartContainer } from "@propdock/ui/components/chart";
 import { Bar, BarChart, Rectangle, XAxis } from "recharts";
@@ -28,8 +28,8 @@ export function CapitalizationRateCard() {
           config={{
             capRate: {
               label: "Cap Rate",
-              color: "hsl(var(--chart-2))"
-            }
+              color: "hsl(var(--chart-2))",
+            },
           }}
           className="ml-auto w-[64px]"
         >
@@ -43,7 +43,7 @@ export function CapitalizationRateCard() {
               { date: "2024-04", capRate: 6.5 },
               { date: "2024-05", capRate: 6.6 },
               { date: "2024-06", capRate: 6.7 },
-              { date: "2024-07", capRate: 6.8 }
+              { date: "2024-07", capRate: 6.8 },
             ]}
           >
             <Bar

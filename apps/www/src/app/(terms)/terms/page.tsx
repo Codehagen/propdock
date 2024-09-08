@@ -6,10 +6,10 @@ import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata: Metadata = constructMetadata({
   title: "Terms – Propdock",
-  image: "/api/og/help?title=Terms&summary=propdock.no/terms"
+  image: "/api/og/help?title=Terms&summary=propdock.no/terms",
 });
 
 export default function Vilkar() {
-  const post = allLegalPosts.find(post => post.slug === "terms")!;
+  const post = allLegalPosts.find((post) => post.slug === "terms")!;
   return <LegalPage post={post} />;
 }

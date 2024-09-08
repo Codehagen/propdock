@@ -12,7 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -24,7 +24,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { Loader2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ import { PlusIcon } from "../shared/icons";
 const FloorSchema = z.object({
   totalKvm: z.number().min(1, "Total KVM is required"),
   floors: z.number().min(1, "Number of floors is required"),
-  splitKvm: z.boolean()
+  splitKvm: z.boolean(),
 });
 
 export function AddFloorSheet({ buildingId }) {
@@ -50,8 +50,8 @@ export function AddFloorSheet({ buildingId }) {
     defaultValues: {
       totalKvm: undefined,
       floors: undefined,
-      splitKvm: false
-    }
+      splitKvm: false,
+    },
   });
 
   const totalKvm = form.watch("totalKvm");
@@ -71,7 +71,7 @@ export function AddFloorSheet({ buildingId }) {
     }
   }, [totalKvm, floors, splitKvm]);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     const { totalKvm, floors, splitKvm } = data;
@@ -84,7 +84,7 @@ export function AddFloorSheet({ buildingId }) {
             number: i,
             maxTotalKvm,
             maxOfficeKvm: 0, // Assuming default value, replace with actual value if needed
-            maxCommonKvm: 0 // Assuming default value, replace with actual value if needed
+            maxCommonKvm: 0, // Assuming default value, replace with actual value if needed
           };
           const result = await createFloor(buildingId, floorData);
 
@@ -97,7 +97,7 @@ export function AddFloorSheet({ buildingId }) {
           number: floors,
           maxTotalKvm,
           maxOfficeKvm: 0, // Assuming default value, replace with actual value if needed
-          maxCommonKvm: 0 // Assuming default value, replace with actual value if needed
+          maxCommonKvm: 0, // Assuming default value, replace with actual value if needed
         };
         const result = await createFloor(buildingId, floorData);
 
@@ -147,7 +147,7 @@ export function AddFloorSheet({ buildingId }) {
                         type="number"
                         placeholder="1000 kvm..."
                         {...field}
-                        onChange={e => field.onChange(Number(e.target.value))}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
                     <FormMessage />
@@ -165,7 +165,7 @@ export function AddFloorSheet({ buildingId }) {
                         type="number"
                         placeholder="3..."
                         {...field}
-                        onChange={e => field.onChange(Number(e.target.value))}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
                     <FormMessage />

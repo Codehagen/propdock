@@ -7,8 +7,8 @@ export async function getTenants(workspaceId: string) {
     const tenants = await prisma.tenant.findMany({
       where: {
         property: {
-          workspaceId
-        }
+          workspaceId,
+        },
       },
       select: {
         id: true,
@@ -17,19 +17,19 @@ export async function getTenants(workspaceId: string) {
         numEmployees: true,
         building: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         floor: {
           select: {
-            number: true
-          }
+            number: true,
+          },
         },
         officeSpace: {
           select: {
             name: true,
-            isRented: true
-          }
+            isRented: true,
+          },
         },
         contracts: {
           select: {
@@ -40,31 +40,31 @@ export async function getTenants(workspaceId: string) {
               select: {
                 name: true,
                 email: true,
-                phone: true
-              }
-            }
+                phone: true,
+              },
+            },
           },
           orderBy: {
-            startDate: "desc"
+            startDate: "desc",
           },
-          take: 1
-        }
+          take: 1,
+        },
       },
       orderBy: {
-        name: "asc"
-      }
+        name: "asc",
+      },
     });
 
     return {
       success: true,
-      tenants: tenants.map(tenant => ({
+      tenants: tenants.map((tenant) => ({
         ...tenant,
         isRenting: tenant.officeSpace?.isRented ?? false,
         currentRent: tenant.contracts[0]?.baseRent ?? null,
         contractStartDate: tenant.contracts[0]?.startDate ?? null,
         contractEndDate: tenant.contracts[0]?.endDate ?? null,
-        contactPerson: tenant.contracts[0]?.contact ?? null
-      }))
+        contactPerson: tenant.contracts[0]?.contact ?? null,
+      })),
     };
   } catch (error) {
     console.error("Error fetching tenants:", error);

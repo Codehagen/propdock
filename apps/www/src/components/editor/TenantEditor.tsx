@@ -19,7 +19,7 @@ const TenantEditor = ({ contractContent }) => {
   const { toPDF, targetRef } = usePDF({
     filename: `${tenantName.replace(/\s+/g, "_")}_kontrakt.pdf`,
     method: "save",
-    page: { format: "A4" }
+    page: { format: "A4" },
   });
 
   useEffect(() => {

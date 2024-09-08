@@ -18,13 +18,13 @@ export async function createContract(contractData) {
       where: {
         users: {
           some: {
-            id: userId
-          }
-        }
+            id: userId,
+          },
+        },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     if (!userWorkspace) {
@@ -36,21 +36,21 @@ export async function createContract(contractData) {
     const newContract = await prisma.contract.create({
       data: {
         workspace: {
-          connect: { id: userWorkspace.id }
+          connect: { id: userWorkspace.id },
         },
         tenant: {
-          connect: { id: contractData.tenantId }
+          connect: { id: contractData.tenantId },
         },
         property: {
-          connect: { id: contractData.propertyId }
+          connect: { id: contractData.propertyId },
         },
         building: {
-          connect: { id: contractData.buildingId }
+          connect: { id: contractData.buildingId },
         },
         floors: contractData.floors,
         officeSpaces: contractData.officeSpaces,
         contact: {
-          connect: { id: contractData.contactId }
+          connect: { id: contractData.contactId },
         },
         landlordOrgnr: contractData.landlordOrgnr,
         landlordName: contractData.landlordName,
@@ -73,12 +73,12 @@ export async function createContract(contractData) {
         vatTerms: contractData.vatTerms,
         businessCategory: contractData.businessCategory,
         collateral: contractData.collateral,
-        isContinuousRent: contractData.isContinuousRent || false
-      }
+        isContinuousRent: contractData.isContinuousRent || false,
+      },
     });
 
     console.log(
-      `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`
+      `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`,
     );
 
     return { success: true, contract: newContract };

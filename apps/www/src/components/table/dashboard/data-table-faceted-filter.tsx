@@ -7,12 +7,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
+  CommandSeparator,
 } from "@propdock/ui/components/command";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import { Separator } from "@propdock/ui/components/separator";
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
@@ -34,7 +34,7 @@ interface DataTableFacetedFilter<TData, TValue> {
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
-  options
+  options,
 }: DataTableFacetedFilter<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
@@ -64,8 +64,8 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </Badge>
                 ) : (
                   options
-                    .filter(option => selectedValues.has(option.value))
-                    .map(option => (
+                    .filter((option) => selectedValues.has(option.value))
+                    .map((option) => (
                       <Badge
                         variant="secondary"
                         key={option.value}
@@ -86,7 +86,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options.map(option => {
+              {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
@@ -100,7 +100,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     </div>
                     {option.icon &&
                       React.createElement(option.icon, {
-                        className: "mr-2 h-4 w-4 text-muted-foreground"
+                        className: "mr-2 h-4 w-4 text-muted-foreground",
                       })}
                     <span>{option.label}</span>
                     {/* ... other item logic */}

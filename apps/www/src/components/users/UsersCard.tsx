@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
@@ -16,14 +16,14 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import {
   ChevronDownIcon,
   CircleIcon,
   PlusIcon,
-  StarIcon
+  StarIcon,
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { BellIcon, BellOffIcon, TrashIcon } from "lucide-react";
@@ -33,7 +33,7 @@ import { toast } from "sonner";
 export function UsersCard({ channelDetails }) {
   const router = useRouter();
 
-  const handleDelete = async eventId => {
+  const handleDelete = async (eventId) => {
     try {
       await deleteEvent(eventId);
       toast.success("The event has been deleted successfully.");

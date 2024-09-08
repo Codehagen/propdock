@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
   ogImage: "https://propdock.no/_static/thumbnail.png",
   links: {
     twitter: "https://twitter.com/codehagen",
-    github: "https://github.com/codehagen"
+    github: "https://github.com/codehagen",
   },
-  mailSupport: "Christer@propdock.no"
+  mailSupport: "Christer@propdock.no",
 };

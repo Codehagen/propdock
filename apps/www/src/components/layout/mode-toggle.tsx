@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { useTheme } from "next-themes";
 import * as React from "react";

@@ -6,14 +6,14 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import { format } from "date-fns";
@@ -97,7 +97,7 @@ export function AnalysisInfoCard({ analysisDetails }) {
               <dd>
                 <Badge className="text-xs" variant="secondary">
                   {formatCurrency(
-                    analysisDetails.rentableArea * analysisDetails.rentPerArea
+                    analysisDetails.rentableArea * analysisDetails.rentPerArea,
                   )}
                 </Badge>
               </dd>

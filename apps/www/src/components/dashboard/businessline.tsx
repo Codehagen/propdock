@@ -12,7 +12,7 @@ export function BusinessLine() {
         </h2>
 
         <div className="my-7 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-14">
-          {features.map(feature => (
+          {features.map((feature) => (
             <Link
               target="_blank"
               key={feature.title}
@@ -48,7 +48,7 @@ const features = [
           fill="currentColor"
         />
       </svg>
-    )
+    ),
   },
   {
     title: "Prisma",
@@ -64,7 +64,7 @@ const features = [
           fill="currentColor"
         />
       </svg>
-    )
+    ),
   },
   {
     title: "PlanetScale",
@@ -99,7 +99,7 @@ const features = [
           <path d="M6805 2269 l-2270 -2271 200 5 c726 20 1487 247 2138 636 1095 657 1867 1747 2121 2997 53 261 90 608 84 797 l-3 107 -2270 -2271z" />
         </g>
       </svg>
-    )
+    ),
   },
   {
     title: "Auth.js",
@@ -114,7 +114,7 @@ const features = [
       >
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
-    )
+    ),
   },
   {
     title: "Resend",
@@ -152,7 +152,7 @@ const features = [
           fill="currentColor"
         />
       </svg>
-    )
+    ),
   },
   {
     title: "shadcn/ui",
@@ -187,7 +187,7 @@ const features = [
           strokeWidth="16"
         />
       </svg>
-    )
+    ),
   },
   {
     title: "Stripe",
@@ -206,6 +206,6 @@ const features = [
           fillRule="evenodd"
         />
       </svg>
-    )
-  }
+    ),
+  },
 ];

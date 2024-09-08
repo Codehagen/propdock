@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
@@ -42,12 +42,12 @@ const handleClick = () => {
     Confetti({
       ...defaults,
       particleCount,
-      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
     });
     Confetti({
       ...defaults,
       particleCount,
-      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
     });
   }, 250);
 };
@@ -71,7 +71,7 @@ export function CreateEventButton() {
     fetchUserData();
   }, []);
 
-  const handleButtonClick = async event => {
+  const handleButtonClick = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -81,7 +81,7 @@ export function CreateEventButton() {
       name: "New-payment",
       user_id: "user-123",
       icon: "🤩",
-      notify: true
+      notify: true,
     };
 
     try {

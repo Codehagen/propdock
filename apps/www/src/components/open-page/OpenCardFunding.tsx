@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 
 const data = [
@@ -21,7 +21,7 @@ const data = [
   { name: "Sep", Total: Math.floor(Math.random() * 5000) + 1000 },
   { name: "Oct", Total: Math.floor(Math.random() * 5000) + 1000 },
   { name: "Nov", Total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Dec", Total: Math.floor(Math.random() * 5000) + 1000 }
+  { name: "Dec", Total: Math.floor(Math.random() * 5000) + 1000 },
 ];
 
 // Custom Tooltip component
@@ -53,7 +53,7 @@ export default function OpenCardFunding() {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={value => `${value}`}
+          tickFormatter={(value) => `${value}`}
         />
         <Bar
           dataKey="Total"

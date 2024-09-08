@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -18,20 +18,20 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format, parseISO } from "date-fns";
@@ -47,13 +47,13 @@ const IndexationSchema = z.object({
   indexationType: z.enum(["MARKET", "CPI", "MANUAL"]),
   indexValue: z
     .string()
-    .refine(val => !Number.isNaN(Number.parseFloat(val)), {
-      message: "Index Value must be a number"
+    .refine((val) => !Number.isNaN(Number.parseFloat(val)), {
+      message: "Index Value must be a number",
     })
-    .transform(val => Number.parseFloat(val)),
-  indexationDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
-    message: "Indexation Date is required"
-  })
+    .transform((val) => Number.parseFloat(val)),
+  indexationDate: z.string().refine((val) => !Number.isNaN(Date.parse(val)), {
+    message: "Indexation Date is required",
+  }),
 });
 
 export function KpiDetailsForm({ tenantDetails }) {
@@ -66,28 +66,28 @@ export function KpiDetailsForm({ tenantDetails }) {
       indexValue: tenantDetails.contracts[0]?.indexValue?.toString() || "",
       indexationDate: tenantDetails.contracts[0]?.indexationDate
         ? tenantDetails.contracts[0]?.indexationDate.toISOString().split("T")[0]
-        : ""
-    }
+        : "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     const parsedData = {
       ...data,
       indexValue: Number.parseFloat(data.indexValue.toString()),
-      indexationDate: new Date(data.indexationDate)
+      indexationDate: new Date(data.indexationDate),
     };
 
     try {
       const result = await updateContract(
         tenantDetails.contracts[0].id,
-        parsedData
+        parsedData,
       );
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere indeksinformasjonen."
+          result.error || "Kunne ikke oppdatere indeksinformasjonen.",
         );
       }
 
@@ -163,7 +163,7 @@ export function KpiDetailsForm({ tenantDetails }) {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -181,9 +181,9 @@ export function KpiDetailsForm({ tenantDetails }) {
                         selected={
                           field.value ? parseISO(field.value) : undefined
                         }
-                        onSelect={date =>
+                        onSelect={(date) =>
                           field.onChange(
-                            date ? date.toISOString().split("T")[0] : ""
+                            date ? date.toISOString().split("T")[0] : "",
                           )
                         }
                         initialFocus

@@ -7,14 +7,14 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,23 +25,23 @@ import { Icons } from "@/components/shared/icons";
 
 const languageSchema = z.object({
   language: z.string({
-    required_error: "Language is required"
-  })
+    required_error: "Language is required",
+  }),
 });
 
 export function LanguageForm2({ user }) {
   const [selectedLanguage, setSelectedLanguage] = useState(
-    user.language || "english"
+    user.language || "english",
   );
   const [isPending, setPending] = useState(false);
   const form = useForm({
-    resolver: zodResolver(languageSchema)
+    resolver: zodResolver(languageSchema),
     // Remove defaultValues here, we will use useState to manage the select's value
   });
 
   const { handleSubmit, setValue } = form;
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setPending(true);
     console.log("Submitted data:", data); // Check what is being submitted
     try {
@@ -55,7 +55,7 @@ export function LanguageForm2({ user }) {
   };
 
   // Use this function to handle the language change
-  const handleLanguageChange = language => {
+  const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
     setValue("language", language); // Update form value manually
     console.log("Language changed to:", language); // Log the change for debugging

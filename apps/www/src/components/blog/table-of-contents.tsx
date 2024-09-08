@@ -6,7 +6,7 @@ import useCurrentAnchor from "@/lib/blog/use-current-anchor";
 import { cn } from "@/lib/utils";
 
 export default function TableOfContents({
-  items
+  items,
 }: {
   items: {
     title: string;
@@ -24,7 +24,7 @@ export default function TableOfContents({
           className={cn("-ml-0.5 pl-4 text-gray-500 text-sm", {
             "border-black border-l-2 text-black": currentAnchor
               ? currentAnchor === item.slug
-              : idx === 0
+              : idx === 0,
           })}
         >
           {item.title}

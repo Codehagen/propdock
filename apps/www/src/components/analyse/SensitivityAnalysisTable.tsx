@@ -3,7 +3,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -11,7 +11,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 
 interface SensitivityAnalysisTableProps {
@@ -25,7 +25,7 @@ interface SensitivityAnalysisTableProps {
 }
 
 export function SensitivityAnalysisTable({
-  analysis
+  analysis,
 }: SensitivityAnalysisTableProps) {
   /**
    * Developer Note: Sensitivity Analysis Calculation
@@ -56,7 +56,7 @@ export function SensitivityAnalysisTable({
    */
   const calculateSensitivity = (
     buildCostsChange: number,
-    gdvChange: number
+    gdvChange: number,
   ) => {
     const baseBuildCosts = analysis.costs.costSum;
     const baseGDV = analysis.sumValueNow;
@@ -98,7 +98,7 @@ export function SensitivityAnalysisTable({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Build costs</TableHead>
-              {gdvRange.map(gdv => (
+              {gdvRange.map((gdv) => (
                 <TableHead key={gdv} className="text-center">
                   GDV {gdv > 0 ? "+" : ""}
                   {gdv}%
@@ -107,13 +107,13 @@ export function SensitivityAnalysisTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {buildCostsRange.map(buildCosts => (
+            {buildCostsRange.map((buildCosts) => (
               <TableRow key={buildCosts}>
                 <TableCell className="font-medium">
                   {buildCosts > 0 ? "+" : ""}
                   {buildCosts}%
                 </TableCell>
-                {gdvRange.map(gdv => {
+                {gdvRange.map((gdv) => {
                   const value = calculateSensitivity(buildCosts, gdv);
                   return (
                     <TableCell

@@ -18,7 +18,7 @@ export async function createSmsTenant(tenantId, message) {
     // Fetch the current user's phone number
     const currentUser = await prisma.user.findUnique({
       where: { id: userId },
-      select: { phone: true }
+      select: { phone: true },
     });
 
     console.log("Current user:", currentUser);
@@ -33,8 +33,8 @@ export async function createSmsTenant(tenantId, message) {
     const tenant = await prisma.tenant.findUnique({
       where: { id: tenantId },
       include: {
-        contacts: true
-      }
+        contacts: true,
+      },
     });
 
     console.log("Tenant details:", tenant);
@@ -57,9 +57,9 @@ export async function createSmsTenant(tenantId, message) {
           originator: originator,
           msisdn: Number.parseInt(contactPhone, 10),
           message: message,
-          dlrurl: "dlrtest.php"
-        }
-      ]
+          dlrurl: "dlrtest.php",
+        },
+      ],
     };
 
     console.log("Payload to be sent:", payload);
@@ -69,9 +69,9 @@ export async function createSmsTenant(tenantId, message) {
       payload,
       {
         headers: {
-          "Content-Type": "application/json"
-        }
-      }
+          "Content-Type": "application/json",
+        },
+      },
     );
 
     console.log("Response from SMS API:", response.data);

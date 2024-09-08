@@ -2,7 +2,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { format } from "date-fns";
 
@@ -20,7 +20,7 @@ export function AnalystCardsSection({ analysisDetails }) {
     rentPerArea,
     sumValueNow,
     roiCalculated,
-    tenants
+    tenants,
   } = analysisDetails;
 
   return (

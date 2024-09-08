@@ -6,12 +6,12 @@ async function superget(env: Env, url: string, workspaceId: string) {
 
   const response = await fetch(url, {
     method: "GET",
-    headers: poHeaders
+    headers: poHeaders,
   });
 
   if (!response.ok) {
     throw new Error(
-      `Bad response while fetching ${url}: ${response.status} ${response.statusText}`
+      `Bad response while fetching ${url}: ${response.status} ${response.statusText}`,
     );
   }
 
@@ -24,7 +24,7 @@ async function superpost(
   env: Env,
   url: string,
   workspaceId: string,
-  data: any
+  data: any,
 ) {
   const poHeaders = await getRequestHeaders(env, workspaceId);
 
@@ -33,7 +33,7 @@ async function superpost(
     response = await fetch(url, {
       method: "POST",
       headers: poHeaders,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
   } catch (error: any) {
     console.error("Superpost error:", error);
@@ -42,10 +42,10 @@ async function superpost(
 
   if (!response.ok) {
     console.error(
-      `Bad response while posting to ${url}: ${response.status} ${response.statusText} ${await response.text()}`
+      `Bad response while posting to ${url}: ${response.status} ${response.statusText} ${await response.text()}`,
     );
     throw new Error(
-      `Bad response while posting to ${url}: ${response.status} ${response.statusText}`
+      `Bad response while posting to ${url}: ${response.status} ${response.statusText}`,
     );
   }
 

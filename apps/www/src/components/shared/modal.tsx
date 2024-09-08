@@ -17,7 +17,7 @@ export function Modal({
   children,
   className,
   showModal,
-  setShowModal
+  setShowModal,
 }: ModalProps) {
   const { isMobile } = useMediaQuery();
 
@@ -29,7 +29,7 @@ export function Modal({
           <Drawer.Content
             className={cn(
               "fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-2xl border bg-background",
-              className
+              className,
             )}
           >
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">

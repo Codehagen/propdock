@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Switch } from "@propdock/ui/components/switch";
@@ -33,54 +33,54 @@ const FormSchema = z.object({
     .string()
     .nonempty("Vektet yield er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Vektet yield må være et tall mellom 0 og 100."
-      }
+        message: "Vektet yield må være et tall mellom 0 og 100.",
+      },
     )
     .optional(),
   roiInflation: z
     .string()
     .nonempty("Inflasjon er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Inflasjon må være et tall mellom 0 og 100."
-      }
+        message: "Inflasjon må være et tall mellom 0 og 100.",
+      },
     )
     .optional(),
   roiCalculated: z
     .string()
     .nonempty("Beregnet ROI er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Beregnet ROI må være et tall mellom 0 og 100."
-      }
+        message: "Beregnet ROI må være et tall mellom 0 og 100.",
+      },
     )
     .optional(),
   roiManual: z
     .string()
     .nonempty("Manuell ROI er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Manuell ROI må være et tall mellom 0 og 100."
-      }
+        message: "Manuell ROI må være et tall mellom 0 og 100.",
+      },
     )
-    .optional()
+    .optional(),
 });
 
 interface EditROICardProps {
@@ -98,7 +98,7 @@ export function EditROICard({
   initialROIWeightedYield,
   initialROIInflation,
   initialROICalculated,
-  initialROIManual
+  initialROIManual,
 }: EditROICardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -115,8 +115,8 @@ export function EditROICard({
       roiCalculated: initialROICalculated
         ? (initialROICalculated * 100).toString()
         : "",
-      roiManual: initialROIManual ? (initialROIManual * 100).toString() : ""
-    }
+      roiManual: initialROIManual ? (initialROIManual * 100).toString() : "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -133,7 +133,7 @@ export function EditROICard({
         roiCalculated: data.roiCalculated
           ? Number(data.roiCalculated) / 100
           : undefined,
-        roiManual: data.roiManual ? Number(data.roiManual) / 100 : undefined
+        roiManual: data.roiManual ? Number(data.roiManual) / 100 : undefined,
       });
       if (result.success) {
         toast.success("Analysen ble oppdatert.");

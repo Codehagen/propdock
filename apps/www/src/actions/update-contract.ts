@@ -16,8 +16,8 @@ export async function updateContract(contractId, updateData) {
     const updatedContract = await prisma.contract.update({
       where: { id: contractId },
       data: {
-        ...updateData
-      }
+        ...updateData,
+      },
     });
 
     console.log(`Updated contract with ID: ${updatedContract.id}.`);

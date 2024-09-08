@@ -19,7 +19,7 @@ interface RootLayoutProps {
 export const metadata = {
   title: {
     default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`
+    template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
@@ -32,12 +32,12 @@ export const metadata = {
     "Data-driven decisions",
     "KPI tracking",
     "Seamless monitoring",
-    "User journeys analytics"
+    "User journeys analytics",
   ],
   authors: [
     {
-      name: "christer"
-    }
+      name: "christer",
+    },
   ],
   creator: "codehagen",
   metadataBase: new URL(siteConfig.url),
@@ -47,21 +47,21 @@ export const metadata = {
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
-    siteName: siteConfig.name
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@codehagen"
+    creator: "@codehagen",
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png"
+    apple: "/apple-touch-icon.png",
   },
-  manifest: `${siteConfig.url}/site.webmanifest`
+  manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -73,7 +73,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
           fontUrban.variable,
-          fontHeading.variable
+          fontHeading.variable,
         )}
       >
         <Providers attribute="class" defaultTheme="system" enableSystem>

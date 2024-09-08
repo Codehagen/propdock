@@ -7,7 +7,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons";
@@ -29,7 +29,7 @@ import { EditCustomerSheet } from "./EditCustomerSheet";
 export function AllUsersCards({ customerDetails }) {
   const router = useRouter();
 
-  const handleDelete = async customerId => {
+  const handleDelete = async (customerId) => {
     // Add logic to delete customer if needed
     try {
       toast.success("The customer has been deleted successfully.");
@@ -40,18 +40,18 @@ export function AllUsersCards({ customerDetails }) {
     }
   };
 
-  const handleEdit = customerId => {
+  const handleEdit = (customerId) => {
     // Display a toast message on edit click
     toast.info(`Edit customer with ID: ${customerId}`);
   };
 
-  const handleRedirect = customerId => {
+  const handleRedirect = (customerId) => {
     router.push(`/dashboard/users/${customerId}`);
   };
 
   return (
     <div>
-      {customerDetails.map(customer => (
+      {customerDetails.map((customer) => (
         <Card key={customer.id} className="m-4">
           <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
             <div className="space-y-1">

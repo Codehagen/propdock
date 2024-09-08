@@ -38,7 +38,7 @@ class IntegrationSuperfetch {
     verb,
     url,
     body = null,
-    bodyFormat = "json"
+    bodyFormat = "json",
   }: {
     verb: string;
     url: string;
@@ -72,12 +72,12 @@ class IntegrationSuperfetch {
       method: verb,
       headers: {
         ...headers,
-        "Content-Type": contentType
+        "Content-Type": contentType,
       },
       ...((verb === "POST" || verb === "PUT" || verb === "PATCH") &&
       requestBody != null
         ? { body: requestBody }
-        : {})
+        : {}),
     };
 
     // Let it fly!
@@ -87,7 +87,7 @@ class IntegrationSuperfetch {
 
       if (!response.ok) {
         throw new Error(
-          `Bad response: (HTTP ${response.status}) ${response.statusText}`
+          `Bad response: (HTTP ${response.status}) ${response.statusText}`,
         );
       }
     } catch (error: any) {
@@ -111,7 +111,7 @@ class IntegrationSuperfetch {
   async get(url: string) {
     const payload = {
       verb: "GET",
-      url: `${this.baseUrl}${url}`
+      url: `${this.baseUrl}${url}`,
     };
 
     let response;
@@ -120,7 +120,7 @@ class IntegrationSuperfetch {
       return response;
     } catch (error: any) {
       console.error(
-        `superfetch.get(): (${response?.status}) ${error} => ${error.message}`
+        `superfetch.get(): (${response?.status}) ${error} => ${error.message}`,
       );
       console.debug("Payload:", payload);
       throw error;
@@ -154,7 +154,7 @@ class IntegrationSuperfetch {
       verb: "POST",
       url: `${this.baseUrl}${url}`,
       body: body,
-      bodyFormat: bodyFormat
+      bodyFormat: bodyFormat,
     };
 
     let response;
@@ -163,7 +163,7 @@ class IntegrationSuperfetch {
       return response;
     } catch (error: any) {
       console.error(
-        `superfetch.get(): (${response?.status}) ${error} => ${error.message}`
+        `superfetch.get(): (${response?.status}) ${error} => ${error.message}`,
       );
       console.debug("Payload:", payload);
       throw error;

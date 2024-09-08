@@ -12,7 +12,7 @@ import {
   File,
   Folder,
   Tree,
-  type TreeViewElement
+  type TreeViewElement,
 } from "./tree-view-api";
 
 // TODO: Add the ability to add custom icons
@@ -41,7 +41,7 @@ export const TreeView = ({
   initialSelectedId,
   initialExpendedItems,
   expandAll,
-  indicator = false
+  indicator = false,
 }: TreeViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,18 +49,18 @@ export const TreeView = ({
     count: elements.length,
     getScrollElement: () => containerRef.current,
     estimateSize: useCallback(() => 40, []),
-    overscan: 5
+    overscan: 5,
   });
 
   const { height = getTotalSize(), width } = useResizeObserver({
-    ref: containerRef
+    ref: containerRef,
   });
   return (
     <div
       ref={containerRef}
       className={cn(
         "relative w-full overflow-hidden rounded-md py-1",
-        className
+        className,
       )}
     >
       <Tree
@@ -70,7 +70,7 @@ export const TreeView = ({
         style={{ height, width }}
         className="h-full w-full overflow-y-auto"
       >
-        {getVirtualItems().map(element => (
+        {getVirtualItems().map((element) => (
           <TreeItem
             aria-label="Root"
             key={element.key}
@@ -97,7 +97,7 @@ export const TreeItem = forwardRef<
 >(({ className, elements, indicator, ...props }, ref) => {
   return (
     <ul ref={ref} className="w-full space-y-1 " {...props}>
-      {elements?.map(element => (
+      {elements?.map((element) => (
         <li key={element.id} className="w-full">
           {element.children && element.children?.length > 0 ? (
             <Folder

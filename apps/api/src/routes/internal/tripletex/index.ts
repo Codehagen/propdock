@@ -18,7 +18,7 @@ let sessionToken: string | null = null;
  */
 
 // Endpoint to create a session token for Tripletex API
-app.post("/create-session-token", async c => {
+app.post("/create-session-token", async (c) => {
   const env: Env = c.env as Env;
 
   const consumerToken =
@@ -36,8 +36,8 @@ app.post("/create-session-token", async c => {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     const responseText = await response.text();
@@ -53,9 +53,9 @@ app.post("/create-session-token", async c => {
     return c.json(
       {
         message: "Failed to create session token",
-        error: `${response.statusText}, ${responseText}`
+        error: `${response.statusText}, ${responseText}`,
       },
-      { status: response.status }
+      { status: response.status },
     );
   } catch (error: any) {
     console.error(`Network error: ${error.message}`);
@@ -68,7 +68,7 @@ app.post("/create-session-token", async c => {
  *
  * This endpoint uses the stored session token.
  */
-app.get("/customer", async c => {
+app.get("/customer", async (c) => {
   if (!sessionToken) {
     return c.json({ error: "Session token is not available" }, 500);
   }
@@ -77,7 +77,7 @@ app.get("/customer", async c => {
     const headers = {
       Authorization: `Basic ${btoa(`0:${sessionToken}`)}`,
       "Content-Type": "application/json",
-      "If-None-Match": "*" // Ensure we get the full response
+      "If-None-Match": "*", // Ensure we get the full response
     };
     const url = "https://api.tripletex.io/v2/customer";
 
@@ -86,7 +86,7 @@ app.get("/customer", async c => {
 
     const response = await fetch(url, {
       method: "GET",
-      headers: headers
+      headers: headers,
     });
 
     const customersResponseText = await response.text();
@@ -100,9 +100,9 @@ app.get("/customer", async c => {
     return c.json(
       {
         message: "Failed to fetch customers",
-        error: `${response.statusText}, ${customersResponseText}`
+        error: `${response.statusText}, ${customersResponseText}`,
       },
-      { status: response.status }
+      { status: response.status },
     );
   } catch (error: any) {
     console.error(`Network error: ${error.message}`);
@@ -115,7 +115,7 @@ app.get("/customer", async c => {
  *
  * This endpoint uses the stored session token.
  */
-app.get("/product", async c => {
+app.get("/product", async (c) => {
   if (!sessionToken) {
     return c.json({ error: "Session token is not available" }, 500);
   }
@@ -124,7 +124,7 @@ app.get("/product", async c => {
     const headers = {
       Authorization: `Basic ${btoa(`0:${sessionToken}`)}`,
       "Content-Type": "application/json",
-      "If-None-Match": "*" // Ensure we get the full response
+      "If-None-Match": "*", // Ensure we get the full response
     };
     const url = "https://api.tripletex.io/v2/product";
 
@@ -133,7 +133,7 @@ app.get("/product", async c => {
 
     const response = await fetch(url, {
       method: "GET",
-      headers: headers
+      headers: headers,
     });
 
     const productsResponseText = await response.text();
@@ -147,9 +147,9 @@ app.get("/product", async c => {
     return c.json(
       {
         message: "Failed to fetch products",
-        error: `${response.statusText}, ${productsResponseText}`
+        error: `${response.statusText}, ${productsResponseText}`,
       },
-      { status: response.status }
+      { status: response.status },
     );
   } catch (error: any) {
     console.error(`Network error: ${error.message}`);
@@ -196,7 +196,7 @@ app.get("/product", async c => {
  *   ]
  * }
  */
-app.post("/invoice", async c => {
+app.post("/invoice", async (c) => {
   if (!sessionToken) {
     return c.json({ error: "Session token is not available" }, 500);
   }
@@ -206,7 +206,7 @@ app.post("/invoice", async c => {
   try {
     const headers = {
       Authorization: `Basic ${btoa(`0:${sessionToken}`)}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     };
     const url = "https://api.tripletex.io/v2/invoice";
 
@@ -217,7 +217,7 @@ app.post("/invoice", async c => {
     const response = await fetch(url, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(invoiceData)
+      body: JSON.stringify(invoiceData),
     });
 
     const invoiceResponseText = await response.text();
@@ -231,9 +231,9 @@ app.post("/invoice", async c => {
     return c.json(
       {
         message: "Failed to create invoice",
-        error: `${response.statusText}, ${invoiceResponseText}`
+        error: `${response.statusText}, ${invoiceResponseText}`,
       },
-      { status: response.status }
+      { status: response.status },
     );
   } catch (error: any) {
     console.error(`Network error: ${error.message}`);

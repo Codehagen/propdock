@@ -5,7 +5,7 @@ const FE_KEY = "super-secret"; // TODO: get from wrangler.toml
 
 export async function verifyApiKey(
   key: string,
-  dummy = false
+  dummy = false,
 ): Promise<boolean> {
   if (DEBUG) {
     console.debug("Middleware debug - processing key:", key);
@@ -24,7 +24,7 @@ export async function verifyApiKey(
     console.debug(
       "Middleware debug - verify-key results:",
       result?.code,
-      result?.valid
+      result?.valid,
     );
   }
 

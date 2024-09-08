@@ -5,7 +5,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -24,12 +24,12 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   CaretSortIcon,
   ChevronDownIcon,
-  DotsHorizontalIcon
+  DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import {
   type ColumnDef,
@@ -41,7 +41,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -73,19 +73,19 @@ const columns: ColumnDef<Analysis>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
   },
   {
     accessorKey: "name",
@@ -97,7 +97,7 @@ const columns: ColumnDef<Analysis>[] = [
       >
         {row.getValue("name")}
       </Link>
-    )
+    ),
   },
   {
     accessorKey: "rentableArea",
@@ -114,7 +114,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {row.getValue<number>("rentableArea").toLocaleString()}
       </div>
-    )
+    ),
   },
   {
     accessorKey: "rentPerArea",
@@ -123,7 +123,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("rentPerArea"))}
       </div>
-    )
+    ),
   },
   {
     accessorKey: "sumValueNow",
@@ -132,7 +132,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("sumValueNow"))}
       </div>
-    )
+    ),
   },
   {
     accessorKey: "sumValueExit",
@@ -141,7 +141,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("sumValueExit"))}
       </div>
-    )
+    ),
   },
   {
     accessorKey: "appreciationDate",
@@ -153,7 +153,7 @@ const columns: ColumnDef<Analysis>[] = [
           {date instanceof Date ? format(date, "dd.MM.yyyy") : "N/A"}
         </div>
       );
-    }
+    },
   },
   {
     id: "actions",
@@ -177,8 +177,8 @@ const columns: ColumnDef<Analysis>[] = [
           <DropdownMenuItem>Edit analysis</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    )
-  }
+    ),
+  },
 ];
 
 interface AnalysesTableProps {
@@ -188,7 +188,7 @@ interface AnalysesTableProps {
 export function AnalysesTable({ analyses }: AnalysesTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -209,8 +209,8 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+    },
   });
 
   return (
@@ -223,7 +223,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
           <Input
             placeholder="Filter analyser..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={event =>
+            onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -237,14 +237,14 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
             <DropdownMenuContent align="end">
               {table
                 .getAllColumns()
-                .filter(column => column.getCanHide())
-                .map(column => {
+                .filter((column) => column.getCanHide())
+                .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={value =>
+                      onCheckedChange={(value) =>
                         column.toggleVisibility(!!value)
                       }
                     >
@@ -258,15 +258,15 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
+                  {headerGroup.headers.map((header) => (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   ))}
@@ -275,16 +275,16 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map(cell => (
+                    {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}

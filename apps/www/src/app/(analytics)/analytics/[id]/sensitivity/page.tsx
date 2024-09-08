@@ -7,7 +7,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 
 export default async function SensitivityAnalysisPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

@@ -3,7 +3,7 @@ import { prisma } from "../../lib/db";
 import {
   getWorkspaceAccessToken,
   getWorkspaceApiKey,
-  storeWorkspaceAccessToken
+  storeWorkspaceAccessToken,
 } from "../localApiKeys";
 
 const FI_ROOT_PROD = "https://api.fiken.no/api/v2";
@@ -26,7 +26,7 @@ function getOnboardingHeaders(env: Env) {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Basic ${auth_64}`
+    Authorization: `Basic ${auth_64}`,
   };
 
   return headers;
@@ -38,7 +38,7 @@ function getTokenHeaders(env: Env) {
 
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Basic ${auth_64}`
+    Authorization: `Basic ${auth_64}`,
   };
 
   return headers;
@@ -47,13 +47,13 @@ function getTokenHeaders(env: Env) {
 async function exchangeCodeForKey(
   env: Env,
   code: string,
-  state: string
+  state: string,
 ): Promise<Record<string, string | number>> {
   const params = new URLSearchParams({
     grant_type: "authorization_code",
     code: code,
     redirect_uri: env.FI_ONBOARD_REDIRECT,
-    state: state
+    state: state,
   });
   const headers = getTokenHeaders(env);
 
@@ -61,7 +61,7 @@ async function exchangeCodeForKey(
     const response = await fetch(FI_ONBOARDING_FINAL, {
       method: "POST",
       headers: headers,
-      body: params.toString()
+      body: params.toString(),
     });
 
     if (response.ok) {
@@ -84,7 +84,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
   const accessTokenDb = await getWorkspaceAccessToken(
     db,
     workspaceId,
-    serviceName
+    serviceName,
   );
 
   if (accessTokenDb) {
@@ -97,7 +97,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
   // If the workspace has no secret for this service, throw an error
   if (!secret) {
     throw new Error(
-      `(Workspace:${workspaceId}) Could not find client_secret for service:${serviceName}`
+      `(Workspace:${workspaceId}) Could not find client_secret for service:${serviceName}`,
     );
   }
 
@@ -107,7 +107,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
     newTokenObject = await getNewAccessToken(env, secret);
   } catch (error: any) {
     throw new Error(
-      `(Workspace:${workspaceId}) Could not get new access_token for service:${serviceName} => ${error}`
+      `(Workspace:${workspaceId}) Could not get new access_token for service:${serviceName} => ${error}`,
     );
   }
 
@@ -117,7 +117,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
     workspaceId,
     serviceName,
     newTokenObject.secret,
-    newTokenObject.expiry
+    newTokenObject.expiry,
   );
 
   // Return the new access token
@@ -126,11 +126,11 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
 
 async function getNewAccessToken(
   env: Env,
-  client_key: string
+  client_key: string,
 ): Promise<Record<string, string>> {
   const params = new URLSearchParams({
     grant_type: "refresh_token",
-    refresh_token: client_key
+    refresh_token: client_key,
   });
   const headers = getTokenHeaders(env);
 
@@ -139,14 +139,14 @@ async function getNewAccessToken(
     const response = await fetch(FI_AUTH, {
       method: "POST",
       body: params.toString(),
-      headers: headers
+      headers: headers,
     });
 
     res = await response.json();
 
     if (response.status === 400) {
       throw new Error(
-        `${response.status}: ${response.statusText} => ${res.error}: ${res.error_description}`
+        `${response.status}: ${response.statusText} => ${res.error}: ${res.error_description}`,
       );
     }
     if (response.status !== 200) {
@@ -162,13 +162,13 @@ async function getNewAccessToken(
 
 async function getRequestHeaders(
   env: Env,
-  workspaceId: string
+  workspaceId: string,
 ): Promise<Record<string, string>> {
   const token = await getAccessToken(env, workspaceId);
 
   const headers = {
     //'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
 
   return headers;
@@ -181,5 +181,5 @@ export {
   getOnboardingHeaders,
   exchangeCodeForKey,
   getAccessToken,
-  getRequestHeaders
+  getRequestHeaders,
 };

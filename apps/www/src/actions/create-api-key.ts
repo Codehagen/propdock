@@ -15,7 +15,7 @@ export async function createApiKey(serviceName) {
     console.error("UNKEY_ROOT_KEY environment variable is not set.");
     return {
       success: false,
-      error: "UNKEY_ROOT_KEY environment variable is not set."
+      error: "UNKEY_ROOT_KEY environment variable is not set.",
     };
   }
 
@@ -35,9 +35,9 @@ export async function createApiKey(serviceName) {
       limit: 10,
       duration: 60000, // Duration in milliseconds, e.g., 1 minute
       refillRate: 1,
-      refillInterval: 1000
+      refillInterval: 1000,
     },
-    enabled: true
+    enabled: true,
   });
 
   if (!result) {
@@ -54,8 +54,8 @@ export async function createApiKey(serviceName) {
       data: {
         userId,
         serviceName,
-        secret: apiKey
-      }
+        secret: apiKey,
+      },
     });
     console.log(`API key saved successfully for user ID: ${userId}.`);
 
@@ -63,7 +63,7 @@ export async function createApiKey(serviceName) {
 
     return {
       success: true,
-      apiKey: newApiKey.secret
+      apiKey: newApiKey.secret,
     };
   } catch (error) {
     console.error(`Error saving API key for user ID: ${userId}`, error);

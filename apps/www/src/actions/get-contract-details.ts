@@ -10,8 +10,8 @@ export async function getContractDetails(tenantId: string) {
         building: true,
         floors: true,
         officeSpaces: true,
-        property: true
-      }
+        property: true,
+      },
     });
 
     return contracts;

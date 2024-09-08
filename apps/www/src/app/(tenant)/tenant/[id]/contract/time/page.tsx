@@ -12,7 +12,7 @@ import { ContractCheck } from "@/components/tenant/ContractCheck";
 import { TimeDetailsForm } from "./_components/TimeDetailsForm";
 
 export default async function TimeContract({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

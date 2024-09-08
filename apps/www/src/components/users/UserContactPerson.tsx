@@ -3,7 +3,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 
 import { AddContactPersonSheet } from "../buttons/AddContactPersonSheet";

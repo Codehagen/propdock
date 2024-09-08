@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -19,7 +19,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -30,21 +30,21 @@ import { z } from "zod";
 // Define the validation schema
 const EditFloorDetailsSchema = z.object({
   number: z.number().min(1, "Floor number is required"),
-  maxTotalKvm: z.number().min(1, "Total KVM is required")
+  maxTotalKvm: z.number().min(1, "Total KVM is required"),
 });
 
 export function EditFloorDetailsSheet({
   floorId,
   currentNumber,
-  currentMaxTotalKvm
+  currentMaxTotalKvm,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(EditFloorDetailsSchema),
     defaultValues: {
       number: currentNumber,
-      maxTotalKvm: currentMaxTotalKvm
-    }
+      maxTotalKvm: currentMaxTotalKvm,
+    },
   });
   const params = useParams();
   const propertyId = Array.isArray(params.propertyId)
@@ -55,7 +55,7 @@ export function EditFloorDetailsSheet({
     : params.buildingId;
   const currentPath = `/property/${propertyId}/building/${buildingId}`;
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
@@ -99,7 +99,7 @@ export function EditFloorDetailsSheet({
                       type="number"
                       placeholder="Floor number.."
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -117,7 +117,7 @@ export function EditFloorDetailsSheet({
                       type="number"
                       placeholder="Total KVM.."
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />

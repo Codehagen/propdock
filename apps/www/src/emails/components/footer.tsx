@@ -2,7 +2,7 @@ import { Hr, Tailwind, Text } from "@react-email/components";
 
 export default function Footer({
   email,
-  marketing
+  marketing,
 }: {
   email: string;
   marketing?: boolean;

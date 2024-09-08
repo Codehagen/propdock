@@ -6,7 +6,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -14,13 +14,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   flexRender,
@@ -28,7 +28,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
@@ -52,7 +52,7 @@ interface selectedProp {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  type
+  type,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -74,8 +74,8 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+    },
   });
 
   const [selected, setSelected] = useState<selectedProp>(table.getRow("0"));
@@ -87,16 +87,16 @@ export function DataTable<TData, TValue>({
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map(header => {
+                  {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
                     );
@@ -106,17 +106,17 @@ export function DataTable<TData, TValue>({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     onClick={() => setSelected(row)}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map(cell => (
+                    {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}
@@ -162,7 +162,7 @@ export function DataTable<TData, TValue>({
           tenants: selected.original.tenants,
           contracts: selected.original.contracts,
           analysis: selected.original.analysis,
-          orgnr: selected.original.orgnr
+          orgnr: selected.original.orgnr,
         }}
       />
     </div>

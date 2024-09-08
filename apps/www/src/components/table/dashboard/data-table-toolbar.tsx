@@ -16,7 +16,7 @@ interface DataTableToolbarProps<TData> {
 }
 
 export function DataTableToolbar<TData>({
-  table
+  table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -26,7 +26,7 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Søk..." // Updated placeholder
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={event =>
+          onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"

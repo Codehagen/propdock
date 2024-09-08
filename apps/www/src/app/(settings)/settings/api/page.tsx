@@ -6,7 +6,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import { getServerSession } from "next-auth";
 // pages/settings/api.js
@@ -21,7 +21,7 @@ import { poweroffice } from "@/lib/poweroffice-sdk";
 
 export const metadata = {
   title: "API keys",
-  description: "Manage your API keys."
+  description: "Manage your API keys.",
 };
 
 export default async function SettingsPage() {
@@ -37,8 +37,8 @@ export default async function SettingsPage() {
       id: true,
       secret: true,
       createdAt: true,
-      serviceName: true
-    }
+      serviceName: true,
+    },
   });
 
   if (!userApiKeys) {
@@ -88,7 +88,7 @@ export default async function SettingsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {userApiKeys.map(key => (
+              {userApiKeys.map((key) => (
                 <TableRow key={key.id}>
                   <TableCell>
                     <Badge variant="outline">{key.secret}</Badge>

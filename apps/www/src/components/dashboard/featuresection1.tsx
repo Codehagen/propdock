@@ -4,7 +4,7 @@ import {
   Cog6ToothIcon,
   FingerPrintIcon,
   LockClosedIcon,
-  ServerIcon
+  ServerIcon,
 } from "@heroicons/react/20/solid";
 import { Balancer } from "react-wrap-balancer";
 
@@ -14,20 +14,20 @@ const FeatureSection1 = () => {
       icon: CloudArrowUpIcon,
       title: "Instant Listing Drafts",
       description:
-        "Harness AI to generate captivating property listings instantly. Save time and attract more buyers with eloquent, detail-rich descriptions that stand out."
+        "Harness AI to generate captivating property listings instantly. Save time and attract more buyers with eloquent, detail-rich descriptions that stand out.",
     },
     {
       icon: LockClosedIcon,
       title: "Secure Data Handling",
       description:
-        "With our robust SSL encryption, your sensitive property data and client information are safeguarded at every step."
+        "With our robust SSL encryption, your sensitive property data and client information are safeguarded at every step.",
     },
     {
       icon: ArrowPathIcon,
       title: "Effortless Organization",
       description:
-        "Manage queues of properties with ease. Our system simplifies task management, making follow-ups and updates a breeze."
-    }
+        "Manage queues of properties with ease. Our system simplifies task management, making follow-ups and updates a breeze.",
+    },
     // Add the rest of your features here
   ];
 
@@ -68,7 +68,7 @@ const FeatureSection1 = () => {
                   className="mt-2 animate-fade-up text-muted-foreground leading-normal opacity-0"
                   style={{
                     animationDelay: `${0.55 + index * 0.1}s`,
-                    animationFillMode: "forwards"
+                    animationFillMode: "forwards",
                   }}
                 >
                   <Balancer>{feature.description}</Balancer>

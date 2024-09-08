@@ -17,7 +17,7 @@ export interface responseAction {
 const billingUrl = absoluteUrl("/pricing");
 
 export async function generateUserStripe(
-  priceId: string
+  priceId: string,
 ): Promise<responseAction> {
   let redirectUrl = "";
 
@@ -34,7 +34,7 @@ export async function generateUserStripe(
       // User on Paid Plan - Create a portal session to manage subscription.
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: subscriptionPlan.stripeCustomerId,
-        return_url: billingUrl
+        return_url: billingUrl,
       });
 
       redirectUrl = stripeSession.url;
@@ -50,12 +50,12 @@ export async function generateUserStripe(
         line_items: [
           {
             price: priceId,
-            quantity: 1
-          }
+            quantity: 1,
+          },
         ],
         metadata: {
-          userId: session.user.id
-        }
+          userId: session.user.id,
+        },
       });
 
       redirectUrl = stripeSession.url!;

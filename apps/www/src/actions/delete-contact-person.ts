@@ -8,7 +8,7 @@ import { prisma } from "@/lib/db";
 export async function deleteContactPerson(contactPersonId, currentPath) {
   try {
     await prisma.contactPerson.delete({
-      where: { id: contactPersonId }
+      where: { id: contactPersonId },
     });
 
     revalidatePath(currentPath);

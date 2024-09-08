@@ -28,7 +28,7 @@ export async function createBuilding(propertyId: string, data: BuildingData) {
     // Fetch the property to get the workspaceId
     const property = await prisma.property.findUnique({
       where: { id: propertyId }, // propertyId is a string
-      select: { workspaceId: true }
+      select: { workspaceId: true },
     });
 
     if (!property) {
@@ -44,12 +44,12 @@ export async function createBuilding(propertyId: string, data: BuildingData) {
         gnr: data.gnr ?? 0,
         bnr: data.bnr ?? 0,
         snr: data.snr ?? 0,
-        fnr: data.fnr ?? 0
-      }
+        fnr: data.fnr ?? 0,
+      },
     });
 
     console.log(
-      `Created building with ID: ${newBuilding.id} for property ID: ${propertyId}.`
+      `Created building with ID: ${newBuilding.id} for property ID: ${propertyId}.`,
     );
 
     revalidatePath("/property"); // Updates the cache for the dashboard page
@@ -58,7 +58,7 @@ export async function createBuilding(propertyId: string, data: BuildingData) {
   } catch (error) {
     console.error(
       `Error creating building for property ID: ${propertyId}`,
-      error
+      error,
     );
     return { success: false, error: error.message };
   }

@@ -52,7 +52,7 @@ export class ESigningClient {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.axiosInstance = axios.create({
-      baseURL: "https://api.signicat.com/express"
+      baseURL: "https://api.signicat.com/express",
     });
   }
 
@@ -63,7 +63,7 @@ export class ESigningClient {
 
     const tokenEndpoint = "https://api.signicat.io/oauth/connect/token";
     const auth = btoa(
-      `${encodeURIComponent(this.clientId)}:${encodeURIComponent(this.clientSecret)}`
+      `${encodeURIComponent(this.clientId)}:${encodeURIComponent(this.clientSecret)}`,
     );
 
     try {
@@ -73,9 +73,9 @@ export class ESigningClient {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${auth}`
-          }
-        }
+            Authorization: `Basic ${auth}`,
+          },
+        },
       );
 
       this.accessToken = response.data.access_token;
@@ -104,7 +104,7 @@ export class ESigningClient {
   private async makeAuthenticatedRequest(
     url: string,
     method: string,
-    data?: any
+    data?: any,
   ) {
     const token = await this.getAccessToken();
     try {
@@ -113,8 +113,8 @@ export class ESigningClient {
         method,
         data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -127,21 +127,21 @@ export class ESigningClient {
     return this.makeAuthenticatedRequest(
       "/sign/documents",
       "POST",
-      documentData
+      documentData,
     );
   }
 
   async getDocumentStatus(documentId: string) {
     return this.makeAuthenticatedRequest(
       `/sign/documents/${documentId}/summary`,
-      "GET"
+      "GET",
     );
   }
 
   async getDocumentFile(
     documentId: string,
     fileFormat?: string,
-    originalFileName?: boolean
+    originalFileName?: boolean,
   ) {
     let url = `/sign/documents/${documentId}/files`;
     if (fileFormat) {
@@ -157,7 +157,7 @@ export class ESigningClient {
     return this.makeAuthenticatedRequest(
       `/sign/documents/${documentId}/attachments`,
       "POST",
-      attachmentData
+      attachmentData,
     );
   }
 }

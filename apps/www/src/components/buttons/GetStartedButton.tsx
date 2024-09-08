@@ -26,7 +26,7 @@ export function GetStartedButton() {
     <Button
       className={cn(
         buttonVariants({ size: "lg" }),
-        "translate-y-[-1rem] animate-fade-in gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black"
+        "translate-y-[-1rem] animate-fade-in gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black",
       )}
       onClick={handleClick}
     >

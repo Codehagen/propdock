@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 const reactions = [
   {
     emoji: "😞",
-    label: "Ikke hjelpsom"
+    label: "Ikke hjelpsom",
   },
   {
     emoji: "😐",
-    label: "Litt hjelpsom"
+    label: "Litt hjelpsom",
   },
   {
     emoji: "😀",
-    label: "Veldig hjelpsom"
-  }
+    label: "Veldig hjelpsom",
+  },
 ];
 
 export default function Feedback() {
@@ -45,7 +45,7 @@ export default function Feedback() {
             key={label}
             onClick={() => {
               va.track(`Help Center Feedback: ${label}`, {
-                slug: `/help/article/${slug}`
+                slug: `/help/article/${slug}`,
               });
               Cookies.set(`feedback-help-${slug}`, label);
               setReaction(label);
@@ -55,8 +55,8 @@ export default function Feedback() {
               "text-4xl transition-all duration-75 hover:scale-110 active:scale-100",
               {
                 "scale-90 grayscale": reaction && reaction !== label,
-                "scale-110": reaction === label
-              }
+                "scale-110": reaction === label,
+              },
             )}
           >
             {emoji}

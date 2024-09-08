@@ -8,7 +8,7 @@ import { constructMetadata } from "@/lib/blog/constructMetadata";
 export const metadata = constructMetadata({
   title: "Integrasjoner - Propdock",
   description:
-    "Utforsk våre integrasjoner og se hvordan de kan forbedre din eiendomsforvaltning."
+    "Utforsk våre integrasjoner og se hvordan de kan forbedre din eiendomsforvaltning.",
 });
 
 export default function Integrations() {
@@ -28,7 +28,7 @@ export default function Integrations() {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 py-5 md:grid-cols-2 lg:grid-cols-3">
-          {integrations.map(integration => (
+          {integrations.map((integration) => (
             <Integration key={integration.slug} {...integration} />
           ))}
         </div>
@@ -43,48 +43,48 @@ const integrations = [
   {
     slug: "poweroffice",
     description:
-      "Vi har brukt PowerOffice i Propdock siden lanseringen for over et år siden for alle våre eiendomskampanjer, og vårt team elsker det absolutt!"
+      "Vi har brukt PowerOffice i Propdock siden lanseringen for over et år siden for alle våre eiendomskampanjer, og vårt team elsker det absolutt!",
   },
   {
     slug: "tripletex",
     site: "https://tripletex.no",
     description:
-      "Tripletex er et kraftig regnskapssystem som gjør det enkelt å få tilgang til regnskapsdata fra Tripletex, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning."
+      "Tripletex er et kraftig regnskapssystem som gjør det enkelt å få tilgang til regnskapsdata fra Tripletex, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning.",
   },
   {
     slug: "visma",
     site: "https://visma.no",
     description:
-      "Visma's regnskapsinfrastruktur og analyser har hjulpet oss med å få verdifull innsikt i regnskapsføring for eiendomsforvaltning."
+      "Visma's regnskapsinfrastruktur og analyser har hjulpet oss med å få verdifull innsikt i regnskapsføring for eiendomsforvaltning.",
   },
 
   {
     slug: "propcloud",
     site: "https://propcloud.no",
     description:
-      "PropCloud er en av våre mest populære integrasjoner, og er brukt av vårt team som standard for alle våre eiendomskampanjer."
+      "PropCloud er en av våre mest populære integrasjoner, og er brukt av vårt team som standard for alle våre eiendomskampanjer.",
   },
   {
     slug: "fiken",
     site: "https://fiken.no",
     description:
-      "Integrasjonen gjør det enkelt å få tilgang til regnskapsdata fra Fiken, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning."
+      "Integrasjonen gjør det enkelt å få tilgang til regnskapsdata fra Fiken, slik at du kan få en enda bedre innsikt i din eiendomsforvaltning.",
   },
   {
     slug: "signicat",
     description:
-      "Signicat gjør det enkelt å sende dokumenter til kunder og motta signerte dokumenter fra kunder."
+      "Signicat gjør det enkelt å sende dokumenter til kunder og motta signerte dokumenter fra kunder.",
   },
   {
     slug: "brreg",
     description:
-      "Integrasjonen gjør det enkelt å få tilgang til korrekt bedriftsinformasjon direkte fra Brreg."
+      "Integrasjonen gjør det enkelt å få tilgang til korrekt bedriftsinformasjon direkte fra Brreg.",
   },
   {
     slug: "kartverket",
     description:
-      "Integrasjonen gjør det enkelt å få tilgang til kartdata fra Kartverket. "
-  }
+      "Integrasjonen gjør det enkelt å få tilgang til kartdata fra Kartverket. ",
+  },
 
   // Add more integrations as needed
 ];

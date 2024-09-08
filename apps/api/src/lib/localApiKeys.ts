@@ -3,14 +3,14 @@ import type { PrismaClient } from "@dingify/db";
 import type {
   UserApiKey,
   WSApiKey,
-  WorkspaceAccessToken
+  WorkspaceAccessToken,
 } from "@prisma/client";
 import { prisma } from "../lib/db";
 
 async function getUserApiKeyFull(
   env: Env,
   userId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<UserApiKey | null> {
   const db = prisma(env);
 
@@ -19,8 +19,8 @@ async function getUserApiKeyFull(
     apiKey = await db.userApiKey.findFirst({
       where: {
         userId: userId,
-        serviceName: serviceName
-      }
+        serviceName: serviceName,
+      },
     });
   } catch (error: any) {
     console.log("Error fetching user API key:", error);
@@ -33,7 +33,7 @@ async function getUserApiKeyFull(
 async function getUserApiKey(
   env: Env,
   userId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<string | null> {
   const fullKey = await getUserApiKeyFull(env, userId, serviceName);
 
@@ -48,7 +48,7 @@ async function getUserApiKey(
 async function getWSApiKeyFull(
   env: Env,
   workspaceId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<WSApiKey | null> {
   const db = prisma(env);
 
@@ -57,8 +57,8 @@ async function getWSApiKeyFull(
     apiKey = await db.wSApiKey.findFirst({
       where: {
         workspaceId: workspaceId,
-        serviceName: serviceName
-      }
+        serviceName: serviceName,
+      },
     });
   } catch (error: any) {
     console.log("Error fetching user API key:", error);
@@ -71,7 +71,7 @@ async function getWSApiKeyFull(
 async function getWorkspaceApiKey(
   env: Env,
   workspaceId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<string | null> {
   const fullKey = await getWSApiKeyFull(env, workspaceId, serviceName);
 
@@ -88,7 +88,7 @@ async function storeWorkspaceAccessToken(
   workspaceId: string,
   serviceName: string,
   token: string,
-  expiry: number
+  expiry: number,
 ): Promise<void> {
   const now = new Date();
   const expiryTime = expiry * 1000 - 5000; // Shave 5 seconds off of the duration to compensate for roundtrip + db latency
@@ -99,24 +99,24 @@ async function storeWorkspaceAccessToken(
       where: {
         workspaceId_serviceName: {
           workspaceId: workspaceId,
-          serviceName: serviceName
-        }
+          serviceName: serviceName,
+        },
       },
       update: {
         secret: token,
-        validTo: saveTime
+        validTo: saveTime,
       },
       create: {
         workspaceId: workspaceId,
         serviceName: serviceName,
         secret: token,
-        validTo: saveTime
-      }
+        validTo: saveTime,
+      },
     });
   } catch (error: any) {
     console.log(
       `Error saving access token (${serviceName}:${workspaceId}):`,
-      error
+      error,
     );
   }
 }
@@ -124,13 +124,13 @@ async function storeWorkspaceAccessToken(
 async function getWorkspaceAccessToken(
   db: PrismaClient,
   workspaceId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<WorkspaceAccessToken | null> {
   const accessToken = await db.workspaceAccessToken.findFirst({
     where: {
       workspaceId: workspaceId,
-      serviceName: serviceName
-    }
+      serviceName: serviceName,
+    },
   });
 
   if (!accessToken) {
@@ -152,5 +152,5 @@ export {
   getUserApiKey,
   getWorkspaceApiKey,
   getWorkspaceAccessToken,
-  storeWorkspaceAccessToken
+  storeWorkspaceAccessToken,
 };

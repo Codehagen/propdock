@@ -5,7 +5,7 @@ import {
   cubicBezier,
   motion,
   useAnimation,
-  useInView
+  useInView,
 } from "framer-motion";
 import { useEffect, useRef } from "react";
 
@@ -16,56 +16,56 @@ const cardImage = [
     id: 1,
     title: "Karl Johans gate 5",
     link: "#",
-    image: "https://avatar.vercel.sh/tom"
+    image: "https://avatar.vercel.sh/tom",
   },
   {
     id: 2,
     title: "Akersgata 16",
     link: "#",
-    image: "https://avatar.vercel.sh/emily"
+    image: "https://avatar.vercel.sh/emily",
   },
   {
     id: 3,
     title: "Storgata 10",
     link: "#",
-    image: "https://avatar.vercel.sh/chris"
+    image: "https://avatar.vercel.sh/chris",
   },
   {
     id: 4,
     title: "Prinsens gate 8",
     link: "#",
-    image: "https://avatar.vercel.sh/sophie"
+    image: "https://avatar.vercel.sh/sophie",
   },
   {
     id: 5,
     title: "Rådhusgata 2",
     link: "#",
-    image: "https://avatar.vercel.sh/scott"
+    image: "https://avatar.vercel.sh/scott",
   },
   {
     id: 6,
     title: "Dronningens gate 16",
     link: "#",
-    image: "https://avatar.vercel.sh/olivia"
+    image: "https://avatar.vercel.sh/olivia",
   },
   {
     id: 7,
     title: "Kirkegata 15",
     link: "#",
-    image: "https://avatar.vercel.sh/evan"
+    image: "https://avatar.vercel.sh/evan",
   },
   {
     id: 8,
     title: "Torggata 21",
     link: "#",
-    image: "https://avatar.vercel.sh/grace"
+    image: "https://avatar.vercel.sh/grace",
   },
   {
     id: 9,
     title: "Bislettgata 12",
     link: "#",
-    image: "https://avatar.vercel.sh/van"
-  }
+    image: "https://avatar.vercel.sh/van",
+  },
 ];
 
 export function IntegrationsSectionLanding() {
@@ -109,7 +109,7 @@ export function IntegrationsSectionLanding() {
               <motion.div
                 variants={{
                   hidden: { opacity: 0, scale: 0.96, y: 25 },
-                  visible: { opacity: 1, scale: 1, y: 0 }
+                  visible: { opacity: 1, scale: 1, y: 0 },
                 }}
                 initial="hidden"
                 animate={controls}
@@ -118,13 +118,13 @@ export function IntegrationsSectionLanding() {
                   scale: 0,
                   transition: {
                     duration: 0.1,
-                    ease: cubicBezier(0.22, 1, 0.36, 1)
-                  }
+                    ease: cubicBezier(0.22, 1, 0.36, 1),
+                  },
                 }}
                 transition={{
                   duration: 0.2,
                   ease: cubicBezier(0.22, 1, 0.36, 1),
-                  delay: index * 0.04
+                  delay: index * 0.04,
                 }}
                 key={card.id}
                 className="flex flex-col items-center gap-y-2 rounded-md border bg-white/5 p-5"

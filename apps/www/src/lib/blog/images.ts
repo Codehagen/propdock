@@ -4,7 +4,7 @@ export async function getBlurDataURL(url: string | null) {
   }
   try {
     const response = await fetch(
-      `https://wsrv.nl/?url=${url}&w=50&h=50&blur=5`
+      `https://wsrv.nl/?url=${url}&w=50&h=50&blur=5`,
     );
     const buffer = await response.arrayBuffer();
     const base64 = Buffer.from(buffer).toString("base64");

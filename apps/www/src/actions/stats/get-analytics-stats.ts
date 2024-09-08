@@ -14,17 +14,17 @@ export async function getAnalyticsStats() {
   // Fetch projects associated with the user
   const projects = await prisma.project.findMany({
     where: { userId: user.id },
-    select: { id: true }
+    select: { id: true },
   });
 
-  const projectIds = projects.map(project => project.id);
+  const projectIds = projects.map((project) => project.id);
 
   const channels = await prisma.channel.findMany({
     where: { projectId: { in: projectIds } },
-    select: { id: true }
+    select: { id: true },
   });
 
-  const channelIds = channels.map(channel => channel.id);
+  const channelIds = channels.map((channel) => channel.id);
 
   const today = new Date();
   const startOfCurrentYear = new Date(today.getFullYear(), 0, 1);
@@ -36,12 +36,12 @@ export async function getAnalyticsStats() {
       channelId: { in: channelIds },
       createdAt: {
         gte: startOfCurrentYear,
-        lte: endOfCurrentYear
-      }
+        lte: endOfCurrentYear,
+      },
     },
     select: {
-      createdAt: true
-    }
+      createdAt: true,
+    },
   });
 
   const monthlyEventsCount = monthlyEvents.reduce((acc, event) => {
@@ -56,35 +56,35 @@ export async function getAnalyticsStats() {
   const formattedMonthlyEvents = Object.entries(monthlyEventsCount).map(
     ([month, events]) => ({
       month,
-      events
-    })
+      events,
+    }),
   );
 
   // Fetch event type breakdown
   const eventTypeBreakdown = await prisma.event.groupBy({
     by: ["name"],
     where: {
-      channelId: { in: channelIds }
+      channelId: { in: channelIds },
     },
     _count: {
-      name: true
+      name: true,
     },
     orderBy: {
       _count: {
-        name: "desc"
-      }
+        name: "desc",
+      },
     },
-    take: 10
+    take: 10,
   });
 
   // Format the event type breakdown data
-  const formattedEventTypeBreakdown = eventTypeBreakdown.map(item => ({
+  const formattedEventTypeBreakdown = eventTypeBreakdown.map((item) => ({
     eventType: item.name,
-    count: item._count.name
+    count: item._count.name,
   }));
 
   return {
     monthlyEvents: formattedMonthlyEvents,
-    eventTypeBreakdown: formattedEventTypeBreakdown
+    eventTypeBreakdown: formattedEventTypeBreakdown,
   };
 }

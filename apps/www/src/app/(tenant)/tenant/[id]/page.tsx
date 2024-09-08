@@ -9,7 +9,7 @@ import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 import UserCard from "@/components/users/UserCard";
 
 export default async function TenantDetailsPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

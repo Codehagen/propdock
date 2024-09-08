@@ -4,14 +4,14 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@propdock/ui/components/tabs";
 import {
   BarChart2,
   Building2,
   LayoutGrid,
   TrendingUp,
-  Wallet
+  Wallet,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -29,7 +29,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 
 export default async function AnalysisDetailsPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

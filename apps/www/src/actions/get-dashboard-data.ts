@@ -22,19 +22,19 @@ export async function getDashboardData() {
               include: {
                 floors: {
                   include: {
-                    officeSpaces: true
-                  }
+                    officeSpaces: true,
+                  },
                 },
                 contracts: {
                   include: {
-                    tenant: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    tenant: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!workspace) {
@@ -84,7 +84,7 @@ export async function getDashboardData() {
             building.floors.reduce((floorSum, floor) => {
               return (
                 floorSum +
-                floor.officeSpaces.filter(space => space.isRented).length
+                floor.officeSpaces.filter((space) => space.isRented).length
               );
             }, 0)
           );
@@ -101,9 +101,9 @@ export async function getDashboardData() {
           return (
             buildingSum +
             building.contracts.filter(
-              contract =>
+              (contract) =>
                 contract.endDate &&
-                new Date(contract.endDate) <= sixMonthsFromNow
+                new Date(contract.endDate) <= sixMonthsFromNow,
             ).length
           );
         }, 0)
@@ -118,13 +118,13 @@ export async function getDashboardData() {
         totalUnits,
         rentedUnits,
         expiringContracts,
-        properties: workspace.properties
-      }
+        properties: workspace.properties,
+      },
     };
   } catch (error) {
     console.error(
       `Error fetching dashboard data for user ID: ${userId}`,
-      error
+      error,
     );
     return { success: false, error: error.message };
   }

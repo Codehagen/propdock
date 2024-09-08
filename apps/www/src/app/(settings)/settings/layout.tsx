@@ -13,7 +13,7 @@ interface DashboardLayoutProps {
 }
 
 export default async function DashboardLayout({
-  children
+  children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 
@@ -27,18 +27,18 @@ export default async function DashboardLayout({
     {
       title: "Oversikt",
       href: "/settings",
-      icon: "home"
+      icon: "home",
     },
     {
       title: "Import",
       href: "/settings/import",
-      icon: "refresh"
+      icon: "refresh",
     },
     {
       title: "Api-nøkkel",
       href: "/settings/api",
-      icon: "key"
-    }
+      icon: "key",
+    },
   ];
 
   return (

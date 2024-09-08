@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Bar,
@@ -16,7 +16,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 
 const lineChartData = [
@@ -31,7 +31,7 @@ const lineChartData = [
   { month: "Sep", events: 480 },
   { month: "Oct", events: 390 },
   { month: "Nov", events: 139 },
-  { month: "Dec", events: 240 }
+  { month: "Dec", events: 240 },
 ];
 
 const barChartData = [
@@ -40,7 +40,7 @@ const barChartData = [
   { eventType: "Purchase", count: 140 },
   { eventType: "Signup", count: 80 },
   { eventType: "Profile Update", count: 150 },
-  { eventType: "Password Reset", count: 60 }
+  { eventType: "Password Reset", count: 60 },
 ];
 
 export default function EventsTrendOverTimeChart({
@@ -68,7 +68,7 @@ export default function EventsTrendOverTimeChart({
                   top: 5,
                   right: 10,
                   left: 10,
-                  bottom: 0
+                  bottom: 0,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -164,7 +164,7 @@ export default function EventsTrendOverTimeChart({
                   style={
                     {
                       fill: "var(--theme-primary)",
-                      opacity: 1
+                      opacity: 1,
                     } as React.CSSProperties
                   }
                 />

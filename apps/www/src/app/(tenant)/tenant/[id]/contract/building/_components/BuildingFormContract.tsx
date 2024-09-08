@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,14 +17,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,13 +37,13 @@ const ContractSchema = z.object({
   property: z.string().min(1, "Eiendom er påkrevd"),
   floor: z.string().min(1, "Etasje er påkrevd"),
   officeSpace: z.string().min(1, "Kontorlokale er påkrevd"),
-  contactId: z.string().min(1, "Kontaktperson er påkrevd")
+  contactId: z.string().min(1, "Kontaktperson er påkrevd"),
 });
 
 export function BuildingFormContract({ tenantDetails }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState(
-    tenantDetails?.floor?.id?.toString() || ""
+    tenantDetails?.floor?.id?.toString() || "",
   );
 
   const form = useForm({
@@ -53,8 +53,8 @@ export function BuildingFormContract({ tenantDetails }) {
       property: tenantDetails?.property?.id?.toString() || "",
       floor: tenantDetails?.floor?.id?.toString() || "",
       officeSpace: tenantDetails?.officeSpace?.id?.toString() || "",
-      contactId: tenantDetails?.contacts[0]?.id?.toString() || ""
-    }
+      contactId: tenantDetails?.contacts[0]?.id?.toString() || "",
+    },
   });
 
   useEffect(() => {
@@ -67,13 +67,13 @@ export function BuildingFormContract({ tenantDetails }) {
     }
   }, [tenantDetails, form]);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       const result = await createContract({
         ...data,
-        tenantId: tenantDetails.id
+        tenantId: tenantDetails.id,
       });
 
       if (!result.success) {
@@ -92,8 +92,9 @@ export function BuildingFormContract({ tenantDetails }) {
 
   // Get office spaces for the selected floor
   const officeSpaces = selectedFloor
-    ? tenantDetails.floors.find(floor => floor.id.toString() === selectedFloor)
-        ?.officeSpaces || []
+    ? tenantDetails.floors.find(
+        (floor) => floor.id.toString() === selectedFloor,
+      )?.officeSpaces || []
     : [];
 
   return (

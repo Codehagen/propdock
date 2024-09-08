@@ -6,7 +6,7 @@ import {
   TableCaption,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import Link from "next/link";
 import { useState } from "react";
@@ -18,8 +18,8 @@ const PropertiesTable = ({ properties }) => {
 
   // Sort and filter the properties
   const sortedFilteredProperties = properties
-    .filter(property =>
-      property.address.toLowerCase().includes(filter.toLowerCase())
+    .filter((property) =>
+      property.address.toLowerCase().includes(filter.toLowerCase()),
     )
     .sort((a, b) => {
       if (a[sortKey] < b[sortKey]) {
@@ -31,7 +31,7 @@ const PropertiesTable = ({ properties }) => {
       return 0;
     });
 
-  const toggleSort = key => {
+  const toggleSort = (key) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
@@ -46,7 +46,7 @@ const PropertiesTable = ({ properties }) => {
         type="text"
         placeholder="Filter by address..."
         value={filter}
-        onChange={e => setFilter(e.target.value)}
+        onChange={(e) => setFilter(e.target.value)}
         className="mb-4 w-full rounded-md border-2 px-4 py-2"
       />
       <Table>
@@ -60,7 +60,7 @@ const PropertiesTable = ({ properties }) => {
           </TableRow>
         </thead>
         <TableBody>
-          {sortedFilteredProperties.map(property => (
+          {sortedFilteredProperties.map((property) => (
             <TableRow key={property.id}>
               <TableCell>
                 <Link href={`/property/${property.id}`}>

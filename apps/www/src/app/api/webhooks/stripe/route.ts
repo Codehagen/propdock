@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      env.STRIPE_WEBHOOK_SECRET
+      env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (error) {
     console.error("Webhook Error:", error);
@@ -31,13 +31,13 @@ export async function POST(req: Request) {
 
     try {
       const subscription = await stripe.subscriptions.retrieve(
-        session.subscription as string
+        session.subscription as string,
       );
       console.log("Subscription details for session completed:", subscription);
 
       const updatedUser = await prisma.user.update({
         where: {
-          id: session.metadata?.userId
+          id: session.metadata?.userId,
         },
         data: {
           stripeSubscriptionId: subscription.id,
@@ -45,20 +45,20 @@ export async function POST(req: Request) {
           // @ts-expect-error
           stripePriceId: subscription.items.data[0].price.id,
           stripeCurrentPeriodEnd: new Date(
-            subscription.current_period_end * 1000
-          )
+            subscription.current_period_end * 1000,
+          ),
         },
         select: {
           stripeSubscriptionId: true,
           stripeCustomerId: true,
           stripePriceId: true,
-          stripeCurrentPeriodEnd: true
-        }
+          stripeCurrentPeriodEnd: true,
+        },
       });
 
       console.log(
         "User updated successfully for session completed:",
-        updatedUser
+        updatedUser,
       );
     } catch (error) {
       console.error("Error updating user for session completed:", error);
@@ -72,30 +72,30 @@ export async function POST(req: Request) {
 
     try {
       const subscription = await stripe.subscriptions.retrieve(
-        invoice.subscription as string
+        invoice.subscription as string,
       );
       console.log("Subscription details for payment succeeded:", subscription);
 
       const updatedUser = await prisma.user.update({
         where: {
-          stripeSubscriptionId: subscription.id
+          stripeSubscriptionId: subscription.id,
         },
         data: {
           // @ts-expect-error
           stripePriceId: subscription.items.data[0].price.id,
           stripeCurrentPeriodEnd: new Date(
-            subscription.current_period_end * 1000
-          )
+            subscription.current_period_end * 1000,
+          ),
         },
         select: {
           stripePriceId: true,
-          stripeCurrentPeriodEnd: true
-        }
+          stripeCurrentPeriodEnd: true,
+        },
       });
 
       console.log(
         "User updated successfully for payment succeeded:",
-        updatedUser
+        updatedUser,
       );
     } catch (error) {
       console.error("Error updating user for payment succeeded:", error);

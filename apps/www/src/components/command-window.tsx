@@ -6,7 +6,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@propdock/ui/components/command";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ export default function GlobalSearch() {
     const down = (e: KeyboardEvent) => {
       if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen(open => !open);
+        setOpen((open) => !open);
       }
     };
     document.addEventListener("keydown", down);

@@ -13,18 +13,18 @@ const footerNavs = [
     items: [
       {
         href: "/",
-        name: "Docs"
+        name: "Docs",
       },
       {
         href: "/pricing",
-        name: "Priser"
+        name: "Priser",
       },
       {
         href: "/open",
-        name: "Open Startup"
-      }
-    ]
-  }
+        name: "Open Startup",
+      },
+    ],
+  },
   // {
   //   label: "Community",
   //   items: [
@@ -61,13 +61,13 @@ const footerSocials = [
   {
     href: "https://discord.com",
     name: "Discord",
-    icon: <DiscordLogoIcon className="h-4 w-4" />
+    icon: <DiscordLogoIcon className="h-4 w-4" />,
   },
   {
     href: "https://twitter.com",
     name: "Twitter",
-    icon: <TwitterLogoIcon className="h-4 w-4" />
-  }
+    icon: <TwitterLogoIcon className="h-4 w-4" />,
+  },
 ];
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
@@ -104,13 +104,13 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
-            {footerNavs.map(nav => (
+            {footerNavs.map((nav) => (
               <div key={nav.label}>
                 <h2 className="mb-6 font-medium text-gray-900 text-sm uppercase tracking-tighter dark:text-white">
                   {nav.label}
                 </h2>
                 <ul className="grid gap-2">
-                  {nav.items.map(item => (
+                  {nav.items.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}
@@ -128,7 +128,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
 
         <div className="flex flex-col gap-2 rounded-md border-neutral-700/20 px-8 py-4 sm:flex sm:flex-row sm:items-center sm:justify-between">
           <div className="flex space-x-5 sm:mt-0 sm:justify-center">
-            {footerSocials.map(social => (
+            {footerSocials.map((social) => (
               <Link
                 key={social.name}
                 href={social.href}

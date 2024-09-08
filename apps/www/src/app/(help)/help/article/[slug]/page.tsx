@@ -16,17 +16,17 @@ import { HELP_CATEGORIES } from "@/lib/blog/content";
 import { getBlurDataURL } from "@/lib/blog/images";
 
 export async function generateStaticParams() {
-  return allHelpPosts.map(post => ({
-    slug: post.slug
+  return allHelpPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allHelpPosts.find(post => post.slug === params.slug);
+  const post = allHelpPosts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
@@ -37,38 +37,38 @@ export async function generateMetadata({
     title: `${title} – Propdock Hjelpesenter`,
     description: summary,
     image: `/api/og/help?title=${encodeURIComponent(
-      title
-    )}&summary=${encodeURIComponent(summary)}`
+      title,
+    )}&summary=${encodeURIComponent(summary)}`,
   });
 }
 
 export default async function HelpArticle({
-  params
+  params,
 }: {
   params: {
     slug: string;
   };
 }) {
-  const data = allHelpPosts.find(post => post.slug === params.slug);
+  const data = allHelpPosts.find((post) => post.slug === params.slug);
   if (!data) {
     notFound();
   }
   const category = HELP_CATEGORIES.find(
-    category => data.categories[0] === category.slug
+    (category) => data.categories[0] === category.slug,
   )!;
 
   const [images, tweets] = await Promise.all([
     await Promise.all(
       data.images.map(async (src: string) => ({
         src,
-        blurDataURL: await getBlurDataURL(src)
-      }))
-    )
+        blurDataURL: await getBlurDataURL(src),
+      })),
+    ),
   ]);
 
   const relatedArticles =
     (data.related
-      ?.map(slug => allHelpPosts.find(post => post.slug === slug))
+      ?.map((slug) => allHelpPosts.find((post) => post.slug === slug))
       .filter(Boolean) as HelpPost[]) || [];
 
   return (
@@ -118,7 +118,7 @@ export default async function HelpArticle({
                   Relaterte artikler
                 </h2>
                 <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
-                  {relatedArticles.map(article => (
+                  {relatedArticles.map((article) => (
                     <HelpArticleLink key={article.slug} article={article} />
                   ))}
                 </div>

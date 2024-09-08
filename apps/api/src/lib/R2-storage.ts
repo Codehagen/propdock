@@ -7,7 +7,7 @@ export async function storeSignedDocument(
   env: Env,
   documentId: string,
   content: ArrayBuffer | Buffer,
-  contentType: string
+  contentType: string,
 ): Promise<string> {
   const bucket = env.PROPDOCK_BINDING;
 
@@ -18,7 +18,7 @@ export async function storeSignedDocument(
   const key = `signed-documents/${documentId}`;
 
   await bucket.put(key, content, {
-    httpMetadata: { contentType }
+    httpMetadata: { contentType },
   });
 
   return key;
@@ -31,7 +31,7 @@ export function getProxyUrl(requestUrl: string, documentId: string): string {
 
 export async function getAccessToken(env: Env): Promise<string> {
   const credentials = btoa(
-    `${env.SIGNICAT_CLIENT_ID}:${env.SIGNICAT_CLIENT_SECRET}`
+    `${env.SIGNICAT_CLIENT_ID}:${env.SIGNICAT_CLIENT_SECRET}`,
   );
 
   const response = await fetch(
@@ -40,13 +40,13 @@ export async function getAccessToken(env: Env): Promise<string> {
       method: "POST",
       headers: {
         Authorization: `Basic ${credentials}`,
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         grant_type: "client_credentials",
-        scope: "signicat-api"
-      })
-    }
+        scope: "signicat-api",
+      }),
+    },
   );
 
   if (!response.ok) {
@@ -59,7 +59,7 @@ export async function getAccessToken(env: Env): Promise<string> {
 export async function handleDocumentSigned(
   env: Env,
   eventData: any,
-  requestUrl: string
+  requestUrl: string,
 ) {
   const { documentId, externalId } = eventData;
 
@@ -76,7 +76,7 @@ export async function handleDocumentSigned(
 
   // Construct the URL with query parameters
   const url = new URL(
-    `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`
+    `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`,
   );
   // url.searchParams.append("fileFormat", "pades")
   // url.searchParams.append("originalFileName", "true")
@@ -86,8 +86,8 @@ export async function handleDocumentSigned(
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      Accept: "application/pdf"
-    }
+      Accept: "application/pdf",
+    },
   });
 
   if (response.ok) {
@@ -100,7 +100,7 @@ export async function handleDocumentSigned(
       env,
       documentId,
       fileContent,
-      contentType
+      contentType,
     );
 
     // Update the document record with the storage key
@@ -143,7 +143,7 @@ export async function handleDocumentSigned(
 export async function handleDocumentCompletedSigned(
   env: Env,
   eventData: any,
-  requestUrl: string
+  requestUrl: string,
 ) {
   console.log("Starting handleDocumentCompletedSigned function");
   const { id: documentId } = eventData;
@@ -159,13 +159,13 @@ export async function handleDocumentCompletedSigned(
     const summaryResponse = await fetch(summaryUrl, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     if (!summaryResponse.ok) {
       throw new Error(
-        `Failed to retrieve document summary: ${summaryResponse.statusText}`
+        `Failed to retrieve document summary: ${summaryResponse.statusText}`,
       );
     }
 
@@ -178,13 +178,13 @@ export async function handleDocumentCompletedSigned(
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: "application/pdf"
-      }
+        Accept: "application/pdf",
+      },
     });
 
     if (!fileResponse.ok) {
       throw new Error(
-        `Failed to retrieve signed document: ${fileResponse.statusText}`
+        `Failed to retrieve signed document: ${fileResponse.statusText}`,
       );
     }
 
@@ -197,7 +197,7 @@ export async function handleDocumentCompletedSigned(
       env,
       documentId,
       fileContent,
-      contentType
+      contentType,
     );
 
     console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`);
@@ -214,8 +214,8 @@ export async function handleDocumentCompletedSigned(
         contentType,
         signedAt: new Date((summary as any).lastUpdated),
         signers: (summary as any).documentSignatures,
-        downloadUrl: proxyUrl
-      }
+        downloadUrl: proxyUrl,
+      },
     });
 
     console.log("Document updated in the database");
@@ -223,12 +223,12 @@ export async function handleDocumentCompletedSigned(
     // Here you can add any additional processing, like sending notifications
 
     console.log(
-      "handleDocumentCompletedSigned function completed successfully"
+      "handleDocumentCompletedSigned function completed successfully",
     );
   } catch (error) {
     console.error(
       `Error in handleDocumentSigned for document ${documentId}:`,
-      error
+      error,
     );
     throw error;
   }
@@ -238,13 +238,13 @@ export async function createDocumentInDatabase(
   env: Env,
   documentData: any,
   createdDocument: any,
-  user: User
+  user: User,
 ): Promise<void> {
   console.log("Debug: Entering createDocumentInDatabase");
   console.log("Debug: documentData", JSON.stringify(documentData, null, 2));
   console.log(
     "Debug: createdDocument",
-    JSON.stringify(createdDocument, null, 2)
+    JSON.stringify(createdDocument, null, 2),
   );
   console.log("Debug: user", JSON.stringify(user, null, 2));
 
@@ -260,8 +260,8 @@ export async function createDocumentInDatabase(
         userId: user.id,
         workspaceId: user.workspaceId,
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
     console.log("Debug: Document created successfully");
   } catch (error) {

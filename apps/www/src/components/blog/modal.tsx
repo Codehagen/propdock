@@ -15,7 +15,7 @@ export default function Modal({
   showModal,
   setShowModal,
   onClose,
-  preventDefaultClose
+  preventDefaultClose,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -48,7 +48,7 @@ export default function Modal({
     return (
       <Drawer.Root
         open={setShowModal ? showModal : true}
-        onOpenChange={open => {
+        onOpenChange={(open) => {
           if (!open) {
             closeModal({ dragged: true });
           }
@@ -59,7 +59,7 @@ export default function Modal({
           <Drawer.Content
             className={cn(
               "fixed right-0 bottom-0 left-0 z-50 mt-24 rounded-t-[10px] border-gray-200 border-t bg-white",
-              className
+              className,
             )}
           >
             <div className="sticky top-0 z-20 flex w-full items-center justify-center rounded-t-[10px] bg-inherit">
@@ -75,7 +75,7 @@ export default function Modal({
   return (
     <Dialog.Root
       open={setShowModal ? showModal : true}
-      onOpenChange={open => {
+      onOpenChange={(open) => {
         if (!open) {
           closeModal();
         }
@@ -88,11 +88,11 @@ export default function Modal({
           className="fixed inset-0 z-40 animate-fade-in bg-gray-100 bg-opacity-50 backdrop-blur-md"
         />
         <Dialog.Content
-          onOpenAutoFocus={e => e.preventDefault()}
-          onCloseAutoFocus={e => e.preventDefault()}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onCloseAutoFocus={(e) => e.preventDefault()}
           className={cn(
             "fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md animate-scale-in overflow-hidden border border-gray-200 bg-white p-0 shadow-xl md:rounded-2xl",
-            className
+            className,
           )}
         >
           {children}

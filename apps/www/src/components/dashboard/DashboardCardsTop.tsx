@@ -2,7 +2,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { format } from "date-fns";
 
@@ -33,7 +33,7 @@ export default function DashboardCardsTop({ dashboardData }) {
           <div className="font-bold text-xl">
             {new Intl.NumberFormat("no-NO", {
               style: "currency",
-              currency: "NOK"
+              currency: "NOK",
             }).format(dashboardData.totalValue)}
           </div>
           <p className="text-muted-foreground text-xs">
@@ -61,7 +61,7 @@ export default function DashboardCardsTop({ dashboardData }) {
           <div className="font-bold text-xl">
             {new Intl.NumberFormat("no-NO", {
               style: "currency",
-              currency: "NOK"
+              currency: "NOK",
             }).format(dashboardData.totalIncome)}
           </div>
           <p className="text-muted-foreground text-xs">Stipulert inntekt</p>

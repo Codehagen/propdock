@@ -6,17 +6,17 @@ import { honoFactory } from "@/lib/hono";
 import {
   exchangeCodeForKey,
   getAccessToken,
-  getOnboardingStartUrl
+  getOnboardingStartUrl,
 } from "@/lib/fiken/auth";
 
 const app = honoFactory();
 
-app.get("/onboarding-start", async c => {
+app.get("/onboarding-start", async (c) => {
   const url = getOnboardingStartUrl(c.env);
   return c.json({ ok: true, message: url }, 200);
 });
 
-app.post("/onboarding-finalize", async c => {
+app.post("/onboarding-finalize", async (c) => {
   const body = await c.req.json();
   const db = prisma(c.env);
   const serviceName = "fiken";
@@ -33,9 +33,9 @@ app.post("/onboarding-finalize", async c => {
       {
         ok: false,
         message:
-          "Request body not in valid format or missing required attributes"
+          "Request body not in valid format or missing required attributes",
       },
-      400
+      400,
     );
   }
 
@@ -56,7 +56,7 @@ app.post("/onboarding-finalize", async c => {
       workspaceId,
       accessToken,
       clientKeyResponse.expires_in,
-      serviceName
+      serviceName,
     );
   } catch (error: any) {
     console.error(`Error: ${error.message}`);
@@ -65,22 +65,22 @@ app.post("/onboarding-finalize", async c => {
 
   return c.json(
     { ok: true, tokens: { access: accessToken, refresh: clientKey } },
-    200
+    200,
   );
 });
 
-app.get("/callback-test", async c => {
+app.get("/callback-test", async (c) => {
   const { code, state } = c.req.query();
   return c.json({ ok: true, code: code, state: state }, 200);
 });
 
-app.get("/token-test", async c => {
+app.get("/token-test", async (c) => {
   const user = c.get("user");
 
   if (!user) {
     return c.json(
       { ok: false, message: "x-user-id header was not supplied" },
-      400
+      400,
     );
   }
 
@@ -95,13 +95,13 @@ app.get("/token-test", async c => {
   return c.json({ ok: true, user: user, message: token }, 200);
 });
 
-app.get("/dev", async c => {
+app.get("/dev", async (c) => {
   const user = c.get("user");
 
   if (!user) {
     return c.json(
       { ok: false, message: "x-user-id header was not supplied" },
-      400
+      400,
     );
   }
 

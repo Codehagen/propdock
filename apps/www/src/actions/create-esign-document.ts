@@ -5,10 +5,10 @@ import axios from "axios";
 import { getCurrentUser } from "@/lib/session";
 
 const api = axios.create({
-  baseURL: "https://api.propdock.workers.dev"
+  baseURL: "https://api.propdock.workers.dev",
 });
 
-api.interceptors.request.use(async config => {
+api.interceptors.request.use(async (config) => {
   const user = await getCurrentUser();
   config.headers["x-fe-key"] = "super-secret";
   if (user?.id) {
@@ -23,7 +23,7 @@ export async function createEsignDocument(formData: FormData) {
     description: formData.get("description"),
     signers: JSON.parse(formData.get("signers") as string),
     "file.name": (formData.get("file") as File).name,
-    "file.size": (formData.get("file") as File).size
+    "file.size": (formData.get("file") as File).size,
   });
 
   const title = formData.get("title") as string;
@@ -53,9 +53,9 @@ export async function createEsignDocument(formData: FormData) {
       email: signer.email,
       mobile: {
         countryCode: "+47", // Assuming Norwegian numbers
-        number: signer.mobile || "99444866"
-      }
-    }))
+        number: signer.mobile || "99444866",
+      },
+    })),
   };
 
   console.log("createEsignDocument - Prepared request body:", {
@@ -64,17 +64,17 @@ export async function createEsignDocument(formData: FormData) {
     fileName: requestBody.fileName,
     contactEmail: requestBody.contactEmail,
     signers: requestBody.signers,
-    "base64Content.length": requestBody.base64Content.length
+    "base64Content.length": requestBody.base64Content.length,
   });
 
   try {
     const response = await api.post(
       "/api/internal/esign/create-document",
-      requestBody
+      requestBody,
     );
     console.log("createEsignDocument - API response:", {
       status: response.status,
-      data: response.data
+      data: response.data,
     });
     return response.data;
   } catch (error) {
@@ -82,7 +82,7 @@ export async function createEsignDocument(formData: FormData) {
     if (error.response) {
       console.error("API error response:", {
         status: error.response.status,
-        data: error.response.data
+        data: error.response.data,
       });
     }
     throw error;

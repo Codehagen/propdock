@@ -6,12 +6,12 @@ export async function updateOfficeSpace(
   officeId: number,
   newName: string,
   sizeKvm: number,
-  isRented: boolean
+  isRented: boolean,
 ) {
   try {
     const updatedOffice = await prisma.officeSpace.update({
       where: { id: officeId },
-      data: { name: newName, sizeKvm, isRented }
+      data: { name: newName, sizeKvm, isRented },
     });
 
     return { success: true, office: updatedOffice };

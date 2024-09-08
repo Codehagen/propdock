@@ -11,17 +11,17 @@ import { getBlurDataURL } from "@/lib/blog/images";
 import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allCustomersPosts.map(post => ({
-    slug: post.slug
+  return allCustomersPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allCustomersPosts.find(post => post.slug === params.slug);
+  const post = allCustomersPosts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
@@ -31,18 +31,18 @@ export async function generateMetadata({
   return constructMetadata({
     title: `${title} –Propdock`,
     description: summary,
-    image
+    image,
   });
 }
 
 export default async function CustomerStory({
-  params
+  params,
 }: {
   params: {
     slug: string;
   };
 }) {
-  const data = allCustomersPosts.find(post => post.slug === params.slug);
+  const data = allCustomersPosts.find((post) => post.slug === params.slug);
   if (!data) {
     notFound();
   }
@@ -52,9 +52,9 @@ export default async function CustomerStory({
     await Promise.all(
       data.images.map(async (src: string) => ({
         src,
-        blurDataURL: await getBlurDataURL(src)
-      }))
-    )
+        blurDataURL: await getBlurDataURL(src),
+      })),
+    ),
   ]);
 
   return (
@@ -112,7 +112,7 @@ export default async function CustomerStory({
                 <div
                   key={title}
                   className={cn("col-span-1 flex flex-col space-y-2", {
-                    "col-span-2": title === "About"
+                    "col-span-2": title === "About",
                   })}
                 >
                   <p className="font-medium text-foreground">{title}</p>
@@ -164,22 +164,22 @@ export default async function CustomerStory({
 const sidebarContent = [
   {
     title: "Om bedriften",
-    value: "companyDescription"
+    value: "companyDescription",
   },
   {
     title: "Bransje",
-    value: "companyIndustry"
+    value: "companyIndustry",
   },
   {
     title: "Selskapsstørrelse",
-    value: "companySize"
+    value: "companySize",
   },
   {
     title: "Stiftet",
-    value: "companyFounded"
+    value: "companyFounded",
   },
   {
     title: "Propdock-plan",
-    value: "plan"
-  }
+    value: "plan",
+  },
 ];

@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Progress } from "@propdock/ui/components/progress";
@@ -27,10 +27,10 @@ const formSchema = z.object({
       z.object({
         name: z.string().min(1, { message: "Navn er påkrevd" }),
         mobile: z.string().min(8, { message: "Gyldig mobilnummer er påkrevd" }),
-        email: z.string().email({ message: "Ugyldig e-postadresse" })
-      })
+        email: z.string().email({ message: "Ugyldig e-postadresse" }),
+      }),
     )
-    .min(1, { message: "Minst én signerer er påkrevd" })
+    .min(1, { message: "Minst én signerer er påkrevd" }),
   // Legg til flere felter etter behov
 });
 
@@ -39,20 +39,20 @@ const TOTAL_STEPS = 3;
 const stepContent = {
   1: {
     title: "Generelt",
-    description: "Konfigurer generelle innstillinger for dokumentet."
+    description: "Konfigurer generelle innstillinger for dokumentet.",
   },
   2: {
     title: "Legg til signerere",
-    description: "Legg til personene som skal signere dokumentet."
+    description: "Legg til personene som skal signere dokumentet.",
   },
   3: {
     title: "Gjennomgang",
-    description: "Gjennomgå og bekreft all informasjon før innsending."
-  }
+    description: "Gjennomgå og bekreft all informasjon før innsending.",
+  },
 };
 
 export function ESignGeneralForm({
-  onFormSubmit
+  onFormSubmit,
 }: {
   onFormSubmit: (data: z.infer<typeof formSchema>) => void;
 }) {
@@ -63,14 +63,14 @@ export function ESignGeneralForm({
     defaultValues: {
       title: "",
       description: "",
-      signers: [{ name: "", mobile: "", email: "" }]
+      signers: [{ name: "", mobile: "", email: "" }],
     },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const { fields, append, remove } = useFieldArray({
     name: "signers",
-    control: form.control
+    control: form.control,
   });
 
   // Funksjon for å legge til deg selv som signerer

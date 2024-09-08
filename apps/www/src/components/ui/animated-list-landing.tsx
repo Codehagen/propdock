@@ -18,29 +18,29 @@ let notifications = [
     description: "Eiendom-123",
     time: "15m siden",
     icon: "📊",
-    color: "#00C9A7"
+    color: "#00C9A7",
   },
   {
     name: "Følg opp leietaker",
     description: "Eiendom-867",
     time: "10m siden",
     icon: "👤",
-    color: "#FFB800"
+    color: "#FFB800",
   },
   {
     name: "Ny melding",
     description: "Eiendom-456",
     time: "5m siden",
     icon: "💬",
-    color: "#FF3D71"
+    color: "#FF3D71",
   },
   {
     name: "Leiekontrakt utløper",
     description: "Eiendom-789",
     time: "2m siden",
     icon: "📅",
-    color: "#1E86FF"
-  }
+    color: "#1E86FF",
+  },
 ];
 
 notifications = Array.from({ length: 10 }, () => notifications).flat();
@@ -55,14 +55,14 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
         // light styles
         "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
         // dark styles
-        "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+        "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       )}
     >
       <div className="flex flex-row items-center gap-3">
         <div
           className="flex h-10 w-10 items-center justify-center rounded-2xl"
           style={{
-            backgroundColor: color
+            backgroundColor: color,
           }}
         >
           <span className="text-lg">{icon}</span>
@@ -87,7 +87,7 @@ export function AnimatedListLanding({ className }: { className?: string }) {
     <div
       className={cn(
         "relative flex max-h-[400px] min-h-[400px] w-full max-w-[32rem] flex-col overflow-hidden rounded-lg border bg-background p-6 shadow-lg",
-        className
+        className,
       )}
     >
       <AnimatedList delay={3000}>

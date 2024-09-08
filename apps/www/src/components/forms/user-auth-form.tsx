@@ -25,9 +25,9 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(userAuthSchema)
+    resolver: zodResolver(userAuthSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
@@ -39,7 +39,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams.get("from") || "/dashboard"
+      callbackUrl: searchParams.get("from") || "/dashboard",
     });
 
     setIsLoading(false);
@@ -49,7 +49,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
     }
 
     return toast.success(
-      "We sent you a login link. Be sure to check your spam too."
+      "We sent you a login link. Be sure to check your spam too.",
     );
   }
 

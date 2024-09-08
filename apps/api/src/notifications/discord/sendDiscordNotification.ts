@@ -1,17 +1,17 @@
 export async function sendDiscordNotification(
   webhook: string,
-  message: string
+  message: string,
 ) {
   try {
     console.log("Sending Discord notification to webhook URL:", webhook);
     const response = await fetch(webhook, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: message
-      })
+        content: message,
+      }),
     });
     if (!response.ok) {
       console.error("Failed to send Discord notification");
@@ -27,11 +27,11 @@ export async function sendSlackNotification(webhook: string, message: string) {
     const response = await fetch(webhook, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: message
-      })
+        text: message,
+      }),
     });
     if (!response.ok) {
       console.error("Failed to send Slack notification");

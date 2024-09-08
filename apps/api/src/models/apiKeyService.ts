@@ -4,17 +4,17 @@ import type { PrismaClient } from "@prisma/client";
 async function getAPIKey(
   db: PrismaClient,
   workspaceId: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<string> {
   const apiKey = await db.wSApiKey.findFirst({
     where: {
       workspaceId: workspaceId,
       serviceName: serviceName,
-      isActive: true
+      isActive: true,
     },
     select: {
-      secret: true
-    }
+      secret: true,
+    },
   });
 
   if (!apiKey) {

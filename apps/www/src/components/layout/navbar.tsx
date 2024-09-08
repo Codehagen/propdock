@@ -23,7 +23,7 @@ export function NavBar({
   items,
   children,
   rightElements,
-  scroll = false
+  scroll = false,
 }: NavBarProps) {
   const scrolled = useScroll(50);
   const signInModal = useSigninModal();

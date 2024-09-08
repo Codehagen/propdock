@@ -68,9 +68,9 @@
     "formatter": {
       "enabled": true,
       "quoteProperties": "asNeeded",
-      "trailingCommas": "none",
+      "trailingCommas": "all",
       "semicolons": "always",
-      "arrowParentheses": "asNeeded",
+      "arrowParentheses": "always",
       "jsxQuoteStyle": "double",
       "bracketSpacing": true,
       "quoteStyle": "double",

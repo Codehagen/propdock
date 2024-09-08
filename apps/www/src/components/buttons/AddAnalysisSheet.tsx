@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -19,7 +19,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const AnalysisSchema = z.object({
-  name: z.string().min(1, "Navn er påkrevd")
+  name: z.string().min(1, "Navn er påkrevd"),
 });
 
 export function AddAnalysisSheet() {
@@ -36,8 +36,8 @@ export function AddAnalysisSheet() {
   const form = useForm({
     resolver: zodResolver(AnalysisSchema),
     defaultValues: {
-      name: ""
-    }
+      name: "",
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof AnalysisSchema>) => {

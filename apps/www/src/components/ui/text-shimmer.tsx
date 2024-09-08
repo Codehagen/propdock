@@ -10,13 +10,13 @@ interface TextShimmerProps {
 const TextShimmer: FC<TextShimmerProps> = ({
   children,
   className,
-  shimmerWidth = 100
+  shimmerWidth = 100,
 }) => {
   return (
     <p
       style={
         {
-          "--shimmer-width": `${shimmerWidth}px`
+          "--shimmer-width": `${shimmerWidth}px`,
         } as CSSProperties
       }
       className={cn(
@@ -28,7 +28,7 @@ const TextShimmer: FC<TextShimmerProps> = ({
         // Shimmer gradient
         "bg-gradient-to-r from-neutral-100 via-50% via-black/80 to-neutral-100 dark:from-neutral-900 dark:via-white/80 dark:to-neutral-900",
 
-        className
+        className,
       )}
     >
       {children}

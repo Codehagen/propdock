@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@propdock/ui/components/dialog";
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -51,7 +51,7 @@ export function AnalystNavTop({ analysisDetails }) {
     setIsLoading(true);
     try {
       // Placeholder for submitting new chart
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success("Chart created successfully");
     } catch (error) {
       toast.error("Failed to create chart");
@@ -123,7 +123,7 @@ export function AnalystNavTop({ analysisDetails }) {
                 id="chartName"
                 placeholder="Skriv inn navn på diagram"
                 value={analysisName}
-                onChange={e => setAnalysisName(e.target.value)}
+                onChange={(e) => setAnalysisName(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -133,7 +133,7 @@ export function AnalystNavTop({ analysisDetails }) {
                 placeholder="Skriv inn beskrivelse"
                 rows={4}
                 value={analysisDescription}
-                onChange={e => setAnalysisDescription(e.target.value)}
+                onChange={(e) => setAnalysisDescription(e.target.value)}
                 className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>

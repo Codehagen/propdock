@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -16,7 +16,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -24,7 +24,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import {
   Table,
@@ -32,7 +32,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -42,7 +42,7 @@ import { z } from "zod";
 
 const FormSchema = z.object({
   year: z.string().min(1, "År er påkrevd"),
-  value: z.string().min(1, "Verdi er påkrevd")
+  value: z.string().min(1, "Verdi er påkrevd"),
 });
 
 interface EditVacancyCardProps {
@@ -52,23 +52,23 @@ interface EditVacancyCardProps {
 
 export function EditVacancyCard({
   analysisId,
-  initialVacancyPerYear
+  initialVacancyPerYear,
 }: EditVacancyCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [vacancyData, setVacancyData] = useState(
-    JSON.parse(initialVacancyPerYear)
+    JSON.parse(initialVacancyPerYear),
   );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       year: "",
-      value: ""
-    }
+      value: "",
+    },
   });
 
   const years = Array.from({ length: 10 }, (_, i) =>
-    (new Date().getFullYear() + i).toString()
+    (new Date().getFullYear() + i).toString(),
   );
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -76,7 +76,7 @@ export function EditVacancyCard({
     try {
       const updatedVacancyData = { ...vacancyData, [data.year]: data.value };
       const result = await updateAnalysis(analysisId, {
-        vacancyPerYear: JSON.stringify(updatedVacancyData)
+        vacancyPerYear: JSON.stringify(updatedVacancyData),
       });
       if (result.success) {
         toast.success("Analysen ble oppdatert.");
@@ -93,7 +93,7 @@ export function EditVacancyCard({
   }
 
   const sortedVacancyData = Object.entries(vacancyData).sort(([a], [b]) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   );
 
   const handleDelete = async (yearToDelete: string) => {
@@ -102,7 +102,7 @@ export function EditVacancyCard({
       const updatedVacancyData = { ...vacancyData };
       delete updatedVacancyData[yearToDelete];
       const result = await updateAnalysis(analysisId, {
-        vacancyPerYear: JSON.stringify(updatedVacancyData)
+        vacancyPerYear: JSON.stringify(updatedVacancyData),
       });
       if (result.success) {
         toast.success("År ble slettet.");
@@ -143,7 +143,7 @@ export function EditVacancyCard({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {years.map(year => (
+                      {years.map((year) => (
                         <SelectItem key={year} value={year}>
                           {year}
                         </SelectItem>

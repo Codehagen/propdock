@@ -10,8 +10,8 @@ export const FacebookPixelEvents: React.FC = () => {
 
   useEffect(() => {
     import("react-facebook-pixel")
-      .then(x => x.default)
-      .then(ReactPixel => {
+      .then((x) => x.default)
+      .then((ReactPixel) => {
         ReactPixel.init("1442315969659116"); //don't
         ReactPixel.pageView();
       });

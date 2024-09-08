@@ -16,7 +16,7 @@ interface BlogPost {
 
 export default function BlogCard({
   data,
-  priority
+  priority,
 }: {
   data: BlogPost & {
     blurDataURL: string;

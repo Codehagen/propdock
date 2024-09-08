@@ -4,21 +4,21 @@ import type { NextRequest } from "next/server";
 import { truncate } from "@/lib/blog/constructMetadata";
 
 export const config = {
-  runtime: "edge"
+  runtime: "edge",
 };
 
 const satoshiBold = fetch(
-  new URL("../../../styles/Satoshi-Bold.ttf", import.meta.url)
-).then(res => res.arrayBuffer());
+  new URL("../../../styles/Satoshi-Bold.ttf", import.meta.url),
+).then((res) => res.arrayBuffer());
 
 const interMedium = fetch(
-  new URL("../../../styles/Inter-Medium.ttf", import.meta.url)
-).then(res => res.arrayBuffer());
+  new URL("../../../styles/Inter-Medium.ttf", import.meta.url),
+).then((res) => res.arrayBuffer());
 
 export default async function (req: NextRequest) {
   const [satoshiBoldData, interMediumData] = await Promise.all([
     satoshiBold,
-    interMedium
+    interMedium,
   ]);
 
   const { searchParams } = new URL(req.url);
@@ -43,7 +43,7 @@ export default async function (req: NextRequest) {
         backgroundSize: "100px 100px",
         backgroundPosition: "-30px -10px",
         fontWeight: 600,
-        color: "white"
+        color: "white",
       }}
     >
       <div
@@ -52,7 +52,7 @@ export default async function (req: NextRequest) {
           top: 70,
           left: 80,
           display: "flex",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <svg
@@ -85,7 +85,7 @@ export default async function (req: NextRequest) {
             margin: 0,
             fontSize: 30,
             fontFamily: "Inter Medium",
-            letterSpacing: -1
+            letterSpacing: -1,
           }}
         >
           Propdock
@@ -102,7 +102,7 @@ export default async function (req: NextRequest) {
           backgroundImage: "linear-gradient(90deg, #fff 40%, #aaa)",
           backgroundClip: "text",
           WebkitBackgroundClip: "text",
-          color: "transparent"
+          color: "transparent",
         }}
       >
         {truncate(title, 100)}
@@ -115,7 +115,7 @@ export default async function (req: NextRequest) {
           margin: 0,
           fontSize: 30,
           fontFamily: "Inter Medium",
-          letterSpacing: -1
+          letterSpacing: -1,
         }}
       >
         {truncate(summary, 140)}
@@ -127,13 +127,13 @@ export default async function (req: NextRequest) {
       fonts: [
         {
           name: "Satoshi Bold",
-          data: satoshiBoldData
+          data: satoshiBoldData,
         },
         {
           name: "Inter Medium",
-          data: interMediumData
-        }
-      ]
-    }
+          data: interMediumData,
+        },
+      ],
+    },
   );
 }

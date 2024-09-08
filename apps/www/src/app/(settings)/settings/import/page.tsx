@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import {
   Table,
@@ -15,7 +15,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -30,7 +30,7 @@ import ConnectorButton from "./_components/ConnectorButton";
 
 export const metadata = {
   title: "Settings",
-  description: "Manage account and website settings."
+  description: "Manage account and website settings.",
 };
 
 export default async function ImportPage() {
@@ -43,8 +43,8 @@ export default async function ImportPage() {
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: {
-      workspaceId: true
-    }
+      workspaceId: true,
+    },
   });
 
   if (!user?.workspaceId) {
@@ -58,13 +58,13 @@ export default async function ImportPage() {
     { name: "Poweroffice", provider: "poweroffice", status: "Disconnected" },
     { name: "Fiken", provider: "fiken", status: "Disconnected" },
     { name: "Tripletex", provider: "tripletex", status: "Disconnected" },
-    { name: "X-ledger", provider: "x-ledger", status: "Disconnected" }
+    { name: "X-ledger", provider: "x-ledger", status: "Disconnected" },
   ];
 
   // Update the status of the connectors based on the fetched API keys
-  apiKeys.forEach(key => {
+  apiKeys.forEach((key) => {
     const connector = connectors.find(
-      c => c.provider.toLowerCase() === key.serviceName.toLowerCase()
+      (c) => c.provider.toLowerCase() === key.serviceName.toLowerCase(),
     );
     if (connector) {
       connector.status = key.isActive ? "Connected" : "Disconnected";

@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";

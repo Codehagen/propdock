@@ -56,7 +56,7 @@ export function MainNav({ items, children }: MainNavProps) {
                   path.includes(item.href)
                     ? "text-foreground"
                     : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80"
+                  item.disabled && "cursor-not-allowed opacity-80",
                 )}
               >
                 {item.title}

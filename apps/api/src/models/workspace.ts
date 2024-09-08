@@ -4,14 +4,14 @@ async function saveAPIKey(
   db: PrismaClient,
   workspaceId: string,
   key: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<void> {
   await db.wSApiKey.create({
     data: {
       workspaceId: workspaceId,
       serviceName: serviceName,
-      secret: key
-    }
+      secret: key,
+    },
   });
 }
 
@@ -19,23 +19,23 @@ async function upsertAPIKey(
   db: PrismaClient,
   workspaceId: string,
   key: string,
-  serviceName: string
+  serviceName: string,
 ): Promise<void> {
   await db.wSApiKey.upsert({
     where: {
       workspaceId_serviceName: {
         workspaceId: workspaceId,
-        serviceName: serviceName
-      }
+        serviceName: serviceName,
+      },
     },
     update: {
-      secret: key
+      secret: key,
     },
     create: {
       workspaceId: workspaceId,
       serviceName: serviceName,
-      secret: key
-    }
+      secret: key,
+    },
   });
 }
 
@@ -44,7 +44,7 @@ async function saveAccessToken(
   workspaceId: string,
   token: string,
   expiry: any,
-  serviceName: string
+  serviceName: string,
 ): Promise<void> {
   const validTo = new Date(Date.now() + (expiry - 10) * 1000);
 
@@ -53,8 +53,8 @@ async function saveAccessToken(
       workspaceId: workspaceId,
       serviceName: serviceName,
       secret: token,
-      validTo: validTo
-    }
+      validTo: validTo,
+    },
   });
 }
 
@@ -63,7 +63,7 @@ async function upsertAccessToken(
   workspaceId: string,
   token: string,
   expiry: any,
-  serviceName: string
+  serviceName: string,
 ): Promise<void> {
   const validTo = new Date(Date.now() + (expiry - 10) * 1000);
 
@@ -71,19 +71,19 @@ async function upsertAccessToken(
     where: {
       workspaceId_serviceName: {
         workspaceId: workspaceId,
-        serviceName: serviceName
-      }
+        serviceName: serviceName,
+      },
     },
     update: {
       secret: token,
-      validTo: validTo
+      validTo: validTo,
     },
     create: {
       workspaceId: workspaceId,
       serviceName: serviceName,
       secret: token,
-      validTo: validTo
-    }
+      validTo: validTo,
+    },
   });
 }
 

@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({
   children,
-  params
+  params,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 
@@ -23,13 +23,13 @@ export default async function DashboardLayout({
     {
       title: "Oversikt",
       href: `/property/${params.id}`,
-      icon: "home"
+      icon: "home",
     },
     {
       title: "Bygg",
       href: `/property/${params.id}/building`,
-      icon: "building"
-    }
+      icon: "building",
+    },
   ];
 
   return (

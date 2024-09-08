@@ -5,13 +5,13 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import type { ChartConfig } from "@propdock/ui/components/chart";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent
+  ChartTooltipContent,
 } from "@propdock/ui/components/chart";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import {
@@ -20,32 +20,32 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 
 const revenueData = [
   { year: "2021", value: 1000000 },
   { year: "2022", value: 1200000 },
   { year: "2023", value: 1500000 },
-  { year: "2024", value: 1800000 }
+  { year: "2024", value: 1800000 },
 ];
 
 const expenseData = [
   { year: "2021", value: 800000 },
   { year: "2022", value: 950000 },
   { year: "2023", value: 1100000 },
-  { year: "2024", value: 1300000 }
+  { year: "2024", value: 1300000 },
 ];
 
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--chart-2))"
+    color: "hsl(var(--chart-2))",
   },
   expenses: {
     label: "Expenses",
-    color: "hsl(var(--chart-1))"
-  }
+    color: "hsl(var(--chart-1))",
+  },
 } satisfies ChartConfig;
 
 export function AnalysesChartDashboard() {
@@ -90,7 +90,7 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
                 top: 10,
                 right: 10,
                 left: 0,
-                bottom: 0
+                bottom: 0,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -104,7 +104,7 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={value => `$${value / 1000000}M`}
+                tickFormatter={(value) => `$${value / 1000000}M`}
                 domain={["auto", "dataMax + 200000"]}
                 tick={{ fontSize: 12 }}
               />
@@ -160,7 +160,7 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
 }
 
 function TrendIcon({
-  trend
+  trend,
 }: {
   trend: { value: number; isPositive: boolean };
 }) {

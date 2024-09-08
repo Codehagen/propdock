@@ -17,7 +17,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
   return (
     <div
       className={cn(
-        "slide-in-from-bottom-80 fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] animate-in grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md md:hidden"
+        "slide-in-from-bottom-80 fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] animate-in grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md md:hidden",
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
@@ -32,7 +32,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
               href={item.disabled ? "#" : item.href}
               className={cn(
                 "flex w-full items-center rounded-md p-2 font-medium text-sm hover:underline",
-                item.disabled && "cursor-not-allowed opacity-60"
+                item.disabled && "cursor-not-allowed opacity-60",
               )}
             >
               {item.title}

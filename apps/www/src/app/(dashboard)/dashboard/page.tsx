@@ -14,7 +14,7 @@ import { getCurrentUser } from "@/lib/session";
 export const metadata = {
   title: "Propdock Dashboard - Your Alerts Overview",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard."
+    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
 };
 
 export default async function DashboardPage() {
@@ -29,13 +29,13 @@ export default async function DashboardPage() {
     where: {
       users: {
         some: {
-          id: user.id
-        }
-      }
+          id: user.id,
+        },
+      },
     },
     select: {
-      id: true
-    }
+      id: true,
+    },
   });
 
   if (!userWorkspace) {
@@ -60,16 +60,16 @@ export default async function DashboardPage() {
   // Fetch properties associated with the user's workspace
   const properties = await prisma.property.findMany({
     where: {
-      workspaceId: userWorkspace.id
+      workspaceId: userWorkspace.id,
     },
     select: {
       id: true,
       name: true,
-      createdAt: true
+      createdAt: true,
     },
     orderBy: {
-      createdAt: "desc"
-    }
+      createdAt: "desc",
+    },
   });
   console.log(properties);
 

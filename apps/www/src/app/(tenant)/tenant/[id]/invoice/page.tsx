@@ -13,7 +13,7 @@ import { prisma } from "@/lib/db";
 import { poweroffice } from "@/lib/poweroffice-sdk";
 
 export default async function InvoicePage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -34,7 +34,7 @@ export default async function InvoicePage({
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user.id },
-    select: { workspaceId: true }
+    select: { workspaceId: true },
   });
 
   try {

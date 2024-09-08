@@ -10,7 +10,7 @@ import { DragAndDrop } from "./_components/DragAndDrop";
 import { ESignGeneralForm } from "./_components/ESignGeneralForm ";
 
 export default function ESignMainComponent({
-  tenantDetails
+  tenantDetails,
 }: {
   tenantDetails: any;
 }) {
@@ -53,7 +53,7 @@ export default function ESignMainComponent({
       // Reset form and files here if needed
     } catch (error) {
       toast.error(
-        error.message || "An error occurred while creating the document."
+        error.message || "An error occurred while creating the document.",
       );
       console.error("Error creating document:", error);
     } finally {
@@ -88,7 +88,7 @@ export default function ESignMainComponent({
               <DragAndDrop
                 onDrop={onDrop}
                 accept={{
-                  "application/pdf": [".pdf"]
+                  "application/pdf": [".pdf"],
                 }}
                 maxSize={maxSize}
                 maxFiles={1}

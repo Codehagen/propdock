@@ -13,7 +13,7 @@ import {
   PieChart,
   Plug,
   Rss,
-  Shield
+  Shield,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
@@ -27,38 +27,38 @@ const tiles = [
     icon: <BarChart className="size-full" />, // Analytics
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-gray-600 via-gray-500 to-gray-400 opacity-70 blur-[20px] filter" />
-    )
+    ),
   },
   {
     icon: <Shield className="size-full" />, // Infrastructure
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 opacity-70 blur-[20px] filter" />
-    )
+    ),
   },
   {
     icon: <Navigation className="size-full" />, // User Journeys
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 opacity-70 blur-[20px] filter" />
-    )
+    ),
   },
   {
     icon: <PieChart className="size-full" />, // Data Visualization
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-green-500 via-teal-500 to-emerald-600 opacity-70 blur-[20px] filter" />
-    )
+    ),
   },
   {
     icon: <Plug className="size-full" />, // Integrations
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-orange-600 via-rose-600 to-violet-600 opacity-70 blur-[20px] filter" />
-    )
+    ),
   },
   {
     icon: <Rss className="size-full" />, // Additional service
     bg: (
       <div className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 h-1/2 w-1/2 overflow-visible rounded-full bg-gradient-to-r from-orange-600 via-rose-600 to-violet-600 opacity-70 blur-[20px] filter" />
-    )
-  }
+    ),
+  },
 ];
 
 const shuffleArray = (array: any[]) => {
@@ -72,7 +72,7 @@ const shuffleArray = (array: any[]) => {
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
-      array[currentIndex]
+      array[currentIndex],
     ];
   }
   return array;
@@ -88,7 +88,7 @@ const Card = (card: { icon: JSX.Element; bg: JSX.Element }) => {
     if (inView) {
       controls.start({
         opacity: 1,
-        transition: { delay: Math.random() * 2, ease: "easeOut", duration: 1 }
+        transition: { delay: Math.random() * 2, ease: "easeOut", duration: 1 },
       });
     }
   }, [controls, inView]);
@@ -104,7 +104,7 @@ const Card = (card: { icon: JSX.Element; bg: JSX.Element }) => {
         // light styles
         "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
         // dark styles
-        "transform-gpu dark:bg-transparent dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+        "transform-gpu dark:bg-transparent dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       )}
     >
       {card.icon}
@@ -190,9 +190,9 @@ export default function CallToActionSection() {
                   className={cn(
                     buttonVariants({
                       size: "lg",
-                      variant: "outline"
+                      variant: "outline",
                     }),
-                    "group mt-4 rounded-[2rem] px-6"
+                    "group mt-4 rounded-[2rem] px-6",
                   )}
                 >
                   Prøv gratis nå

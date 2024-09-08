@@ -7,7 +7,7 @@ interface DashboardHeaderProps {
 export function DashboardHeader({
   heading,
   text,
-  children
+  children,
 }: DashboardHeaderProps) {
   return (
     <div className="flex items-center justify-between px-2">

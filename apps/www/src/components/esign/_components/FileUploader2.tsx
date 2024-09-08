@@ -18,7 +18,7 @@ export function formatBytes(
   opts: {
     decimals?: number;
     sizeType?: "accurate" | "normal";
-  } = {}
+  } = {},
 ) {
   const { decimals = 0, sizeType = "normal" } = opts;
 
@@ -117,7 +117,7 @@ export function FileUploader2(props: FileUploaderProps) {
     onUpload,
     progresses,
     accept = {
-      "pdf/*": []
+      "pdf/*": [],
     },
     maxSize = 1024 * 1024 * 2,
     maxFileCount = 1,
@@ -129,7 +129,7 @@ export function FileUploader2(props: FileUploaderProps) {
 
   const [files, setFiles] = useControllableState({
     prop: valueProp,
-    onChange: onValueChange
+    onChange: onValueChange,
   });
 
   const onDrop = React.useCallback(
@@ -144,10 +144,10 @@ export function FileUploader2(props: FileUploaderProps) {
         return;
       }
 
-      const newFiles = acceptedFiles.map(file =>
+      const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })
+          preview: URL.createObjectURL(file),
+        }),
       );
 
       const updatedFiles = files ? [...files, ...newFiles] : newFiles;
@@ -174,12 +174,12 @@ export function FileUploader2(props: FileUploaderProps) {
             setFiles([]);
             return `${target} uploaded`;
           },
-          error: `Failed to upload ${target}`
+          error: `Failed to upload ${target}`,
         });
       }
     },
 
-    [files, maxFileCount, multiple, onUpload, setFiles]
+    [files, maxFileCount, multiple, onUpload, setFiles],
   );
 
   function onRemove(index: number) {
@@ -197,7 +197,7 @@ export function FileUploader2(props: FileUploaderProps) {
       if (!files) {
         return;
       }
-      files.forEach(file => {
+      files.forEach((file) => {
         if (isFileWithPreview(file)) {
           URL.revokeObjectURL(file.preview);
         }
@@ -225,7 +225,7 @@ export function FileUploader2(props: FileUploaderProps) {
               "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               isDragActive && "border-muted-foreground/50",
               isDisabled && "pointer-events-none opacity-60",
-              className
+              className,
             )}
             {...dropzoneProps}
           >

@@ -24,11 +24,11 @@ export async function updateUserMobile(userId: string, data: FormData) {
     // Update the user mobile number.
     await prisma.user.update({
       where: {
-        id: userId
+        id: userId,
       },
       data: {
-        phone: phone
-      }
+        phone: phone,
+      },
     });
 
     revalidatePath("/dashboard/settings");

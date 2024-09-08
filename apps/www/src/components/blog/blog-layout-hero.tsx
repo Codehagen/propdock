@@ -15,7 +15,7 @@ import Popover from "./popover";
 export default function BlogLayoutHero() {
   const { slug } = useParams() as { slug?: string };
 
-  const data = BLOG_CATEGORIES.find(category => category.slug === slug);
+  const data = BLOG_CATEGORIES.find((category) => category.slug === slug);
 
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -32,7 +32,7 @@ export default function BlogLayoutHero() {
           </p>
           <nav className="mt-6 hidden w-fit items-center space-x-2 rounded-full border border-border bg-background p-2 md:flex">
             <CategoryLink title="Oversikt" href="/blog" active={!slug} />
-            {BLOG_CATEGORIES.map(category => (
+            {BLOG_CATEGORIES.map((category) => (
               <CategoryLink
                 key={category.slug}
                 title={category.title}
@@ -55,7 +55,7 @@ export default function BlogLayoutHero() {
               mobile
               setOpenPopover={setOpenPopover}
             />
-            {BLOG_CATEGORIES.map(category => (
+            {BLOG_CATEGORIES.map((category) => (
               <CategoryLink
                 key={category.slug}
                 title={category.title}
@@ -92,7 +92,7 @@ const CategoryLink = ({
   href,
   active,
   mobile,
-  setOpenPopover
+  setOpenPopover,
 }: {
   title: string;
   href: string;
@@ -105,7 +105,7 @@ const CategoryLink = ({
       <Link
         href={href}
         {...(setOpenPopover && {
-          onClick: () => setOpenPopover(false)
+          onClick: () => setOpenPopover(false),
         })}
         className="flex w-full items-center justify-between rounded-md p-2 transition-colors hover:bg-muted active:bg-muted/80"
       >
@@ -121,7 +121,7 @@ const CategoryLink = ({
           "rounded-full px-4 py-2 text-sm transition-all",
           active
             ? "text-primary-foreground"
-            : "text-muted-foreground hover:bg-muted active:bg-muted/80"
+            : "text-muted-foreground hover:bg-muted active:bg-muted/80",
         )}
       >
         {title}

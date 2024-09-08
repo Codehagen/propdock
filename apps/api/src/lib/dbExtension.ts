@@ -16,8 +16,8 @@ function workspaceExtension(user: User) {
       $allOperations({ model, operation, args, query }) {
         args.where = { ...args.where, workspaceId: workspaceId };
         return query(args);
-      }
-    }
+      },
+    },
   });
 
   return ext;

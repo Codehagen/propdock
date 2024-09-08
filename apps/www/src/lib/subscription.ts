@@ -7,18 +7,18 @@ import { prisma } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 
 export async function getUserSubscriptionPlan(
-  userId: string
+  userId: string,
 ): Promise<UserSubscriptionPlan> {
   const user = await prisma.user.findFirst({
     where: {
-      id: userId
+      id: userId,
     },
     select: {
       stripeSubscriptionId: true,
       stripeCurrentPeriodEnd: true,
       stripeCustomerId: true,
-      stripePriceId: true
-    }
+      stripePriceId: true,
+    },
   });
 
   if (!user) {
@@ -33,8 +33,8 @@ export async function getUserSubscriptionPlan(
 
   // Find the pricing data corresponding to the user's plan
   const userPlan =
-    pricingData.find(plan => plan.stripeIds.monthly === user.stripePriceId) ||
-    pricingData.find(plan => plan.stripeIds.yearly === user.stripePriceId);
+    pricingData.find((plan) => plan.stripeIds.monthly === user.stripePriceId) ||
+    pricingData.find((plan) => plan.stripeIds.yearly === user.stripePriceId);
 
   const plan = isPaid && userPlan ? userPlan : pricingData[0];
 
@@ -49,7 +49,7 @@ export async function getUserSubscriptionPlan(
   let isCanceled = false;
   if (isPaid && user.stripeSubscriptionId) {
     const stripePlan = await stripe.subscriptions.retrieve(
-      user.stripeSubscriptionId
+      user.stripeSubscriptionId,
     );
     isCanceled = stripePlan.cancel_at_period_end;
   }
@@ -60,6 +60,6 @@ export async function getUserSubscriptionPlan(
     stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd?.getTime(),
     isPaid,
     interval,
-    isCanceled
+    isCanceled,
   };
 }

@@ -18,7 +18,7 @@ export async function createTenant(tenantData) {
     // Fetch the user's workspace to associate the tenant
     const workspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!workspace) {
@@ -32,11 +32,11 @@ export async function createTenant(tenantData) {
         orgnr: tenantData.orgnr,
         numEmployees: tenantData.numEmployees,
         propertyId: tenantData.propertyId,
-        buildingId: tenantData.buildingId
-      }
+        buildingId: tenantData.buildingId,
+      },
     });
     console.log(
-      `Created tenant with ID: ${newTenant.id} for workspace ID: ${workspace.id}.`
+      `Created tenant with ID: ${newTenant.id} for workspace ID: ${workspace.id}.`,
     );
 
     revalidatePath("/tenant");

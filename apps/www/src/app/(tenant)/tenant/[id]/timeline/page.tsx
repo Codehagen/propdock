@@ -8,7 +8,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
 export default async function TimelinePage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -26,7 +26,7 @@ export default async function TimelinePage({
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user.id },
-    select: { workspaceId: true }
+    select: { workspaceId: true },
   });
 
   try {

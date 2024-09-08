@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Separator } from "@propdock/ui/components/separator";
@@ -39,7 +39,7 @@ const FormSchema = z.object({
   costLegalFees: z.number().nonnegative().nullable(),
   costConsultFees: z.number().nonnegative().nullable(),
   costAssetMgmt: z.number().nonnegative().nullable(),
-  costSum: z.number().nonnegative().nullable()
+  costSum: z.number().nonnegative().nullable(),
 });
 
 interface EditOwnerCostsCardProps {
@@ -71,7 +71,7 @@ export function EditOwnerCostsCard({
   initialCostLegalFees,
   initialCostConsultFees,
   initialCostAssetMgmt,
-  initialCostSum
+  initialCostSum,
 }: EditOwnerCostsCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -88,8 +88,8 @@ export function EditOwnerCostsCard({
       costLegalFees: initialCostLegalFees ?? null,
       costConsultFees: initialCostConsultFees ?? null,
       costAssetMgmt: initialCostAssetMgmt ?? null,
-      costSum: initialCostSum ?? null
-    }
+      costSum: initialCostSum ?? null,
+    },
   });
 
   // Add this useEffect to calculate and update costSum
@@ -105,7 +105,7 @@ export function EditOwnerCostsCard({
           "costNegotiation",
           "costLegalFees",
           "costConsultFees",
-          "costAssetMgmt"
+          "costAssetMgmt",
         ].reduce((acc, field) => acc + (value[field] || 0), 0);
 
         form.setValue("costSum", sum);
@@ -132,9 +132,9 @@ export function EditOwnerCostsCard({
             costLegalFees: data.costLegalFees,
             costConsultFees: data.costConsultFees,
             costAssetMgmt: data.costAssetMgmt,
-            costSum: data.costSum
-          }
-        }
+            costSum: data.costSum,
+          },
+        },
       });
 
       if (result.success) {
@@ -154,48 +154,48 @@ export function EditOwnerCostsCard({
     {
       name: "costMaintenance",
       label: "Vedlikeholdskostnader",
-      description: "Årlige kostnader for vedlikehold av eiendommen"
+      description: "Årlige kostnader for vedlikehold av eiendommen",
     },
     {
       name: "costInsurance",
       label: "Forsikringskostnader",
-      description: "Årlige forsikringspremier for eiendommen"
+      description: "Årlige forsikringspremier for eiendommen",
     },
     {
       name: "costRevision",
       label: "Revisjonskostnader",
-      description: "Årlige kostnader for revisjon av regnskapet"
+      description: "Årlige kostnader for revisjon av regnskapet",
     },
     {
       name: "costAdm",
       label: "Administrasjonskostnader",
-      description: "Årlige kostnader for administrasjon av eiendommen"
+      description: "Årlige kostnader for administrasjon av eiendommen",
     },
     {
       name: "costOther",
       label: "Andre kostnader",
-      description: "Diverse andre årlige kostnader knyttet til eiendommen"
+      description: "Diverse andre årlige kostnader knyttet til eiendommen",
     },
     {
       name: "costNegotiation",
       label: "Forhandlingskostnader",
-      description: "Kostnader knyttet til forhandlinger og avtaler"
+      description: "Kostnader knyttet til forhandlinger og avtaler",
     },
     {
       name: "costLegalFees",
       label: "Juridiske kostnader",
-      description: "Årlige kostnader for juridisk rådgivning og tjenester"
+      description: "Årlige kostnader for juridisk rådgivning og tjenester",
     },
     {
       name: "costConsultFees",
       label: "Konsulentkostnader",
-      description: "Årlige kostnader for konsulentbistand"
+      description: "Årlige kostnader for konsulentbistand",
     },
     {
       name: "costAssetMgmt",
       label: "Forvaltningskostnader",
-      description: "Årlige kostnader for eiendomsforvaltning"
-    }
+      description: "Årlige kostnader for eiendomsforvaltning",
+    },
   ];
 
   return (
@@ -236,7 +236,7 @@ export function EditOwnerCostsCard({
               <div className="space-y-4">
                 <h3 className="font-medium text-lg">Detaljerte kostnader</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {costFields.map(cost => (
+                  {costFields.map((cost) => (
                     <FormField
                       key={cost.name}
                       control={form.control}
@@ -250,11 +250,11 @@ export function EditOwnerCostsCard({
                               placeholder={cost.label}
                               {...field}
                               value={field.value ?? ""}
-                              onChange={e =>
+                              onChange={(e) =>
                                 field.onChange(
                                   e.target.value === ""
                                     ? null
-                                    : Number(e.target.value)
+                                    : Number(e.target.value),
                                 )
                               }
                             />

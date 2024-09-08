@@ -3,7 +3,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import React from "react";
 
@@ -12,7 +12,7 @@ import NoTextPlaceholder from "../properties/NoTextPlaceholder";
 const DescriptionDisplay = ({
   descriptionData,
   propertyId,
-  setDescriptionData
+  setDescriptionData,
 }) => {
   // Check if descriptionData is empty
   if (!descriptionData) {
@@ -32,7 +32,7 @@ const DescriptionDisplay = ({
   } catch (error) {
     console.error(
       `Error parsing description data for property ID ${propertyId}:`,
-      error
+      error,
     );
 
     // Render a user-friendly error message with a retry option

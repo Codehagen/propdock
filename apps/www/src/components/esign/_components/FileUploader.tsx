@@ -12,13 +12,13 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import {
   type DropzoneOptions,
   type DropzoneState,
   type FileRejection,
-  useDropzone
+  useDropzone,
 } from "react-dropzone";
 import { toast } from "sonner";
 
@@ -71,18 +71,18 @@ export const FileUploader = forwardRef<
       dir,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isFileTooBig, setIsFileTooBig] = useState(false);
     const [isLOF, setIsLOF] = useState(false);
     const [activeIndex, setActiveIndex] = useState(-1);
     const {
       accept = {
-        "image/*": [".jpg", ".jpeg", ".png", ".gif"]
+        "image/*": [".jpg", ".jpeg", ".png", ".gif"],
       },
       maxFiles = 1,
       maxSize = 4 * 1024 * 1024,
-      multiple = true
+      multiple = true,
     } = dropzoneOptions;
 
     const reSelectAll = maxFiles === 1 ? true : reSelect;
@@ -96,7 +96,7 @@ export const FileUploader = forwardRef<
         const newFiles = value.filter((_, index) => index !== i);
         onValueChange(newFiles);
       },
-      [value, onValueChange]
+      [value, onValueChange],
     );
 
     const handleKeyDown = useCallback(
@@ -153,7 +153,7 @@ export const FileUploader = forwardRef<
           setActiveIndex(-1);
         }
       },
-      [value, activeIndex, removeFileFromSet]
+      [value, activeIndex, removeFileFromSet],
     );
 
     const onDrop = useCallback(
@@ -171,7 +171,7 @@ export const FileUploader = forwardRef<
           newValues.splice(0, newValues.length);
         }
 
-        files.forEach(file => {
+        files.forEach((file) => {
           if (newValues.length < maxFiles) {
             newValues.push(file);
           }
@@ -183,7 +183,7 @@ export const FileUploader = forwardRef<
           for (let i = 0; i < rejectedFiles.length; i++) {
             if (rejectedFiles[i].errors[0]?.code === "file-too-large") {
               toast.error(
-                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`
+                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`,
               );
               break;
             }
@@ -194,7 +194,7 @@ export const FileUploader = forwardRef<
           }
         }
       },
-      [reSelectAll, value]
+      [reSelectAll, value],
     );
 
     useEffect(() => {
@@ -216,7 +216,7 @@ export const FileUploader = forwardRef<
       ...opts,
       onDrop,
       onDropRejected: () => setIsFileTooBig(true),
-      onDropAccepted: () => setIsFileTooBig(false)
+      onDropAccepted: () => setIsFileTooBig(false),
     });
 
     return (
@@ -229,7 +229,7 @@ export const FileUploader = forwardRef<
           activeIndex,
           setActiveIndex,
           orientation,
-          direction
+          direction,
         }}
       >
         <div
@@ -239,8 +239,8 @@ export const FileUploader = forwardRef<
             "grid w-full overflow-hidden focus:outline-none ",
             className,
             {
-              "gap-2": value && value.length > 0
-            }
+              "gap-2": value && value.length > 0,
+            },
           )}
           dir={dir}
           {...props}
@@ -249,7 +249,7 @@ export const FileUploader = forwardRef<
         </div>
       </FileUploaderContext.Provider>
     );
-  }
+  },
 );
 
 FileUploader.displayName = "FileUploader";
@@ -269,7 +269,7 @@ export const FileUploaderContent = forwardRef<
         className={cn(
           "flex gap-1 rounded-xl",
           orientation === "horizontal" ? "flex-raw flex-wrap" : "flex-col",
-          className
+          className,
         )}
       >
         {children}
@@ -293,7 +293,7 @@ export const FileUploaderItem = forwardRef<
         buttonVariants({ variant: "ghost" }),
         "relative h-6 cursor-pointer justify-between p-1",
         className,
-        isSelected ? "bg-muted" : ""
+        isSelected ? "bg-muted" : "",
       )}
       {...props}
     >
@@ -304,7 +304,7 @@ export const FileUploaderItem = forwardRef<
         type="button"
         className={cn(
           "absolute",
-          direction === "rtl" ? "top-1 left-1" : "top-1 right-1"
+          direction === "rtl" ? "top-1 left-1" : "top-1 right-1",
         )}
         onClick={() => removeFileFromSet(index)}
       >
@@ -340,7 +340,7 @@ export const FileInput = forwardRef<
                 ? "border-red-500"
                 : "border-gray-300"
           }`,
-          className
+          className,
         )}
         {...rootProps}
       >

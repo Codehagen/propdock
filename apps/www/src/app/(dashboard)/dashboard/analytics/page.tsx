@@ -14,7 +14,7 @@ import { getCurrentUser } from "@/lib/session";
 export const metadata = {
   title: "Dingify Analytics - Your Alerts Overview",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard."
+    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
 };
 
 export default async function DashboardPage() {

@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Settings } from "lucide-react";
 
@@ -15,7 +15,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function ContactPerson({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -87,7 +87,7 @@ export default async function ContactPerson({
             </EmptyPlaceholder>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {tenantDetails.contacts.map(contactPerson => (
+              {tenantDetails.contacts.map((contactPerson) => (
                 <Card key={contactPerson.id} className="overflow-hidden">
                   <CardHeader className="flex flex-row items-start bg-muted/50">
                     <div className="flex w-full items-center justify-between">
@@ -100,7 +100,7 @@ export default async function ContactPerson({
                           name: contactPerson.name,
                           email: contactPerson.email,
                           phone: contactPerson.phone,
-                          fnr: contactPerson.fnr || ""
+                          fnr: contactPerson.fnr || "",
                         }}
                         currentPath={`/tenant/${tenantId}/contacts`}
                       >

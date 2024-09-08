@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -17,7 +17,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import {
   Sheet,
@@ -26,7 +26,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,7 +38,7 @@ import { z } from "zod";
 const PropertySchema = z.object({
   name: z.string().min(1, "Eiendomsnavn er påkrevd"),
   type: z.string().min(1, "Eiendomstype er påkrevd"),
-  countryCode: z.string().min(2, "Landkode er påkrevd").max(2)
+  countryCode: z.string().min(2, "Landkode er påkrevd").max(2),
 });
 
 export function AddPropertyButton() {
@@ -50,18 +50,18 @@ export function AddPropertyButton() {
     defaultValues: {
       name: "",
       type: "",
-      countryCode: "NO"
-    }
+      countryCode: "NO",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       const result = await createProperty(
         data.name,
         data.type,
-        data.countryCode
+        data.countryCode,
       );
 
       if (!result.success) {

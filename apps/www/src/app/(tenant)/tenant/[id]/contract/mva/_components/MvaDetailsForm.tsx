@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -18,7 +18,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -26,7 +26,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +36,7 @@ import { z } from "zod";
 // Define validation schema
 const VatTermsSchema = z.object({
   vatTerms: z.string().min(1, "Vat Terms is required"),
-  businessCategory: z.string().min(1, "Business Category is required")
+  businessCategory: z.string().min(1, "Business Category is required"),
 });
 
 export function MvaDetailsForm({ tenantDetails }) {
@@ -46,24 +46,24 @@ export function MvaDetailsForm({ tenantDetails }) {
     resolver: zodResolver(VatTermsSchema),
     defaultValues: {
       vatTerms: tenantDetails.contracts[0]?.vatTerms || "None",
-      businessCategory: tenantDetails.contracts[0]?.businessCategory || ""
-    }
+      businessCategory: tenantDetails.contracts[0]?.businessCategory || "",
+    },
   });
 
   useEffect(() => {
     form.reset({
       vatTerms: tenantDetails.contracts[0]?.vatTerms || "None",
-      businessCategory: tenantDetails.contracts[0]?.businessCategory || ""
+      businessCategory: tenantDetails.contracts[0]?.businessCategory || "",
     });
   }, [tenantDetails, form]);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       const result = await updateContract(tenantDetails.contracts[0].id, {
         vatTerms: data.vatTerms,
-        businessCategory: data.businessCategory
+        businessCategory: data.businessCategory,
       });
 
       if (!result.success) {

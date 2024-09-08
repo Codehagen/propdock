@@ -8,12 +8,12 @@ import {
   getAccessToken,
   getAuthHeaders,
   getOnboardingBody,
-  getOnboardingHeaders
+  getOnboardingHeaders,
 } from "@/lib/poweroffice/auth";
 
 const app = honoFactory();
 
-app.get("/onboarding-start", async c => {
+app.get("/onboarding-start", async (c) => {
   const headers = getOnboardingHeaders(c.env);
   const body = getOnboardingBody(c.env);
 
@@ -23,7 +23,7 @@ app.get("/onboarding-start", async c => {
     const response = await fetch(url, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
     if (response.ok) {
@@ -36,9 +36,9 @@ app.get("/onboarding-start", async c => {
       {
         ok: false,
         message: "Failed to start onboarding",
-        error: response.statusText
+        error: response.statusText,
       },
-      { status: response.status }
+      { status: response.status },
     );
   } catch (error: any) {
     console.error(`Network error: ${error.message}`);
@@ -47,12 +47,12 @@ app.get("/onboarding-start", async c => {
 });
 
 // TODO: remove
-app.get("/callback-test", async c => {
+app.get("/callback-test", async (c) => {
   const { success, token } = c.req.query();
   return c.json({ ok: true, success: success, token: token }, 200);
 });
 
-app.post("/onboarding-finalize", async c => {
+app.post("/onboarding-finalize", async (c) => {
   const body = await c.req.json();
   const db = prisma(c.env);
 
@@ -68,9 +68,9 @@ app.post("/onboarding-finalize", async c => {
       {
         ok: false,
         message:
-          "Request body not in valid format or missing required attributes"
+          "Request body not in valid format or missing required attributes",
       },
-      400
+      400,
     );
   }
 
@@ -89,13 +89,13 @@ app.post("/onboarding-finalize", async c => {
   return c.json({ ok: true }, 200);
 });
 
-app.get("/token-test", async c => {
+app.get("/token-test", async (c) => {
   const user = c.get("user");
 
   if (!user) {
     return c.json(
       { ok: false, message: "x-user-id header was not supplied" },
-      400
+      400,
     );
   }
 
@@ -110,13 +110,13 @@ app.get("/token-test", async c => {
   return c.json({ ok: true, user: user, message: token }, 200);
 });
 
-app.get("/dev", async c => {
+app.get("/dev", async (c) => {
   const user = c.get("user");
 
   if (!user) {
     return c.json(
       { ok: false, message: "x-user-id header was not supplied" },
-      400
+      400,
     );
   }
 

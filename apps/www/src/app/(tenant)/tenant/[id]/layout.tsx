@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({
   children,
-  params
+  params,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 
@@ -23,48 +23,48 @@ export default async function DashboardLayout({
     {
       title: "Oversikt",
       href: `/tenant/${params.id}`,
-      icon: "home"
+      icon: "home",
     },
     {
       title: "Bygg",
       href: `/tenant/${params.id}/building`,
-      icon: "building"
+      icon: "building",
     },
     {
       title: "Kontaktperson",
       href: `/tenant/${params.id}/contactperson`,
-      icon: "user"
+      icon: "user",
     },
     {
       title: "Tidslinje",
       href: `/tenant/${params.id}/timeline`,
-      icon: "calendarClock"
+      icon: "calendarClock",
     },
     {
       title: "Økonomi",
       href: `/tenant/${params.id}/finance`,
-      icon: "piechart"
+      icon: "piechart",
     },
     {
       title: "Kontrakt",
       href: `/tenant/${params.id}/contract/building`,
-      icon: "filetext"
+      icon: "filetext",
     },
     {
       title: "Faktura",
       href: `/tenant/${params.id}/invoice`,
-      icon: "billing"
+      icon: "billing",
     },
     {
       title: "E-signering",
       href: `/tenant/${params.id}/esign`,
-      icon: "signature"
+      icon: "signature",
     },
     {
       title: "Dokumenter",
       href: `/tenant/${params.id}/files`,
-      icon: "file"
-    }
+      icon: "file",
+    },
   ];
 
   return (

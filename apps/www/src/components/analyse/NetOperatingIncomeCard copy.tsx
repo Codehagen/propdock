@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { ChartContainer } from "@propdock/ui/components/chart";
 import { Bar, BarChart, Rectangle, XAxis } from "recharts";
@@ -30,8 +30,8 @@ export function NetOperatingIncomeCard() {
           config={{
             noi: {
               label: "NOI",
-              color: "hsl(var(--chart-4))"
-            }
+              color: "hsl(var(--chart-4))",
+            },
           }}
           className="ml-auto w-[64px]"
         >
@@ -42,7 +42,7 @@ export function NetOperatingIncomeCard() {
               { quarter: "Q1", noi: 1050000 },
               { quarter: "Q2", noi: 1100000 },
               { quarter: "Q3", noi: 1150000 },
-              { quarter: "Q4", noi: 1200000 }
+              { quarter: "Q4", noi: 1200000 },
             ]}
           >
             <Bar

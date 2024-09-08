@@ -7,12 +7,12 @@ const INVOICE_URL =
 async function createSalesOrder(
   env: Env,
   workspaceId: string,
-  invoiceData: Record<string, any>
+  invoiceData: Record<string, any>,
 ) {
   const url = INVOICE_URL;
   const data = {
     ...invoiceData,
-    SalesOrderStatus: "Draft"
+    SalesOrderStatus: "Draft",
   };
 
   const response = await superpost(env, url, workspaceId, data);

@@ -12,7 +12,7 @@ export default function Popover({
   align = "center",
   openPopover,
   setOpenPopover,
-  mobileOnly
+  mobileOnly,
 }: {
   children: ReactNode;
   content: ReactNode | string;

@@ -14,7 +14,7 @@ import { fetchGithubData } from "@/lib/utils";
 export const metadata = {
   title: "Propdock Open - Alt åpent for alle",
   description:
-    "Vi viser alt for vi har ingenting å skjule - Våre finanser, metrics og læring, alt i offentligheten."
+    "Vi viser alt for vi har ingenting å skjule - Våre finanser, metrics og læring, alt i offentligheten.",
 };
 
 export default async function PricingPage() {

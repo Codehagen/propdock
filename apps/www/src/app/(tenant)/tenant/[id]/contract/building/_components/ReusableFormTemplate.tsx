@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
@@ -19,21 +19,21 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { Switch } from "@propdock/ui/components/switch";
 import { Textarea } from "@propdock/ui/components/textarea";
@@ -57,8 +57,8 @@ const FormSchema = z.object({
   security_emails: z.boolean(),
   mobile: z.boolean().default(false).optional(),
   dob: z.date({
-    required_error: "A date of birth is required."
-  })
+    required_error: "A date of birth is required.",
+  }),
 });
 
 export function ReusableFormTemplate() {
@@ -73,11 +73,11 @@ export function ReusableFormTemplate() {
       description: "",
       marketing_emails: false,
       security_emails: true,
-      mobile: true
-    }
+      mobile: true,
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
@@ -286,7 +286,7 @@ export function ReusableFormTemplate() {
 // Dummy function to simulate form submission
 async function submitForm(data) {
   // Simulate a delay
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ success: true });
     }, 1000);

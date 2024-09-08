@@ -5,14 +5,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import {
   Book,
   CreditCard,
   LayoutDashboard,
   LogOut,
-  Settings
+  Settings,
 } from "lucide-react";
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -75,10 +75,10 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={event => {
+          onSelect={(event) => {
             event.preventDefault();
             signOut({
-              callbackUrl: `${window.location.origin}/`
+              callbackUrl: `${window.location.origin}/`,
             });
           }}
         >

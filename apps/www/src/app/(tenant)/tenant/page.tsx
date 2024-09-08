@@ -16,7 +16,7 @@ import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Leietaker Dashboard - Din leietakeroversikt",
-  description: "Se og administrer alle leietakere dine på Leietaker Dashboard."
+  description: "Se og administrer alle leietakere dine på Leietaker Dashboard.",
 };
 
 export default async function DashboardPage() {
@@ -31,13 +31,13 @@ export default async function DashboardPage() {
     where: {
       users: {
         some: {
-          id: user.id
-        }
-      }
+          id: user.id,
+        },
+      },
     },
     select: {
-      id: true
-    }
+      id: true,
+    },
   });
 
   if (!userWorkspace) {

@@ -12,7 +12,7 @@ import { getBlurDataURL } from "@/lib/blog/images";
 import { cn } from "@/lib/utils";
 
 export function generateMetadata({
-  params
+  params,
 }: {
   params: {
     slug: string;
@@ -25,18 +25,18 @@ export function generateMetadata({
   return constructMetadata({
     title: `${data.title} - Propdock`,
     description: data.description,
-    image: data.thumbnail
+    image: data.thumbnail,
   });
 }
 
 export async function generateStaticParams() {
   return FEATURES_LIST.map(({ slug }) => ({
-    slug
+    slug,
   }));
 }
 
 export default async function FeaturePage({
-  params
+  params,
 }: {
   params: {
     slug: string;
@@ -51,14 +51,14 @@ export default async function FeaturePage({
     thumbnailBlurhash: await getBlurDataURL(feature.thumbnail),
     bentoFeatures: feature.bentoFeatures
       ? await Promise.all(
-          feature.bentoFeatures.map(async feature => ({
+          feature.bentoFeatures.map(async (feature) => ({
             ...feature,
             imageBlurhash: feature.image
               ? await getBlurDataURL(feature.image)
-              : undefined
-          }))
+              : undefined,
+          })),
         )
-      : undefined
+      : undefined,
   };
 
   return (
@@ -166,7 +166,7 @@ const BentoCard = ({
   description,
   image,
   imageBlurhash,
-  href
+  href,
 }: {
   title: string;
   description: string;
@@ -179,8 +179,8 @@ const BentoCard = ({
       className={cn(
         "relative flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow",
         {
-          "transition-all hover:shadow-lg": href
-        }
+          "transition-all hover:shadow-lg": href,
+        },
       )}
     >
       {image && (

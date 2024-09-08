@@ -14,11 +14,11 @@ const logos = [
   "chronicle",
   "attio",
   "crowd",
-  "checkly"
+  "checkly",
 ];
 
 export default function Logos({
-  copy = "Giving superpowers to marketing teams at world-class companies"
+  copy = "Giving superpowers to marketing teams at world-class companies",
 }: {
   copy?: string;
 }) {
@@ -31,7 +31,7 @@ export default function Logos({
         href="/customers"
         className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center px-5 md:grid-cols-6 md:px-0"
       >
-        {logos.slice(0, 6).map(logo => (
+        {logos.slice(0, 6).map((logo) => (
           <BlurImage
             src={`/_static/clients/${logo}.svg`}
             alt={logo.toUpperCase()}
@@ -45,7 +45,7 @@ export default function Logos({
         href="/customers"
         className="mx-auto grid w-full max-w-screen-lg grid-cols-2 items-center px-5 md:grid-cols-6 md:px-0"
       >
-        {logos.slice(6, 12).map(logo => (
+        {logos.slice(6, 12).map((logo) => (
           <BlurImage
             src={`/_static/clients/${logo}.svg`}
             alt={logo.toUpperCase()}

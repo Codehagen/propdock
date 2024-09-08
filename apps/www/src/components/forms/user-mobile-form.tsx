@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -37,21 +37,21 @@ export function UserMobileForm({ user }: UserMobileFormProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userMobileSchema),
     defaultValues: {
-      phone: user.phone || ""
-    }
+      phone: user.phone || "",
+    },
   });
 
-  const onSubmit = handleSubmit(data => {
+  const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
       const { status } = await updateUserMobileWithId(data);
 
       if (status !== "success") {
         toast.error(
-          "Ditt mobilnummer ble ikke oppdatert. Vennligst prøv igjen"
+          "Ditt mobilnummer ble ikke oppdatert. Vennligst prøv igjen",
         );
       } else {
         toast.success("Mobil nummeret ditt har blitt oppdatert");

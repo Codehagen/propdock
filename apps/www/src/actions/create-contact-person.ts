@@ -14,7 +14,7 @@ interface ContactPersonData {
 export async function createContactPerson(
   tenantId: string,
   data: ContactPersonData,
-  currentPath: string
+  currentPath: string,
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -30,14 +30,14 @@ export async function createContactPerson(
         name: data.name,
         email: data.email,
         phone: data.phone,
-        tenantId: tenantId
-      }
+        tenantId: tenantId,
+      },
     });
 
     revalidatePath(currentPath);
 
     console.log(
-      `Created contact person with ID: ${newContactPerson.id} for tenant ID: ${tenantId}.`
+      `Created contact person with ID: ${newContactPerson.id} for tenant ID: ${tenantId}.`,
     );
 
     revalidatePath("/tenant"); // Updates the cache for the tenant page
@@ -46,7 +46,7 @@ export async function createContactPerson(
   } catch (error) {
     console.error(
       `Error creating contact person for tenant ID: ${tenantId}`,
-      error
+      error,
     );
     return { success: false, error: error.message };
   }

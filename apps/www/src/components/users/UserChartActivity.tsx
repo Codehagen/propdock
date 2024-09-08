@@ -5,14 +5,14 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Legend,
   Line,
   LineChart,
   ResponsiveContainer,
-  Tooltip
+  Tooltip,
 } from "recharts";
 
 import { nFormatter } from "@/lib/utils";
@@ -29,11 +29,11 @@ const lineChartData = [
   { month: "Sep", revenue: 480000, costs: 34000 },
   { month: "Okt", revenue: 390000, costs: 46000 },
   { month: "Nov", revenue: 139000, costs: 22000 },
-  { month: "Des", revenue: 240000, costs: 19000 }
+  { month: "Des", revenue: 240000, costs: 19000 },
 ];
 
 // Add net income to each data point
-lineChartData.forEach(data => {
+lineChartData.forEach((data) => {
   data.netIncome = data.revenue - data.costs;
 });
 
@@ -55,7 +55,7 @@ export function UserChartActivity() {
                 top: 5,
                 right: 10,
                 left: 10,
-                bottom: 0
+                bottom: 0,
               }}
             >
               <Tooltip

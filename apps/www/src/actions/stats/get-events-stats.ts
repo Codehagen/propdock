@@ -6,7 +6,7 @@ import {
   startOfMonth,
   startOfWeek,
   subDays,
-  subMonths
+  subMonths,
 } from "date-fns";
 
 import { prisma } from "@/lib/db";

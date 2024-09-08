@@ -3,7 +3,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { AllUsersCards } from "@/components/users/AllUsersCard";
 
 export default async function UsersPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

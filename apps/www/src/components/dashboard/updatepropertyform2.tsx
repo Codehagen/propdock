@@ -11,7 +11,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Loader2 as Spinner } from "lucide-react";
 import React, { useState } from "react";
@@ -25,7 +25,7 @@ const propertyFormSchema = z.object({
   description: z.string().optional(),
   pris: z.string(),
   p_rom: z.string(),
-  bra: z.string()
+  bra: z.string(),
   // ... add other fields as necessary
 });
 
@@ -33,10 +33,10 @@ export function UpdatePropertyForm2({ defaultValues, propertyId }) {
   const [isLoading, setIsLoading] = useState(false); // Add this line
   const form = useForm({
     resolver: zodResolver(propertyFormSchema),
-    defaultValues: defaultValues
+    defaultValues: defaultValues,
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true); // Start loading
     try {
       toast.success("Property details updated successfully.");

@@ -4,7 +4,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@propdock/ui/components/command";
 import type { ReactNode } from "react";
 
@@ -25,7 +25,7 @@ export function FeatureCard({
   description,
   href,
   cta,
-  background
+  background,
 }: FeatureCardProps) {
   return (
     <div className="relative flex flex-col rounded-lg border bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800">

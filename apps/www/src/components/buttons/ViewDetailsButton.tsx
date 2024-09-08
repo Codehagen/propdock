@@ -6,7 +6,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { BellIcon, InfoIcon } from "lucide-react";
 

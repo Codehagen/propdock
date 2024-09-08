@@ -12,26 +12,26 @@ import { prisma } from "./db";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   pages: {
-    signIn: "/login"
+    signIn: "/login",
   },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     EmailProvider({
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         const user = await prisma.user.findUnique({
           where: {
-            email: identifier
+            email: identifier,
           },
           select: {
             name: true,
-            emailVerified: true
-          }
+            emailVerified: true,
+          },
         });
 
         const userVerified = !!user?.emailVerified;
@@ -61,8 +61,8 @@ export const authOptions: NextAuthOptions = {
         } catch (error) {
           throw new Error("Failed to send verification email.");
         }
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async session({ token, session }) {
@@ -78,8 +78,8 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       const dbUser = await prisma.user.findFirst({
         where: {
-          email: token.email
-        }
+          email: token.email,
+        },
       });
 
       if (dbUser && !dbUser.onboardingEmailSent) {
@@ -88,13 +88,13 @@ export const authOptions: NextAuthOptions = {
 
           await prisma.user.update({
             where: { email: dbUser.email },
-            data: { onboardingEmailSent: true }
+            data: { onboardingEmailSent: true },
           });
 
           console.log(`Onboarding email sent to ${dbUser.email}`);
         } else {
           console.log(
-            `User email or name is null for user with email: ${token.email}`
+            `User email or name is null for user with email: ${token.email}`,
           );
         }
       }
@@ -112,10 +112,10 @@ export const authOptions: NextAuthOptions = {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
-        picture: dbUser.image
+        picture: dbUser.image,
       };
-    }
-  }
+    },
+  },
   // debug: process.env.NODE_ENV !== "production"
   // if you want to see the debug logs in the console
 };

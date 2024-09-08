@@ -7,17 +7,17 @@ export async function getWsApiKeys(workspaceId: string) {
   try {
     const apiKeys = await prisma.wSApiKey.findMany({
       where: {
-        workspaceId
+        workspaceId,
       },
       select: {
         id: true,
         serviceName: true,
         // secret: true,
-        isActive: true
+        isActive: true,
       },
       orderBy: {
-        serviceName: "asc"
-      }
+        serviceName: "asc",
+      },
     });
 
     return { success: true, apiKeys };

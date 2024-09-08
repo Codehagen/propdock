@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -25,7 +25,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ const ContactSchema = z.object({
   contactId: z.string().optional(),
   name: z.string().min(1, "Navn er påkrevd"),
   email: z.string().min(1, "E-post er påkrevd").email("Ugyldig e-postadresse"),
-  phone: z.string().min(1, "Telefon er påkrevd")
+  phone: z.string().min(1, "Telefon er påkrevd"),
 });
 
 export function TenantDetailsForm({ tenantDetails }) {
@@ -48,11 +48,11 @@ export function TenantDetailsForm({ tenantDetails }) {
     defaultValues: {
       name: tenantDetails.contracts[0]?.contactName || "",
       email: tenantDetails.contracts[0]?.contactEmail || "",
-      phone: tenantDetails.contracts[0]?.contactPhone || ""
-    }
+      phone: tenantDetails.contracts[0]?.contactPhone || "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
@@ -60,12 +60,12 @@ export function TenantDetailsForm({ tenantDetails }) {
         contactId: data.contactId ? Number.parseInt(data.contactId) : undefined,
         contactName: data.name,
         contactEmail: data.email,
-        contactPhone: data.phone
+        contactPhone: data.phone,
       });
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere kontaktinformasjonen."
+          result.error || "Kunne ikke oppdatere kontaktinformasjonen.",
         );
       }
 
@@ -78,9 +78,9 @@ export function TenantDetailsForm({ tenantDetails }) {
     }
   };
 
-  const handleContactChange = value => {
+  const handleContactChange = (value) => {
     const contact = tenantDetails.contacts.find(
-      contact => contact.id.toString() === value
+      (contact) => contact.id.toString() === value,
     );
     form.setValue("contactId", value);
     form.setValue("name", contact?.name || "");
@@ -107,7 +107,7 @@ export function TenantDetailsForm({ tenantDetails }) {
                   <FormLabel>Kontakt</FormLabel>
                   <FormControl>
                     <Select
-                      onValueChange={value => {
+                      onValueChange={(value) => {
                         field.onChange(value);
                         handleContactChange(value);
                       }}
@@ -117,7 +117,7 @@ export function TenantDetailsForm({ tenantDetails }) {
                         <SelectValue placeholder="Velg kontakt" />
                       </SelectTrigger>
                       <SelectContent>
-                        {tenantDetails.contacts.map(contact => (
+                        {tenantDetails.contacts.map((contact) => (
                           <SelectItem
                             key={contact.id}
                             value={contact.id.toString()}

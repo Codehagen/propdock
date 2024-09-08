@@ -4,7 +4,7 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@propdock/ui/components/tabs";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 
 export default async function DCFDetailsPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

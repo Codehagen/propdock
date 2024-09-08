@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -25,7 +25,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,7 +35,7 @@ import { z } from "zod";
 // Define validation schema
 const LandlordSchema = z.object({
   landlordOrgnr: z.string().min(1, "Organisasjonsnummer er påkrevd"),
-  landlordName: z.string().min(1, "Navn er påkrevd")
+  landlordName: z.string().min(1, "Navn er påkrevd"),
 });
 
 export function LandlordDetailsForm({ tenantDetails }) {
@@ -46,22 +46,22 @@ export function LandlordDetailsForm({ tenantDetails }) {
     defaultValues: {
       landlordOrgnr:
         tenantDetails.contracts[0]?.landlordOrgnr?.toString() || "",
-      landlordName: tenantDetails.contracts[0]?.landlordName || ""
-    }
+      landlordName: tenantDetails.contracts[0]?.landlordName || "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       const result = await updateContract(tenantDetails.contracts[0].id, {
         landlordOrgnr: Number.parseInt(data.landlordOrgnr),
-        landlordName: data.landlordName
+        landlordName: data.landlordName,
       });
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere kontaktinformasjonen."
+          result.error || "Kunne ikke oppdatere kontaktinformasjonen.",
         );
       }
 

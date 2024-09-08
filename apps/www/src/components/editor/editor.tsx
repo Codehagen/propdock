@@ -15,14 +15,14 @@ export const Editor = ({
   content,
   placeholder,
   onChange,
-  hideToolbar = false
+  hideToolbar = false,
 }: EditorProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: content,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
-    }
+    },
   });
 
   if (!editor) {

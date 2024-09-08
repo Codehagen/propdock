@@ -10,7 +10,7 @@ import { prisma } from "@/lib/db";
 
 export const metadata = {
   title: "Settings",
-  description: "Manage account and website settings."
+  description: "Manage account and website settings.",
 };
 
 export default async function SettingsPage() {
@@ -26,8 +26,8 @@ export default async function SettingsPage() {
       id: true,
       name: true,
       email: true,
-      phone: true // Include phone here
-    }
+      phone: true, // Include phone here
+    },
   });
 
   if (!user) {

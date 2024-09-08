@@ -5,7 +5,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { format } from "date-fns";
 import { Building, Home, Settings } from "lucide-react";
@@ -17,7 +17,7 @@ import { ContractCheck } from "@/components/tenant/ContractCheck";
 import { formatCurrency } from "@/lib/utils";
 
 export default async function EconomySettings({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -73,7 +73,7 @@ export default async function EconomySettings({
                   negotiationDate: contractDetails[0].negotiationDate,
                   baseRent: contractDetails[0].baseRent,
                   indexationType: contractDetails[0].indexationType,
-                  indexValue: contractDetails[0].indexValue || 0
+                  indexValue: contractDetails[0].indexValue || 0,
                 }}
                 currentPath={`/tenant/${tenantId}/finance`}
                 tenantId={tenantId}
@@ -93,7 +93,7 @@ export default async function EconomySettings({
                   <p className="font-bold text-2xl">
                     {formatCurrency(
                       contractDetails[0].baseRent ?? 0,
-                      contractDetails[0].currencyIso
+                      contractDetails[0].currencyIso,
                     )}
                   </p>
                 </div>
@@ -104,7 +104,7 @@ export default async function EconomySettings({
                   <p className="font-bold text-2xl">
                     {formatCurrency(
                       (contractDetails[0].baseRent ?? 0) * 12,
-                      contractDetails[0].currencyIso
+                      contractDetails[0].currencyIso,
                     )}
                   </p>
                 </div>
@@ -124,7 +124,7 @@ export default async function EconomySettings({
                   <span>
                     {format(
                       new Date(contractDetails[0].startDate),
-                      "dd.MM.yyyy"
+                      "dd.MM.yyyy",
                     )}
                   </span>
                 </div>

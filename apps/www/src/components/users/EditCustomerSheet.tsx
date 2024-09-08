@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -22,7 +22,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { Pencil, StarIcon, User, UserCog } from "lucide-react";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ import { z } from "zod";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address")
+  email: z.string().email("Invalid email address"),
 });
 
 export function EditCustomerSheet({ customer }) {
@@ -40,11 +40,11 @@ export function EditCustomerSheet({ customer }) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: customer.name || "",
-      email: customer.email || ""
-    }
+      email: customer.email || "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     try {
       const result = await changeCustomerDetails(customer.id, data);
       if (result.success) {
@@ -56,7 +56,7 @@ export function EditCustomerSheet({ customer }) {
                 {JSON.stringify(data, null, 2)}
               </code>
             </pre>
-          </div>
+          </div>,
         );
         form.reset();
       }

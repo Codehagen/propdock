@@ -11,17 +11,17 @@ import { getBlurDataURL } from "@/lib/blog/images";
 import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allIntegrationsPosts.map(post => ({
-    slug: post.slug
+  return allIntegrationsPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allIntegrationsPosts.find(post => post.slug === params.slug);
+  const post = allIntegrationsPosts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
@@ -31,18 +31,18 @@ export async function generateMetadata({
   return constructMetadata({
     title: `${title} – Propdock Integration`,
     description: summary,
-    image
+    image,
   });
 }
 
 export default async function IntegrationPage({
-  params
+  params,
 }: {
   params: {
     slug: string;
   };
 }) {
-  const data = allIntegrationsPosts.find(post => post.slug === params.slug);
+  const data = allIntegrationsPosts.find((post) => post.slug === params.slug);
   if (!data) {
     notFound();
   }
@@ -52,9 +52,9 @@ export default async function IntegrationPage({
     await Promise.all(
       data.images.map(async (src: string) => ({
         src,
-        blurDataURL: await getBlurDataURL(src)
-      }))
-    )
+        blurDataURL: await getBlurDataURL(src),
+      })),
+    ),
   ]);
 
   return (
@@ -112,7 +112,7 @@ export default async function IntegrationPage({
                 <div
                   key={title}
                   className={cn("col-span-1 flex flex-col space-y-2", {
-                    "col-span-2": title === "About"
+                    "col-span-2": title === "About",
                   })}
                 >
                   <p className="font-medium text-foreground">{title}</p>
@@ -163,18 +163,18 @@ export default async function IntegrationPage({
 const sidebarContent = [
   {
     title: "Om integrasjonen",
-    value: "integrationDescription"
+    value: "integrationDescription",
   },
   {
     title: "Integrasjonstype",
-    value: "integrationType"
+    value: "integrationType",
   },
   {
     title: "Kompatibilitet",
-    value: "compatibility"
+    value: "compatibility",
   },
   {
     title: "Sist oppdatert",
-    value: "publishedAt"
-  }
+    value: "publishedAt",
+  },
 ];

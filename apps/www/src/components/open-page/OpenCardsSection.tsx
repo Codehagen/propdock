@@ -2,13 +2,13 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   ActivityIcon,
   GitBranchIcon,
   GitPullRequestIcon,
-  StarIcon
+  StarIcon,
 } from "lucide-react";
 
 // Static data - replace these with actual data fetched from GitHub if needed
@@ -16,7 +16,7 @@ const githubData = {
   stars: 5269,
   openIssues: 43,
   mergedPRs: 366,
-  totalContributors: 43
+  totalContributors: 43,
 };
 
 // @ts-ignore

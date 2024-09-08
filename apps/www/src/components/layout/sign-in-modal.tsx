@@ -38,7 +38,7 @@ export const SignInModal = () => {
                 // TODO: fix this without setTimeOut(), modal closes too quickly. Idea: update value before redirect
                 setTimeout(() => {
                   signInModal.onClose();
-                }, 1000)
+                }, 1000),
               );
             }}
           >

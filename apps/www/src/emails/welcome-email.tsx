@@ -10,14 +10,14 @@ import {
   Preview,
   Section,
   Tailwind,
-  Text
+  Text,
 } from "@react-email/components";
 
 import Footer from "./components/footer";
 
 export default function WelcomeEmail({
   name = "John Doe",
-  email = "welcome@propwrite.com"
+  email = "welcome@propwrite.com",
 }: {
   name: string | null;
   email: string;

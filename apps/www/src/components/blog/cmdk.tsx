@@ -19,7 +19,7 @@ import Modal from "./modal";
 
 function CMDKHelper({
   showCMDK,
-  setShowCMDK
+  setShowCMDK,
 }: {
   showCMDK: boolean;
   setShowCMDK: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +27,7 @@ function CMDKHelper({
   const commandListRef = useRef<HTMLDivElement>(null);
   const debouncedTrackSearch = useDebouncedCallback((query: string) => {
     va.track("CMDK Search", {
-      query
+      query,
     });
   }, 1000);
 
@@ -40,7 +40,7 @@ function CMDKHelper({
       <Command label="CMDK" loop shouldFilter={false}>
         <Command.Input
           autoFocus
-          onInput={e => {
+          onInput={(e) => {
             // hack to scroll to top of list when input changes (for some reason beyond my comprehension, setTimeout is needed)
             setTimeout(() => {
               commandListRef.current?.scrollTo(0, 0);
@@ -73,22 +73,22 @@ function CMDKHelper({
 }
 
 const CommandResults = ({
-  setShowCMDK
+  setShowCMDK,
 }: {
   setShowCMDK: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
   const popularArticles = POPULAR_ARTICLES.map(
-    slug => allHelpPosts.find(post => post.slug === slug)!
+    (slug) => allHelpPosts.find((post) => post.slug === slug)!,
   );
 
   const allItems = [
-    ...allHelpPosts.map(post => ({
+    ...allHelpPosts.map((post) => ({
       ...post,
-      description: post.summary
+      description: post.summary,
     })),
     // get all table of contents headings too
-    ...allHelpPosts.flatMap(post => {
+    ...allHelpPosts.flatMap((post) => {
       if (post.excludeHeadingsFromSearch) {
         return [];
       }
@@ -97,30 +97,30 @@ const CommandResults = ({
           slug: `${post.slug}#${toc.slug}`,
           title: toc.title,
           description: null, // omit description since we don't want to search it
-          summary: `In: "${post.title}"`
-        })
+          summary: `In: "${post.title}"`,
+        }),
       );
-    })
+    }),
   ];
 
   const fuse = useMemo(
     () =>
       new Fuse(allItems, {
-        keys: ["title", "description"]
+        keys: ["title", "description"],
       }),
-    [allItems]
+    [allItems],
   );
 
-  const search = useCommandState(state => state.search);
+  const search = useCommandState((state) => state.search);
 
   const results = useMemo(() => {
     if (search.length === 0) {
-      return popularArticles.filter(article => article?.slug);
+      return popularArticles.filter((article) => article?.slug);
     }
     return fuse
       .search(search)
-      .map(r => r.item)
-      .filter(item => item?.slug);
+      .map((r) => r.item)
+      .filter((item) => item?.slug);
   }, [search, popularArticles]);
 
   return results.map(({ slug, title, summary }) => (
@@ -130,7 +130,7 @@ const CommandResults = ({
       onSelect={() => {
         va.track("CMDK Search Selected", {
           query: search,
-          slug
+          slug,
         });
         if (APP_HOSTNAMES.has(window.location.hostname)) {
           // this is from the app, open in new tab
@@ -172,7 +172,7 @@ export default function useCMDK() {
       const existingModalBackdrop = document.getElementById("modal-backdrop");
       if (e.key === "k" && (e.metaKey || e.ctrlKey) && !existingModalBackdrop) {
         e.preventDefault();
-        setShowCMDK(showCMDK => !showCMDK);
+        setShowCMDK((showCMDK) => !showCMDK);
       }
     };
 
@@ -186,6 +186,6 @@ export default function useCMDK() {
 
   return useMemo(
     () => ({ showCMDK, setShowCMDK, CMDK }),
-    [showCMDK, setShowCMDK, CMDK]
+    [showCMDK, setShowCMDK, CMDK],
   );
 }

@@ -6,14 +6,14 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import { format } from "date-fns";
@@ -22,14 +22,14 @@ import { File, MoreHorizontal, Pencil, Trash } from "lucide-react";
 function formatNOK(amount: number): string {
   const formatter = new Intl.NumberFormat("no-NO", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   });
   return `kr ${formatter.format(amount)}`;
 }
 
 export default function InfoCard({
   data,
-  type
+  type,
 }: {
   data?: {
     id: string;
@@ -69,7 +69,7 @@ export default function InfoCard({
               acc +
               building.floors.reduce(
                 (floorAcc, floor) => floorAcc + floor.maxTotalKvm,
-                0
+                0,
               )
             );
           }, 0)
@@ -86,7 +86,7 @@ export default function InfoCard({
   const totalRent =
     data?.contracts?.reduce(
       (acc, contract) => acc + (contract.baseRent || 0),
-      0
+      0,
     ) || 0;
 
   // Calculate vacancy rate
@@ -94,13 +94,13 @@ export default function InfoCard({
     data?.buildings?.reduce((acc, building) => {
       const totalArea = building.floors.reduce(
         (sum, floor) => sum + floor.maxTotalKvm,
-        0
+        0,
       );
       const occupiedArea =
         data.contracts?.reduce(
           (sum, contract) =>
             sum + (contract.baseRent ? contract.baseRent / 12 : 0),
-          0
+          0,
         ) || 0;
       return acc + (totalArea - occupiedArea) / totalArea;
     }, 0) || 0;
@@ -112,7 +112,7 @@ export default function InfoCard({
       (acc, building) =>
         acc +
         building.floors.reduce((sum, floor) => sum + floor.maxTotalKvm, 0),
-      0
+      0,
     ) || 1);
 
   return (

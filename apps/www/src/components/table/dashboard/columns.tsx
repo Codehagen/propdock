@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
@@ -38,7 +38,7 @@ export const PropertyColumns: ColumnDef<Property>[] = [
     ),
     cell: ({ row }) => {
       const propertyLabel = propertyLabels.find(
-        label => label.value === row.original.label
+        (label) => label.value === row.original.label,
       );
 
       return (
@@ -49,7 +49,7 @@ export const PropertyColumns: ColumnDef<Property>[] = [
           </Link>
         </div>
       );
-    }
+    },
   },
   {
     id: "actions",
@@ -84,6 +84,6 @@ export const PropertyColumns: ColumnDef<Property>[] = [
           </DropdownMenu>
         </div>
       );
-    }
-  }
+    },
+  },
 ];

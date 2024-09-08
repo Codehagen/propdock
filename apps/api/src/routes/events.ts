@@ -5,7 +5,7 @@ import { prisma } from "../lib/db";
 import { parsePrismaError } from "../lib/parsePrismaError";
 import {
   sendDiscordNotification,
-  sendSlackNotification
+  sendSlackNotification,
 } from "../notifications/discord/sendDiscordNotification";
 import { EventSchema } from "../validators";
 
@@ -14,7 +14,7 @@ const events = new Hono<{
 }>();
 
 // POST - Create Event
-events.post("/", async c => {
+events.post("/", async (c) => {
   const apiKey = c.req.header("x-api-key");
   if (!apiKey) {
     return c.json({ ok: false, message: "API key is required" }, 401);
@@ -22,7 +22,7 @@ events.post("/", async c => {
 
   // Find user by API key
   const user = await prisma(c.env).user.findUnique({
-    where: { apiKey }
+    where: { apiKey },
   });
 
   if (!user) {
@@ -38,8 +38,8 @@ events.post("/", async c => {
     // Find the user's project
     const project = await prisma(c.env).project.findFirst({
       where: {
-        userId: user.id
-      }
+        userId: user.id,
+      },
     });
 
     if (!project) {
@@ -47,9 +47,9 @@ events.post("/", async c => {
         {
           ok: false,
           message:
-            "No projects found for this user. Ensure the user has projects created."
+            "No projects found for this user. Ensure the user has projects created.",
         },
-        404
+        404,
       );
     }
 
@@ -57,25 +57,25 @@ events.post("/", async c => {
     const channelExists = await prisma(c.env).channel.findFirst({
       where: {
         name: channel,
-        projectId: project.id
-      }
+        projectId: project.id,
+      },
     });
 
     if (!channelExists) {
       const availableChannels = await prisma(c.env).channel.findMany({
         where: { projectId: project.id },
-        select: { name: true }
+        select: { name: true },
       });
 
-      const channelNames = availableChannels.map(ch => ch.name).join(", ");
+      const channelNames = availableChannels.map((ch) => ch.name).join(", ");
 
       return c.json(
         {
           ok: false,
           message: `No channel found with the provided channel name. You need to add it on the website. These are your available channels: ${channelNames}`,
-          availableChannels: availableChannels.map(ch => ch.name)
+          availableChannels: availableChannels.map((ch) => ch.name),
         },
-        404
+        404,
       );
     }
 
@@ -84,9 +84,9 @@ events.post("/", async c => {
       where: {
         userId_projectId: {
           userId: userId,
-          projectId: project.id
-        }
-      }
+          projectId: project.id,
+        },
+      },
     });
 
     // If the customer does not exist, create a new customer
@@ -98,8 +98,8 @@ events.post("/", async c => {
             userId: userId,
             name: "", // Assuming name and email are optional
             email: "",
-            createdAt: new Date()
-          }
+            createdAt: new Date(),
+          },
         });
         console.log("New customer created:", customer); // Log the new customer
       } catch (error) {
@@ -119,27 +119,27 @@ events.post("/", async c => {
         icon: icon || "",
         notify,
         tags: tags || {},
-        customerId: customer.id // Associate the event with the customer
-      }
+        customerId: customer.id, // Associate the event with the customer
+      },
     });
 
     console.log("New event created:", savedEvent); // Log the new event
 
     // Update logs metrics for the project
     const metrics = await prisma(c.env).metrics.findUnique({
-      where: { projectId: project.id }
+      where: { projectId: project.id },
     });
 
     if (metrics) {
       await prisma(c.env).metrics.update({
         where: { id: metrics.id },
         data: {
-          logsUsed: { increment: 1 }
-        }
+          logsUsed: { increment: 1 },
+        },
       });
       // Fetch the updated metrics and log them
       const updatedMetrics = await prisma(c.env).metrics.findUnique({
-        where: { id: metrics.id }
+        where: { id: metrics.id },
       });
       console.log("Updated metrics:", updatedMetrics);
     } else {
@@ -148,9 +148,9 @@ events.post("/", async c => {
 
     // Fetch notification settings for the current user
     const notificationSettings = await prisma(
-      c.env
+      c.env,
     ).notificationSetting.findFirst({
-      where: { userId: user.id }
+      where: { userId: user.id },
     });
     console.log("Notification settings:", notificationSettings);
 
@@ -161,12 +161,12 @@ events.post("/", async c => {
       if (type === "DISCORD" && detailsParsed?.webhook) {
         await sendDiscordNotification(
           detailsParsed.webhook,
-          `Event created: ${name}`
+          `Event created: ${name}`,
         );
       } else if (type === "SLACK" && detailsParsed?.webhook) {
         await sendSlackNotification(
           detailsParsed.webhook,
-          `Event created: ${name}`
+          `Event created: ${name}`,
         );
       }
     } else {
@@ -175,16 +175,16 @@ events.post("/", async c => {
 
     return c.json(
       { ok: true, message: "Event logged!", event: savedEvent },
-      201
+      201,
     ); // Return 201 status code
   } catch (error: any) {
     return c.json(
       {
         ok: false,
         message: "Failed to log event",
-        error: parsePrismaError(error)
+        error: parsePrismaError(error),
       },
-      400
+      400,
     );
   }
 });

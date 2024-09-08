@@ -9,7 +9,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,13 +17,13 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -37,11 +37,11 @@ import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
-    message: "Navnet må være minst 2 tegn."
+    message: "Navnet må være minst 2 tegn.",
   }),
   appreciationDate: z.date({
-    required_error: "Verdivurderingsdato er påkrevd."
-  })
+    required_error: "Verdivurderingsdato er påkrevd.",
+  }),
 });
 
 interface EditAnalysisNameCardProps {
@@ -53,7 +53,7 @@ interface EditAnalysisNameCardProps {
 export function EditAnalysisNameCard({
   analysisId,
   initialName,
-  initialDate
+  initialDate,
 }: EditAnalysisNameCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,8 +61,8 @@ export function EditAnalysisNameCard({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: initialName,
-      appreciationDate: initialDate
-    }
+      appreciationDate: initialDate,
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -70,7 +70,7 @@ export function EditAnalysisNameCard({
     try {
       const result = await updateAnalysis(analysisId, {
         name: data.name,
-        appreciationDate: data.appreciationDate
+        appreciationDate: data.appreciationDate,
       });
       if (result.success) {
         toast.success("Analysen ble oppdatert.");
@@ -120,7 +120,7 @@ export function EditAnalysisNameCard({
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -137,7 +137,7 @@ export function EditAnalysisNameCard({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={date =>
+                        disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
                         initialFocus

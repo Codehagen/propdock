@@ -8,12 +8,12 @@ export default async function Blog() {
     allBlogPosts
       .sort(
         (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
       )
-      .map(async post => ({
+      .map(async (post) => ({
         ...post,
-        blurDataURL: await getBlurDataURL(post.image)
-      }))
+        blurDataURL: await getBlurDataURL(post.image),
+      })),
   );
 
   return articles.map((article, idx) => (

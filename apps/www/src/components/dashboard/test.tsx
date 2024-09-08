@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -16,7 +16,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { Textarea } from "@propdock/ui/components/textarea";
 

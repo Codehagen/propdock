@@ -3,7 +3,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -11,13 +11,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@propdock/ui/components/tabs";
 // pages/settings/api.js
 import Link from "next/link";
@@ -37,7 +37,7 @@ import { getCurrentUser } from "@/lib/session";
 export const metadata = {
   title: "Propdock Analyser - Oversikt over dine analyser",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard."
+    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
 };
 
 export default async function DashboardPage() {
@@ -52,13 +52,13 @@ export default async function DashboardPage() {
     where: {
       users: {
         some: {
-          id: user.id
-        }
-      }
+          id: user.id,
+        },
+      },
     },
     select: {
-      id: true
-    }
+      id: true,
+    },
   });
 
   if (!userWorkspace) {

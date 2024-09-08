@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -22,7 +22,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -36,7 +36,7 @@ const FormSchema = z.object({
   event: z.string().min(1, "Event is required"),
   user_id: z.string().min(1, "User ID is required"),
   icon: z.string().min(1, "Icon is required"),
-  notify: z.boolean()
+  notify: z.boolean(),
 });
 
 export function EventDashboardDetailsSheet() {
@@ -48,11 +48,11 @@ export function EventDashboardDetailsSheet() {
       event: "",
       user_id: "",
       icon: "",
-      notify: true
-    }
+      notify: true,
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     console.log("Form data to submit:", data); // Log form dat
     try {
       const result = await createEvent(data);
@@ -65,7 +65,7 @@ export function EventDashboardDetailsSheet() {
                 {JSON.stringify(data, null, 2)}
               </code>
             </pre>
-          </div>
+          </div>,
         );
         console.log("Event created:", result.event); // Log the created event
         // Optionally refresh the page or clear the form

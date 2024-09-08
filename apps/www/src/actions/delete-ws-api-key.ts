@@ -9,8 +9,8 @@ export async function deleteWsApiKey(workspaceId: string, serviceName: string) {
     const apiKey = await prisma.wSApiKey.findFirst({
       where: {
         workspaceId,
-        serviceName
-      }
+        serviceName,
+      },
     });
 
     if (!apiKey) {
@@ -19,8 +19,8 @@ export async function deleteWsApiKey(workspaceId: string, serviceName: string) {
 
     await prisma.wSApiKey.delete({
       where: {
-        id: apiKey.id
-      }
+        id: apiKey.id,
+      },
     });
 
     // Revalidate the path after the API key is deleted

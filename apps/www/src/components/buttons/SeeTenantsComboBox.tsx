@@ -9,12 +9,12 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@propdock/ui/components/command";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import * as React from "react";
@@ -74,7 +74,7 @@ export function SeeTenantsComboBox({ officeSpaceId, workspaceId }) {
           className="w-[200px] justify-between"
         >
           {value !== null
-            ? tenants.find(tenant => tenant.id === value)?.name
+            ? tenants.find((tenant) => tenant.id === value)?.name
             : "Select tenant..."}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -85,7 +85,7 @@ export function SeeTenantsComboBox({ officeSpaceId, workspaceId }) {
           <CommandList>
             <CommandEmpty>No tenant found.</CommandEmpty>
             <CommandGroup>
-              {tenants.map(tenant => (
+              {tenants.map((tenant) => (
                 <CommandItem
                   key={tenant.id}
                   value={tenant.id.toString()}
@@ -95,7 +95,7 @@ export function SeeTenantsComboBox({ officeSpaceId, workspaceId }) {
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      value === tenant.id ? "opacity-100" : "opacity-0"
+                      value === tenant.id ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

@@ -4,12 +4,12 @@ import {
   createProperty,
   editWorkspaceProperty,
   getAllWorkspaceProperties,
-  getWorkspacePropertyById
+  getWorkspacePropertyById,
 } from "../../models/properties";
 
 const app = honoFactory();
 
-app.post("/", async c => {
+app.post("/", async (c) => {
   const user: User = c.get("user")!;
   const body = await c.req.json();
 
@@ -23,9 +23,9 @@ app.post("/", async c => {
       {
         ok: false,
         message:
-          "Request body not in valid format or missing required attributes"
+          "Request body not in valid format or missing required attributes",
       },
-      400
+      400,
     );
   }
 
@@ -37,7 +37,7 @@ app.post("/", async c => {
   }
 });
 
-app.get("/", async c => {
+app.get("/", async (c) => {
   const user: User = c.get("user")!;
   try {
     const properties = await getAllWorkspaceProperties(user, c.env);
@@ -47,7 +47,7 @@ app.get("/", async c => {
   }
 });
 
-app.get("/:id", async c => {
+app.get("/:id", async (c) => {
   const user: User = c.get("user")!;
   const id = c.req.param("id");
 
@@ -59,7 +59,7 @@ app.get("/:id", async c => {
   }
 });
 
-app.patch("/:id", async c => {
+app.patch("/:id", async (c) => {
   const user: User = c.get("user")!;
   const id = c.req.param("id");
 

@@ -4,7 +4,7 @@ import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent
+  ChartTooltipContent,
 } from "@propdock/ui/components/chart";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
@@ -17,8 +17,8 @@ interface LiquidityScoreChartProps {
 const chartConfig = {
   liquidity: {
     label: "Liquidity Score",
-    color: "hsl(var(--chart-1))"
-  }
+    color: "hsl(var(--chart-1))",
+  },
 } satisfies ChartConfig;
 
 function getScoreColor(score: number): string {
@@ -33,12 +33,12 @@ function getScoreColor(score: number): string {
 
 export function LiquidityScoreChart({
   score,
-  lastYearScore
+  lastYearScore,
 }: LiquidityScoreChartProps) {
   const chartData = [{ name: "Liquidity", value: score }];
   const trend = score >= lastYearScore ? "up" : "down";
   const trendPercentage = Math.abs(
-    ((score - lastYearScore) / lastYearScore) * 100
+    ((score - lastYearScore) / lastYearScore) * 100,
   ).toFixed(1);
 
   return (

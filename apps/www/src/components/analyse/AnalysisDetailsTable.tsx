@@ -3,7 +3,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -11,7 +11,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import { format } from "date-fns";
 
@@ -37,17 +37,17 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
     { label: "Sum Value Exit", value: details.sumValueExit },
     {
       label: "Appreciation Date",
-      value: formatValue(details.appreciationDate)
+      value: formatValue(details.appreciationDate),
     },
     { label: "Last Day of Year", value: formatValue(details.lastDayOfYear) },
     { label: "Last Balance Date", value: formatValue(details.lastBalanceDate) },
     {
       label: "Vacancy Per Year",
-      value: JSON.stringify(details.vacancyPerYear)
+      value: JSON.stringify(details.vacancyPerYear),
     },
     {
       label: "Owner Costs Method",
-      value: details.ownerCostsMethod ? "True" : "False"
+      value: details.ownerCostsMethod ? "True" : "False",
     },
     { label: "Owner Costs Manual", value: details.ownerCostsManual },
     { label: "Cost Maintenance", value: details.costMaintenance },
@@ -70,12 +70,12 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
     { label: "Market Rent Misc", value: details.marketRentMisc },
     {
       label: "Use Prime Yield",
-      value: details.usePrimeYield ? "True" : "False"
+      value: details.usePrimeYield ? "True" : "False",
     },
     { label: "Manual Yield Office", value: details.manYieldOffice },
     { label: "Manual Yield Merch", value: details.manYieldMerch },
     { label: "Manual Yield Misc", value: details.manYieldMisc },
-    { label: "Manual Yield Weighted", value: details.manYieldWeighted }
+    { label: "Manual Yield Weighted", value: details.manYieldWeighted },
   ];
 
   return (
@@ -88,7 +88,7 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              {tableHeaders.map(header => (
+              {tableHeaders.map((header) => (
                 <TableHead key={header}>{header}</TableHead>
               ))}
             </TableRow>

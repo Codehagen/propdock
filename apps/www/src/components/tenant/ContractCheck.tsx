@@ -15,7 +15,7 @@ interface ContractCheckProps {
 
 export function ContractCheck({
   tenantDetails,
-  onContractCreated
+  onContractCreated,
 }: ContractCheckProps) {
   const router = useRouter();
 
@@ -55,7 +55,7 @@ export function ContractCheck({
         collateral: null,
         currency: "NOK", // Default to NOK
         currencyIso: "NOK", // Default to NOK
-        isContinuousRent: false
+        isContinuousRent: false,
       };
 
       const result = await createContract(contractData);

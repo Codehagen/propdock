@@ -9,7 +9,7 @@ import { marketingConfig } from "@/config/marketing";
 import { getCurrentUser } from "@/lib/session";
 
 export default async function BlogLayout({
-  children
+  children,
 }: {
   children: ReactNode;
 }) {

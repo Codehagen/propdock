@@ -2,7 +2,7 @@ import {
   Card,
   CardContent,
   CardFooter,
-  CardHeader
+  CardHeader,
 } from "@propdock/ui/components/card";
 import { Skeleton } from "@propdock/ui/components/skeleton";
 

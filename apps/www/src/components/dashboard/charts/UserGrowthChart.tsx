@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Area,
@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 
 // Placeholder data for the past week
@@ -23,7 +23,7 @@ const PREVIOUS_WEEK_DATA = [
   { name: "2nd Dec", users: 45 },
   { name: "3rd Dec", users: 60 },
   { name: "4th Dec", users: 70 },
-  { name: "5th Dec", users: 65 }
+  { name: "5th Dec", users: 65 },
 ];
 
 export default function UserGrowthTrend() {

@@ -7,7 +7,7 @@ export async function assignTenantToOfficeSpace(officeSpaceId, tenantId) {
   try {
     const officeSpace = await prisma.officeSpace.update({
       where: { id: officeSpaceId },
-      data: { tenants: { connect: { id: tenantId } } }
+      data: { tenants: { connect: { id: tenantId } } },
     });
 
     return { success: true, officeSpace };

@@ -6,7 +6,7 @@ import { getProduct, getProducts } from "@/lib/poweroffice/products";
 const app = honoFactory();
 
 // Endpoint to get all customers
-app.get("/customers", async c => {
+app.get("/customers", async (c) => {
   const user = c.get("user");
 
   if (!user) {
@@ -21,15 +21,15 @@ app.get("/customers", async c => {
       {
         ok: false,
         message: "Network error while fetching customers",
-        error: error.message
+        error: error.message,
       },
-      500
+      500,
     );
   }
 });
 
 // Endpoint to get a customer by ID
-app.get("/customers/:id", async c => {
+app.get("/customers/:id", async (c) => {
   const user = c.get("user");
 
   if (!user) {
@@ -46,15 +46,15 @@ app.get("/customers/:id", async c => {
       {
         ok: false,
         message: "Network error while fetching the customer",
-        error: error.message
+        error: error.message,
       },
-      500
+      500,
     );
   }
 });
 
 // Endpoint to get all products
-app.get("/products", async c => {
+app.get("/products", async (c) => {
   const user = c.get("user");
 
   if (!user) {
@@ -69,15 +69,15 @@ app.get("/products", async c => {
       {
         ok: false,
         message: "Network error while fetching products",
-        error: error.message
+        error: error.message,
       },
-      500
+      500,
     );
   }
 });
 
 // Endpoint to get a customer by ID
-app.get("/products/:id", async c => {
+app.get("/products/:id", async (c) => {
   const user = c.get("user");
 
   if (!user) {
@@ -94,15 +94,15 @@ app.get("/products/:id", async c => {
       {
         ok: false,
         message: "Network error while fetching the product",
-        error: error.message
+        error: error.message,
       },
-      500
+      500,
     );
   }
 });
 
 // Endpoint to create a supplier invoice
-app.post("/invoices/create", async c => {
+app.post("/invoices/create", async (c) => {
   const user = c.get("user");
 
   if (!user) {
@@ -115,7 +115,7 @@ app.post("/invoices/create", async c => {
     const invoiceResponse = await createSalesOrder(
       c.env,
       user.workspaceId!,
-      invoiceData
+      invoiceData,
     );
     return c.json({ ok: true, message: invoiceResponse }, 200);
   } catch (error: any) {
@@ -123,9 +123,9 @@ app.post("/invoices/create", async c => {
       {
         ok: false,
         message: "Network error while creating the invoice",
-        error: error.message
+        error: error.message,
       },
-      500
+      500,
     );
   }
 });

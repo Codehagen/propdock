@@ -2,7 +2,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { differenceInDays, format, formatDistanceToNow } from "date-fns";
 
@@ -11,14 +11,14 @@ import { EmptyPlaceholder } from "../shared/empty-placeholder";
 export default function UserCardsSection({ tenantDetails }) {
   const totalBaseRent = tenantDetails.contracts.reduce(
     (sum, contract) => sum + contract.baseRent,
-    0
+    0,
   );
 
   const indexValues = tenantDetails.contracts
-    .map(contract => contract.indexValue)
+    .map((contract) => contract.indexValue)
     .join(", ");
 
-  const getRemainingDays = contracts => {
+  const getRemainingDays = (contracts) => {
     if (contracts.length === 0) {
       return null;
     }

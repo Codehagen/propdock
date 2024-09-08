@@ -1,7 +1,7 @@
 export function parsePrismaError(error: any): string {
   // A simple error message parser that looks for missing arguments
   const missingArgumentMatch = error.message.match(
-    /Argument `(\w+)` is missing./
+    /Argument `(\w+)` is missing./,
   );
   if (missingArgumentMatch) {
     const fieldName = missingArgumentMatch[1];

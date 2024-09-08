@@ -51,7 +51,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
       </div>
 
       <div className="mx-auto grid max-w-screen-lg gap-5 bg-inherit py-5 md:grid-cols-3 lg:grid-cols-3">
-        {pricingData.map(offer => (
+        {pricingData.map((offer) => (
           <div
             className="relative flex flex-col overflow-hidden rounded-xl border"
             key={offer.title}
@@ -91,7 +91,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
 
             <div className="flex h-full flex-col justify-between gap-16 p-6">
               <ul className="space-y-2 text-left font-medium text-sm leading-normal">
-                {offer.benefits.map(feature => (
+                {offer.benefits.map((feature) => (
                   <li className="flex items-start" key={feature}>
                     <Icons.check className="mr-3 h-5 w-5 shrink-0" />
                     <p>{feature}</p>
@@ -99,7 +99,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
                 ))}
 
                 {offer.limitations.length > 0 &&
-                  offer.limitations.map(feature => (
+                  offer.limitations.map((feature) => (
                     <li
                       className="flex items-start text-muted-foreground"
                       key={feature}
@@ -116,7 +116,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
                     href="/dashboard"
                     className={buttonVariants({
                       className: "w-full",
-                      variant: "default"
+                      variant: "default",
                     })}
                   >
                     Go to dashboard

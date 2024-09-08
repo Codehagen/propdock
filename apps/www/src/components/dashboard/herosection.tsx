@@ -6,7 +6,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
@@ -33,7 +33,7 @@ export default function HeroSection() {
                 className="max-w-[700px] text-gray-500 md:text-xl lg:text-lg xl:text-xl dark:text-gray-400"
                 style={{
                   animationDelay: "0.35s",
-                  animationFillMode: "forwards"
+                  animationFillMode: "forwards",
                 }}
               >
                 Unlock the power of seamless real-time monitoring that
@@ -49,7 +49,7 @@ export default function HeroSection() {
                 href="/dashboard"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
-                  "px-4"
+                  "px-4",
                 )}
               >
                 <Icons.chevrondown className="mr-2 h-4 w-4" />

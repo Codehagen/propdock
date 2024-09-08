@@ -18,7 +18,7 @@ export async function deleteTenant(tenantId: string) {
     // Check if the tenant exists
     const tenant = await prisma.tenant.findUnique({
       where: { id: tenantId },
-      include: { property: true }
+      include: { property: true },
     });
 
     if (!tenant) {
@@ -28,12 +28,12 @@ export async function deleteTenant(tenantId: string) {
     // Check if the user has permission to delete this tenant
     const userWorkspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      include: { properties: true }
+      include: { properties: true },
     });
 
     if (
       !userWorkspace ||
-      !userWorkspace.properties.some(p => p.id === tenant.propertyId)
+      !userWorkspace.properties.some((p) => p.id === tenant.propertyId)
     ) {
       throw new Error("You don't have permission to delete this tenant");
     }
@@ -47,7 +47,7 @@ export async function deleteTenant(tenantId: string) {
       prisma.tenantCommunications.deleteMany({ where: { tenantId } }),
       prisma.contactPerson.deleteMany({ where: { tenantId } }),
       // Finally, delete the tenant
-      prisma.tenant.delete({ where: { id: tenantId } })
+      prisma.tenant.delete({ where: { id: tenantId } }),
     ]);
 
     console.log(`Deleted tenant with ID: ${tenantId}`);

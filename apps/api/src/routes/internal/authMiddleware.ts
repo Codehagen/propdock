@@ -13,7 +13,7 @@ export default async function internalAuthMiddleware(
     Bindings: Env;
     Variables: CustomContext;
   }>,
-  next: any
+  next: any,
 ) {
   // Skip all checks for testing
   if (
@@ -45,8 +45,8 @@ export default async function internalAuthMiddleware(
   if (userId) {
     const user = await prisma(c.env).user.findUnique({
       where: {
-        id: userId
-      }
+        id: userId,
+      },
     });
 
     if (user) {

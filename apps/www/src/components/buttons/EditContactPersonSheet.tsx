@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -22,7 +22,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,34 +37,34 @@ const ContactPersonSchema = z.object({
   fnr: z
     .string()
     .optional()
-    .refine(data => !data || /^\d{11}$/.test(data), {
-      message: "Fødselnummer må være 11 siffer"
+    .refine((data) => !data || /^\d{11}$/.test(data), {
+      message: "Fødselnummer må være 11 siffer",
     })
-    .nullable()
+    .nullable(),
 });
 
 export function EditContactPersonSheet({
   contactPersonId,
   initialValues,
   currentPath,
-  children
+  children,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ContactPersonSchema),
-    defaultValues: initialValues
+    defaultValues: initialValues,
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       const result = await updateContactPerson(
         contactPersonId,
         data,
-        currentPath
+        currentPath,
       );
 
       if (!result.success) {

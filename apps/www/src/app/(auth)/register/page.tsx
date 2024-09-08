@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "Opprett en konto",
-  description: "Opprett en konto for å komme i gang."
+  description: "Opprett en konto for å komme i gang.",
 };
 
 export default function RegisterPage() {
@@ -18,7 +18,7 @@ export default function RegisterPage() {
         href="/login"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute top-4 right-4 md:top-8 md:right-8"
+          "absolute top-4 right-4 md:top-8 md:right-8",
         )}
       >
         Logg inn

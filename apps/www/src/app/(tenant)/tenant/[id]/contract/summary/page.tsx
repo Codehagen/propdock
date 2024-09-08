@@ -10,7 +10,7 @@ import { ContractCheck } from "@/components/tenant/ContractCheck";
 import { SummaryDetailsForm } from "./_components/SummaryDetailsForm";
 
 export default async function SummaryPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

@@ -12,7 +12,7 @@ import { ContractCheck } from "@/components/tenant/ContractCheck";
 import { MvaDetailsForm } from "./_components/MvaDetailsForm";
 
 export default async function termsContractPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

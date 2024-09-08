@@ -32,12 +32,12 @@ const Confetti = (options: ConfettiOptions) => {
   const confettiInstance = options.canvas
     ? confetti.create(options.canvas, {
         resize: options.resize ?? true,
-        useWorker: options.useWorker ?? true
+        useWorker: options.useWorker ?? true,
       })
     : confetti;
 
   confettiInstance({
-    ...options
+    ...options,
   });
 };
 

@@ -3,7 +3,7 @@ import { prisma } from "../../lib/db";
 import {
   getWorkspaceAccessToken,
   getWorkspaceApiKey,
-  storeWorkspaceAccessToken
+  storeWorkspaceAccessToken,
 } from "../localApiKeys";
 
 const PO_ROOT_DEMO = "https://goapi.poweroffice.net/Demo/v2";
@@ -21,7 +21,7 @@ const PO_ONBOARDING_FINAL = `${PO_ROOT}/onboarding/finalize`;
 function getOnboardingHeaders(env: Env) {
   const headers = {
     "Content-Type": "application/json",
-    "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY
+    "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
     //"ClientOrganizationNo": "",
   };
 
@@ -31,7 +31,7 @@ function getOnboardingHeaders(env: Env) {
 function getOnboardingBody(env: Env) {
   const body = {
     ApplicationKey: env.PO_APP_KEY,
-    RedirectUri: env.PO_ONBOARD_REDIRECT
+    RedirectUri: env.PO_ONBOARD_REDIRECT,
   };
 
   return body;
@@ -41,14 +41,14 @@ async function exchangeCodeForKey(env: Env, code: string): Promise<string> {
   const url = PO_ONBOARDING_FINAL;
   const headers = getOnboardingHeaders(env);
   const body = {
-    OnboardingToken: code
+    OnboardingToken: code,
   };
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
     if (response.ok) {
@@ -71,7 +71,7 @@ function getAuthHeaders(env: Env, client_key: string) {
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
     "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
-    Authorization: `Basic ${auth_64}`
+    Authorization: `Basic ${auth_64}`,
   };
 
   return headers;
@@ -85,7 +85,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
   const accessTokenDb = await getWorkspaceAccessToken(
     db,
     workspaceId,
-    serviceName
+    serviceName,
   );
 
   if (accessTokenDb) {
@@ -98,7 +98,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
   // If the workspace has no secret for this service, throw an error
   if (!secret) {
     throw new Error(
-      `(Workspace:${workspaceId}) Could not find client_secret for service:${serviceName}`
+      `(Workspace:${workspaceId}) Could not find client_secret for service:${serviceName}`,
     );
   }
 
@@ -108,7 +108,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
     newTokenObject = await getNewAccessToken(env, secret);
   } catch (error: any) {
     throw new Error(
-      `(Workspace:${workspaceId}) Could not get new access_token for service:${serviceName} => ${error}`
+      `(Workspace:${workspaceId}) Could not get new access_token for service:${serviceName} => ${error}`,
     );
   }
 
@@ -118,7 +118,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
     workspaceId,
     serviceName,
     newTokenObject.secret,
-    newTokenObject.expiry
+    newTokenObject.expiry,
   );
 
   // Return the new access token
@@ -127,7 +127,7 @@ async function getAccessToken(env: Env, workspaceId: string): Promise<string> {
 
 async function getNewAccessToken(
   env: Env,
-  client_key: string
+  client_key: string,
 ): Promise<Record<string, string>> {
   const headers = getAuthHeaders(env, client_key);
   const body = new URLSearchParams();
@@ -138,14 +138,14 @@ async function getNewAccessToken(
     const response = await fetch(PO_AUTH, {
       method: "POST",
       headers: headers,
-      body: body.toString()
+      body: body.toString(),
     });
 
     res = await response.json();
 
     if (response.status === 400) {
       throw new Error(
-        `${response.status}: ${response.statusText} => ${res.error}: ${res.error_description}`
+        `${response.status}: ${response.statusText} => ${res.error}: ${res.error_description}`,
       );
     }
     if (response.status !== 200) {
@@ -165,7 +165,7 @@ async function getRequestHeaders(env: Env, workspaceId: string) {
   const headers = {
     "Content-Type": "application/json",
     "Ocp-Apim-Subscription-Key": env.PO_SUB_KEY,
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
 
   return headers;
@@ -179,5 +179,5 @@ export {
   getAuthHeaders,
   exchangeCodeForKey,
   getAccessToken,
-  getRequestHeaders
+  getRequestHeaders,
 };

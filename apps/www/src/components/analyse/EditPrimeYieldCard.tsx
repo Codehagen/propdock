@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Switch } from "@propdock/ui/components/switch";
@@ -31,7 +31,7 @@ const FormSchema = z.object({
   manYieldOffice: z.string().optional(),
   manYieldMerch: z.string().optional(),
   manYieldMisc: z.string().optional(),
-  manYieldWeighted: z.string().optional()
+  manYieldWeighted: z.string().optional(),
 });
 
 interface EditPrimeYieldCardProps {
@@ -49,7 +49,7 @@ export function EditPrimeYieldCard({
   initialManYieldOffice,
   initialManYieldMerch,
   initialManYieldMisc,
-  initialManYieldWeighted
+  initialManYieldWeighted,
 }: EditPrimeYieldCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,8 +60,8 @@ export function EditPrimeYieldCard({
       manYieldOffice: initialManYieldOffice?.toString() || "",
       manYieldMerch: initialManYieldMerch?.toString() || "",
       manYieldMisc: initialManYieldMisc?.toString() || "",
-      manYieldWeighted: initialManYieldWeighted?.toString() || ""
-    }
+      manYieldWeighted: initialManYieldWeighted?.toString() || "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -78,13 +78,13 @@ export function EditPrimeYieldCard({
         manYieldMisc: data.manYieldMisc ? Number(data.manYieldMisc) : undefined,
         manYieldWeighted: data.manYieldWeighted
           ? Number(data.manYieldWeighted)
-          : undefined
+          : undefined,
       });
       if (result.success) {
         toast.success("Prime yield data ble oppdatert.");
       } else {
         throw new Error(
-          result.error || "Kunne ikke oppdatere prime yield data."
+          result.error || "Kunne ikke oppdatere prime yield data.",
         );
       }
     } catch (error) {
@@ -99,23 +99,23 @@ export function EditPrimeYieldCard({
     {
       name: "manYieldOffice",
       label: "Yield kontor",
-      description: "Prime yield for kontorarealer (i prosent)"
+      description: "Prime yield for kontorarealer (i prosent)",
     },
     {
       name: "manYieldMerch",
       label: "Yield handel",
-      description: "Prime yield for handelsarealer (i prosent)"
+      description: "Prime yield for handelsarealer (i prosent)",
     },
     {
       name: "manYieldMisc",
       label: "Yield annet",
-      description: "Prime yield for andre arealer (i prosent)"
+      description: "Prime yield for andre arealer (i prosent)",
     },
     {
       name: "manYieldWeighted",
       label: "Vektet yield",
-      description: "Vektet prime yield for alle arealer (i prosent)"
-    }
+      description: "Vektet prime yield for alle arealer (i prosent)",
+    },
   ];
 
   return (
@@ -153,7 +153,7 @@ export function EditPrimeYieldCard({
             />
             {form.watch("usePrimeYield") && (
               <div className="grid gap-4 sm:grid-cols-2">
-                {yieldFields.map(field => (
+                {yieldFields.map((field) => (
                   <FormField
                     key={field.name}
                     control={form.control}
@@ -166,7 +166,7 @@ export function EditPrimeYieldCard({
                             type="number"
                             placeholder={field.label}
                             {...formField}
-                            onChange={e => formField.onChange(e.target.value)}
+                            onChange={(e) => formField.onChange(e.target.value)}
                           />
                         </FormControl>
                         <FormDescription>{field.description}</FormDescription>

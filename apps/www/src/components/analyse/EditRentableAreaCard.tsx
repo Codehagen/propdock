@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -16,7 +16,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Percent } from "lucide-react";
@@ -29,45 +29,45 @@ const FormSchema = z.object({
   rentableArea: z
     .string()
     .nonempty("Utleibart areal er påkrevd.")
-    .refine(value => !Number.isNaN(Number(value)), {
-      message: "Utleibart areal må være et tall."
+    .refine((value) => !Number.isNaN(Number(value)), {
+      message: "Utleibart areal må være et tall.",
     }),
   ratioAreaOffice: z
     .string()
     .nonempty("Andel kontorareal er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Andel kontorareal må være et tall mellom 0 og 100."
-      }
+        message: "Andel kontorareal må være et tall mellom 0 og 100.",
+      },
     ),
   ratioAreaMerch: z
     .string()
     .nonempty("Andel handelsareal er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Andel handelsareal må være et tall mellom 0 og 100."
-      }
+        message: "Andel handelsareal må være et tall mellom 0 og 100.",
+      },
     ),
   ratioAreaMisc: z
     .string()
     .nonempty("Andel annet areal er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "Andel annet areal må være et tall mellom 0 og 100."
-      }
-    )
+        message: "Andel annet areal må være et tall mellom 0 og 100.",
+      },
+    ),
 });
 
 interface EditRentableAreaCardProps {
@@ -83,7 +83,7 @@ export function EditRentableAreaCard({
   initialRentableArea,
   initialRatioAreaOffice,
   initialRatioAreaMerch,
-  initialRatioAreaMisc
+  initialRatioAreaMisc,
 }: EditRentableAreaCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,8 +93,8 @@ export function EditRentableAreaCard({
       rentableArea: initialRentableArea.toString(),
       ratioAreaOffice: (initialRatioAreaOffice * 100).toString(),
       ratioAreaMerch: (initialRatioAreaMerch * 100).toString(),
-      ratioAreaMisc: (initialRatioAreaMisc * 100).toString()
-    }
+      ratioAreaMisc: (initialRatioAreaMisc * 100).toString(),
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -104,7 +104,7 @@ export function EditRentableAreaCard({
         rentableArea: Number(data.rentableArea),
         ratioAreaOffice: Number(data.ratioAreaOffice) / 100,
         ratioAreaMerch: Number(data.ratioAreaMerch) / 100,
-        ratioAreaMisc: Number(data.ratioAreaMisc) / 100
+        ratioAreaMisc: Number(data.ratioAreaMisc) / 100,
       });
       if (result.success) {
         toast.success("Analysen ble oppdatert.");

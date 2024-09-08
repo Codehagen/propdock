@@ -13,17 +13,17 @@ import { getBlurDataURL } from "@/lib/blog/images";
 import { formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allChangelogPosts.map(post => ({
-    slug: post.slug
+  return allChangelogPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allChangelogPosts.find(post => post.slug === params.slug);
+  const post = allChangelogPosts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
@@ -33,16 +33,16 @@ export async function generateMetadata({
   return constructMetadata({
     title,
     description,
-    image
+    image,
   });
 }
 
 export default async function ChangelogPost({
-  params
+  params,
 }: {
   params: { slug: string };
 }) {
-  const post = allChangelogPosts.find(post => post.slug === params.slug);
+  const post = allChangelogPosts.find((post) => post.slug === params.slug);
   if (!post) {
     notFound();
   }

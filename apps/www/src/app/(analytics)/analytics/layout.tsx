@@ -13,7 +13,7 @@ interface DashboardLayoutProps {
 }
 
 export default async function DashboardLayout({
-  children
+  children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 
@@ -25,18 +25,18 @@ export default async function DashboardLayout({
     {
       title: "Data",
       href: "/analytics/",
-      icon: "home"
+      icon: "home",
     },
     {
       title: "Kart",
       href: "/analytics/maps",
-      icon: "map"
+      icon: "map",
     },
     {
       title: "API nøkkel",
       href: "/analytics/1",
-      icon: "piechart"
-    }
+      icon: "piechart",
+    },
   ];
 
   return (

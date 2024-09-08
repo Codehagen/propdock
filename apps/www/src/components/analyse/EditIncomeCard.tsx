@@ -3,7 +3,7 @@
 import {
   addIncomeUnits,
   deleteIncomeUnit,
-  updateIncomeUnit
+  updateIncomeUnit,
 } from "@/actions/update-analysis";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@propdock/ui/components/button";
@@ -12,7 +12,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -20,14 +20,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import {
   Table,
@@ -36,13 +36,13 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import { Textarea } from "@propdock/ui/components/textarea";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@propdock/ui/components/tooltip";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useState } from "react";
@@ -56,7 +56,7 @@ const FormSchema = z.object({
   numberOfUnits: z.number().min(1, "Antall enheter må være minst 1"),
   description: z.string().min(1, "Beskrivelse er påkrevd"),
   areaPerUnit: z.number().min(0, "Areal må være et positivt tall"),
-  valuePerUnit: z.number().min(0, "Verdi må være et positivt tall")
+  valuePerUnit: z.number().min(0, "Verdi må være et positivt tall"),
 });
 
 interface IncomeUnit {
@@ -81,7 +81,7 @@ export function EditIncomeCard({
   analysisId,
   initialAnnualRent,
   initialOtherIncome,
-  incomeUnits
+  incomeUnits,
 }: EditIncomeCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -91,8 +91,8 @@ export function EditIncomeCard({
       numberOfUnits: 1,
       description: "",
       areaPerUnit: 0,
-      valuePerUnit: 0
-    }
+      valuePerUnit: 0,
+    },
   });
 
   const [editingCell, setEditingCell] = useState<{
@@ -103,7 +103,7 @@ export function EditIncomeCard({
   const handleCellEdit = async (
     id: string,
     field: string,
-    value: string | number
+    value: string | number,
   ) => {
     setEditingCell(null);
     try {
@@ -146,15 +146,15 @@ export function EditIncomeCard({
             type={type}
             defaultValue={value}
             autoFocus
-            onBlur={e => handleCellEdit(unit.id, field, e.target.value)}
-            onKeyDown={e => {
+            onBlur={(e) => handleCellEdit(unit.id, field, e.target.value)}
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleCellEdit(unit.id, field, e.currentTarget.value);
               }
             }}
             className={cn(
               "absolute inset-0 h-full w-full border-none bg-white p-4 focus:ring-1 focus:ring-blue-500",
-              type === "number" && "text-right"
+              type === "number" && "text-right",
             )}
           />
         ) : (
@@ -175,7 +175,7 @@ export function EditIncomeCard({
         typeDescription: data.description,
         areaPerUnit: data.areaPerUnit,
         valuePerUnit: data.valuePerUnit,
-        numberOfUnits: data.numberOfUnits
+        numberOfUnits: data.numberOfUnits,
       });
 
       if (result.success) {
@@ -183,7 +183,7 @@ export function EditIncomeCard({
         form.reset(); // Reset the form after successful submission
       } else {
         throw new Error(
-          result.error || "Kunne ikke legge til inntektsenheter."
+          result.error || "Kunne ikke legge til inntektsenheter.",
         );
       }
     } catch (error) {
@@ -255,9 +255,9 @@ export function EditIncomeCard({
                                 type="number"
                                 placeholder="Skriv inn antall enheter"
                                 {...field}
-                                onChange={e =>
+                                onChange={(e) =>
                                   field.onChange(
-                                    Number.parseInt(e.target.value)
+                                    Number.parseInt(e.target.value),
                                   )
                                 }
                               />
@@ -295,9 +295,9 @@ export function EditIncomeCard({
                                 type="number"
                                 placeholder="Skriv inn areal per enhet"
                                 {...field}
-                                onChange={e =>
+                                onChange={(e) =>
                                   field.onChange(
-                                    Number.parseFloat(e.target.value)
+                                    Number.parseFloat(e.target.value),
                                   )
                                 }
                               />
@@ -317,9 +317,9 @@ export function EditIncomeCard({
                                 type="number"
                                 placeholder="Skriv inn verdi per enhet"
                                 {...field}
-                                onChange={e =>
+                                onChange={(e) =>
                                   field.onChange(
-                                    Number.parseFloat(e.target.value)
+                                    Number.parseFloat(e.target.value),
                                   )
                                 }
                               />
@@ -382,7 +382,7 @@ export function EditIncomeCard({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {incomeUnits.map(unit => {
+                {incomeUnits.map((unit) => {
                   const valuePerArea =
                     unit.areaPerUnit > 0
                       ? unit.valuePerUnit / unit.areaPerUnit
@@ -403,7 +403,7 @@ export function EditIncomeCard({
                       <TableCell className="text-right">
                         {valuePerArea.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
-                          maximumFractionDigits: 2
+                          maximumFractionDigits: 2,
                         })}
                       </TableCell>
                       <TableCell className="text-right">
@@ -430,25 +430,25 @@ export function EditIncomeCard({
                     Totalt:{" "}
                     {incomeUnits.reduce(
                       (sum, unit) => sum + (unit.numberOfUnits || 1),
-                      0
+                      0,
                     )}
                   </TableCell>
                   <TableCell className="text-right font-medium">
                     {totalArea.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
+                      maximumFractionDigits: 2,
                     })}
                   </TableCell>
                   <TableCell className="text-right font-medium">
                     {totalValue.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
+                      maximumFractionDigits: 2,
                     })}
                   </TableCell>
                   <TableCell className="text-right font-medium">
                     {averageValuePerArea.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
+                      maximumFractionDigits: 2,
                     })}
                   </TableCell>
                   <TableCell />
@@ -492,7 +492,7 @@ export function EditIncomeCard({
                               type="number"
                               placeholder="Skriv inn antall enheter"
                               {...field}
-                              onChange={e =>
+                              onChange={(e) =>
                                 field.onChange(Number.parseInt(e.target.value))
                               }
                             />
@@ -530,9 +530,9 @@ export function EditIncomeCard({
                               type="number"
                               placeholder="Skriv inn areal per enhet"
                               {...field}
-                              onChange={e =>
+                              onChange={(e) =>
                                 field.onChange(
-                                  Number.parseFloat(e.target.value)
+                                  Number.parseFloat(e.target.value),
                                 )
                               }
                             />
@@ -552,9 +552,9 @@ export function EditIncomeCard({
                               type="number"
                               placeholder="Skriv inn verdi per enhet"
                               {...field}
-                              onChange={e =>
+                              onChange={(e) =>
                                 field.onChange(
-                                  Number.parseFloat(e.target.value)
+                                  Number.parseFloat(e.target.value),
                                 )
                               }
                             />

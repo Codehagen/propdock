@@ -22,7 +22,7 @@ app.use("*", async (c, next) => {
   if (!user) {
     return c.json(
       { ok: false, error: "User was not found on the request" },
-      400
+      400,
     );
   }
 
@@ -31,7 +31,7 @@ app.use("*", async (c, next) => {
 });
 
 // Endpoint to get all companies
-app.get("/companies", async c => {
+app.get("/companies", async (c) => {
   const fiken = c.get("sdk") as Fiken;
 
   const res = await fiken.getCompanies();
@@ -41,7 +41,7 @@ app.get("/companies", async c => {
 });
 
 // Endpoint to get accounts for a company
-app.get("/companies/:companySlug/contacts", async c => {
+app.get("/companies/:companySlug/contacts", async (c) => {
   const fiken = c.get("sdk") as Fiken;
 
   const companySlug = c.req.param("companySlug");
@@ -52,7 +52,7 @@ app.get("/companies/:companySlug/contacts", async c => {
 });
 
 // Endpoint to get products for a company
-app.get("/companies/:companySlug/products", async c => {
+app.get("/companies/:companySlug/products", async (c) => {
   const fiken = c.get("sdk") as Fiken;
 
   const companySlug = c.req.param("companySlug");
@@ -63,7 +63,7 @@ app.get("/companies/:companySlug/products", async c => {
 });
 
 // Endpoint to get bank accounts for a company
-app.get("/companies/:companySlug/bankAccounts", async c => {
+app.get("/companies/:companySlug/bankAccounts", async (c) => {
   const fiken = c.get("sdk") as Fiken;
 
   const companySlug = c.req.param("companySlug");
@@ -74,7 +74,7 @@ app.get("/companies/:companySlug/bankAccounts", async c => {
 });
 
 // Endpoint to create an invoice for a company
-app.post("/companies/:companySlug/invoices", async c => {
+app.post("/companies/:companySlug/invoices", async (c) => {
   const fiken = c.get("sdk") as Fiken;
 
   const companySlug = c.req.param("companySlug");

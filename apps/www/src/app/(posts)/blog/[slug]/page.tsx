@@ -13,17 +13,17 @@ import { getBlurDataURL } from "@/lib/blog/images";
 import { formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allBlogPosts.map(post => ({
-    slug: post.slug
+  return allBlogPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allBlogPosts.find(post => post.slug === params.slug);
+  const post = allBlogPosts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
@@ -33,18 +33,18 @@ export async function generateMetadata({
   return constructMetadata({
     title: `${seoTitle || title} – Propdock`,
     description: seoDescription || summary,
-    image
+    image,
   });
 }
 
 export default async function BlogArticle({
-  params
+  params,
 }: {
   params: {
     slug: string;
   };
 }) {
-  const data = allBlogPosts.find(post => post.slug === params.slug);
+  const data = allBlogPosts.find((post) => post.slug === params.slug);
   if (!data) {
     notFound();
   }
@@ -55,17 +55,17 @@ export default async function BlogArticle({
     (data.images || []).map(async (src: string) => ({
       alt: src.split("/").pop()?.split(".")[0] || "Bloggbilde",
       src,
-      blurDataURL: await getBlurDataURL(src)
-    }))
+      blurDataURL: await getBlurDataURL(src),
+    })),
   );
 
   const category = BLOG_CATEGORIES.find(
-    category => category.slug === data.categories[0]
+    (category) => category.slug === data.categories[0],
   )!;
 
   const relatedArticles = (data.related || [])
-    .map(relatedSlug => {
-      const found = allBlogPosts.find(post => post.slug === relatedSlug);
+    .map((relatedSlug) => {
+      const found = allBlogPosts.find((post) => post.slug === relatedSlug);
       return found;
     })
     .filter((post): post is NonNullable<typeof post> => post !== undefined);
@@ -125,7 +125,7 @@ export default async function BlogArticle({
               <div className="flex flex-col space-y-4 py-5">
                 <p className="text-muted-foreground text-sm">Les mer</p>
                 <ul className="flex flex-col space-y-4">
-                  {relatedArticles.map(post => (
+                  {relatedArticles.map((post) => (
                     <li key={post.slug}>
                       <Link
                         href={`/blog/${post.slug}`}

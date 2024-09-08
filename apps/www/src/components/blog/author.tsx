@@ -6,7 +6,7 @@ import { timeAgo } from "@/lib/utils";
 export default async function Author({
   username,
   updatedAt,
-  imageOnly
+  imageOnly,
 }: {
   username: string;
   updatedAt?: string;
@@ -16,13 +16,13 @@ export default async function Author({
     codehagen: {
       name: "Christer Hagen",
       image:
-        "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/addc4b60-4c8f-47d7-10ab-6f9048432500/public"
+        "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/addc4b60-4c8f-47d7-10ab-6f9048432500/public",
     },
     vsoraas: {
       name: "Vegard Søraas",
       image:
-        "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/76037f97-384f-4681-176e-5b8a0ba71300/public"
-    }
+        "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/76037f97-384f-4681-176e-5b8a0ba71300/public",
+    },
   };
 
   if (!authors[username]) {

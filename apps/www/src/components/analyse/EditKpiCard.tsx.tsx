@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -16,7 +16,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Percent } from "lucide-react"; // Add this import
@@ -30,50 +30,50 @@ const FormSchema = z.object({
     .string()
     .nonempty("KPI 1 er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "KPI 1 må være et tall mellom 0 og 100."
-      }
+        message: "KPI 1 må være et tall mellom 0 og 100.",
+      },
     ),
   kpi2: z
     .string()
     .nonempty("KPI 2 er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "KPI 2 må være et tall mellom 0 og 100."
-      }
+        message: "KPI 2 må være et tall mellom 0 og 100.",
+      },
     ),
   kpi3: z
     .string()
     .nonempty("KPI 3 er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "KPI 3 må være et tall mellom 0 og 100."
-      }
+        message: "KPI 3 må være et tall mellom 0 og 100.",
+      },
     ),
   kpi4: z
     .string()
     .nonempty("KPI 4 er påkrevd.")
     .refine(
-      value =>
+      (value) =>
         !Number.isNaN(Number(value)) &&
         Number(value) >= 0 &&
         Number(value) <= 100,
       {
-        message: "KPI 4 må være et tall mellom 0 og 100."
-      }
-    )
+        message: "KPI 4 må være et tall mellom 0 og 100.",
+      },
+    ),
 });
 
 interface EditKpiCardProps {
@@ -89,7 +89,7 @@ export function EditKpiCard({
   initialKpi1,
   initialKpi2,
   initialKpi3,
-  initialKpi4
+  initialKpi4,
 }: EditKpiCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -99,8 +99,8 @@ export function EditKpiCard({
       kpi1: (initialKpi1 * 100).toString(),
       kpi2: (initialKpi2 * 100).toString(),
       kpi3: (initialKpi3 * 100).toString(),
-      kpi4: (initialKpi4 * 100).toString()
-    }
+      kpi4: (initialKpi4 * 100).toString(),
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -110,7 +110,7 @@ export function EditKpiCard({
         kpi1: Number(data.kpi1) / 100,
         kpi2: Number(data.kpi2) / 100,
         kpi3: Number(data.kpi3) / 100,
-        kpi4: Number(data.kpi4) / 100
+        kpi4: Number(data.kpi4) / 100,
       });
       if (result.success) {
         toast.success("Analysen ble oppdatert.");

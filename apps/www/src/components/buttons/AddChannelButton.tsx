@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -22,7 +22,7 @@ export function AddChannelButton() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -71,7 +71,7 @@ export function AddChannelButton() {
                 placeholder="Channel Name..."
                 className="col-span-3"
                 value={channelName}
-                onChange={e => setChannelName(e.target.value)}
+                onChange={(e) => setChannelName(e.target.value)}
                 required
                 disabled={isLoading}
               />

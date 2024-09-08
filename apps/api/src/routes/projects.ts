@@ -7,14 +7,14 @@ const projects = new Hono<{
   Bindings: Env;
 }>();
 
-projects.post("/", async c => {
+projects.post("/", async (c) => {
   const apiKey = c.req.header("x-api-key");
   if (!apiKey) {
     return c.json({ ok: false, message: "API key is required" }, 401);
   }
 
   const user = await prisma(c.env).user.findUnique({
-    where: { apiKey }
+    where: { apiKey },
   });
 
   if (!user) {
@@ -34,9 +34,9 @@ projects.post("/", async c => {
       {
         ok: false,
         message: "Invalid project data",
-        errors: ["'name' is required and should be a string"]
+        errors: ["'name' is required and should be a string"],
       },
-      400
+      400,
     );
   }
 
@@ -45,35 +45,35 @@ projects.post("/", async c => {
   const projectExists = await prisma(c.env).project.findFirst({
     where: {
       name,
-      userId: user.id
-    }
+      userId: user.id,
+    },
   });
 
   if (projectExists) {
     return c.json(
       { ok: false, message: "Project with this name already exists" },
-      409
+      409,
     );
   }
 
   const project = await prisma(c.env).project.create({
     data: {
       name,
-      userId: user.id
-    }
+      userId: user.id,
+    },
   });
 
   return c.json({ ok: true, message: "Project created", project });
 });
 
-projects.get("/", async c => {
+projects.get("/", async (c) => {
   const apiKey = c.req.header("x-api-key");
   if (!apiKey) {
     return c.json({ ok: false, message: "API key is required" }, 401);
   }
 
   const user = await prisma(c.env).user.findUnique({
-    where: { apiKey }
+    where: { apiKey },
   });
 
   if (!user) {
@@ -82,8 +82,8 @@ projects.get("/", async c => {
 
   const projects = await prisma(c.env).project.findMany({
     where: {
-      userId: user.id
-    }
+      userId: user.id,
+    },
   });
 
   if (!projects || projects.length === 0) {

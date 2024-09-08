@@ -18,7 +18,7 @@ export const SphereMask = ({ reverse = false }: { reverse?: boolean }) => {
         "before:absolute before:inset-0 before:h-full before:w-full before:opacity-40 before:[background-image:radial-gradient(circle_at_bottom_center,var(--color),transparent_70%)]",
 
         // after
-        "after:-left-1/2 after:absolute after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[50%] after:border-[hsl(var(--border))] after:border-t after:bg-background"
+        "after:-left-1/2 after:absolute after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[50%] after:border-[hsl(var(--border))] after:border-t after:bg-background",
       )}
     />
   );

@@ -11,7 +11,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -34,15 +34,15 @@ export function UserNameForm({ user }: UserNameFormProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userNameSchema),
     defaultValues: {
-      name: user.name || ""
-    }
+      name: user.name || "",
+    },
   });
 
-  const onSubmit = handleSubmit(data => {
+  const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
       const { status } = await updateUserNameWithId(data);
 

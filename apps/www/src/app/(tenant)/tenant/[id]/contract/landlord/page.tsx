@@ -11,7 +11,7 @@ import { ContractCheck } from "@/components/tenant/ContractCheck";
 import { LandlordDetailsForm } from "./_components/LandlordDetailsForm";
 
 export default async function LandlordContract({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

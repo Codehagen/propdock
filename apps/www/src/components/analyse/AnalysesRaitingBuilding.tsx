@@ -1,7 +1,7 @@
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage
+  AvatarImage,
 } from "@propdock/ui/components/avatar";
 import { Button } from "@propdock/ui/components/button";
 import {
@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Building, ExternalLink, Mail, Phone, User } from "lucide-react";
 
@@ -25,7 +25,7 @@ interface OwnerInfo {
 }
 
 export default function AnalysesRaitingBuilding({
-  analysisDetails
+  analysisDetails,
 }: {
   analysisDetails: { name: string };
 }) {
@@ -47,7 +47,7 @@ export default function AnalysesRaitingBuilding({
     orgNumber: "912345678",
     contactPerson: "Christer Hagen",
     email: "christer@propdock.no",
-    phone: "+47 123 45 678"
+    phone: "+47 123 45 678",
   };
 
   return (

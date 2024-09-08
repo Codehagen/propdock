@@ -11,7 +11,7 @@ import {
   Quote,
   Redo,
   Strikethrough,
-  Undo
+  Undo,
 } from "lucide-react";
 import React from "react";
 

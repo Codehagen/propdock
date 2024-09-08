@@ -2,14 +2,14 @@
 
 import {
   quickAddOfficeSpace,
-  quickDeleteOfficeSpace
+  quickDeleteOfficeSpace,
 } from "@/actions/create-quick-office-space";
 import { quickDeleteFloor } from "@/actions/update-floor-details";
 import { Button } from "@propdock/ui/components/button";
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger
+  CollapsibleTrigger,
 } from "@propdock/ui/components/collapsible";
 import {
   DropdownMenu,
@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import {
   Table,
@@ -26,20 +26,20 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@propdock/ui/components/tooltip";
 import {
   ChevronDown,
   MinusCircle,
   MoreHorizontal,
   PlusCircle,
-  Trash2
+  Trash2,
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -63,16 +63,16 @@ export default function FloorsTable({ floors }) {
     : params.buildingId;
   const currentPath = `/property/${propertyId}/building/${buildingId}`;
 
-  const handleQuickAdd = async floorId => {
+  const handleQuickAdd = async (floorId) => {
     try {
       const result = await quickAddOfficeSpace(
         floorId,
         {
           name: "Nytt Kontor",
           sizeKvm: 0,
-          isRented: false
+          isRented: false,
         },
-        currentPath
+        currentPath,
       );
 
       if (!result.success) {
@@ -86,7 +86,7 @@ export default function FloorsTable({ floors }) {
     }
   };
 
-  const handleQuickDelete = async officeId => {
+  const handleQuickDelete = async (officeId) => {
     try {
       const result = await quickDeleteOfficeSpace(officeId, currentPath);
 
@@ -101,7 +101,7 @@ export default function FloorsTable({ floors }) {
     }
   };
 
-  const handleDeleteFloor = async floorId => {
+  const handleDeleteFloor = async (floorId) => {
     try {
       const result = await quickDeleteFloor(floorId, currentPath);
 
@@ -116,17 +116,19 @@ export default function FloorsTable({ floors }) {
     }
   };
 
-  const calculateUnrentedCount = officeSpaces => {
-    return officeSpaces.filter(office => !office.isRented).length;
+  const calculateUnrentedCount = (officeSpaces) => {
+    return officeSpaces.filter((office) => !office.isRented).length;
   };
 
-  const calculateTotalOffices = officeSpaces => {
+  const calculateTotalOffices = (officeSpaces) => {
     return officeSpaces.length;
   };
 
-  const calculateOccupancyRate = officeSpaces => {
+  const calculateOccupancyRate = (officeSpaces) => {
     const totalOffices = officeSpaces.length;
-    const rentedOffices = officeSpaces.filter(office => office.isRented).length;
+    const rentedOffices = officeSpaces.filter(
+      (office) => office.isRented,
+    ).length;
     return totalOffices === 0
       ? "N/A"
       : `${((rentedOffices / totalOffices) * 100).toFixed(2)}%`;
@@ -148,7 +150,7 @@ export default function FloorsTable({ floors }) {
           </TableHeader>
           <TableBody>
             {floors
-              ? floors.map(floor => (
+              ? floors.map((floor) => (
                   <Collapsible key={floor.id} asChild>
                     <>
                       <TableRow>
@@ -258,7 +260,7 @@ export default function FloorsTable({ floors }) {
                                 <TableBody>
                                   {floor.officeSpaces &&
                                   floor.officeSpaces.length > 0 ? (
-                                    floor.officeSpaces.map(office => (
+                                    floor.officeSpaces.map((office) => (
                                       <TableRow key={office.id}>
                                         <TableCell>{office.name}</TableCell>
                                         <TableCell>
@@ -271,7 +273,7 @@ export default function FloorsTable({ floors }) {
                                           {office.tenants &&
                                           office.tenants.length > 0
                                             ? office.tenants
-                                                .map(tenant => tenant.name)
+                                                .map((tenant) => tenant.name)
                                                 .join(", ")
                                             : "Ingen"}
                                         </TableCell>
@@ -279,10 +281,10 @@ export default function FloorsTable({ floors }) {
                                           {office.tenants &&
                                           office.tenants.length > 0
                                             ? office.tenants
-                                                .flatMap(tenant =>
+                                                .flatMap((tenant) =>
                                                   tenant.contacts.map(
-                                                    contact => contact.name
-                                                  )
+                                                    (contact) => contact.name,
+                                                  ),
                                                 )
                                                 .join(", ")
                                             : "Ingen kontaktperson"}
@@ -322,7 +324,7 @@ export default function FloorsTable({ floors }) {
                                               <DropdownMenuItem
                                                 onClick={() =>
                                                   navigator.clipboard.writeText(
-                                                    office.name
+                                                    office.name,
                                                   )
                                                 }
                                               >

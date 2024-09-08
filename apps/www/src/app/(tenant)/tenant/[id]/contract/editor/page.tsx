@@ -10,7 +10,7 @@ import { generateContractContent } from "@/components/editor/contractTemplate";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function TenantEditPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

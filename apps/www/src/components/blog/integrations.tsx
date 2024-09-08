@@ -11,7 +11,7 @@ import ExpandingArrow from "./icons/expanding-arrow";
 export const Integration = ({
   slug,
   site,
-  description
+  description,
 }: {
   slug: string;
   site?: string;

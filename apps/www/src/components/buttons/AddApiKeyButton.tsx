@@ -9,14 +9,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@propdock/ui/components/tooltip";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -35,7 +35,7 @@ export function AddApiKeyButton() {
     return () => clearTimeout(timer);
   }, [hasCopied]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -56,7 +56,7 @@ export function AddApiKeyButton() {
     }
   };
 
-  const handleCopy = async e => {
+  const handleCopy = async (e) => {
     e.preventDefault();
     try {
       await navigator.clipboard.writeText(apiKey);
@@ -92,7 +92,7 @@ export function AddApiKeyButton() {
                   type="text"
                   placeholder="Service Name"
                   value={serviceName}
-                  onChange={e => setServiceName(e.target.value)}
+                  onChange={(e) => setServiceName(e.target.value)}
                   required
                 />
               </div>
@@ -108,7 +108,7 @@ export function AddApiKeyButton() {
                   <Button
                     className="-translate-y-1/2 absolute top-1/2 right-8"
                     variant="ghost"
-                    onClick={e => {
+                    onClick={(e) => {
                       e.preventDefault();
                       setShowKey(!showKey);
                     }}
@@ -164,7 +164,7 @@ export function AddApiKeyButton() {
             <Button
               className="-translate-y-1/2 absolute top-1/2 right-8"
               variant="ghost"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setShowKey(!showKey);
               }}

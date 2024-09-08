@@ -10,7 +10,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -20,7 +20,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,7 +31,7 @@ import { z } from "zod";
 const OfficeSpaceSchema = z.object({
   name: z.string().min(1, "Office space name is required"),
   sizeKvm: z.number().min(1, "Size in KVM is required"),
-  isRented: z.boolean()
+  isRented: z.boolean(),
 });
 
 export function AddOfficeSpaceSheet({ floorId }) {
@@ -41,18 +41,18 @@ export function AddOfficeSpaceSheet({ floorId }) {
     defaultValues: {
       name: "",
       sizeKvm: "",
-      isRented: false
-    }
+      isRented: false,
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
       // Convert sizeKvm to a number
       const formData = {
         ...data,
-        sizeKvm: Number(data.sizeKvm)
+        sizeKvm: Number(data.sizeKvm),
       };
 
       const result = await createOfficeSpace(floorId, formData);
@@ -110,7 +110,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
                       type="number"
                       placeholder="Hvor mange kvm er kontoret..."
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />

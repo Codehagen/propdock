@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -18,20 +18,20 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { Switch } from "@propdock/ui/components/switch";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -45,15 +45,15 @@ import { cn } from "@/lib/utils";
 
 // Define validation schema
 const TimeSchema = z.object({
-  startDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
-    message: "Start Date is required"
+  startDate: z.string().refine((val) => !Number.isNaN(Date.parse(val)), {
+    message: "Start Date is required",
   }),
-  endDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
-    message: "End Date is required"
+  endDate: z.string().refine((val) => !Number.isNaN(Date.parse(val)), {
+    message: "End Date is required",
   }),
   isRenewable: z.boolean().optional(),
   renewablePeriod: z.string().optional().nullable(),
-  isContinuousRent: z.boolean()
+  isContinuousRent: z.boolean(),
 });
 
 export function TimeDetailsForm({ tenantDetails }) {
@@ -75,11 +75,11 @@ export function TimeDetailsForm({ tenantDetails }) {
       renewablePeriod: tenantDetails.contracts[0]?.renewablePeriod
         ? tenantDetails.contracts[0]?.renewablePeriod.toString()
         : "",
-      isContinuousRent: tenantDetails.contracts[0]?.isContinuousRent || false
-    }
+      isContinuousRent: tenantDetails.contracts[0]?.isContinuousRent || false,
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {
@@ -93,12 +93,12 @@ export function TimeDetailsForm({ tenantDetails }) {
         endDate,
         isRenewable: data.isRenewable,
         renewablePeriod,
-        isContinuousRent: data.isContinuousRent
+        isContinuousRent: data.isContinuousRent,
       });
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere tidsinformasjonen."
+          result.error || "Kunne ikke oppdatere tidsinformasjonen.",
         );
       }
 
@@ -136,7 +136,7 @@ export function TimeDetailsForm({ tenantDetails }) {
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value ? (
@@ -154,9 +154,9 @@ export function TimeDetailsForm({ tenantDetails }) {
                           selected={
                             field.value ? parseISO(field.value) : undefined
                           }
-                          onSelect={date =>
+                          onSelect={(date) =>
                             field.onChange(
-                              date ? date.toISOString().split("T")[0] : ""
+                              date ? date.toISOString().split("T")[0] : "",
                             )
                           }
                           initialFocus
@@ -180,7 +180,7 @@ export function TimeDetailsForm({ tenantDetails }) {
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value ? (
@@ -198,9 +198,9 @@ export function TimeDetailsForm({ tenantDetails }) {
                           selected={
                             field.value ? parseISO(field.value) : undefined
                           }
-                          onSelect={date =>
+                          onSelect={(date) =>
                             field.onChange(
-                              date ? date.toISOString().split("T")[0] : ""
+                              date ? date.toISOString().split("T")[0] : "",
                             )
                           }
                           initialFocus

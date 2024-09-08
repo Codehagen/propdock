@@ -4,7 +4,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import type { Editor } from "@tiptap/react";
 import * as React from "react";

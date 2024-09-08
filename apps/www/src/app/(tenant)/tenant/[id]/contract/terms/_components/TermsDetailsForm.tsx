@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -25,7 +25,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { Switch } from "@propdock/ui/components/switch";
 import { addYears, format, parseISO } from "date-fns";
@@ -38,22 +38,22 @@ import { z } from "zod";
 const TermsSchema = z.object({
   baseRent: z
     .string()
-    .refine(val => !Number.isNaN(Number.parseFloat(val.replace(/\s/g, ""))), {
-      message: "Base Rent must be a positive number"
+    .refine((val) => !Number.isNaN(Number.parseFloat(val.replace(/\s/g, ""))), {
+      message: "Base Rent must be a positive number",
     })
-    .transform(val => Number.parseFloat(val.replace(/\s/g, ""))),
+    .transform((val) => Number.parseFloat(val.replace(/\s/g, ""))),
   isMonthly: z.boolean().default(false).optional(),
   isRenewable: z.boolean().default(false).optional(),
-  renewablePeriod: z.string().optional().nullable()
+  renewablePeriod: z.string().optional().nullable(),
 });
 
 export function TermsDetailsForm({ tenantDetails }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isMonthly, setIsMonthly] = useState(
-    tenantDetails.contracts[0]?.isMonthly || false
+    tenantDetails.contracts[0]?.isMonthly || false,
   );
   const [isRenewable, setIsRenewable] = useState(
-    tenantDetails.contracts[0]?.isRenewable || false
+    tenantDetails.contracts[0]?.isRenewable || false,
   );
 
   const form = useForm({
@@ -68,21 +68,21 @@ export function TermsDetailsForm({ tenantDetails }) {
       isRenewable: tenantDetails.contracts[0]?.isRenewable || false,
       renewablePeriod: tenantDetails.contracts[0]?.renewablePeriod
         ? tenantDetails.contracts[0]?.renewablePeriod.toString()
-        : ""
-    }
+        : "",
+    },
   });
 
-  const formatBaseRent = value => {
+  const formatBaseRent = (value) => {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
-  const handleBaseRentChange = e => {
+  const handleBaseRentChange = (e) => {
     const { value } = e.target;
     const formattedValue = formatBaseRent(value.replace(/\s/g, ""));
     form.setValue("baseRent", formattedValue);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     const baseRent = isMonthly
@@ -94,13 +94,13 @@ export function TermsDetailsForm({ tenantDetails }) {
       isRenewable: data.isRenewable,
       renewablePeriod: isRenewable
         ? addYears(new Date(), Number.parseInt(data.renewablePeriod))
-        : null
+        : null,
     };
 
     try {
       const result = await updateContract(
         tenantDetails.contracts[0].id,
-        parsedData
+        parsedData,
       );
 
       if (!result.success) {
@@ -162,7 +162,7 @@ export function TermsDetailsForm({ tenantDetails }) {
                   <FormControl>
                     <Switch
                       checked={field.value}
-                      onCheckedChange={value => {
+                      onCheckedChange={(value) => {
                         field.onChange(value);
                         setIsMonthly(value);
                       }}

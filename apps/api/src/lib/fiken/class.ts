@@ -7,7 +7,7 @@ export default class Fiken {
 
   constructor(env: Env, workspaceId: string) {
     this.fetch = new IntegrationSuperfetch(FI_ROOT, () =>
-      getRequestHeaders(env, workspaceId)
+      getRequestHeaders(env, workspaceId),
     );
   }
 

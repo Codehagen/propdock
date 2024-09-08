@@ -3,7 +3,7 @@ export default async function fetchProperties(params: string) {
     return;
   }
   const response = await fetch(
-    `https://ws.geonorge.no/adresser/v1/sok?sok=${params}&treffPerSide=50&side=0`
+    `https://ws.geonorge.no/adresser/v1/sok?sok=${params}&treffPerSide=50&side=0`,
   );
   const data = await response.json();
 

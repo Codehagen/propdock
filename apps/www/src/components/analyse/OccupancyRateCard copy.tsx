@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { ChartContainer } from "@propdock/ui/components/chart";
 import { Bar, BarChart, Rectangle, XAxis } from "recharts";
@@ -30,8 +30,8 @@ export function OccupancyRateCard() {
           config={{
             occupancy: {
               label: "Occupancy",
-              color: "hsl(var(--chart-3))"
-            }
+              color: "hsl(var(--chart-3))",
+            },
           }}
           className="ml-auto w-[64px]"
         >
@@ -44,7 +44,7 @@ export function OccupancyRateCard() {
               { month: "Apr", occupancy: 95 },
               { month: "May", occupancy: 96 },
               { month: "Jun", occupancy: 94 },
-              { month: "Jul", occupancy: 95 }
+              { month: "Jul", occupancy: 95 },
             ]}
           >
             <Bar

@@ -5,12 +5,12 @@ import { ogImageSchema } from "@/lib/validations/og";
 export const runtime = "edge";
 
 const interRegular = fetch(
-  new URL("../../../assets/fonts/Inter-Regular.ttf", import.meta.url)
-).then(res => res.arrayBuffer());
+  new URL("../../../assets/fonts/Inter-Regular.ttf", import.meta.url),
+).then((res) => res.arrayBuffer());
 
 const interBold = fetch(
-  new URL("../../../assets/fonts/CalSans-SemiBold.ttf", import.meta.url)
-).then(res => res.arrayBuffer());
+  new URL("../../../assets/fonts/CalSans-SemiBold.ttf", import.meta.url),
+).then((res) => res.arrayBuffer());
 
 export async function GET(req: Request) {
   try {
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
           background:
             mode === "dark"
               ? "linear-gradient(90deg, #000 0%, #111 100%)"
-              : "white"
+              : "white",
         }}
       >
         <div
@@ -50,7 +50,7 @@ export async function GET(req: Request) {
             position: "relative",
             background: "linear-gradient(90deg, #6366f1, #a855f7 80%)",
             backgroundClip: "text",
-            color: "transparent"
+            color: "transparent",
           }}
         >
           Propwrite
@@ -71,7 +71,7 @@ export async function GET(req: Request) {
               fontFamily: "Cal Sans",
               fontWeight: "bold",
               marginLeft: "-3px",
-              fontSize
+              fontSize,
             }}
           >
             {heading}
@@ -122,20 +122,20 @@ export async function GET(req: Request) {
             name: "Inter",
             data: fontRegular,
             weight: 400,
-            style: "normal"
+            style: "normal",
           },
           {
             name: "Cal Sans",
             data: fontBold,
             weight: 700,
-            style: "normal"
-          }
-        ]
-      }
+            style: "normal",
+          },
+        ],
+      },
     );
   } catch (error) {
     return new Response("Failed to generate image", {
-      status: 500
+      status: 500,
     });
   }
 }

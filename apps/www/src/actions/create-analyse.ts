@@ -17,7 +17,7 @@ export async function createAnalysis(analysisData: { name: string }) {
   try {
     const workspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!workspace) {
@@ -28,7 +28,7 @@ export async function createAnalysis(analysisData: { name: string }) {
       data: {
         name: analysisData.name,
         workspace: {
-          connect: { id: workspace.id }
+          connect: { id: workspace.id },
         },
         rentableArea: 1000,
         ratioAreaOffice: 0.5,
@@ -73,19 +73,19 @@ export async function createAnalysis(analysisData: { name: string }) {
             costLegalFees: 1000,
             costConsultFees: 1500,
             costAssetMgmt: 2500,
-            costSum: 45000
-          }
+            costSum: 45000,
+          },
         },
         incomeUnits: {
           create: [
             {
               typeDescription: "Office Space",
               areaPerUnit: 125,
-              valuePerUnit: 62500
-            }
-          ]
-        }
-      }
+              valuePerUnit: 62500,
+            },
+          ],
+        },
+      },
     });
 
     console.log(`Created analysis with ID: ${newAnalysis.id}.`);

@@ -12,15 +12,15 @@ export async function getBuildingDetails(buildingId: string) {
               include: {
                 tenants: {
                   include: {
-                    contacts: true
-                  }
-                }
-              }
-            }
-          }
-        }
+                    contacts: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         // Add other related models if needed, e.g., tenants, contracts, etc.
-      }
+      },
     });
 
     if (!building) {

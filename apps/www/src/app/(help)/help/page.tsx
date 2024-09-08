@@ -7,7 +7,7 @@ import { HELP_CATEGORIES, getPopularArticles } from "@/lib/blog/content";
 
 export const metadata = constructMetadata({
   title: "Hjelpesenter – Propdock",
-  description: "Et samlet sted for alle dine Propdock-relaterte spørsmål."
+  description: "Et samlet sted for alle dine Propdock-relaterte spørsmål.",
 });
 
 export default function HelpCenter() {
@@ -31,7 +31,7 @@ export default function HelpCenter() {
               Populære Artikler
             </h2>
             <div className="mt-4 grid gap-2 md:grid-cols-2">
-              {popularArticles.map(article => (
+              {popularArticles.map((article) => (
                 <HelpArticleLink
                   key={article.slug || article.title}
                   article={article}
@@ -40,7 +40,7 @@ export default function HelpCenter() {
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {HELP_CATEGORIES.map(category => (
+            {HELP_CATEGORIES.map((category) => (
               <CategoryCard
                 key={category.slug}
                 href={`/help/category/${category.slug}`}
@@ -51,8 +51,8 @@ export default function HelpCenter() {
                   y: 16,
                   squares: [
                     [0, 1],
-                    [1, 3]
-                  ]
+                    [1, 3],
+                  ],
                 }}
               />
             ))}

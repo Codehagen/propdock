@@ -4,7 +4,7 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuTrigger
+  ContextMenuTrigger,
 } from "@propdock/ui/components/context-menu";
 import { Input } from "@propdock/ui/components/input";
 import type React from "react";
@@ -16,7 +16,7 @@ import {
   File,
   Folder,
   Tree,
-  type TreeViewElement
+  type TreeViewElement,
 } from "./tree-view-api";
 
 const TOC = () => {
@@ -41,7 +41,7 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
 
   const handleRename = (id: string) => {
     setIsRenaming(id);
-    setNewName(elements.find(e => e.id === id)?.name || "");
+    setNewName(elements.find((e) => e.id === id)?.name || "");
   };
 
   const submitRename = (id: string) => {
@@ -51,7 +51,7 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
 
   return (
     <>
-      {elements.map(element => (
+      {elements.map((element) => (
         <ContextMenu key={element.id}>
           <ContextMenuTrigger>
             {element.children && element.children.length > 0 ? (
@@ -63,9 +63,9 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
                 {isRenaming === element.id ? (
                   <Input
                     value={newName}
-                    onChange={e => setNewName(e.target.value)}
+                    onChange={(e) => setNewName(e.target.value)}
                     onBlur={() => submitRename(element.id)}
-                    onKeyDown={e =>
+                    onKeyDown={(e) =>
                       e.key === "Enter" && submitRename(element.id)
                     }
                     className="h-6 px-1 py-0"

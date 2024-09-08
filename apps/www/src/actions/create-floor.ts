@@ -13,7 +13,7 @@ export async function createFloor(
     maxTotalKvm: number;
     maxOfficeKvm: number;
     maxCommonKvm: number;
-  }
+  },
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -30,12 +30,12 @@ export async function createFloor(
         maxTotalKvm: data.maxTotalKvm,
         maxOfficeKvm: data.maxOfficeKvm,
         maxCommonKvm: data.maxCommonKvm,
-        buildingId: buildingId
-      }
+        buildingId: buildingId,
+      },
     });
 
     console.log(
-      `Created floor with ID: ${newFloor.id} for building ID: ${buildingId}.`
+      `Created floor with ID: ${newFloor.id} for building ID: ${buildingId}.`,
     );
     revalidatePath(`/property/[id]/building/${buildingId}`); // Updates the cache for the building page
 

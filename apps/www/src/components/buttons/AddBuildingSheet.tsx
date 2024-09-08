@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -27,7 +27,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,7 +42,7 @@ const BuildingSchema = z.object({
   gnr: z.coerce.string(),
   bnr: z.coerce.string(),
   snr: z.coerce.string(),
-  fnr: z.coerce.string()
+  fnr: z.coerce.string(),
 });
 
 export function AddBuildingSheet({ propertyId }) {
@@ -57,11 +57,11 @@ export function AddBuildingSheet({ propertyId }) {
       gnr: "",
       bnr: "",
       snr: "",
-      fnr: ""
-    }
+      fnr: "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     // Convert string inputs to numbers
@@ -70,7 +70,7 @@ export function AddBuildingSheet({ propertyId }) {
       gnr: data.gnr ? Number.parseInt(data.gnr, 10) : undefined,
       bnr: data.bnr ? Number.parseInt(data.bnr, 10) : undefined,
       snr: data.snr ? Number.parseInt(data.snr, 10) : undefined,
-      fnr: data.fnr ? Number.parseInt(data.fnr, 10) : undefined
+      fnr: data.fnr ? Number.parseInt(data.fnr, 10) : undefined,
     };
 
     try {
@@ -132,7 +132,7 @@ export function AddBuildingSheet({ propertyId }) {
 
   // Close the dropdown if user clicks outside
   useEffect(() => {
-    const handleClickOutside = event => {
+    const handleClickOutside = (event) => {
       if (ulRef.current && !ulRef.current.contains(event.target)) {
         setOpenSearch(false);
       }
@@ -183,14 +183,14 @@ export function AddBuildingSheet({ propertyId }) {
                         autoComplete="off"
                         className="searcher"
                         // Close search if user presses "Esc"
-                        onKeyDown={event => {
+                        onKeyDown={(event) => {
                           if (event.key === "Escape") {
                             event.preventDefault();
                             event.stopPropagation();
                             setOpenSearch(false);
                           }
                         }}
-                        onKeyUp={e => {
+                        onKeyUp={(e) => {
                           if (e.key === "Escape") {
                             return;
                           }
@@ -208,10 +208,10 @@ export function AddBuildingSheet({ propertyId }) {
                         onAbort={() => setOpenSearch(false)}
                       >
                         {address
-                          ? address.map(adr => {
+                          ? address.map((adr) => {
                               return (
                                 <li
-                                  onKeyDown={event => {
+                                  onKeyDown={(event) => {
                                     // Close search if user presses "Esc"
                                     if (event.key === "Escape") {
                                       event.preventDefault();

@@ -11,18 +11,18 @@ import { constructMetadata } from "@/lib/blog/constructMetadata";
 import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content";
 
 export async function generateStaticParams() {
-  return HELP_CATEGORIES.map(category => ({
-    slug: category.slug
+  return HELP_CATEGORIES.map((category) => ({
+    slug: category.slug,
   }));
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   const category = HELP_CATEGORIES.find(
-    category => category.slug === params.slug
+    (category) => category.slug === params.slug,
   );
   if (!category) {
     return;
@@ -34,24 +34,26 @@ export async function generateMetadata({
     title: `${title} – Propdock Hjelpesenter`,
     description,
     image: `/api/og/help?title=${encodeURIComponent(
-      title
-    )}&summary=${encodeURIComponent(description)}`
+      title,
+    )}&summary=${encodeURIComponent(description)}`,
   });
 }
 
 export default function HelpCategory({
-  params
+  params,
 }: {
   params: {
     slug: string;
   };
 }) {
-  const data = HELP_CATEGORIES.find(category => category.slug === params.slug);
+  const data = HELP_CATEGORIES.find(
+    (category) => category.slug === params.slug,
+  );
   if (!data) {
     notFound();
   }
   const articles = allHelpPosts
-    .filter(post => post.categories.includes(data.slug))
+    .filter((post) => post.categories.includes(data.slug))
     // order by POPULAR_ARTICLES
     .reduce(
       (acc, curr) => {
@@ -62,7 +64,7 @@ export default function HelpCategory({
         }
         return acc;
       },
-      [] as typeof allHelpPosts
+      [] as typeof allHelpPosts,
     );
 
   return (
@@ -97,7 +99,7 @@ export default function HelpCategory({
             <p className="text-muted-foreground">{data.description}</p>
           </div>
           <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
-            {articles.map(article => (
+            {articles.map((article) => (
               <HelpArticleLink key={article.slug} article={article} />
             ))}
           </div>

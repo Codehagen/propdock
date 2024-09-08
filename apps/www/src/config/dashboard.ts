@@ -4,51 +4,51 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
       title: "Dashboard",
-      href: "/dashboard"
+      href: "/dashboard",
     },
     {
       title: "Eiendommer",
-      href: "/property"
+      href: "/property",
       // disabled: true,
     },
     {
       title: "Leietakere",
-      href: "/tenant"
+      href: "/tenant",
     },
     {
       title: "Analyser",
-      href: "/analytics"
+      href: "/analytics",
     },
     {
       title: "Innstillinger",
-      href: "/settings"
-    }
+      href: "/settings",
+    },
   ],
   sidebarNav: [
     {
       title: "Dashboard",
       href: "/dashboard",
-      icon: "home"
+      icon: "home",
     },
     {
       title: "Eiendommer",
       href: "/property",
-      icon: "building"
+      icon: "building",
     },
     {
       title: "Leietakere",
       href: "/tenant",
-      icon: "user"
+      icon: "user",
     },
     {
       title: "Analyser",
       href: "/dashboard/analytics",
-      icon: "piechart"
+      icon: "piechart",
     },
     {
       title: "Settings",
       href: "/dashboard/settings",
-      icon: "settings"
-    }
-  ]
+      icon: "settings",
+    },
+  ],
 };

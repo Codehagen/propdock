@@ -6,10 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": [
-      "./src/*.tsx",
-      "./src/*.ts"
-    ]
+    "./*": ["./src/*.tsx", "./src/*.ts"]
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",

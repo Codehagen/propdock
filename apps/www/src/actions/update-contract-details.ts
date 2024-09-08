@@ -9,7 +9,7 @@ import { getCurrentUser } from "@/lib/session";
 export async function updateContractDetails(
   contractId: string | null,
   data: any,
-  currentPath: string
+  currentPath: string,
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -24,13 +24,13 @@ export async function updateContractDetails(
       where: {
         users: {
           some: {
-            id: userId
-          }
-        }
+            id: userId,
+          },
+        },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     if (!userWorkspace) {
@@ -42,15 +42,15 @@ export async function updateContractDetails(
       where: { id: data.tenantId },
       include: {
         building: true,
-        property: true
-      }
+        property: true,
+      },
     });
 
     if (!tenant || !tenant.building || !tenant.property) {
       console.error("Tenant or associated building/property not found.");
       return {
         success: false,
-        error: "Tenant or associated building/property not found."
+        error: "Tenant or associated building/property not found.",
       };
     }
 
@@ -63,8 +63,8 @@ export async function updateContractDetails(
       indexValue: data.indexValue,
       currencyIso: data.currencyIso,
       currency:
-        currencies.find(c => c.code === data.currencyIso)?.name ||
-        data.currencyIso
+        currencies.find((c) => c.code === data.currencyIso)?.name ||
+        data.currencyIso,
     };
 
     let contract;
@@ -73,7 +73,7 @@ export async function updateContractDetails(
       // Update existing contract
       contract = await prisma.contract.update({
         where: { id: contractId },
-        data: contractData
+        data: contractData,
       });
     } else {
       // Create new contract
@@ -83,8 +83,8 @@ export async function updateContractDetails(
           tenantId: data.tenantId,
           buildingId: tenant.building.id,
           workspaceId: userWorkspace.id,
-          propertyId: tenant.property.id
-        }
+          propertyId: tenant.property.id,
+        },
       });
     }
 

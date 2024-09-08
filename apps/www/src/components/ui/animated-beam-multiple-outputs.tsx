@@ -17,7 +17,7 @@ const Circle = forwardRef<
       ref={ref}
       className={cn(
         "z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
-        className
+        className,
       )}
     >
       {children}
@@ -26,7 +26,7 @@ const Circle = forwardRef<
 });
 
 export function AnimatedBeamMultipleOutputDemo({
-  className
+  className,
 }: {
   className?: string;
 }) {
@@ -43,7 +43,7 @@ export function AnimatedBeamMultipleOutputDemo({
     <div
       className={cn(
         "relative flex w-full max-w-[500px] items-center justify-center overflow-hidden rounded-lg border bg-background p-10 md:shadow-xl",
-        className
+        className,
       )}
       ref={containerRef}
     >
@@ -476,5 +476,5 @@ const Icons = {
         fill="#000"
       />
     </svg>
-  )
+  ),
 };

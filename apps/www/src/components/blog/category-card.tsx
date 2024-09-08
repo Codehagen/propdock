@@ -99,7 +99,7 @@ export default function CategoryCard({
   name,
   description,
   icon,
-  pattern
+  pattern,
 }: {
   href: string;
   name: string;

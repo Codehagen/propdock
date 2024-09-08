@@ -6,7 +6,7 @@ import {
   FormControl,
   FormDescription,
   FormField,
-  FormLabel
+  FormLabel,
 } from "@propdock/ui/components//form";
 import { Switch } from "@propdock/ui/components//switch";
 import {
@@ -14,7 +14,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,10 +33,10 @@ export function SelectInputForm({ options, image }) {
   }, {});
 
   const form = useForm({
-    resolver: zodResolver(z.object(dynamicSchema))
+    resolver: zodResolver(z.object(dynamicSchema)),
   });
 
-  const handleSwitchChange = async option => {
+  const handleSwitchChange = async (option) => {
     setActiveSwitch(option.label);
 
     // Get the content of the selected option
@@ -54,7 +54,7 @@ export function SelectInputForm({ options, image }) {
     }
   };
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(data);
   };
 
@@ -79,16 +79,16 @@ export function SelectInputForm({ options, image }) {
                 {
                   (image.selectedOption = image.selectedOption.replace(
                     /^\d+\.\s*/,
-                    ""
+                    "",
                   ))
                 }
               </CardContent>
             </Card>
           </div>
         ) : null}
-        {options.every(option => !option.selectedOption) && (
+        {options.every((option) => !option.selectedOption) && (
           <>
-            {options.map(option => (
+            {options.map((option) => (
               <FormField
                 key={option.key}
                 control={form.control}

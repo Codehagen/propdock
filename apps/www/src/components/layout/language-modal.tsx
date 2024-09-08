@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { toast } from "@propdock/ui/components/use-toast";
 import { useState } from "react";

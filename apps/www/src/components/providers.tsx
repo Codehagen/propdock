@@ -10,7 +10,7 @@ import {
   type SetStateAction,
   createContext,
   useContext,
-  useState
+  useState,
 } from "react";
 import { Provider as BalancerProvider } from "react-wrap-balancer";
 
@@ -20,7 +20,7 @@ import useCMDK from "./blog/cmdk";
 export const AppContext = createContext<{
   setShowCMDK: Dispatch<SetStateAction<boolean>>;
 }>({
-  setShowCMDK: () => {}
+  setShowCMDK: () => {},
 });
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
@@ -31,7 +31,7 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
       <SessionProvider>
         <AppContext.Provider
           value={{
-            setShowCMDK
+            setShowCMDK,
           }}
         >
           <CMDK />

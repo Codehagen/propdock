@@ -10,7 +10,7 @@ interface MarketingLayoutProps {
 }
 
 export default async function MarketingLayout({
-  children
+  children,
 }: MarketingLayoutProps) {
   const user = await getCurrentUser();
 

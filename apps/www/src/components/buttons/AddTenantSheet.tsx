@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -19,7 +19,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import {
   Sheet,
@@ -28,7 +28,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -43,7 +43,7 @@ const TenantSchema = z.object({
     .regex(/^\d{9}$/, "Organisasjonsnummer må være 9 siffer"),
   numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
-  buildingId: z.string().optional()
+  buildingId: z.string().optional(),
 });
 
 interface Property {
@@ -69,8 +69,8 @@ export function AddTenantSheet() {
       orgnr: "",
       numEmployees: 1,
       propertyId: "",
-      buildingId: ""
-    }
+      buildingId: "",
+    },
   });
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export function AddTenantSheet() {
       const tenantData = {
         ...data,
         orgnr: Number.parseInt(data.orgnr, 10),
-        numEmployees: Number(data.numEmployees)
+        numEmployees: Number(data.numEmployees),
       };
 
       const result = await createTenant(tenantData);
@@ -177,7 +177,7 @@ export function AddTenantSheet() {
                       type="number"
                       placeholder="Antall ansatte..."
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -191,7 +191,7 @@ export function AddTenantSheet() {
                 <FormItem>
                   <FormLabel>Eiendom</FormLabel>
                   <Select
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                       field.onChange(value);
                       onPropertyChange(value);
                     }}
@@ -203,7 +203,7 @@ export function AddTenantSheet() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {properties.map(property => (
+                      {properties.map((property) => (
                         <SelectItem
                           key={property.id}
                           value={property.id.toString()}
@@ -224,7 +224,7 @@ export function AddTenantSheet() {
                 <FormItem>
                   <FormLabel>Bygning</FormLabel>
                   <Select
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                       field.onChange(value);
                     }}
                     value={field.value}
@@ -236,7 +236,7 @@ export function AddTenantSheet() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {buildings.map(building => (
+                      {buildings.map((building) => (
                         <SelectItem
                           key={building.id}
                           value={building.id.toString()}

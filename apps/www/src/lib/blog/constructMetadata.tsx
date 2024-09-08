@@ -5,7 +5,7 @@ export function constructMetadata({
   description = "Propdock er en innovativ løsning for eiendomsadministrasjon som kombinerer kraftig analyse, utleieadministrasjon og brukervennlig grensesnitt",
   image = "https://propdock.no/_static/thumbnail.png",
   icons = "/favicon.ico",
-  noIndex = false
+  noIndex = false,
 }: {
   title?: string;
   description?: string;
@@ -21,25 +21,25 @@ export function constructMetadata({
       description,
       images: [
         {
-          url: image
-        }
-      ]
+          url: image,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: "@propdock"
+      creator: "@propdock",
     },
     icons,
     metadataBase: new URL(HOME_DOMAIN),
     ...(noIndex && {
       robots: {
         index: false,
-        follow: false
-      }
-    })
+        follow: false,
+      },
+    }),
   };
 }
 
@@ -55,7 +55,7 @@ export const APP_HOSTNAMES = new Set([
   "preview.propdock.no",
   "localhost:8888",
   "localhost:3000",
-  "localhost"
+  "localhost",
 ]);
 
 export const truncate = (str: string | null, length: number) => {

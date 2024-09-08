@@ -15,7 +15,7 @@ export async function updateTenant(
     floorId?: string | null;
     officeSpaceId?: string | null;
     propertyId: string;
-  }
+  },
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -29,7 +29,7 @@ export async function updateTenant(
     // Check if the tenant exists
     const tenant = await prisma.tenant.findUnique({
       where: { id: tenantId },
-      include: { property: true }
+      include: { property: true },
     });
 
     if (!tenant) {
@@ -39,12 +39,12 @@ export async function updateTenant(
     // Check if the user has permission to update this tenant
     const userWorkspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      include: { properties: true }
+      include: { properties: true },
     });
 
     if (
       !userWorkspace ||
-      !userWorkspace.properties.some(p => p.id === tenant.propertyId)
+      !userWorkspace.properties.some((p) => p.id === tenant.propertyId)
     ) {
       throw new Error("You don't have permission to update this tenant");
     }
@@ -59,8 +59,8 @@ export async function updateTenant(
         buildingId: tenantData.buildingId,
         floorId: tenantData.floorId,
         officeSpaceId: tenantData.officeSpaceId,
-        propertyId: tenantData.propertyId
-      }
+        propertyId: tenantData.propertyId,
+      },
     });
 
     console.log(`Updated tenant with ID: ${tenantId}`);

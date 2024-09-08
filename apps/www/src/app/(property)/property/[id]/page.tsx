@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function PropertyPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -67,7 +67,7 @@ export default async function PropertyPage({
             </EmptyPlaceholder>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {propertyDetails.buildings.map(building => (
+              {propertyDetails.buildings.map((building) => (
                 <Card key={building.id} className="overflow-hidden">
                   <CardHeader className="flex flex-row items-start bg-muted/50">
                     <div className="grid gap-0.5">

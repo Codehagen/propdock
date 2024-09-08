@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import {
   Form,
@@ -18,7 +18,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { useState } from "react";
@@ -33,7 +33,7 @@ const BuildingSchema = z.object({
   gnr: z.number().optional(),
   bnr: z.number().optional(),
   snr: z.number().optional(),
-  fnr: z.number().optional()
+  fnr: z.number().optional(),
 });
 
 export function AddBuildingButton({ propertyId }) {
@@ -46,11 +46,11 @@ export function AddBuildingButton({ propertyId }) {
       gnr: undefined,
       bnr: undefined,
       snr: undefined,
-      fnr: undefined
-    }
+      fnr: undefined,
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {

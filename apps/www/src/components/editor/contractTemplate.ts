@@ -84,158 +84,158 @@ export const generateContractContent = (tenantDetails: any) => {
 
   content = content.replace(
     "[UTLEIER_NAME]",
-    tenantDetails.contracts[0]?.landlordName || ""
+    tenantDetails.contracts[0]?.landlordName || "",
   );
   content = content.replace(
     "[UTLEIER_ORGNR]",
-    tenantDetails.contracts[0]?.landlordOrgnr?.toString() || ""
+    tenantDetails.contracts[0]?.landlordOrgnr?.toString() || "",
   );
 
   content = content.replace("[LEIETAKER_NAME]", tenantDetails.name || "");
   content = content.replace(
     "[LEIETAKER_ORGNR]",
-    tenantDetails.orgnr?.toString() || ""
+    tenantDetails.orgnr?.toString() || "",
   );
 
   content = content.replace(
     "[EIENDOMMEN_ADRESSE]",
-    tenantDetails.building?.address || ""
+    tenantDetails.building?.address || "",
   );
   content = content.replace(
     "[EIENDOMMEN_GNR]",
-    tenantDetails.building?.gnr?.toString() || ""
+    tenantDetails.building?.gnr?.toString() || "",
   );
   content = content.replace(
     "[EIENDOMMEN_BNR]",
-    tenantDetails.building?.bnr?.toString() || ""
+    tenantDetails.building?.bnr?.toString() || "",
   );
   content = content.replace(
     "[EIENDOMMEN_FNR]",
-    tenantDetails.building?.fnr?.toString() || ""
+    tenantDetails.building?.fnr?.toString() || "",
   );
   content = content.replace(
     "[EIENDOMMEN_SNR]",
-    tenantDetails.building?.snr?.toString() || ""
+    tenantDetails.building?.snr?.toString() || "",
   );
   content = content.replace(
     "[EIENDOMMEN_KOMMUNE]",
-    tenantDetails.building?.kommune || ""
+    tenantDetails.building?.kommune || "",
   ); // Replace with actual municipality
   content = content.replace(
     "[EIENDOMMEN_KOMMUNENUMMER]",
-    tenantDetails.building?.kommunenummer?.toString() || ""
+    tenantDetails.building?.kommunenummer?.toString() || "",
   ); // Replace with actual municipality number
 
   content = content.replace(
     "[LEIEOBJEKTET_KVM]",
-    tenantDetails.building?.kvm?.toString() || ""
+    tenantDetails.building?.kvm?.toString() || "",
   ); // Replace with actual size of the lease object
 
   content = content.replace(
     "[KONTRAKT_TYPE]",
-    tenantDetails.contracts[0]?.contractType || ""
+    tenantDetails.contracts[0]?.contractType || "",
   );
   content = content.replace(
     "[CONTACT_NAME]",
-    tenantDetails.contracts[0]?.contactName || ""
+    tenantDetails.contracts[0]?.contactName || "",
   );
   content = content.replace(
     "[CONTACT_EMAIL]",
-    tenantDetails.contracts[0]?.contactEmail || ""
+    tenantDetails.contracts[0]?.contactEmail || "",
   );
   content = content.replace(
     "[CONTACT_PHONE]",
-    tenantDetails.contracts[0]?.contactPhone || ""
+    tenantDetails.contracts[0]?.contactPhone || "",
   );
   content = content.replace(
     "[START_DATE]",
     tenantDetails.contracts[0]?.startDate
       ? new Date(tenantDetails.contracts[0].startDate).toLocaleDateString()
-      : ""
+      : "",
   );
   content = content.replace(
     "[END_DATE]",
     tenantDetails.contracts[0]?.endDate
       ? new Date(tenantDetails.contracts[0].endDate).toLocaleDateString()
-      : ""
+      : "",
   );
   content = content.replace(
     "[NEGOTIATION_DATE]",
     tenantDetails.contracts[0]?.negotiationDate
       ? new Date(
-          tenantDetails.contracts[0].negotiationDate
+          tenantDetails.contracts[0].negotiationDate,
         ).toLocaleDateString()
-      : ""
+      : "",
   );
   content = content.replace(
     "[IS_RENEWABLE]",
-    tenantDetails.contracts[0]?.isRenewable ? "Yes" : "No"
+    tenantDetails.contracts[0]?.isRenewable ? "Yes" : "No",
   );
   content = content.replace(
     "[RENEWABLE_PERIOD]",
-    tenantDetails.contracts[0]?.renewablePeriod?.toString() || ""
+    tenantDetails.contracts[0]?.renewablePeriod?.toString() || "",
   );
   content = content.replace(
     "[INDEXATION_TYPE]",
-    tenantDetails.contracts[0]?.indexationType || ""
+    tenantDetails.contracts[0]?.indexationType || "",
   );
   content = content.replace(
     "[INDEX_VALUE]",
-    tenantDetails.contracts[0]?.indexValue?.toString() || ""
+    tenantDetails.contracts[0]?.indexValue?.toString() || "",
   );
   content = content.replace(
     "[INDEXATION_DATE]",
     tenantDetails.contracts[0]?.indexationDate
       ? new Date(tenantDetails.contracts[0].indexationDate).toLocaleDateString()
-      : ""
+      : "",
   );
   content = content.replace(
     "[BASE_RENT]",
-    tenantDetails.contracts[0]?.baseRent?.toString() || ""
+    tenantDetails.contracts[0]?.baseRent?.toString() || "",
   );
   content = content.replace(
     "[RENT_PERIOD]",
-    tenantDetails.contracts[0]?.rentPeriod || ""
+    tenantDetails.contracts[0]?.rentPeriod || "",
   );
   content = content.replace(
     "[VAT_TERMS]",
-    tenantDetails.contracts[0]?.vatTerms || ""
+    tenantDetails.contracts[0]?.vatTerms || "",
   );
   content = content.replace(
     "[BUSINESS_CATEGORY]",
-    tenantDetails.contracts[0]?.businessCategory || ""
+    tenantDetails.contracts[0]?.businessCategory || "",
   );
   content = content.replace(
     "[COLLATERAL]",
-    tenantDetails.contracts[0]?.collateral || ""
+    tenantDetails.contracts[0]?.collateral || "",
   );
   content = content.replace(
     "[CREATED_AT]",
     tenantDetails.contracts[0]?.createdAt
       ? new Date(tenantDetails.contracts[0].createdAt).toLocaleDateString(
-          "no-NO"
+          "no-NO",
         )
-      : ""
+      : "",
   );
   content = content.replace(
     "[UPDATED_AT]",
     tenantDetails.contracts[0]?.updatedAt
       ? new Date(tenantDetails.contracts[0].updatedAt).toLocaleDateString(
-          "no-NO"
+          "no-NO",
         )
-      : ""
+      : "",
   );
 
   // Replace the lease period description based on isContinuousRent
   if (tenantDetails.contracts[0]?.isContinuousRent) {
     content = content.replace(
       "[LEIEPERIODE_BESKRIVELSE]",
-      "<p>5.1 Leieavtalen er løpende og gjelder inntil den sies opp av en av partene i henhold til husleielovens bestemmelser.</p>"
+      "<p>5.1 Leieavtalen er løpende og gjelder inntil den sies opp av en av partene i henhold til husleielovens bestemmelser.</p>",
     );
   } else {
     const startDate = tenantDetails.contracts[0]?.startDate
       ? new Date(tenantDetails.contracts[0].startDate).toLocaleDateString(
-          "no-NO"
+          "no-NO",
         )
       : "[...]";
     const endDate = tenantDetails.contracts[0]?.endDate
@@ -247,7 +247,7 @@ export const generateContractContent = (tenantDetails: any) => {
       `
 <p>5.1 Leieforholdet løper fra ${startDate} (Overtakelse) til ${endDate} (Leieperioden), hvoretter leieforholdet opphører uten oppsigelse. Leieforholdet kan ikke sies opp i Leieperioden.</p>
 <p>5.2 Fristen for å sende flyttingsoppfordring etter Leieperiodens utløp er seks måneder.</p>
-    `
+    `,
     );
   }
 

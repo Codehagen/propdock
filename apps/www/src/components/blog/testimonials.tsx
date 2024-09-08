@@ -7,7 +7,7 @@ import TestimonialsMobile from "./testimonials-mobile";
 const testimonials = [
   { id: 1, content: "Eksempel på tilbakemelding 1" },
   { id: 2, content: "Eksempel på tilbakemelding 2" },
-  { id: 3, content: "Eksempel på tilbakemelding 3" }
+  { id: 3, content: "Eksempel på tilbakemelding 3" },
   // ... legg til flere eksempler på tilbakemeldinger etter behov
 ];
 

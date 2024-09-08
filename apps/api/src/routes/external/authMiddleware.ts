@@ -11,7 +11,7 @@ const DEBUG: boolean = false; // NB! Change to false before committing.
 // Routes that should be exempt from auth entirely
 const AUTH_EXCEPT_ROUTES: string[][] = [
   ["/api/users", "POST"],
-  ["/api/external/esign/webhook", "*"]
+  ["/api/external/esign/webhook", "*"],
 ];
 
 // Routes that need auth but not a user
@@ -23,7 +23,7 @@ const AUTH_WITHOUT_WORKSPACE_ROUTES: string[][] = [];
 function isExceptedRoute(
   route_list: string[][],
   path: string,
-  method: string
+  method: string,
 ): boolean {
   return route_list.some(([routePath, routeMethod]) => {
     const pathMatch = routePath.endsWith("/")
@@ -38,13 +38,13 @@ export default async function authMiddleware(
     Bindings: Env;
     Variables: CustomContext;
   }>,
-  next: any
+  next: any,
 ) {
   // Skip all checks for the test endpoint
   if (c.req.path === "/api/external/test") {
     if (DEBUG) {
       console.debug(
-        "Middleware debug - inserting test variable into request context"
+        "Middleware debug - inserting test variable into request context",
       );
     }
     c.set("test", true);
@@ -84,7 +84,7 @@ export default async function authMiddleware(
   // User look-up
   const res = await prisma(c.env).userApiKey.findUnique({
     where: { secret: apiKey },
-    include: { user: true }
+    include: { user: true },
   });
 
   if (!res) {
@@ -97,7 +97,7 @@ export default async function authMiddleware(
       "Middleware debug - user:",
       user.id,
       user.email,
-      user.workspaceId
+      user.workspaceId,
     );
   }
 
@@ -122,9 +122,9 @@ export default async function authMiddleware(
       {
         ok: false,
         message:
-          "You must belong to a workspace in order to access this endpoint."
+          "You must belong to a workspace in order to access this endpoint.",
       },
-      400
+      400,
     );
   }
 

@@ -8,7 +8,7 @@ async function createBuilding(
   user: User,
   propertyId: string,
   buildingData: BuildingData,
-  env: Env
+  env: Env,
 ) {
   const db = prisma(env);
   try {
@@ -16,8 +16,8 @@ async function createBuilding(
       data: {
         workspaceId: user.workspaceId!,
         propertyId: propertyId,
-        ...buildingData
-      }
+        ...buildingData,
+      },
     });
     return building;
   } catch (error) {
@@ -42,7 +42,7 @@ async function getAllWorkspaceBuildings(user: User, env: Env) {
 async function getAllBuildingsByProperty(
   user: User,
   propertyId: string,
-  env: Env
+  env: Env,
 ) {
   const _prisma = prisma(env);
   const db = _prisma.$extends(workspaceExtension(user));
@@ -50,8 +50,8 @@ async function getAllBuildingsByProperty(
   try {
     const buildings = await db.building.findMany({
       where: {
-        propertyId: propertyId
-      }
+        propertyId: propertyId,
+      },
     });
     return buildings;
   } catch (error) {
@@ -63,7 +63,7 @@ async function getAllBuildingsByProperty(
 async function getWorkspaceBuildingById(
   user: User,
   buildingId: string,
-  env: Env
+  env: Env,
 ) {
   const _prisma = prisma(env);
   const db = _prisma.$extends(workspaceExtension(user));
@@ -71,8 +71,8 @@ async function getWorkspaceBuildingById(
   try {
     const building = await db.building.findUnique({
       where: {
-        id: buildingId
-      }
+        id: buildingId,
+      },
     });
     return building;
   } catch (error) {
@@ -85,7 +85,7 @@ async function editWorkspaceBuilding(
   user: User,
   buildingId: string,
   data: Partial<Building>,
-  env: Env
+  env: Env,
 ) {
   const _prisma = prisma(env);
   const db = _prisma.$extends(workspaceExtension(user));
@@ -93,9 +93,9 @@ async function editWorkspaceBuilding(
   try {
     const building = await db.building.update({
       where: {
-        id: buildingId
+        id: buildingId,
       },
-      data: data
+      data: data,
     });
     return building;
   } catch (error) {
@@ -109,5 +109,5 @@ export {
   getAllBuildingsByProperty,
   getWorkspaceBuildingById,
   editWorkspaceBuilding,
-  getAllWorkspaceBuildings
+  getAllWorkspaceBuildings,
 };

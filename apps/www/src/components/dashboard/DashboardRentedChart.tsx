@@ -6,34 +6,34 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent
+  ChartTooltipContent,
 } from "@propdock/ui/components/chart";
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
 const chartData = [
   { status: "Utleid", value: 70, fill: "hsl(var(--chart-1))" },
-  { status: "Ledig", value: 30, fill: "hsl(var(--chart-2))" }
+  { status: "Ledig", value: 30, fill: "hsl(var(--chart-2))" },
 ];
 
 const chartConfig = {
   value: {
-    label: "Prosent"
+    label: "Prosent",
   },
   Utleid: {
     label: "Utleid",
-    color: "hsl(var(--chart-1))"
+    color: "hsl(var(--chart-1))",
   },
   Ledig: {
     label: "Ledig",
-    color: "hsl(var(--chart-2))"
-  }
+    color: "hsl(var(--chart-2))",
+  },
 } satisfies ChartConfig;
 
 export function DashboardRentedChart() {

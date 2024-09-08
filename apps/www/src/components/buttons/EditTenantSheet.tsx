@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -17,7 +17,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import {
   Sheet,
@@ -26,7 +26,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -41,7 +41,7 @@ const TenantSchema = z.object({
     .regex(/^\d+$/, "Organisasjonsnummer må være et tall"),
   numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
-  buildingId: z.string().optional()
+  buildingId: z.string().optional(),
 });
 
 interface Property {
@@ -81,8 +81,8 @@ export function EditTenantSheet({ tenant, children }: EditTenantSheetProps) {
       orgnr: tenant.orgnr?.toString() || "",
       numEmployees: tenant.numEmployees,
       propertyId: tenant.propertyId,
-      buildingId: tenant.buildingId
-    }
+      buildingId: tenant.buildingId,
+    },
   });
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export function EditTenantSheet({ tenant, children }: EditTenantSheetProps) {
         orgnr: Number.parseInt(data.orgnr, 10),
         numEmployees: Number(data.numEmployees),
         buildingId: data.buildingId || tenant.buildingId, // Use existing buildingId if not provided
-        propertyId: data.propertyId || tenant.propertyId // Use existing propertyId if not provided
+        propertyId: data.propertyId || tenant.propertyId, // Use existing propertyId if not provided
       };
 
       const result = await updateTenant(tenant.id, tenantData);
@@ -199,7 +199,7 @@ export function EditTenantSheet({ tenant, children }: EditTenantSheetProps) {
                     <Input
                       type="number"
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />

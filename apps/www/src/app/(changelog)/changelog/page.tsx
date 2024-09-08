@@ -15,7 +15,7 @@ export const metadata = constructMetadata({
   title: "Endringslogg – Propdock",
   description:
     "Alle de siste oppdateringene, forbedringene og feilrettingene til Propdock - eiendomsadministrasjonsverktøyet for moderne eiendomsforvaltere.",
-  image: "/api/og/changelog"
+  image: "/api/og/changelog",
 });
 
 export default function Changelog() {

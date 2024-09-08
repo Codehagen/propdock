@@ -7,7 +7,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { Input } from "@propdock/ui/components/input";
 import { Separator } from "@propdock/ui/components/separator";
@@ -16,7 +16,7 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@propdock/ui/components/tabs";
 import {
   Building,
@@ -27,7 +27,7 @@ import {
   MapPin,
   Search,
   Users,
-  Warehouse
+  Warehouse,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -41,18 +41,21 @@ import fetchProperties from "@/lib/address-search";
 
 // Dynamic imports for react-leaflet components
 const MapContainer = dynamic(
-  () => import("react-leaflet").then(mod => mod.MapContainer),
-  { ssr: false }
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false },
 );
 const TileLayer = dynamic(
-  () => import("react-leaflet").then(mod => mod.TileLayer),
-  { ssr: false }
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false },
 );
-const Marker = dynamic(() => import("react-leaflet").then(mod => mod.Marker), {
-  ssr: false
-});
-const Popup = dynamic(() => import("react-leaflet").then(mod => mod.Popup), {
-  ssr: false
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  {
+    ssr: false,
+  },
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
 });
 
 // Updated properties array
@@ -61,22 +64,22 @@ const properties = [
     name: "Eiendom A",
     address: "Skipperveien 11a",
     latitude: 67.27230314022967,
-    longitude: 14.446854287962129
+    longitude: 14.446854287962129,
   },
   {
     name: "Central Atrium",
     address: "Dronningens gate 18",
     latitude: 67.28287603927737,
-    longitude: 14.379180886149735
-  }
+    longitude: 14.379180886149735,
+  },
   // Add more properties as needed
 ];
 
 const MapClickHandler = ({ onMapClick }) => {
   useMapEvents({
-    click: e => {
+    click: (e) => {
       onMapClick(e.latlng);
-    }
+    },
   });
   return null;
 };
@@ -100,11 +103,11 @@ export default function PropertyMap() {
     antallBygningstyper: 1,
     bygningstype: "Kjøpesenter",
     byggeaar: 2014,
-    bra: "24591 m²"
+    bra: "24591 m²",
   });
   const [isPropertyDataLoading, setIsPropertyDataLoading] = useState(false);
 
-  const handleOrgnrSubmit = e => {
+  const handleOrgnrSubmit = (e) => {
     e.preventDefault();
     // Mock data - in a real scenario, this would be fetched from an API
     setMockCompanyData({
@@ -116,7 +119,7 @@ export default function PropertyMap() {
       driftsResultat: "2.000.000 NOK",
       resultatForSkatt: "1.800.000 NOK",
       aarsresultat: "1.400.000 NOK",
-      sumEiendeler: "25.000.000 NOK"
+      sumEiendeler: "25.000.000 NOK",
     });
   };
 
@@ -129,7 +132,7 @@ export default function PropertyMap() {
         iconUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
         shadowUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png"
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
       });
       setL(leaflet);
       setIsLoading(false);
@@ -137,7 +140,7 @@ export default function PropertyMap() {
     loadLeaflet();
   }, []);
 
-  const handleMapClick = async latlng => {
+  const handleMapClick = async (latlng) => {
     setSelectedLocation(latlng);
     setPropertyData(null);
     setNearbyAddresses([]);
@@ -160,7 +163,7 @@ export default function PropertyMap() {
           bruksnummer: nearestAddress.bruksnummer,
           festenummer: nearestAddress.festenummer,
           undernummer: nearestAddress.undernummer,
-          objtype: nearestAddress.objtype
+          objtype: nearestAddress.objtype,
           // Add any other fields you find useful
         });
       }
@@ -171,7 +174,7 @@ export default function PropertyMap() {
     }
   };
 
-  const handlePropertyClick = property => {
+  const handlePropertyClick = (property) => {
     setSelectedLocation({ lat: property.latitude, lng: property.longitude });
     setPropertyData(property);
     mapRef.current?.setView([property.latitude, property.longitude], 15);
@@ -203,22 +206,22 @@ export default function PropertyMap() {
       kommunenavn: propertyData.kommunenavn,
       sumDriftsinntekter: mockCompanyData?.sumDriftsinntekter
         ? Number.parseFloat(
-            mockCompanyData.sumDriftsinntekter.replace(/[^\d.]/g, "")
+            mockCompanyData.sumDriftsinntekter.replace(/[^\d.]/g, ""),
           )
-        : undefined
+        : undefined,
       // Add any other fields you want to pass from the frontend
     };
 
     toast.promise(generateDefaultAnalysis(analysisData), {
       loading: "Creating new analysis...",
-      success: result => {
+      success: (result) => {
         if (result.success) {
           router.push(`/analytics/${result.analysis.id}/dashboard`);
           return `Ny analyse opprettet for ${analysisData.name}`;
         }
         throw new Error(result.error);
       },
-      error: err => `Failed to create analysis: ${err.message}`
+      error: (err) => `Failed to create analysis: ${err.message}`,
     });
   };
 
@@ -252,7 +255,7 @@ export default function PropertyMap() {
               center={initialPosition}
               zoom={13}
               style={{ height: "100%", width: "100%" }}
-              whenCreated={map => {
+              whenCreated={(map) => {
                 mapRef.current = map;
               }}
             >
@@ -266,7 +269,7 @@ export default function PropertyMap() {
                   key={index}
                   position={[property.latitude, property.longitude]}
                   eventHandlers={{
-                    click: () => handlePropertyClick(property)
+                    click: () => handlePropertyClick(property),
                   }}
                 >
                   <Popup>
@@ -291,9 +294,9 @@ export default function PropertyMap() {
               ))}
               {selectedLocation &&
                 !properties.find(
-                  p =>
+                  (p) =>
                     p.latitude === selectedLocation.lat &&
-                    p.longitude === selectedLocation.lng
+                    p.longitude === selectedLocation.lng,
                 ) && (
                   <Marker
                     position={[selectedLocation.lat, selectedLocation.lng]}
@@ -482,7 +485,7 @@ export default function PropertyMap() {
                         type="text"
                         placeholder="Organisasjonsnummer"
                         value={orgnr}
-                        onChange={e => setOrgnr(e.target.value)}
+                        onChange={(e) => setOrgnr(e.target.value)}
                       />
                       <Button type="submit">Søk</Button>
                     </div>

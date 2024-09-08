@@ -2,7 +2,7 @@ import type { User } from "@prisma/client";
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage
+  AvatarImage,
 } from "@propdock/ui/components/avatar";
 import type { AvatarProps } from "@radix-ui/react-avatar";
 

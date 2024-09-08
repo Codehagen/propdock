@@ -18,8 +18,8 @@ export async function updateAnalysis(analysisId, updateData) {
     const updatedAnalysis = await prisma.financialAnalysisBuilding.update({
       where: { id: analysisId },
       data: {
-        ...updateData
-      }
+        ...updateData,
+      },
     });
 
     console.log(`Updated analysis with ID: ${updatedAnalysis.id}.`);
@@ -38,7 +38,7 @@ export async function addIncomeUnits(
     areaPerUnit: number;
     valuePerUnit: number;
     numberOfUnits: number;
-  }
+  },
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -55,12 +55,12 @@ export async function addIncomeUnits(
           financialAnalysisBuildingId: analysisId,
           typeDescription: incomeData.typeDescription,
           areaPerUnit: incomeData.areaPerUnit,
-          valuePerUnit: incomeData.valuePerUnit
-        })
+          valuePerUnit: incomeData.valuePerUnit,
+        }),
       });
 
     console.log(
-      `Added ${newIncomeUnits.count} new income units to analysis ID: ${analysisId}`
+      `Added ${newIncomeUnits.count} new income units to analysis ID: ${analysisId}`,
     );
     revalidatePath(`/analyse/${analysisId}`);
 
@@ -68,7 +68,7 @@ export async function addIncomeUnits(
   } catch (error) {
     console.error(
       `Error adding income units for analysis ID: ${analysisId}`,
-      error
+      error,
     );
     return { success: false, error: error.message };
   }
@@ -81,7 +81,7 @@ export async function updateIncomeUnit(
     areaPerUnit: number;
     valuePerUnit: number;
     numberOfUnits: number;
-  }>
+  }>,
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -102,13 +102,13 @@ export async function updateIncomeUnit(
         }
         return acc;
       },
-      {}
+      {},
     );
 
     const updatedIncomeUnit =
       await prisma.financialAnalysisBuildingIncome.update({
         where: { id: incomeUnitId },
-        data: processedData
+        data: processedData,
       });
 
     console.log(`Updated income unit with ID: ${updatedIncomeUnit.id}.`);
@@ -133,7 +133,7 @@ export async function deleteIncomeUnit(incomeUnitId: string) {
   try {
     const deletedIncomeUnit =
       await prisma.financialAnalysisBuildingIncome.delete({
-        where: { id: incomeUnitId }
+        where: { id: incomeUnitId },
       });
 
     console.log(`Deleted income unit with ID: ${deletedIncomeUnit.id}.`);

@@ -18,12 +18,12 @@ export default {
         {
           code: "BAD_ENVIRONMENT",
           message: "Some environment variables are missing or are invalid",
-          errors: parsedEnv.error
+          errors: parsedEnv.error,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return app.fetch(req, parsedEnv.data, exCtx);
-  }
+  },
 };

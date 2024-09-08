@@ -6,7 +6,7 @@ export async function getAnalyses(workspaceId: string) {
   try {
     const analyses = await prisma.financialAnalysisBuilding.findMany({
       where: {
-        workspaceId: workspaceId
+        workspaceId: workspaceId,
       },
       select: {
         id: true,
@@ -15,11 +15,11 @@ export async function getAnalyses(workspaceId: string) {
         rentPerArea: true,
         sumValueNow: true,
         sumValueExit: true,
-        appreciationDate: true
+        appreciationDate: true,
       },
       orderBy: {
-        name: "asc"
-      }
+        name: "asc",
+      },
     });
 
     return { success: true, analyses };

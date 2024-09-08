@@ -4,7 +4,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
@@ -13,20 +13,20 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import {
   ChevronDownIcon,
   CircleIcon,
   PlusIcon,
-  StarIcon
+  StarIcon,
 } from "@radix-ui/react-icons";
 
 export function ChannelCard2({ channelDetails }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {channelDetails.events.map(event => (
+      {channelDetails.events.map((event) => (
         <Card key={event.id}>
           <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
             <div className="space-y-1">

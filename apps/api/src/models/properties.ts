@@ -9,7 +9,7 @@ async function createProperty(
   user: User,
   name: string,
   type: string,
-  env: Env
+  env: Env,
 ) {
   const db = prisma(env);
 
@@ -18,8 +18,8 @@ async function createProperty(
       data: {
         workspaceId: user.workspaceId!,
         type: type,
-        name: name
-      }
+        name: name,
+      },
     });
     return property;
   } catch (error) {
@@ -43,7 +43,7 @@ async function getAllWorkspaceProperties(user: User, env: Env) {
 async function getWorkspacePropertyById(
   user: User,
   propertyId: string,
-  env: Env
+  env: Env,
 ) {
   const _prisma = prisma(env);
   const db = _prisma.$extends(workspaceExtension(user));
@@ -51,8 +51,8 @@ async function getWorkspacePropertyById(
   try {
     const property = await db.property.findUnique({
       where: {
-        id: propertyId
-      }
+        id: propertyId,
+      },
     });
     return property;
   } catch (error) {
@@ -65,7 +65,7 @@ async function editWorkspaceProperty(
   user: User,
   propertyId: string,
   data: Partial<Property>,
-  env: Env
+  env: Env,
 ) {
   const _prisma = prisma(env);
   const db = _prisma.$extends(workspaceExtension(user));
@@ -73,9 +73,9 @@ async function editWorkspaceProperty(
   try {
     const property = await db.property.update({
       where: {
-        id: propertyId
+        id: propertyId,
       },
-      data: data
+      data: data,
     });
     return property;
   } catch (error) {
@@ -88,5 +88,5 @@ export {
   createProperty,
   getAllWorkspaceProperties,
   getWorkspacePropertyById,
-  editWorkspaceProperty
+  editWorkspaceProperty,
 };

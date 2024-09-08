@@ -7,7 +7,7 @@ import {
   Form,
   FormControl,
   FormItem,
-  FormLabel
+  FormLabel,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import React from "react";
@@ -21,16 +21,16 @@ const propertyFormSchema = z.object({
   bra: z.string().optional(),
   soverom: z.string().optional(),
   pris: z.string().optional(),
-  takst_text: z.string().optional()
+  takst_text: z.string().optional(),
 });
 
 export function UpdatePropertyForm({ propertyId, defaultValues }) {
   const form = useForm({
     resolver: zodResolver(propertyFormSchema),
-    defaultValues: defaultValues
+    defaultValues: defaultValues,
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     // Here you would handle the form submission,
     // likely sending the data to your backend to update the property
     console.log("Form data submitted:", data);
@@ -42,7 +42,7 @@ export function UpdatePropertyForm({ propertyId, defaultValues }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {Object.keys(propertyFormSchema.shape).map(key => (
+        {Object.keys(propertyFormSchema.shape).map((key) => (
           <FormItem key={key}>
             <FormLabel>{key}</FormLabel>
             <FormControl>

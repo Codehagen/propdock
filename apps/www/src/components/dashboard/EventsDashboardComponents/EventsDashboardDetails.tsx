@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import { format } from "date-fns";
@@ -40,7 +40,7 @@ export default function EventsDashboardDetails({ event }) {
     }
   };
 
-  const handleUserClick = customerId => {
+  const handleUserClick = (customerId) => {
     router.push(`dashboard/users/${customerId}`);
   };
 

@@ -8,7 +8,7 @@ import { getCurrentUser } from "@/lib/session";
 export async function createProperty(
   propertyName: string,
   propertyType: string,
-  countryCode: string
+  countryCode: string,
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -22,7 +22,7 @@ export async function createProperty(
     // Fetch the user's workspace to associate the property
     const workspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!workspace) {
@@ -35,11 +35,11 @@ export async function createProperty(
         name: propertyName,
         type: propertyType,
         countryCode: countryCode,
-        workspaceId: workspace.id
-      }
+        workspaceId: workspace.id,
+      },
     });
     console.log(
-      `Created property with ID: ${newProperty.id} for workspace ID: ${workspace.id}.`
+      `Created property with ID: ${newProperty.id} for workspace ID: ${workspace.id}.`,
     );
 
     revalidatePath("/dashboard"); // Updates the cache for the dashboard page

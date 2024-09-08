@@ -23,7 +23,7 @@ const components = {
   ),
   pre: (props: any) => (
     <pre className="mb-4 overflow-x-auto rounded bg-gray-100 p-4" {...props} />
-  )
+  ),
 };
 
 export async function MDXComponent({ code }: { code: string }) {
@@ -31,8 +31,8 @@ export async function MDXComponent({ code }: { code: string }) {
     source: code,
     components,
     options: {
-      parseFrontmatter: true
-    }
+      parseFrontmatter: true,
+    },
   });
 
   return content;

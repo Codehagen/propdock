@@ -12,10 +12,10 @@ const users = new Hono<{
 }>();
 
 // POST - Create User
-users.post("/", async c => {
+users.post("/", async (c) => {
   const inputData = UserSchema.omit({
     id: true,
-    events: true
+    events: true,
   }).parse(await c.req.json());
   const { email, name, plan } = inputData as Partial<User>;
 
@@ -29,7 +29,7 @@ users.post("/", async c => {
     const user = await prisma(c.env).user.upsert({
       where: { email },
       update: { name, plan },
-      create: { email, name: name || "", plan: plan || "", apiKey }
+      create: { email, name: name || "", plan: plan || "", apiKey },
     });
     return c.json({ ok: true, message: "User created", user });
   } catch (error: any) {
@@ -37,15 +37,15 @@ users.post("/", async c => {
       {
         ok: false,
         message: "Failed to create or update user",
-        error: parsePrismaError(error)
+        error: parsePrismaError(error),
       },
-      500
+      500,
     );
   }
 });
 
 // GET - Retrieve user with specific API key
-users.get("/", async c => {
+users.get("/", async (c) => {
   const apiKey = c.req.header("x-api-key");
 
   if (!apiKey) {
@@ -54,7 +54,7 @@ users.get("/", async c => {
 
   try {
     const user = await prisma(c.env).user.findUnique({
-      where: { apiKey }
+      where: { apiKey },
     });
 
     if (!user) {
@@ -67,9 +67,9 @@ users.get("/", async c => {
       {
         ok: false,
         message: "Failed to retrieve user",
-        error: error.message || "Unknown error"
+        error: error.message || "Unknown error",
       },
-      500
+      500,
     );
   }
 });

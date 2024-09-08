@@ -12,7 +12,7 @@ const internal = honoFactory();
 internal.use(internalAuthMiddleware);
 
 // Routes
-internal.all("/test", c => {
+internal.all("/test", (c) => {
   return c.text("GET /api/internal/test");
 });
 
@@ -30,7 +30,7 @@ internal.route("/poweroffice", poweroffice);
 internal.route("/fiken", fiken);
 
 // API key management
-internal.post("/workspace/api/create", async c => {
+internal.post("/workspace/api/create", async (c) => {
   let workspaceId;
   let serviceName;
   let prefix;
@@ -44,7 +44,7 @@ internal.post("/workspace/api/create", async c => {
     if (!workspaceId) {
       return c.json(
         { ok: false, message: "Supply an ID for the workspace" },
-        400
+        400,
       );
     }
   } catch (error) {

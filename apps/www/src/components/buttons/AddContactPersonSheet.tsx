@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -20,7 +20,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@propdock/ui/components/sheet";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,10 +35,10 @@ const ContactPersonSchema = z.object({
   fnr: z
     .string()
     .optional()
-    .refine(data => !data || /^\d{11}$/.test(data), {
-      message: "fnr must be exactly 11 digits"
+    .refine((data) => !data || /^\d{11}$/.test(data), {
+      message: "fnr must be exactly 11 digits",
     })
-    .nullable()
+    .nullable(),
 });
 
 export function AddContactPersonSheet({ tenantId, currentPath }) {
@@ -51,11 +51,11 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
       name: "",
       email: "",
       phone: "",
-      fnr: ""
-    }
+      fnr: "",
+    },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     try {

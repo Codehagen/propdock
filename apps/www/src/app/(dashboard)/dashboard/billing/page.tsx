@@ -1,7 +1,7 @@
 import {
   Alert,
   AlertDescription,
-  AlertTitle
+  AlertTitle,
 } from "@propdock/ui/components/alert";
 import { redirect } from "next/navigation";
 
@@ -17,7 +17,7 @@ import { getUserSubscriptionPlan } from "@/lib/subscription";
 export const metadata = {
   title: "Dingity Billing - Subscription Management",
   description:
-    "Access and manage your billing information, view subscription plans, and update payment methods on Dingity's Billing page."
+    "Access and manage your billing information, view subscription plans, and update payment methods on Dingity's Billing page.",
 };
 
 export default async function BillingPage() {

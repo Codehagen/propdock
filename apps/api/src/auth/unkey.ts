@@ -6,13 +6,13 @@ async function createAPIKey(
   aId: string,
   workspaceId: string,
   serviceName = "",
-  prefix = ""
+  prefix = "",
 ): Promise<string | null> {
   const options = {
     method: "POST",
     headers: {
       Authorization: `Bearer ${rk}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: `
             {"apiId":${aId},
@@ -26,14 +26,14 @@ async function createAPIKey(
                     "duration":60000
                 },
                 "enabled":true,
-            }`
+            }`,
   };
 
   try {
     const res = await fetch("https://api.unkey.dev/v1/keys.createKey", options);
     const result = (await res.json()) as any;
     console.debug(
-      `Tried to create API key for workspace <${workspaceId}>, returned with status <${res.status}>`
+      `Tried to create API key for workspace <${workspaceId}>, returned with status <${res.status}>`,
     );
     return result.key;
   } catch (error: any) {

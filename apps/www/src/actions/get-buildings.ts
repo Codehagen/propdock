@@ -8,8 +8,8 @@ export async function getBuildings(propertyId: string) {
       where: { propertyId },
       select: {
         id: true,
-        name: true
-      }
+        name: true,
+      },
     });
     return buildings;
   } catch (error) {

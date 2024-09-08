@@ -19,7 +19,7 @@ export const BorderBeam = ({
   borderWidth = 1.5,
   colorFrom = "#ffaa40",
   colorTo = "#9c40ff",
-  delay = 0
+  delay = 0,
 }: BorderBeamProps) => {
   return (
     <div
@@ -31,7 +31,7 @@ export const BorderBeam = ({
           "--border-width": borderWidth,
           "--color-from": colorFrom,
           "--color-to": colorTo,
-          "--delay": `-${delay}s`
+          "--delay": `-${delay}s`,
         } as React.CSSProperties
       }
       className={cn(
@@ -42,7 +42,7 @@ export const BorderBeam = ({
 
         // pseudo styles
         "after:absolute after:aspect-square after:w-[calc(var(--size)*1px)] after:animate-border-beam after:[animation-delay:var(--delay)] after:[background:linear-gradient(to_left,var(--color-from),var(--color-to),transparent)] after:[offset-anchor:calc(var(--anchor)*1%)_50%] after:[offset-path:rect(0_auto_auto_0_round_calc(var(--size)*1px))]",
-        className
+        className,
       )}
     />
   );

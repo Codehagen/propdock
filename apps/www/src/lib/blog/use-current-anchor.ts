@@ -5,7 +5,7 @@ export default function useCurrentAnchor() {
 
   useEffect(() => {
     const mdxContainer: HTMLElement | null = document.querySelector(
-      "[data-mdx-container]"
+      "[data-mdx-container]",
     );
     if (!mdxContainer) {
       return;
@@ -14,7 +14,7 @@ export default function useCurrentAnchor() {
     const offsetTop = mdxContainer.offsetTop - 1;
 
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         let currentEntry = entries[0];
         if (!currentEntry) {
           return;
@@ -55,14 +55,14 @@ export default function useCurrentAnchor() {
       },
       {
         threshold: 1,
-        rootMargin: `-${offsetTop}px 0px 0px 0px`
-      }
+        rootMargin: `-${offsetTop}px 0px 0px 0px`,
+      },
     );
 
     const siblings = new Map();
 
     const anchors = mdxContainer?.querySelectorAll("[data-mdx-heading]");
-    anchors.forEach(anchor => observer.observe(anchor));
+    anchors.forEach((anchor) => observer.observe(anchor));
 
     return () => {
       observer.disconnect();

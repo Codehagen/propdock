@@ -21,14 +21,14 @@ export function DragAndDrop({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...dropzoneOptions,
     maxSize,
-    onDrop: acceptedFiles => {
+    onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         setFile(acceptedFiles[0]);
         if (onDrop) {
           onDrop(acceptedFiles);
         }
       }
-    }
+    },
   });
 
   const handleRemoveFile = (e: React.MouseEvent) => {
@@ -46,7 +46,7 @@ export function DragAndDrop({
         "group relative grid h-52 w-full cursor-pointer place-items-center rounded-lg border-2 border-muted-foreground/25 border-dashed px-5 py-2.5 text-center transition hover:bg-muted/25",
         "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         isDragActive && "border-muted-foreground/50",
-        className
+        className,
       )}
     >
       <input {...getInputProps()} />

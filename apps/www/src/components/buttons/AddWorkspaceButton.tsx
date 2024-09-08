@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@propdock/ui/components/dialog";
 import { Input } from "@propdock/ui/components/input";
 import { Label } from "@propdock/ui/components/label";
@@ -22,7 +22,7 @@ export function AddWorkspaceButton() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -66,7 +66,7 @@ export function AddWorkspaceButton() {
                 placeholder="Navn..."
                 className="col-span-3"
                 value={workspaceName}
-                onChange={e => setWorkspaceName(e.target.value)}
+                onChange={(e) => setWorkspaceName(e.target.value)}
                 required
                 disabled={isLoading}
               />

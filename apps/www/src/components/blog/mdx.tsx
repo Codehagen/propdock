@@ -2,7 +2,7 @@ import { MDXContent } from "@content-collections/mdx/react";
 import {
   allBlogPosts,
   allChangelogPosts,
-  allHelpPosts
+  allHelpPosts,
 } from "content-collections";
 import { ListChecks } from "lucide-react";
 import Link from "next/link";
@@ -87,8 +87,8 @@ const components = {
           "border-blue-500 bg-blue-100 dark:bg-blue-900/30":
             props.variant === "info",
           "border-green-500 bg-green-100 dark:bg-green-900/30":
-            props.variant === "success"
-        }
+            props.variant === "success",
+        },
       )}
       {...props}
     />
@@ -141,17 +141,17 @@ const components = {
   CopyBox,
   HelpArticles: (props: { articles: string[] }) => (
     <div className="not-prose grid gap-2 rounded-xl border border-border bg-card p-4">
-      {(props.articles || POPULAR_ARTICLES).map(slug => (
+      {(props.articles || POPULAR_ARTICLES).map((slug) => (
         <HelpArticleLink
           key={slug}
-          article={allHelpPosts.find(post => post.slug === slug)!}
+          article={allHelpPosts.find((post) => post.slug === slug)!}
         />
       ))}
     </div>
   ),
   HelpCategories: () => (
     <div className="not-prose grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {HELP_CATEGORIES.map(category => (
+      {HELP_CATEGORIES.map((category) => (
         <CategoryCard
           key={category.slug}
           href={`/help/category/${category.slug}`}
@@ -162,8 +162,8 @@ const components = {
             y: 16,
             squares: [
               [0, 1],
-              [1, 3]
-            ]
+              [1, 3],
+            ],
           }}
         />
       ))}
@@ -172,10 +172,10 @@ const components = {
   Changelog: (props: any) => (
     <ul className="not-prose grid list-none rounded-xl border border-border bg-card p-4">
       {[...allBlogPosts, ...allChangelogPosts]
-        .filter(post => post.publishedAt <= props.before)
+        .filter((post) => post.publishedAt <= props.before)
         .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
         .slice(0, props.count)
-        .map(post => (
+        .map((post) => (
           <li key={post.slug}>
             <Link
               href={`/${post.type === "BlogPost" ? "blog" : "changelog"}/${
@@ -215,13 +215,13 @@ const components = {
         style={tomorrow}
         customStyle={{
           margin: 0,
-          borderRadius: title ? "0 0 0.375rem 0.375rem" : "0.375rem"
+          borderRadius: title ? "0 0 0.375rem 0.375rem" : "0.375rem",
         }}
       >
         {children}
       </SyntaxHighlighter>
     </div>
-  )
+  ),
 };
 
 interface MDXProps {
@@ -238,7 +238,7 @@ export function MDX({ code, images, tweets, repos, className }: MDXProps) {
       return null;
     }
     const blurDataURL = images.find(
-      image => image.src === props.src
+      (image) => image.src === props.src,
     )?.blurDataURL;
 
     return <ZoomImage {...props} blurDataURL={blurDataURL} />;
@@ -251,14 +251,14 @@ export function MDX({ code, images, tweets, repos, className }: MDXProps) {
       data-mdx-container
       className={cn(
         "prose prose-gray prose-headings:relative max-w-none prose-headings:scroll-mt-20 prose-headings:font-bold prose-headings:font-display transition-all",
-        className
+        className,
       )}
     >
       <MDXContent
         code={code}
         components={{
           ...components,
-          Image: MDXImage
+          Image: MDXImage,
           // Tweet,
           // GithubRepo: MDXRepo,
         }}

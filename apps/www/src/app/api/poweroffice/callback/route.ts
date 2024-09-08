@@ -29,18 +29,18 @@ export async function GET(request: NextRequest) {
       where: {
         users: {
           some: {
-            id: userId
-          }
-        }
+            id: userId,
+          },
+        },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     if (!userWorkspace) {
       return new NextResponse("No workspace found for this user.", {
-        status: 400
+        status: 400,
       });
     }
 
@@ -52,13 +52,13 @@ export async function GET(request: NextRequest) {
       {
         workspaceId,
         token,
-        serviceName
+        serviceName,
       },
       {
         headers: {
-          "x-fe-key": "super-secret"
-        }
-      }
+          "x-fe-key": "super-secret",
+        },
+      },
     );
 
     // Construct absolute URL for redirection

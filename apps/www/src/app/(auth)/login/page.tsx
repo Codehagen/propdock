@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Login",
-  description: "Login to your account"
+  description: "Login to your account",
 };
 
 export default function LoginPage() {
@@ -19,7 +19,7 @@ export default function LoginPage() {
         href="/"
         className={cn(
           buttonVariants({ variant: "outline", size: "sm" }),
-          "absolute top-4 left-4 md:top-8 md:left-8"
+          "absolute top-4 left-4 md:top-8 md:left-8",
         )}
       >
         <>

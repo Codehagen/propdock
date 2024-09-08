@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { ScrollArea } from "@propdock/ui/components/scroll-area";
 import { Separator } from "@propdock/ui/components/separator";
@@ -19,7 +19,7 @@ import {
   SheetDescription,
   SheetFooter,
   SheetHeader,
-  SheetTitle
+  SheetTitle,
 } from "@propdock/ui/components/sheet";
 import {
   Table,
@@ -27,13 +27,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@propdock/ui/components/tooltip";
 import {
   AlertCircle,
@@ -50,7 +50,7 @@ import {
   TrendingUp,
   Users,
   X,
-  XCircle
+  XCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts";
@@ -97,7 +97,7 @@ const tenants: Tenant[] = [
     foundedYear: 2015,
     industry: "Entertainment",
     liquidityScore: 0.48,
-    lastYearLiquidityScore: 0.55
+    lastYearLiquidityScore: 0.55,
   },
   {
     financialAnalysisBuildingId: "B002",
@@ -116,7 +116,7 @@ const tenants: Tenant[] = [
     foundedYear: 2015,
     industry: "Entertainment",
     liquidityScore: 0.75,
-    lastYearLiquidityScore: 0.68
+    lastYearLiquidityScore: 0.68,
   },
   {
     financialAnalysisBuildingId: "B003",
@@ -135,8 +135,8 @@ const tenants: Tenant[] = [
     foundedYear: 2018,
     industry: "Retail",
     liquidityScore: 0.25,
-    lastYearLiquidityScore: 0.35
-  }
+    lastYearLiquidityScore: 0.35,
+  },
   // Add more sample data here...
 ];
 
@@ -146,14 +146,14 @@ function getTenantRatingBadge(rating: Tenant["rating"]) {
     good: {
       color: "bg-green-100 text-green-800",
       icon: CheckCircle,
-      text: "God"
+      text: "God",
     },
     average: {
       color: "bg-yellow-100 text-yellow-800",
       icon: AlertCircle,
-      text: "Gjennomsnittlig"
+      text: "Gjennomsnittlig",
     },
-    poor: { color: "bg-red-100 text-red-800", icon: XCircle, text: "Dårlig" }
+    poor: { color: "bg-red-100 text-red-800", icon: XCircle, text: "Dårlig" },
   };
 
   const config = badgeConfig[rating];
@@ -252,7 +252,7 @@ export default function TenantTableAnalysis() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedTenants.map(tenant => (
+            {sortedTenants.map((tenant) => (
               <TableRow key={tenant.financialAnalysisBuildingId}>
                 <TableCell className="font-medium">
                   <Button
@@ -299,7 +299,7 @@ export default function TenantTableAnalysis() {
                       <DropdownMenuItem
                         onClick={() =>
                           navigator.clipboard.writeText(
-                            tenant.financialAnalysisBuildingId
+                            tenant.financialAnalysisBuildingId,
                           )
                         }
                       >
@@ -419,8 +419,8 @@ export default function TenantTableAnalysis() {
                       data={[
                         {
                           name: "Likviditet",
-                          value: selectedTenant.liquidityScore
-                        }
+                          value: selectedTenant.liquidityScore,
+                        },
                       ]}
                       startAngle={180}
                       endAngle={0}

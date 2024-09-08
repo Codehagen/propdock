@@ -16,13 +16,13 @@ interface BillingFormButtonProps {
 export function BillingFormButton({
   year,
   offer,
-  subscriptionPlan
+  subscriptionPlan,
 }: BillingFormButtonProps) {
   const [isPending, startTransition] = useTransition();
   const generateUserStripeSession = generateUserStripe.bind(
     null,
     // @ts-expect-error
-    offer.stripeIds[year ? "yearly" : "monthly"]
+    offer.stripeIds[year ? "yearly" : "monthly"],
   );
 
   const stripeSessionAction = () =>

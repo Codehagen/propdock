@@ -8,9 +8,9 @@ export async function GET(request: NextRequest) {
       "https://api.vegard.workers.dev/api/internal/oauth/poweroffice/onboarding-start",
       {
         headers: {
-          "x-fe-key": "super-secret"
-        }
-      }
+          "x-fe-key": "super-secret",
+        },
+      },
     );
 
     const { ok, message } = response.data;
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (!ok) {
       return NextResponse.json(
         { error: "Failed to get onboarding URL" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -29,11 +29,11 @@ export async function GET(request: NextRequest) {
     console.error("Error initiating OAuth", {
       message: error.message,
       stack: error.stack,
-      response: error.response ? error.response.data : "No response data"
+      response: error.response ? error.response.data : "No response data",
     });
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

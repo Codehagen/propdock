@@ -39,7 +39,7 @@ export function BlogPosts({ posts }) {
       <section>
         <h2 className="mb-4 font-heading text-3xl">Blog Posts</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.slice(1).map(post => (
+          {posts.slice(1).map((post) => (
             <article
               key={post._id}
               className="group relative flex flex-col space-y-2"

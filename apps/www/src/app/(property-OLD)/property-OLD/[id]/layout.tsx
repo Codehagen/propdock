@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({
   children,
-  params
+  params,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 

@@ -10,7 +10,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@propdock/ui/components/command";
 import {
   Form,
@@ -19,13 +19,13 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@propdock/ui/components/popover";
 import { Separator } from "@propdock/ui/components/separator";
 import { Textarea } from "@propdock/ui/components/textarea";
@@ -36,7 +36,7 @@ import {
   Check,
   ChevronsUpDown,
   PlusIcon,
-  SendIcon
+  SendIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -61,12 +61,12 @@ const InvoiceSchema = z.object({
   date: z.date({ required_error: "Dato er påkrevd" }),
   dueDate: z.date({ required_error: "Forfallsdato er påkrevd" }),
   accountNumber: z.string().min(1, "Kontonummer er påkrevd"),
-  comment: z.string().optional()
+  comment: z.string().optional(),
 });
 
 export default function TenantSendInvoice({
   customers,
-  products
+  products,
 }: {
   customers: any;
   products: any;
@@ -93,8 +93,8 @@ export default function TenantSendInvoice({
       date: today,
       dueDate: fourteenDaysFromToday,
       accountNumber: "",
-      comment: ""
-    }
+      comment: "",
+    },
   });
 
   const quantity = useWatch({ control: form.control, name: "quantity" });
@@ -110,26 +110,26 @@ export default function TenantSendInvoice({
     return new Intl.NumberFormat("nb-NO", {
       style: "decimal",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
   const daysBetween =
     date && dueDate ? differenceInCalendarDays(dueDate, date) : 0;
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const invoiceData = {
       CurrencyCode: "NOK",
       CustomerId: Number.parseInt(data.customer),
       SalesOrderLines: [
         {
           Description:
-            productArray.find(p => p.Id.toString() === data.product)?.Name ||
+            productArray.find((p) => p.Id.toString() === data.product)?.Name ||
             "",
           ProductId: Number.parseInt(data.product),
           Quantity: data.quantity,
-          ProductUnitPrice: data.price
-        }
+          ProductUnitPrice: data.price,
+        },
       ],
       InvoiceDate: format(data.date, "yyyy-MM-dd"),
       DueDate: format(data.dueDate, "yyyy-MM-dd"),
@@ -138,19 +138,19 @@ export default function TenantSendInvoice({
       OrderNumber: data.orderReference,
       InvoiceEmail: data.invoiceEmail,
       BankAccountNumber: data.accountNumber,
-      Comments: data.comment
+      Comments: data.comment,
     };
 
     toast.promise(createInvoice(invoiceData), {
       loading: "Oppretter faktura...",
-      success: result => {
+      success: (result) => {
         console.log("Opprettet faktura:", result.data);
         return "Faktura opprettet vellykket!";
       },
-      error: error => {
+      error: (error) => {
         console.error("Feil ved oppretting av faktura:", error);
         return `Kunne ikke opprette faktura: ${error.message}`;
-      }
+      },
     });
   };
 
@@ -203,13 +203,13 @@ export default function TenantSendInvoice({
                                 role="combobox"
                                 className={cn(
                                   "w-full justify-between",
-                                  !field.value && "text-muted-foreground"
+                                  !field.value && "text-muted-foreground",
                                 )}
                               >
                                 {field.value
                                   ? customerArray.find(
-                                      customer =>
-                                        customer.Id.toString() === field.value
+                                      (customer) =>
+                                        customer.Id.toString() === field.value,
                                     )?.Name
                                   : "Velg en kunde"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -224,22 +224,22 @@ export default function TenantSendInvoice({
                                   Ingen kunder funnet.
                                 </CommandEmpty>
                                 <CommandGroup>
-                                  {customerArray.map(customer => (
+                                  {customerArray.map((customer) => (
                                     <CommandItem
                                       value={customer.Name}
                                       key={customer.Id}
                                       onSelect={() => {
                                         form.setValue(
                                           "customer",
-                                          customer.Id.toString()
+                                          customer.Id.toString(),
                                         );
                                         form.setValue(
                                           "email",
-                                          customer.EmailAddress
+                                          customer.EmailAddress,
                                         );
                                         form.setValue(
                                           "invoiceEmail",
-                                          customer.EmailAddress
+                                          customer.EmailAddress,
                                         );
                                       }}
                                     >
@@ -248,7 +248,7 @@ export default function TenantSendInvoice({
                                           "mr-2 h-4 w-4",
                                           customer.Id.toString() === field.value
                                             ? "opacity-100"
-                                            : "opacity-0"
+                                            : "opacity-0",
                                         )}
                                       />
                                       {customer.Name}
@@ -355,13 +355,13 @@ export default function TenantSendInvoice({
                                 role="combobox"
                                 className={cn(
                                   "w-full justify-between",
-                                  !field.value && "text-muted-foreground"
+                                  !field.value && "text-muted-foreground",
                                 )}
                               >
                                 {field.value
                                   ? productArray.find(
-                                      product =>
-                                        product.Id.toString() === field.value
+                                      (product) =>
+                                        product.Id.toString() === field.value,
                                     )?.Name
                                   : "Velg et produkt"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -376,18 +376,18 @@ export default function TenantSendInvoice({
                                   Ingen produkter funnet.
                                 </CommandEmpty>
                                 <CommandGroup>
-                                  {productArray.map(product => (
+                                  {productArray.map((product) => (
                                     <CommandItem
                                       value={product.Name}
                                       key={product.Id}
                                       onSelect={() => {
                                         form.setValue(
                                           "product",
-                                          product.Id.toString()
+                                          product.Id.toString(),
                                         );
                                         form.setValue(
                                           "price",
-                                          product.SalesPrice
+                                          product.SalesPrice,
                                         );
                                       }}
                                     >
@@ -396,7 +396,7 @@ export default function TenantSendInvoice({
                                           "mr-2 h-4 w-4",
                                           product.Id.toString() === field.value
                                             ? "opacity-100"
-                                            : "opacity-0"
+                                            : "opacity-0",
                                         )}
                                       />
                                       {product.Name}
@@ -426,7 +426,7 @@ export default function TenantSendInvoice({
                             placeholder="1"
                             {...field}
                             value={field.value || ""}
-                            onChange={e =>
+                            onChange={(e) =>
                               field.onChange(Number.parseFloat(e.target.value))
                             }
                           />
@@ -447,7 +447,7 @@ export default function TenantSendInvoice({
                             placeholder="0,00"
                             {...field}
                             value={field.value || ""}
-                            onChange={e =>
+                            onChange={(e) =>
                               field.onChange(Number.parseFloat(e.target.value))
                             }
                           />
@@ -501,7 +501,7 @@ export default function TenantSendInvoice({
                                   variant={"outline"}
                                   className={cn(
                                     "w-[240px] pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
+                                    !field.value && "text-muted-foreground",
                                   )}
                                 >
                                   {field.value ? (
@@ -550,7 +550,7 @@ export default function TenantSendInvoice({
                                   variant={"outline"}
                                   className={cn(
                                     "w-[240px] pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
+                                    !field.value && "text-muted-foreground",
                                   )}
                                 >
                                   {field.value ? (

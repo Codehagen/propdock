@@ -8,7 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import { Separator } from "@propdock/ui/components/separator";
@@ -37,46 +37,46 @@ const FormSchema = z.object({
     .string()
     .optional()
     .refine(
-      value =>
+      (value) =>
         !value ||
         (!Number.isNaN(Number(value)) &&
           Number(value) >= 0 &&
           Number(value) <= 100),
-      { message: "Yield kontor må være et tall mellom 0 og 100." }
+      { message: "Yield kontor må være et tall mellom 0 og 100." },
     ),
   manYieldMerch: z
     .string()
     .optional()
     .refine(
-      value =>
+      (value) =>
         !value ||
         (!Number.isNaN(Number(value)) &&
           Number(value) >= 0 &&
           Number(value) <= 100),
-      { message: "Yield handel må være et tall mellom 0 og 100." }
+      { message: "Yield handel må være et tall mellom 0 og 100." },
     ),
   manYieldMisc: z
     .string()
     .optional()
     .refine(
-      value =>
+      (value) =>
         !value ||
         (!Number.isNaN(Number(value)) &&
           Number(value) >= 0 &&
           Number(value) <= 100),
-      { message: "Yield annet må være et tall mellom 0 og 100." }
+      { message: "Yield annet må være et tall mellom 0 og 100." },
     ),
   manYieldWeighted: z
     .string()
     .optional()
     .refine(
-      value =>
+      (value) =>
         !value ||
         (!Number.isNaN(Number(value)) &&
           Number(value) >= 0 &&
           Number(value) <= 100),
-      { message: "Vektet yield må være et tall mellom 0 og 100." }
-    )
+      { message: "Vektet yield må være et tall mellom 0 og 100." },
+    ),
 });
 
 interface EditMarketDataCardProps {
@@ -100,7 +100,7 @@ export function EditMarketDataCard({
   initialManYieldOffice,
   initialManYieldMerch,
   initialManYieldMisc,
-  initialManYieldWeighted
+  initialManYieldWeighted,
 }: EditMarketDataCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,8 +122,8 @@ export function EditMarketDataCard({
         : "",
       manYieldWeighted: initialManYieldWeighted
         ? (initialManYieldWeighted * 100).toString()
-        : ""
-    }
+        : "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -145,20 +145,20 @@ export function EditMarketDataCard({
           : undefined,
         manYieldWeighted: data.manYieldWeighted
           ? Number(data.manYieldWeighted) / 100
-          : undefined
+          : undefined,
       });
       if (result.success) {
         toast.success("Markedsdata og prime yield ble oppdatert.");
       } else {
         throw new Error(
-          result.error || "Kunne ikke oppdatere markedsdata og prime yield."
+          result.error || "Kunne ikke oppdatere markedsdata og prime yield.",
         );
       }
     } catch (error) {
       toast.error(error.message);
       console.error(
         "Feil ved oppdatering av markedsdata og prime yield:",
-        error
+        error,
       );
     } finally {
       setIsLoading(false);
@@ -169,41 +169,41 @@ export function EditMarketDataCard({
     {
       name: "marketRentOffice",
       label: "Markedsleie kontor",
-      description: "Gjennomsnittlig markedsleie for kontorarealer per kvm/år"
+      description: "Gjennomsnittlig markedsleie for kontorarealer per kvm/år",
     },
     {
       name: "marketRentMerch",
       label: "Markedsleie handel",
-      description: "Gjennomsnittlig markedsleie for handelsarealer per kvm/år"
+      description: "Gjennomsnittlig markedsleie for handelsarealer per kvm/år",
     },
     {
       name: "marketRentMisc",
       label: "Markedsleie annet",
-      description: "Gjennomsnittlig markedsleie for andre arealer per kvm/år"
-    }
+      description: "Gjennomsnittlig markedsleie for andre arealer per kvm/år",
+    },
   ];
 
   const yieldFields = [
     {
       name: "manYieldOffice",
       label: "Yield kontor",
-      description: "Prime yield for kontorarealer"
+      description: "Prime yield for kontorarealer",
     },
     {
       name: "manYieldMerch",
       label: "Yield handel",
-      description: "Prime yield for handelsarealer"
+      description: "Prime yield for handelsarealer",
     },
     {
       name: "manYieldMisc",
       label: "Yield annet",
-      description: "Prime yield for andre arealer"
+      description: "Prime yield for andre arealer",
     },
     {
       name: "manYieldWeighted",
       label: "Vektet yield",
-      description: "Vektet prime yield for alle arealer"
-    }
+      description: "Vektet prime yield for alle arealer",
+    },
   ];
 
   return (
@@ -220,7 +220,7 @@ export function EditMarketDataCard({
             <div>
               <h3 className="mb-4 font-medium text-lg">Markedsleie</h3>
               <div className="grid gap-4 sm:grid-cols-3">
-                {marketRentFields.map(field => (
+                {marketRentFields.map((field) => (
                   <FormField
                     key={field.name}
                     control={form.control}
@@ -233,7 +233,7 @@ export function EditMarketDataCard({
                             type="number"
                             placeholder={field.label}
                             {...formField}
-                            onChange={e => formField.onChange(e.target.value)}
+                            onChange={(e) => formField.onChange(e.target.value)}
                           />
                         </FormControl>
                         <FormDescription>{field.description}</FormDescription>
@@ -273,7 +273,7 @@ export function EditMarketDataCard({
               />
               {form.watch("usePrimeYield") && (
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {yieldFields.map(field => (
+                  {yieldFields.map((field) => (
                     <FormField
                       key={field.name}
                       control={form.control}

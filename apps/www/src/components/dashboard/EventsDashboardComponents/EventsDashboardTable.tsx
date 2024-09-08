@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -13,13 +13,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@propdock/ui/components/tabs";
 import { useRouter } from "next/navigation";
 
@@ -28,11 +28,11 @@ import { UserBadge } from "@/components/UserBadge";
 export default function EventsDashboardTable({
   events,
   setSelectedEventId,
-  selectedEventId
+  selectedEventId,
 }) {
   const router = useRouter();
 
-  const handleUserClick = customerId => {
+  const handleUserClick = (customerId) => {
     router.push(`dashboard/users/${customerId}`);
   };
 
@@ -95,7 +95,7 @@ export default function EventsDashboardTable({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {events.map(event => (
+                  {events.map((event) => (
                     <TableRow
                       key={event.id}
                       onClick={() => setSelectedEventId(event.id)}

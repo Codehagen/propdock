@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Form,
@@ -19,7 +19,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@propdock/ui/components/form";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -27,7 +27,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@propdock/ui/components/select";
 import { Check, ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
@@ -38,14 +38,14 @@ import { z } from "zod";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters."
+    message: "Name must be at least 2 characters.",
   }),
   provider: z.string({
-    required_error: "Please select a provider."
+    required_error: "Please select a provider.",
   }),
   webhook: z.string().min(2, {
-    message: "Webhook must be at least 2 characters."
-  })
+    message: "Webhook must be at least 2 characters.",
+  }),
 });
 
 export function NotificationAlert({ initialSettings }) {
@@ -55,8 +55,8 @@ export function NotificationAlert({ initialSettings }) {
     defaultValues: {
       name: initialSettings?.details?.name || "",
       provider: initialSettings?.type || "",
-      webhook: initialSettings?.details?.webhook || ""
-    }
+      webhook: initialSettings?.details?.webhook || "",
+    },
   });
 
   const selectedProvider = form.watch("provider");
@@ -65,20 +65,20 @@ export function NotificationAlert({ initialSettings }) {
     form.reset({
       name: initialSettings?.details?.name || "",
       provider: initialSettings?.type || "",
-      webhook: initialSettings?.details?.webhook || ""
+      webhook: initialSettings?.details?.webhook || "",
     });
   }, [initialSettings, form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(updateNotificationSettings(data), {
       loading: "Updating...",
-      success: result => {
+      success: (result) => {
         if (result.success) {
           return "Notification Settings Updated.";
         }
         throw new Error(result.error);
       },
-      error: err => `Error updating notification settings: ${err.message}`
+      error: (err) => `Error updating notification settings: ${err.message}`,
     });
   }
 
@@ -88,22 +88,22 @@ export function NotificationAlert({ initialSettings }) {
 
     toast.promise(
       testWebhook(data)
-        .then(result => {
+        .then((result) => {
           setIsTesting(false);
           if (result.success) {
             return "Webhook is working!";
           }
           throw new Error(result.error);
         })
-        .catch(error => {
+        .catch((error) => {
           setIsTesting(false);
           throw new Error(`Error testing webhook: ${error.message}`);
         }),
       {
         loading: "Testing webhook...",
         success: "Webhook is working!",
-        error: err => `Error testing webhook: ${err.message}`
-      }
+        error: (err) => `Error testing webhook: ${err.message}`,
+      },
     );
   }
 

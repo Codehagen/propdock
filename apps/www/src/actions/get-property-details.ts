@@ -8,8 +8,8 @@ export async function getPropertyDetails(propertyId: string) {
       include: {
         buildings: true,
         tenants: true,
-        contracts: true
-      }
+        contracts: true,
+      },
     });
 
     return property;

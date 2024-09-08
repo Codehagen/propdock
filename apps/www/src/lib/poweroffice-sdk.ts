@@ -8,10 +8,10 @@ class PowerOfficeSDK {
 
   constructor(baseURL: string, apiKey: string) {
     this.api = axios.create({
-      baseURL
+      baseURL,
     });
 
-    this.api.interceptors.request.use(async config => {
+    this.api.interceptors.request.use(async (config) => {
       const user = await getCurrentUser();
       config.headers["x-fe-key"] = apiKey;
       if (user?.id) {
@@ -29,7 +29,7 @@ class PowerOfficeSDK {
 
   async getCustomer(id: string) {
     const response = await this.api.get(
-      `/api/internal/poweroffice/customers/${id}`
+      `/api/internal/poweroffice/customers/${id}`,
     );
     return response.data;
   }
@@ -41,7 +41,7 @@ class PowerOfficeSDK {
 
   async getProduct(id: string) {
     const response = await this.api.get(
-      `/api/internal/poweroffice/products/${id}`
+      `/api/internal/poweroffice/products/${id}`,
     );
     return response.data;
   }
@@ -49,7 +49,7 @@ class PowerOfficeSDK {
   async createInvoice(invoiceData: any) {
     const response = await this.api.post(
       "/api/internal/poweroffice/invoices/create",
-      invoiceData
+      invoiceData,
     );
     return response.data;
   }
@@ -57,11 +57,11 @@ class PowerOfficeSDK {
   async getCustomersAndProducts() {
     const [customersResponse, productsResponse] = await Promise.all([
       this.api.get("/api/internal/poweroffice/customers"),
-      this.api.get("/api/internal/poweroffice/products")
+      this.api.get("/api/internal/poweroffice/products"),
     ]);
     return {
       customers: customersResponse.data,
-      products: productsResponse.data
+      products: productsResponse.data,
     };
   }
 }

@@ -21,5 +21,5 @@ PropertyPicture.defaultProps = {
   src: "https://images.finncdn.no/dynamic/1600w/2023/11/vertical-2/10/2/318/430/822_1071303782.jpg", // Default src as empty string or any default image path
   alt: "Property Image", // Default alt text
   width: 500, // Example default width
-  height: 300 // Example default height
+  height: 300, // Example default height
 };

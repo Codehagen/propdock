@@ -16,7 +16,7 @@ interface ConnectorButtonProps {
 const ConnectorButton: React.FC<ConnectorButtonProps> = ({
   serviceName,
   status,
-  workspaceId
+  workspaceId,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,11 +47,11 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
         headers: {
           "Cache-Control": "no-cache",
           Pragma: "no-cache",
-          Expires: "0"
+          Expires: "0",
         },
         params: {
-          _: new Date().getTime()
-        }
+          _: new Date().getTime(),
+        },
       });
 
       console.log("Response received:", response);

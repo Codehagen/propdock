@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata = constructMetadata({
   title: "Kunder - Propdock",
-  description: "Møt våre kunder og lær hvordan de bruker Propdock."
+  description: "Møt våre kunder og lær hvordan de bruker Propdock.",
 });
 
 export default function Customers() {
@@ -27,7 +27,7 @@ export default function Customers() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-5 py-5 md:grid-cols-4">
-          {customers.map(customer => (
+          {customers.map((customer) => (
             <Customer key={customer.slug} {...customer} />
           ))}
         </div>
@@ -44,8 +44,8 @@ const customers = [
   //   site: "https://vercel.com",
   // },
   {
-    slug: "corponor"
-  }
+    slug: "corponor",
+  },
   // {
   //   slug: "tinybird",
   //   site: "https://tinybird.co",

@@ -3,7 +3,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   Table,
@@ -11,13 +11,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@propdock/ui/components/tooltip";
 import { differenceInDays } from "date-fns";
 
@@ -60,7 +60,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
   const startYear = 2024;
   const endYear = 2033;
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) =>
-    (startYear + i).toString()
+    (startYear + i).toString(),
   );
 
   const kpiAdjustments = [
@@ -68,7 +68,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
     details.kpi1,
     details.kpi2,
     details.kpi3,
-    ...Array(endYear - startYear - 3).fill(details.kpi4)
+    ...Array(endYear - startYear - 3).fill(details.kpi4),
   ];
 
   // Calculate rental incomes for each year
@@ -80,17 +80,19 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
   }
 
   // Round the rental incomes for display
-  const roundedRentalIncomes = rentalIncomes.map(income => Math.round(income));
+  const roundedRentalIncomes = rentalIncomes.map((income) =>
+    Math.round(income),
+  );
 
   // Calculate gross rental incomes
   const grossRentalIncomes = roundedRentalIncomes.map(
-    income => income * details.rentableArea
+    (income) => income * details.rentableArea,
   );
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat("nb-NO", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(num);
   };
 
@@ -148,7 +150,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
       return {
         discountPeriod: discountPeriod,
         discountFactor: discountFactor,
-        discountedCashFlow: discountedCashFlow
+        discountedCashFlow: discountedCashFlow,
       };
     });
     return discountValues;
@@ -159,7 +161,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
   // Calculate Sum Nåverdi by summing all the discounted cash flows
   const sumNaverdi = discountValues.reduce(
     (sum, value) => sum + value.discountedCashFlow,
-    0
+    0,
   );
 
   // Calculate Exit Verdi using the last year's net rental income and yield
@@ -188,7 +190,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
               <TableHeader>
                 <TableRow>
                   <TableHead>NOK</TableHead>
-                  {years.map(year => (
+                  {years.map((year) => (
                     <TableHead key={year}>{year}</TableHead>
                   ))}
                 </TableRow>
@@ -205,7 +207,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                       </TooltipContent>
                     </Tooltip>
                   </TableCell>
-                  {years.map(year => (
+                  {years.map((year) => (
                     <TableCell key={year}>
                       {formatNumber(details.rentableArea)}
                     </TableCell>
@@ -265,7 +267,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-                    {years.map(year => (
+                    {years.map((year) => (
                       <TableCell key={year}>
                         {formatNumber(calculateAutomaticCosts())}
                       </TableCell>
@@ -283,7 +285,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-                    {years.map(year => (
+                    {years.map((year) => (
                       <TableCell key={year}>
                         {formatNumber(details.costs.ownerCostsManual || 0)}
                       </TableCell>
@@ -301,7 +303,7 @@ export function AnalysisTableDCF({ details }: AnalysisTableDCFProps) {
                       </TooltipContent>
                     </Tooltip>
                   </TableCell>
-                  {years.map(year => (
+                  {years.map((year) => (
                     <TableCell key={year}>
                       {formatNumber(bigExpenses[year] || 0)}
                     </TableCell>

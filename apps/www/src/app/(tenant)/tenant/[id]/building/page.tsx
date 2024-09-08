@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import { format } from "date-fns";
 import { Building, Settings } from "lucide-react";
@@ -14,7 +14,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function BuildingTenant({
-  params
+  params,
 }: {
   params: { id: string };
 }) {

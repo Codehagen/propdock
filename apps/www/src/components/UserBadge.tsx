@@ -2,7 +2,7 @@
 import { Badge } from "@propdock/ui/components/badge";
 
 export function UserBadge({ customerId, userId, variant, onClick }) {
-  const handleClick = e => {
+  const handleClick = (e) => {
     onClick(customerId);
   };
 

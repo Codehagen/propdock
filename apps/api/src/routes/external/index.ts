@@ -9,7 +9,7 @@ const external = honoFactory();
 external.use(authMiddleware);
 
 // Routes
-external.all("/test", c => {
+external.all("/test", (c) => {
   return c.text("GET /api/external/test 200");
 });
 

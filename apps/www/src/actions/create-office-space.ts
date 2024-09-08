@@ -12,7 +12,7 @@ interface OfficeSpaceData {
 
 export async function createOfficeSpace(
   floorId: string,
-  data: OfficeSpaceData
+  data: OfficeSpaceData,
 ) {
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -28,15 +28,15 @@ export async function createOfficeSpace(
         floorId: floorId,
         name: data.name,
         sizeKvm: data.sizeKvm,
-        isRented: data.isRented
-      }
+        isRented: data.isRented,
+      },
     });
 
     return { success: true, officeSpace: newOfficeSpace };
   } catch (error) {
     console.error(
       `Error creating office space for floor ID: ${floorId}`,
-      error
+      error,
     );
     return { success: false, error: error.message };
   }

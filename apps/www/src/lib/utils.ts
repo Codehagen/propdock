@@ -14,7 +14,7 @@ export function formatDate(input: string | number): string {
   return date.toLocaleDateString("nb-NO", {
     month: "long",
     day: "numeric",
-    year: "numeric"
+    year: "numeric",
   });
 }
 
@@ -24,7 +24,7 @@ export function formatCurrency(value: number | null): string {
   }
   const formattedNumber = new Intl.NumberFormat("nb-NO", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
   return `${formattedNumber} kr`;
 }
@@ -38,10 +38,10 @@ export function absoluteUrl(path: string) {
 export const timeAgo = (
   timestamp: Date | null,
   {
-    withAgo
+    withAgo,
   }: {
     withAgo?: boolean;
-  } = {}
+  } = {},
 ): string => {
   if (!timestamp) {
     return "Never";
@@ -59,7 +59,7 @@ export const timeAgo = (
       year:
         new Date(timestamp).getFullYear() !== new Date().getFullYear()
           ? "numeric"
-          : undefined
+          : undefined,
     });
   }
   return `${ms(diff)}${withAgo ? " ago" : ""}`;
@@ -67,7 +67,7 @@ export const timeAgo = (
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<JSON> {
   const res = await fetch(input, init);
 
@@ -97,13 +97,13 @@ export function nFormatter(num: number, digits?: number) {
     { value: 1e9, symbol: "G" },
     { value: 1e12, symbol: "T" },
     { value: 1e15, symbol: "P" },
-    { value: 1e18, symbol: "E" }
+    { value: 1e18, symbol: "E" },
   ];
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   const item = lookup
     .slice()
     .reverse()
-    .find(item => num >= item.value);
+    .find((item) => num >= item.value);
   return item
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";
@@ -150,7 +150,7 @@ export function getGreeting() {
 export async function fetchGithubData() {
   try {
     const githubInfoResponse = await fetch(
-      "https://api.github.com/repos/Codehagen/Dingify"
+      "https://api.github.com/repos/Codehagen/Dingify",
     );
     if (!githubInfoResponse.ok) {
       throw new Error("Failed to fetch GitHub info");
@@ -158,7 +158,7 @@ export async function fetchGithubData() {
     const data = await githubInfoResponse.json();
 
     const prsResponse = await fetch(
-      "https://api.github.com/search/issues?q=repo:Codehagen/Dingify+type:pr+is:merged"
+      "https://api.github.com/search/issues?q=repo:Codehagen/Dingify+type:pr+is:merged",
     );
     if (!prsResponse.ok) {
       throw new Error("Failed to fetch PRs info");
@@ -169,7 +169,7 @@ export async function fetchGithubData() {
       stargazers_count: data.stargazers_count,
       open_issues: data.open_issues,
       total_count: totalPR.total_count,
-      forks: data.forks
+      forks: data.forks,
     };
   } catch (error) {
     console.error("Error fetching GitHub data:", error);
@@ -182,11 +182,11 @@ export async function sendDiscordNotification(webhookUrl, message) {
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: message
-      })
+        content: message,
+      }),
     });
 
     if (!response.ok) {
@@ -202,11 +202,11 @@ export async function sendSlackNotification(webhookUrl, message) {
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: message
-      })
+        text: message,
+      }),
     });
 
     if (!response.ok) {

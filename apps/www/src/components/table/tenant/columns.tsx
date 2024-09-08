@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import type { ColumnDef } from "@tanstack/react-table";
 import format from "date-fns/format";
@@ -60,7 +60,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
           </Link>
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "isRenting",
@@ -69,7 +69,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
       <Badge variant={row.getValue("isRenting") ? "default" : "secondary"}>
         {row.getValue("isRenting") ? "Leier" : "Leier ikke"}
       </Badge>
-    )
+    ),
   },
   {
     accessorKey: "currentRent",
@@ -81,7 +81,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
       ) : (
         <Badge variant="secondary">Ingen leie</Badge>
       );
-    }
+    },
   },
   {
     accessorKey: "contractStartDate",
@@ -93,7 +93,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
       ) : (
         <Badge variant="secondary">Ingen dato</Badge>
       );
-    }
+    },
   },
   {
     accessorKey: "contractEndDate",
@@ -105,7 +105,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
       ) : (
         <Badge variant="secondary">Ingen dato</Badge>
       );
-    }
+    },
   },
   {
     id: "actions",
@@ -134,7 +134,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Handlinger</DropdownMenuLabel>
               <EditTenantSheet tenant={row.original}>
-                <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   Rediger
                 </DropdownMenuItem>
               </EditTenantSheet>
@@ -147,6 +147,6 @@ export const TenantColumns: ColumnDef<tenants>[] = [
           </DropdownMenu>
         </div>
       );
-    }
-  }
+    },
+  },
 ];

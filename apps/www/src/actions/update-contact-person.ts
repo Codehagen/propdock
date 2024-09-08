@@ -12,8 +12,8 @@ export async function updateContactPerson(contactPersonId, data, currentPath) {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        fnr: Number.parseInt(data.fnr) // Ensure fnr is parsed to integer
-      }
+        fnr: Number.parseInt(data.fnr), // Ensure fnr is parsed to integer
+      },
     });
 
     revalidatePath(currentPath);

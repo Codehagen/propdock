@@ -7,7 +7,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@propdock/ui/components/card";
 import {
   DropdownMenu,
@@ -15,14 +15,14 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Separator } from "@propdock/ui/components/separator";
 import {
   ChevronDownIcon,
   CircleIcon,
   PlusIcon,
-  StarIcon
+  StarIcon,
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { BellIcon, BellOffIcon, Tag, TrashIcon } from "lucide-react";
@@ -32,7 +32,7 @@ import { toast } from "sonner";
 export function ChannelCard({ channelDetails }) {
   const router = useRouter();
 
-  const handleDelete = async eventId => {
+  const handleDelete = async (eventId) => {
     try {
       toast.success("The event has been deleted successfully.");
       router.refresh();
@@ -44,7 +44,7 @@ export function ChannelCard({ channelDetails }) {
 
   return (
     <div>
-      {channelDetails.events.map(event => (
+      {channelDetails.events.map((event) => (
         <Card key={event.id} className="m-4">
           <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
             <div className="space-y-1">

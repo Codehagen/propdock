@@ -36,7 +36,7 @@ export const eventSchema = z.object({
   icon: z.string(),
   notify: z.boolean(),
   tags: z.record(z.unknown()),
-  createdAt: z.string()
+  createdAt: z.string(),
 });
 
 export const channelDetailsSchema = z.object({
@@ -48,9 +48,9 @@ export const channelDetailsSchema = z.object({
     id: z.string(),
     name: z.string(),
     userId: z.string(),
-    createdAt: z.string()
+    createdAt: z.string(),
   }),
-  events: z.array(eventSchema)
+  events: z.array(eventSchema),
 });
 
 // Assuming you have a types file, e.g., types.ts

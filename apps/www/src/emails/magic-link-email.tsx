@@ -8,7 +8,7 @@ import {
   Preview,
   Section,
   Tailwind,
-  Text
+  Text,
 } from "@react-email/components";
 
 import { Icons } from "../components/shared/icons";
@@ -24,7 +24,7 @@ export const MagicLinkEmail = ({
   firstName = "",
   actionUrl,
   mailType,
-  siteName
+  siteName,
 }: MagicLinkEmailProps) => (
   <Html>
     <Head />

@@ -24,11 +24,11 @@ export async function updateUserName(userId: string, data: FormData) {
     // Update the user name.
     await prisma.user.update({
       where: {
-        id: userId
+        id: userId,
       },
       data: {
-        name: name
-      }
+        name: name,
+      },
     });
 
     revalidatePath("/dashboard/settings");

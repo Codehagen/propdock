@@ -8,7 +8,7 @@ import { getUserSubscriptionPlan } from "@/lib/subscription";
 export const metadata = {
   title: "Dingify Pricing - Tailored Plans for Your Monitoring Needs",
   description:
-    "Explore competitive pricing plans for Dingify. Find the perfect package to enhance your real-time monitoring, event tracking, and data analytics."
+    "Explore competitive pricing plans for Dingify. Find the perfect package to enhance your real-time monitoring, event tracking, and data analytics.",
 };
 
 export default async function PricingPage() {

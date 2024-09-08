@@ -8,8 +8,8 @@ export async function getTenantsComboBox(workspaceId: number) {
     const tenants = await prisma.tenant.findMany({
       where: {
         property: {
-          workspaceId: workspaceId
-        }
+          workspaceId: workspaceId,
+        },
       },
       select: {
         id: true,
@@ -18,23 +18,23 @@ export async function getTenantsComboBox(workspaceId: number) {
         numEmployees: true,
         building: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         floor: {
           select: {
-            number: true
-          }
+            number: true,
+          },
         },
         officeSpace: {
           select: {
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
       orderBy: {
-        name: "asc"
-      }
+        name: "asc",
+      },
     });
 
     return { success: true, tenants };

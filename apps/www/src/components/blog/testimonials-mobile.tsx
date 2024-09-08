@@ -8,7 +8,7 @@ interface Testimonial {
 }
 
 export default function TestimonialsMobile({
-  testimonials
+  testimonials,
 }: {
   testimonials: Testimonial[];
 }) {
@@ -18,7 +18,7 @@ export default function TestimonialsMobile({
   return (
     <div className="flex flex-col justify-center space-y-4 pt-8 sm:hidden">
       <div ref={ref} className="space-y-6">
-        {testimonials.slice(0, expanded ? undefined : 4).map(testimonial => (
+        {testimonials.slice(0, expanded ? undefined : 4).map((testimonial) => (
           <div key={testimonial.id} className="rounded-lg border p-4">
             <p>{testimonial.content}</p>
           </div>

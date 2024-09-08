@@ -4,7 +4,7 @@ import {
   Cog6ToothIcon,
   FingerPrintIcon,
   LockClosedIcon,
-  ServerIcon
+  ServerIcon,
 } from "@heroicons/react/20/solid";
 import { Balancer } from "react-wrap-balancer";
 
@@ -13,38 +13,38 @@ const features = [
     name: "Revolutionizing Real Estate: AI-Powered Listings",
     description:
       "Instantly draft standout property listings with our advanced AI editor, designed to captivate and attract potential buyers through eloquent, detail-rich descriptions.",
-    icon: CloudArrowUpIcon
+    icon: CloudArrowUpIcon,
   },
   {
     name: "Elevate Your Realty Game with Propwrite",
     description:
       "Empower your real estate business with Propwrite's SSL encryption, ensuring that all client information and property data are secure and protected.",
-    icon: LockClosedIcon
+    icon: LockClosedIcon,
   },
   {
     name: "Next-Gen Property Management: AI Meets Real Estate",
     description:
       "Our platform simplifies property management by automating follow-ups and updates, freeing you to focus on what you do best – closing deals.",
-    icon: ArrowPathIcon
+    icon: ArrowPathIcon,
   },
   {
     name: "AI-Enhanced Listings for Smart Agents",
     description:
       "Stay ahead of security threats with real-time monitoring and automatic updates, safeguarding your listings with the latest in AI technology.",
-    icon: FingerPrintIcon
+    icon: FingerPrintIcon,
   },
   {
     name: "Maximize Sales with Intelligent Real Estate Solutions",
     description:
       "Integrate Propwrite's comprehensive API with your current tools for a seamless experience that enhances your workflow and maximizes efficiency.",
-    icon: Cog6ToothIcon
+    icon: Cog6ToothIcon,
   },
   {
     name: "Unlock Real Estate Potential with AI Efficiency",
     description:
       "Ensure your listings are always current and never lost with our reliable backup solutions, providing peace of mind and data security.",
-    icon: ServerIcon
-  }
+    icon: ServerIcon,
+  },
 ];
 
 export default function Featuressection() {
@@ -95,7 +95,7 @@ export default function Featuressection() {
       </div>
       <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
         <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
-          {features.map(feature => (
+          {features.map((feature) => (
             <div key={feature.name} className="relative pl-9">
               <dt className="inline font-semibold text-sm">
                 <feature.icon
@@ -108,7 +108,7 @@ export default function Featuressection() {
                 className="mt-2 animate-fade-up text-muted-foreground leading-normal opacity-0"
                 style={{
                   animationDelay: "0.35s",
-                  animationFillMode: "forwards"
+                  animationFillMode: "forwards",
                 }}
               >
                 <Balancer>{feature.description}</Balancer>

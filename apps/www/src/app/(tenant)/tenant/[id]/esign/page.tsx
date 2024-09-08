@@ -14,7 +14,7 @@ import { prisma } from "@/lib/db";
 import { poweroffice } from "@/lib/poweroffice-sdk";
 
 export default async function EsignPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
@@ -35,7 +35,7 @@ export default async function EsignPage({
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user.id },
-    select: { workspaceId: true }
+    select: { workspaceId: true },
   });
 
   try {

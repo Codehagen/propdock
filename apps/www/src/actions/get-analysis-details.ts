@@ -13,13 +13,13 @@ export async function getAnalysisDetails(analysisId: string) {
       include: {
         building: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         costs: true,
         incomeUnits: true,
-        tenants: true
-      }
+        tenants: true,
+      },
     });
 
     if (!analysisDetails) {

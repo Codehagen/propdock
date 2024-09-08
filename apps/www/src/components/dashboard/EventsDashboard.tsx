@@ -14,7 +14,7 @@ import EventsDashboardTable from "./EventsDashboardComponents/EventsDashboardTab
 export default function EventsDashboard({ events, eventStats }) {
   const [selectedEventId, setSelectedEventId] = useState(events[0]?.id);
 
-  const selectedEvent = events.find(event => event.id === selectedEventId);
+  const selectedEvent = events.find((event) => event.id === selectedEventId);
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 pr-0 pl-0 sm:px-0 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">

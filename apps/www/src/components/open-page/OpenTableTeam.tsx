@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@propdock/ui/components/dropdown-menu";
 import { Input } from "@propdock/ui/components/input";
 import {
@@ -18,13 +18,13 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@propdock/ui/components/table";
 import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   flexRender,
@@ -32,7 +32,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import * as React from "react";
@@ -45,7 +45,7 @@ const data: TeamMember[] = [
     salary: "0 kr",
     engagement: "Full-Time",
     location: "Bodø, Norge",
-    joinDate: "10 Juni 2024"
+    joinDate: "10 Juni 2024",
   },
   {
     id: "2",
@@ -54,8 +54,8 @@ const data: TeamMember[] = [
     salary: "0 kr",
     engagement: "Full-Time",
     location: "Fauske, Norge",
-    joinDate: "20 Juni 2024"
-  }
+    joinDate: "20 Juni 2024",
+  },
 ];
 
 export interface TeamMember {
@@ -72,39 +72,39 @@ export const columns: ColumnDef<TeamMember>[] = [
   {
     accessorKey: "name",
     header: "Navn",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "role",
     header: "Rolle",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>
+    cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>,
   },
   {
     accessorKey: "salary",
     header: "Lønn",
-    cell: ({ row }) => <div>{row.getValue("salary")}</div>
+    cell: ({ row }) => <div>{row.getValue("salary")}</div>,
   },
   {
     accessorKey: "engagement",
     header: "Engagement",
-    cell: ({ row }) => <div>{row.getValue("engagement")}</div>
+    cell: ({ row }) => <div>{row.getValue("engagement")}</div>,
   },
   {
     accessorKey: "location",
     header: "Lokasjon",
-    cell: ({ row }) => <div>{row.getValue("location")}</div>
+    cell: ({ row }) => <div>{row.getValue("location")}</div>,
   },
   {
     accessorKey: "joinDate",
     header: "Join Date",
-    cell: ({ row }) => <div>{row.getValue("joinDate")}</div>
-  }
+    cell: ({ row }) => <div>{row.getValue("joinDate")}</div>,
+  },
 ];
 
 export function OpenTableTeam() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -125,8 +125,8 @@ export function OpenTableTeam() {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+    },
   });
 
   return (
@@ -138,16 +138,16 @@ export function OpenTableTeam() {
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map(header => {
+                  {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
                     );
@@ -157,16 +157,16 @@ export function OpenTableTeam() {
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map(cell => (
+                    {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}
