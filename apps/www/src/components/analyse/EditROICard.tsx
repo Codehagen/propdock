@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -18,14 +17,15 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Switch } from "@propdock/ui/components/switch"
-import { Percent } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Switch } from "@propdock/ui/components/switch";
+import { Percent } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   useCalcROI: z.boolean().default(false).optional(),
@@ -33,55 +33,63 @@ const FormSchema = z.object({
     .string()
     .nonempty("Vektet yield er påkrevd.")
     .refine(
-      (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      value =>
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
-        message: "Vektet yield må være et tall mellom 0 og 100.",
-      },
+        message: "Vektet yield må være et tall mellom 0 og 100."
+      }
     )
     .optional(),
   roiInflation: z
     .string()
     .nonempty("Inflasjon er påkrevd.")
     .refine(
-      (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      value =>
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
-        message: "Inflasjon må være et tall mellom 0 og 100.",
-      },
+        message: "Inflasjon må være et tall mellom 0 og 100."
+      }
     )
     .optional(),
   roiCalculated: z
     .string()
     .nonempty("Beregnet ROI er påkrevd.")
     .refine(
-      (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      value =>
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
-        message: "Beregnet ROI må være et tall mellom 0 og 100.",
-      },
+        message: "Beregnet ROI må være et tall mellom 0 og 100."
+      }
     )
     .optional(),
   roiManual: z
     .string()
     .nonempty("Manuell ROI er påkrevd.")
     .refine(
-      (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+      value =>
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
-        message: "Manuell ROI må være et tall mellom 0 og 100.",
-      },
+        message: "Manuell ROI må være et tall mellom 0 og 100."
+      }
     )
-    .optional(),
-})
+    .optional()
+});
 
 interface EditROICardProps {
-  analysisId: string
-  initialUseCalcROI: boolean
-  initialROIWeightedYield?: number
-  initialROIInflation?: number
-  initialROICalculated?: number
-  initialROIManual?: number
+  analysisId: string;
+  initialUseCalcROI: boolean;
+  initialROIWeightedYield?: number;
+  initialROIInflation?: number;
+  initialROICalculated?: number;
+  initialROIManual?: number;
 }
 
 export function EditROICard({
@@ -90,9 +98,9 @@ export function EditROICard({
   initialROIWeightedYield,
   initialROIInflation,
   initialROICalculated,
-  initialROIManual,
+  initialROIManual
 }: EditROICardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -107,12 +115,12 @@ export function EditROICard({
       roiCalculated: initialROICalculated
         ? (initialROICalculated * 100).toString()
         : "",
-      roiManual: initialROIManual ? (initialROIManual * 100).toString() : "",
-    },
-  })
+      roiManual: initialROIManual ? (initialROIManual * 100).toString() : ""
+    }
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         useCalcROI: data.useCalcROI,
@@ -125,18 +133,18 @@ export function EditROICard({
         roiCalculated: data.roiCalculated
           ? Number(data.roiCalculated) / 100
           : undefined,
-        roiManual: data.roiManual ? Number(data.roiManual) / 100 : undefined,
-      })
+        roiManual: data.roiManual ? Number(data.roiManual) / 100 : undefined
+      });
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Analysen ble oppdatert.");
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av analyse:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -191,7 +199,7 @@ export function EditROICard({
                             {...field}
                           />
                           <Percent
-                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                             size={16}
                           />
                         </div>
@@ -217,7 +225,7 @@ export function EditROICard({
                             {...field}
                           />
                           <Percent
-                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                             size={16}
                           />
                         </div>
@@ -244,7 +252,7 @@ export function EditROICard({
                             {...field}
                           />
                           <Percent
-                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                            className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                             size={16}
                           />
                         </div>
@@ -272,7 +280,7 @@ export function EditROICard({
                           {...field}
                         />
                         <Percent
-                          className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                          className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                           size={16}
                         />
                       </div>
@@ -289,5 +297,5 @@ export function EditROICard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

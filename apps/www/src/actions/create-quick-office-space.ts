@@ -7,14 +7,14 @@ import { prisma } from "@/lib/db";
 export async function quickAddOfficeSpace(
   floorId: number,
   officeData: { name: string; sizeKvm: number; isRented: boolean },
-  currentPath: string,
+  currentPath: string
 ) {
   try {
     const newOffice = await prisma.officeSpace.create({
       data: {
         ...officeData,
-        floorId: floorId,
-      },
+        floorId: floorId
+      }
     });
 
     revalidatePath(currentPath);
@@ -28,13 +28,13 @@ export async function quickAddOfficeSpace(
 
 export async function quickDeleteOfficeSpace(
   officeId: number,
-  currentPath: string,
+  currentPath: string
 ) {
   try {
     await prisma.officeSpace.delete({
       where: {
-        id: officeId,
-      },
+        id: officeId
+      }
     });
 
     revalidatePath(currentPath);

@@ -9,9 +9,6 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "format": "biome format . --write",
-    "lint": "biome format ./src --write",
-    "check": "biome check ./src --write",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function getBuildings(propertyId: string) {
   try {
@@ -8,12 +8,12 @@ export async function getBuildings(propertyId: string) {
       where: { propertyId },
       select: {
         id: true,
-        name: true,
-      },
-    })
-    return buildings
+        name: true
+      }
+    });
+    return buildings;
   } catch (error) {
-    console.error("Error fetching buildings:", error)
-    return []
+    console.error("Error fetching buildings:", error);
+    return [];
   }
 }

@@ -1,62 +1,62 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
-  FormLabel,
-} from "@propdock/ui/components//form"
-import { Switch } from "@propdock/ui/components//switch"
+  FormLabel
+} from "@propdock/ui/components//form";
+import { Switch } from "@propdock/ui/components//switch";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { X } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import * as z from "zod"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 export function SelectInputForm({ options, image }) {
-  const router = useRouter()
-  const [activeSwitch, setActiveSwitch] = useState(null)
+  const router = useRouter();
+  const [activeSwitch, setActiveSwitch] = useState(null);
 
   const dynamicSchema = options.reduce((acc, option) => {
-    acc[option.key] = z.boolean()
-    return acc
-  }, {})
+    acc[option.key] = z.boolean();
+    return acc;
+  }, {});
 
   const form = useForm({
-    resolver: zodResolver(z.object(dynamicSchema)),
-  })
+    resolver: zodResolver(z.object(dynamicSchema))
+  });
 
-  const handleSwitchChange = async (option) => {
-    setActiveSwitch(option.label)
+  const handleSwitchChange = async option => {
+    setActiveSwitch(option.label);
 
     // Get the content of the selected option
-    const selectedOptionContent = option.description
+    const selectedOptionContent = option.description;
 
     // Call the server action to update the selected option in the database
     try {
       // If an error occurs, log it and display a toast notification
-      toast.error("Failed to update the selected option. Please try again.")
-      router.refresh()
-      console.log("Selected option updated successfully")
+      toast.error("Failed to update the selected option. Please try again.");
+      router.refresh();
+      console.log("Selected option updated successfully");
     } catch (error) {
-      console.error("An unexpected error occurred:", error)
-      toast.error("An unexpected error occurred. Please try again.")
+      console.error("An unexpected error occurred:", error);
+      toast.error("An unexpected error occurred. Please try again.");
     }
-  }
+  };
 
-  const onSubmit = (data) => {
-    console.log(data)
-  }
+  const onSubmit = data => {
+    console.log(data);
+  };
 
   return (
     <Form {...form}>
@@ -69,7 +69,7 @@ export function SelectInputForm({ options, image }) {
                   onClick={() =>
                     handleSwitchChange({ imageId: image.id, description: null })
                   }
-                  className="absolute right-3 top-3 hover:cursor-pointer"
+                  className="absolute top-3 right-3 hover:cursor-pointer"
                 >
                   <X size="16" />
                 </span>
@@ -79,16 +79,16 @@ export function SelectInputForm({ options, image }) {
                 {
                   (image.selectedOption = image.selectedOption.replace(
                     /^\d+\.\s*/,
-                    "",
+                    ""
                   ))
                 }
               </CardContent>
             </Card>
           </div>
         ) : null}
-        {options.every((option) => !option.selectedOption) && (
+        {options.every(option => !option.selectedOption) && (
           <>
-            {options.map((option) => (
+            {options.map(option => (
               <FormField
                 key={option.key}
                 control={form.control}
@@ -96,7 +96,7 @@ export function SelectInputForm({ options, image }) {
                 render={({ field }) => (
                   <div
                     onClick={() => {
-                      handleSwitchChange(option)
+                      handleSwitchChange(option);
                     }}
                     className="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border p-4"
                   >
@@ -113,7 +113,7 @@ export function SelectInputForm({ options, image }) {
                         type="submit"
                         checked={activeSwitch === option.label}
                         onClick={() => {
-                          handleSwitchChange(option)
+                          handleSwitchChange(option);
                         }}
                         {...field}
                       />
@@ -126,5 +126,5 @@ export function SelectInputForm({ options, image }) {
         )}
       </form>
     </Form>
-  )
+  );
 }

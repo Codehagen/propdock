@@ -1,56 +1,56 @@
-"use client"
+"use client";
 
-import type * as z from "zod"
-import * as React from "react"
-import { useSearchParams } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { buttonVariants } from "@propdock/ui/components/button"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { signIn } from "next-auth/react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { buttonVariants } from "@propdock/ui/components/button";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type * as z from "zod";
 
-import { cn } from "@/lib/utils"
-import { userAuthSchema } from "@/lib/validations/auth"
-import { Icons } from "@/components/shared/icons"
+import { Icons } from "@/components/shared/icons";
+import { cn } from "@/lib/utils";
+import { userAuthSchema } from "@/lib/validations/auth";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  type?: string
+  type?: string;
 }
 
-type FormData = z.infer<typeof userAuthSchema>
+type FormData = z.infer<typeof userAuthSchema>;
 
 export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<FormData>({
-    resolver: zodResolver(userAuthSchema),
-  })
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
-  const searchParams = useSearchParams()
+    resolver: zodResolver(userAuthSchema)
+  });
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
+  const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
-    setIsLoading(true)
+    setIsLoading(true);
 
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams.get("from") || "/dashboard",
-    })
+      callbackUrl: searchParams.get("from") || "/dashboard"
+    });
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (!signInResult?.ok) {
-      return toast.error("Your sign in request failed. Please try again.")
+      return toast.error("Your sign in request failed. Please try again.");
     }
 
     return toast.success(
-      "We sent you a login link. Be sure to check your spam too.",
-    )
+      "We sent you a login link. Be sure to check your spam too."
+    );
   }
 
   return (
@@ -72,7 +72,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
               {...register("email")}
             />
             {errors.email && (
-              <p className="px-1 text-xs text-red-600">
+              <p className="px-1 text-red-600 text-xs">
                 {errors.email.message}
               </p>
             )}
@@ -99,8 +99,8 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
-          setIsGoogleLoading(true)
-          signIn("google")
+          setIsGoogleLoading(true);
+          signIn("google");
         }}
         disabled={isLoading || isGoogleLoading}
       >
@@ -112,5 +112,5 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
         Google
       </button>
     </div>
-  )
+  );
 }

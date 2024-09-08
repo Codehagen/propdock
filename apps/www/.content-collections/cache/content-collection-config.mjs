@@ -5,46 +5,62 @@ import { remarkGfm } from "fumadocs-core/mdx-plugins";
 import GithubSlugger from "github-slugger";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
-var computedFields = (type) => ({
-  slug: (document) => {
+const computedFields = type => ({
+  slug: document => {
     const slugger = new GithubSlugger();
     return document.slug || slugger.slug(document.title);
   },
-  tableOfContents: (document) => {
-    const content = document.content || document.body?.raw || document.mdx?.code || "";
+  tableOfContents: document => {
+    const content =
+      document.content || document.body?.raw || document.mdx?.code || "";
     const headings = content.match(/^##\s(.+)$/gm);
     const slugger = new GithubSlugger();
-    return headings?.map((heading) => {
-      const title = heading.replace(/^##\s/, "");
-      return {
-        title,
-        slug: slugger.slug(title)
-      };
-    }) || [];
+    return (
+      headings?.map(heading => {
+        const title = heading.replace(/^##\s/, "");
+        return {
+          title,
+          slug: slugger.slug(title)
+        };
+      }) || []
+    );
   },
-  images: (document) => {
-    if (!document.body?.raw) return [];
-    return document.body.raw.match(/(?<=<Image[^>]*\bsrc=")[^"]+(?="[^>]*\/>)/g) || [];
+  images: document => {
+    if (!document.body?.raw) {
+      return [];
+    }
+    return (
+      document.body.raw.match(/(?<=<Image[^>]*\bsrc=")[^"]+(?="[^>]*\/>)/g) ||
+      []
+    );
   },
-  tweetIds: (document) => {
-    if (!document.body?.raw) return [];
+  tweetIds: document => {
+    if (!document.body?.raw) {
+      return [];
+    }
     const tweetMatches = document.body.raw.match(/<Tweet\sid="[0-9]+"\s\/>/g);
-    return tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)[0]) || [];
+    return tweetMatches?.map(tweet => tweet.match(/[0-9]+/g)[0]) || [];
   },
-  githubRepos: (document) => {
-    if (!document.body?.raw) return [];
-    return document.body.raw.match(
-      /(?<=<GithubRepo[^>]*\burl=")[^"]+(?="[^>]*\/>)/g
-    ) || [];
+  githubRepos: document => {
+    if (!document.body?.raw) {
+      return [];
+    }
+    return (
+      document.body.raw.match(
+        /(?<=<GithubRepo[^>]*\burl=")[^"]+(?="[^>]*\/>)/g
+      ) || []
+    );
   }
 });
-var BlogPost = defineCollection({
+const BlogPost = defineCollection({
   name: "BlogPost",
   directory: "src/content/blog",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
-    categories: z.array(z.enum(["company", "engineering", "education", "customers"])).default(["company"]),
+    categories: z
+      .array(z.enum(["company", "engineering", "education", "customers"]))
+      .default(["company"]),
     publishedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     featured: z.boolean().default(false),
     image: z.string(),
@@ -89,11 +105,11 @@ var BlogPost = defineCollection({
     }
   }
 });
-var ChangelogPost = defineCollection({
+const ChangelogPost = defineCollection({
   name: "ChangelogPost",
   directory: "src/content/changelog",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
     publishedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     summary: z.string(),
@@ -131,11 +147,11 @@ var ChangelogPost = defineCollection({
     }
   }
 });
-var CustomersPost = defineCollection({
+const CustomersPost = defineCollection({
   name: "CustomersPost",
   directory: "src/content/customers",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
     publishedAt: z.string(),
     summary: z.string(),
@@ -180,24 +196,26 @@ var CustomersPost = defineCollection({
     }
   }
 });
-var HelpPost = defineCollection({
+const HelpPost = defineCollection({
   name: "HelpPost",
   directory: "src/content/help",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
     updatedAt: z.string(),
     summary: z.string(),
     author: z.string(),
-    categories: z.array(
-      z.enum([
-        "oversikt",
-        "starter",
-        "eiendomsforvaltning",
-        "api",
-        "integrasjoner"
-      ])
-    ).default(["oversikt"]),
+    categories: z
+      .array(
+        z.enum([
+          "oversikt",
+          "starter",
+          "eiendomsforvaltning",
+          "api",
+          "integrasjoner"
+        ])
+      )
+      .default(["oversikt"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),
     slug: z.string().optional()
@@ -226,11 +244,11 @@ var HelpPost = defineCollection({
     }
   }
 });
-var LegalPost = defineCollection({
+const LegalPost = defineCollection({
   name: "LegalPost",
   directory: "src/content/legal",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
     updatedAt: z.string(),
     slug: z.string().optional()
@@ -265,11 +283,11 @@ var LegalPost = defineCollection({
     }
   }
 });
-var IntegrationsPost = defineCollection({
+const IntegrationsPost = defineCollection({
   name: "IntegrationsPost",
   directory: "src/content/integrations",
   include: "*.mdx",
-  schema: (z) => ({
+  schema: z => ({
     title: z.string(),
     publishedAt: z.string(),
     summary: z.string(),
@@ -313,7 +331,7 @@ var IntegrationsPost = defineCollection({
     }
   }
 });
-var content_collections_default = defineConfig({
+const content_collections_default = defineConfig({
   collections: [
     BlogPost,
     ChangelogPost,

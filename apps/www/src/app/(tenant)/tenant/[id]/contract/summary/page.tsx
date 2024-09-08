@@ -1,26 +1,26 @@
-import React from "react"
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Card } from "@propdock/ui/components/card"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { Card } from "@propdock/ui/components/card";
+import React from "react";
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import { ContractCheck } from "@/components/tenant/ContractCheck"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { ContractCheck } from "@/components/tenant/ContractCheck";
 
-import { SummaryDetailsForm } from "./_components/SummaryDetailsForm"
+import { SummaryDetailsForm } from "./_components/SummaryDetailsForm";
 
 export default async function SummaryPage({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     const hasContract =
-      tenantDetails?.contracts && tenantDetails?.contracts.length > 0
+      tenantDetails?.contracts && tenantDetails?.contracts.length > 0;
 
     return (
       <DashboardShell>
@@ -31,12 +31,12 @@ export default async function SummaryPage({
           <ContractCheck tenantDetails={tenantDetails} />
         )}
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

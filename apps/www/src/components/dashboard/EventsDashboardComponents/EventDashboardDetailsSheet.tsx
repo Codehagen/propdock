@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { createEvent } from "@/actions/Dingify/create-event"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+import { createEvent } from "@/actions/Dingify/create-event";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -12,9 +11,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetClose,
@@ -23,11 +22,12 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const FormSchema = z.object({
@@ -36,8 +36,8 @@ const FormSchema = z.object({
   event: z.string().min(1, "Event is required"),
   user_id: z.string().min(1, "User ID is required"),
   icon: z.string().min(1, "Icon is required"),
-  notify: z.boolean(),
-})
+  notify: z.boolean()
+});
 
 export function EventDashboardDetailsSheet() {
   const form = useForm({
@@ -48,14 +48,14 @@ export function EventDashboardDetailsSheet() {
       event: "",
       user_id: "",
       icon: "",
-      notify: true,
-    },
-  })
+      notify: true
+    }
+  });
 
-  const onSubmit = async (data) => {
-    console.log("Form data to submit:", data) // Log form dat
+  const onSubmit = async data => {
+    console.log("Form data to submit:", data); // Log form dat
     try {
-      const result = await createEvent(data)
+      const result = await createEvent(data);
       if (result.success) {
         toast.message(
           <div className="flex flex-col">
@@ -65,17 +65,17 @@ export function EventDashboardDetailsSheet() {
                 {JSON.stringify(data, null, 2)}
               </code>
             </pre>
-          </div>,
-        )
-        console.log("Event created:", result.event) // Log the created event
+          </div>
+        );
+        console.log("Event created:", result.event); // Log the created event
         // Optionally refresh the page or clear the form
-        form.reset()
+        form.reset();
       }
     } catch (error) {
-      toast.error("There was an error creating the event.")
-      console.error("Error creating event:", error) // Log any error
+      toast.error("There was an error creating the event.");
+      console.error("Error creating event:", error); // Log any error
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -209,5 +209,5 @@ export function EventDashboardDetailsSheet() {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

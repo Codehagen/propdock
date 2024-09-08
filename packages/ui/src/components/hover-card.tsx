@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
+import * as React from "react";
 
 import { cn } from "../utils";
 
@@ -18,7 +18,7 @@ const HoverCardContent = React.forwardRef<
     align={align}
     sideOffset={sideOffset}
     className={cn(
-      "z-50 w-64 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none animate-in zoom-in-90",
+      "zoom-in-90 z-50 w-64 animate-in rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none",
       className
     )}
     {...props}

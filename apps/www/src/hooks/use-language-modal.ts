@@ -6,8 +6,8 @@ interface UseLanguageModalStore {
   onClose: () => void;
 }
 
-export const useLanguageModal = create<UseLanguageModalStore>((set) => ({
+export const useLanguageModal = create<UseLanguageModalStore>(set => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
+  onClose: () => set({ isOpen: false })
 }));

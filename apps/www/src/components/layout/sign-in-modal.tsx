@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@propdock/ui/components/button"
-import { signIn } from "next-auth/react"
+import { Button } from "@propdock/ui/components/button";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 
-import { siteConfig } from "@/config/site"
-import { useSigninModal } from "@/hooks/use-signin-modal"
-import { Icons } from "@/components/shared/icons"
-import { Modal } from "@/components/shared/modal"
+import { Icons } from "@/components/shared/icons";
+import { Modal } from "@/components/shared/modal";
+import { siteConfig } from "@/config/site";
+import { useSigninModal } from "@/hooks/use-signin-modal";
 
 export const SignInModal = () => {
-  const signInModal = useSigninModal()
-  const [signInClicked, setSignInClicked] = useState(false)
+  const signInModal = useSigninModal();
+  const [signInClicked, setSignInClicked] = useState(false);
 
   return (
     <Modal showModal={signInModal.isOpen} setShowModal={signInModal.onClose}>
@@ -20,8 +20,8 @@ export const SignInModal = () => {
           <a href={siteConfig.url}>
             <Icons.logo className="h-10 w-10" />
           </a>
-          <h3 className="font-urban text-2xl font-bold">Logg Inn</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-bold font-urban text-2xl">Logg Inn</h3>
+          <p className="text-gray-500 text-sm">
             Bli med i vårt fellesskap og lås opp det fulle potensialet til
             Propdock. Logg inn enkelt med Google for å begynne å administrere
             dine eiendommer.
@@ -33,13 +33,13 @@ export const SignInModal = () => {
             variant="default"
             disabled={signInClicked}
             onClick={() => {
-              setSignInClicked(true)
+              setSignInClicked(true);
               signIn("google", { callbackUrl: "/dashboard" }).then(() =>
                 // TODO: fix this without setTimeOut(), modal closes too quickly. Idea: update value before redirect
                 setTimeout(() => {
-                  signInModal.onClose()
-                }, 1000),
-              )
+                  signInModal.onClose();
+                }, 1000)
+              );
             }}
           >
             {signInClicked ? (
@@ -52,5 +52,5 @@ export const SignInModal = () => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};

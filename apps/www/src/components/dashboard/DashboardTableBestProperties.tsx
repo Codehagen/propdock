@@ -1,14 +1,12 @@
-import * as React from "react"
-import Link from "next/link"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { Button, buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -17,8 +15,10 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
+import Link from "next/link";
+import * as React from "react";
 
 const properties = [
   {
@@ -26,37 +26,37 @@ const properties = [
     occupancy: "85%",
     revenue: "kr 12.000,00",
     expenses: "kr 3.000,00",
-    noi: "kr 9.000,00",
+    noi: "kr 9.000,00"
   },
   {
     property: "Eiendom 2",
     occupancy: "90%",
     revenue: "kr 15.000,00",
     expenses: "kr 4.000,00",
-    noi: "kr 11.000,00",
+    noi: "kr 11.000,00"
   },
   {
     property: "Eiendom 3",
     occupancy: "78%",
     revenue: "kr 10.000,00",
     expenses: "kr 2.500,00",
-    noi: "kr 7.500,00",
+    noi: "kr 7.500,00"
   },
   {
     property: "Eiendom 4",
     occupancy: "95%",
     revenue: "kr 18.000,00",
     expenses: "kr 5.000,00",
-    noi: "kr 13.000,00",
+    noi: "kr 13.000,00"
   },
   {
     property: "Eiendom 5",
     occupancy: "88%",
     revenue: "kr 14.000,00",
     expenses: "kr 3.500,00",
-    noi: "kr 10.500,00",
-  },
-]
+    noi: "kr 10.500,00"
+  }
+];
 
 export default function DashboardTableBestProperties() {
   return (
@@ -79,7 +79,7 @@ export default function DashboardTableBestProperties() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {properties.map((property) => (
+            {properties.map(property => (
               <TableRow key={property.property}>
                 <TableCell className="font-medium">
                   {property.property}
@@ -97,12 +97,14 @@ export default function DashboardTableBestProperties() {
               <TableCell className="text-right">
                 {properties
                   .reduce((total, property) => {
-                    const noi = parseFloat(property.noi.replace(/[\s,kr]/g, ""))
-                    return total + noi
+                    const noi = Number.parseFloat(
+                      property.noi.replace(/[\s,kr]/g, "")
+                    );
+                    return total + noi;
                   }, 0)
                   .toLocaleString("no-NO", {
                     style: "currency",
-                    currency: "NOK",
+                    currency: "NOK"
                   })}
               </TableCell>
             </TableRow>
@@ -118,5 +120,5 @@ export default function DashboardTableBestProperties() {
         </Link>
       </CardFooter>
     </Card>
-  )
+  );
 }

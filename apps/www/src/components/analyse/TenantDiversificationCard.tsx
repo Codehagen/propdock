@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -6,50 +6,50 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
-import { Cell, Pie, PieChart } from "recharts"
+  ChartTooltipContent
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
+import { Cell, Pie, PieChart } from "recharts";
 
 const tenantData = [
   { sector: "Kontor", value: 40, fill: "var(--color-kontor)" },
   { sector: "Handel", value: 30, fill: "var(--color-handel)" },
   { sector: "Industri", value: 20, fill: "var(--color-industri)" },
-  { sector: "Annet", value: 10, fill: "var(--color-annet)" },
-]
+  { sector: "Annet", value: 10, fill: "var(--color-annet)" }
+];
 
 const chartConfig = {
   tenantDiversity: {
-    label: "Leietaker Diversitet",
+    label: "Leietaker Diversitet"
   },
   kontor: {
     label: "Kontor",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-1))"
   },
   handel: {
     label: "Handel",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-2))"
   },
   industri: {
     label: "Industri",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-3))"
   },
   annet: {
     label: "Annet",
-    color: "hsl(var(--chart-4))",
-  },
-} satisfies ChartConfig
+    color: "hsl(var(--chart-4))"
+  }
+} satisfies ChartConfig;
 
 export function TenantDiversificationCard() {
   const largestSector = tenantData.reduce((prev, current) =>
-    prev.value > current.value ? prev : current,
-  )
+    prev.value > current.value ? prev : current
+  );
 
   return (
     <Card className="flex flex-col">
@@ -92,18 +92,18 @@ export function TenantDiversificationCard() {
           Største sektor: {largestSector.sector} ({largestSector.value}%)
           <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Viser fordeling av leietakere etter sektor
         </div>
       </CardFooter>
       <CardContent className="pt-0">
         <div className="grid grid-cols-2 gap-2 text-xs">
-          {tenantData.map((sector) => (
+          {tenantData.map(sector => (
             <div key={sector.sector} className="flex items-center gap-2">
               <div
                 className="h-3 w-3 rounded-full"
                 style={{
-                  backgroundColor: `var(--color-${sector.sector.toLowerCase()})`,
+                  backgroundColor: `var(--color-${sector.sector.toLowerCase()})`
                 }}
               />
               <span>{sector.sector}</span>
@@ -113,5 +113,5 @@ export function TenantDiversificationCard() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

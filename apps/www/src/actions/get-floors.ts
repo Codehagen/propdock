@@ -9,8 +9,8 @@ export async function getFloors(buildingId: number) {
       where: { buildingId },
       select: {
         id: true,
-        number: true,
-      },
+        number: true
+      }
     });
     return floors;
   } catch (error) {

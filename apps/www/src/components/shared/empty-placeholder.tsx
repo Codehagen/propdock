@@ -1,6 +1,6 @@
-import * as React from "react";
 import { Icons } from "@/components/shared/icons";
 import { cn } from "@/lib/utils";
+import type * as React from "react";
 
 type EmptyPlaceholderProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -12,7 +12,7 @@ export function EmptyPlaceholder({
   return (
     <div
       className={cn(
-        "flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
+        "fade-in-50 flex min-h-[400px] animate-in flex-col items-center justify-center rounded-md border border-dashed p-8 text-center",
         className
       )}
       {...props}
@@ -58,7 +58,7 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   ...props
 }: EmptyPlacholderTitleProps) {
   return (
-    <h2 className={cn("mt-6 text-xl font-semibold", className)} {...props} />
+    <h2 className={cn("mt-6 font-semibold text-xl", className)} {...props} />
   );
 };
 
@@ -72,7 +72,7 @@ EmptyPlaceholder.Description = function EmptyPlaceholderDescription({
   return (
     <p
       className={cn(
-        "mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground",
+        "mt-2 mb-8 text-center font-normal text-muted-foreground text-sm leading-6",
         className
       )}
       {...props}

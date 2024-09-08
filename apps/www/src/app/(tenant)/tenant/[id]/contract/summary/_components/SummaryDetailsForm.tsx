@@ -1,10 +1,10 @@
-import React from "react"
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
+import React from "react";
 
 export function SummaryDetailsForm({ tenantDetails }) {
   return (
@@ -18,5 +18,5 @@ export function SummaryDetailsForm({ tenantDetails }) {
         </pre>
       </CardContent>
     </Card>
-  )
+  );
 }

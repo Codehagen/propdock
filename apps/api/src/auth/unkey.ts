@@ -1,11 +1,20 @@
 // const UNKEY_ROOT = process.env.UNKEY_ROOT
 // const API_ID     = process.env.UNKEY_API_ID
 
-async function createAPIKey(rk: string, aId: string, workspaceId: string, serviceName: string = "", prefix: string = ""): Promise<string | null> {
-    const options = {
-        method: 'POST',
-        headers: {Authorization: `Bearer ${rk}`, 'Content-Type': 'application/json'},
-        body: `
+async function createAPIKey(
+  rk: string,
+  aId: string,
+  workspaceId: string,
+  serviceName = "",
+  prefix = ""
+): Promise<string | null> {
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${rk}`,
+      "Content-Type": "application/json"
+    },
+    body: `
             {"apiId":${aId},
             "prefix":${prefix},
             "ownerId":${workspaceId},
@@ -18,27 +27,25 @@ async function createAPIKey(rk: string, aId: string, workspaceId: string, servic
                 },
                 "enabled":true,
             }`
-    };
+  };
 
-    try {
-        const res = await fetch('https://api.unkey.dev/v1/keys.createKey', options)
-        const result = await res.json() as any
-        console.debug(`Tried to create API key for workspace <${workspaceId}>, returned with status <${res.status}>`)
-        return result.key
-    } catch(error: any) {
-        console.error(`${error.code}: ${error.message}`)
-        return null
-    }
+  try {
+    const res = await fetch("https://api.unkey.dev/v1/keys.createKey", options);
+    const result = (await res.json()) as any;
+    console.debug(
+      `Tried to create API key for workspace <${workspaceId}>, returned with status <${res.status}>`
+    );
+    return result.key;
+  } catch (error: any) {
+    console.error(`${error.code}: ${error.message}`);
+    return null;
+  }
 }
 
+export { createAPIKey };
 
-export { 
-    createAPIKey 
-}
-
-
-
-{/*
+{
+  /*
 body: `
 {"apiId":${API_ID},
 "prefix":"<string>",
@@ -70,4 +77,5 @@ body: `
     "enabled":true,
     "environment":"<string>"
 }`
-*/}
+*/
+}

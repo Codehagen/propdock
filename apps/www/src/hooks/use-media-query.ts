@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useMediaQuery() {
   const [device, setDevice] = useState<"mobile" | "tablet" | "desktop" | null>(
-    null,
+    null
   );
   const [dimensions, setDimensions] = useState<{
     width: number;
@@ -41,6 +41,6 @@ export default function useMediaQuery() {
     height: dimensions?.height,
     isMobile: device === "mobile",
     isTablet: device === "tablet",
-    isDesktop: device === "desktop",
+    isDesktop: device === "desktop"
   };
 }

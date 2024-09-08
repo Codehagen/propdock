@@ -1,25 +1,25 @@
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Button } from "@propdock/ui/components/button"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { Settings } from "lucide-react"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { Settings } from "lucide-react";
 
-import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
-import { EditContactPersonSheet } from "@/components/buttons/EditContactPersonSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet";
+import { EditContactPersonSheet } from "@/components/buttons/EditContactPersonSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function ContactPerson({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   if (!tenantId) {
     return (
@@ -29,11 +29,11 @@ export default async function ContactPerson({
           text="Invalid contact person ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -56,7 +56,7 @@ export default async function ContactPerson({
             />
           </EmptyPlaceholder>
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -87,7 +87,7 @@ export default async function ContactPerson({
             </EmptyPlaceholder>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {tenantDetails.contacts.map((contactPerson) => (
+              {tenantDetails.contacts.map(contactPerson => (
                 <Card key={contactPerson.id} className="overflow-hidden">
                   <CardHeader className="flex flex-row items-start bg-muted/50">
                     <div className="flex w-full items-center justify-between">
@@ -100,7 +100,7 @@ export default async function ContactPerson({
                           name: contactPerson.name,
                           email: contactPerson.email,
                           phone: contactPerson.phone,
-                          fnr: contactPerson.fnr || "",
+                          fnr: contactPerson.fnr || ""
                         }}
                         currentPath={`/tenant/${tenantId}/contacts`}
                       >
@@ -143,12 +143,12 @@ export default async function ContactPerson({
           )}
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

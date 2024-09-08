@@ -21,7 +21,7 @@ export function Callout({
         "border-red-200 bg-red-100 text-red-900 dark:border-red-200/30 dark:bg-red-900/40 dark:text-red-200":
           type === "danger",
         "border-orange-200 bg-orange-100 text-orange-800 dark:border-orange-400/30 dark:bg-orange-400/20 dark:text-orange-300":
-          type === "warning",
+          type === "warning"
       })}
       {...props}
     >

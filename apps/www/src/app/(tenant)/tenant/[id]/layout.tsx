@@ -1,71 +1,71 @@
-import type { SidebarNavItem } from "@/types"
-import { notFound } from "next/navigation"
+import type { SidebarNavItem } from "@/types";
+import { notFound } from "next/navigation";
 
-import { getCurrentUser } from "@/lib/session"
-import { DashboardNav } from "@/components/layout/nav"
+import { DashboardNav } from "@/components/layout/nav";
+import { getCurrentUser } from "@/lib/session";
 
 interface DashboardLayoutProps {
-  children?: React.ReactNode
-  params: { id: string }
+  children?: React.ReactNode;
+  params: { id: string };
 }
 
 export default async function DashboardLayout({
   children,
-  params,
+  params
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    return notFound()
+    return notFound();
   }
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
       title: "Oversikt",
       href: `/tenant/${params.id}`,
-      icon: "home",
+      icon: "home"
     },
     {
       title: "Bygg",
       href: `/tenant/${params.id}/building`,
-      icon: "building",
+      icon: "building"
     },
     {
       title: "Kontaktperson",
       href: `/tenant/${params.id}/contactperson`,
-      icon: "user",
+      icon: "user"
     },
     {
       title: "Tidslinje",
       href: `/tenant/${params.id}/timeline`,
-      icon: "calendarClock",
+      icon: "calendarClock"
     },
     {
       title: "Økonomi",
       href: `/tenant/${params.id}/finance`,
-      icon: "piechart",
+      icon: "piechart"
     },
     {
       title: "Kontrakt",
       href: `/tenant/${params.id}/contract/building`,
-      icon: "filetext",
+      icon: "filetext"
     },
     {
       title: "Faktura",
       href: `/tenant/${params.id}/invoice`,
-      icon: "billing",
+      icon: "billing"
     },
     {
       title: "E-signering",
       href: `/tenant/${params.id}/esign`,
-      icon: "signature",
+      icon: "signature"
     },
     {
       title: "Dokumenter",
       href: `/tenant/${params.id}/files`,
-      icon: "file",
-    },
-  ]
+      icon: "file"
+    }
+  ];
 
   return (
     <div className="grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
@@ -76,5 +76,5 @@ export default async function DashboardLayout({
         {children}
       </div>
     </div>
-  )
+  );
 }

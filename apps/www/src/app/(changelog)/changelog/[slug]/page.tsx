@@ -1,50 +1,50 @@
-import type { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allChangelogPosts } from "content-collections"
-import { Facebook, Linkedin, Twitter } from "lucide-react"
+import { allChangelogPosts } from "content-collections";
+import { Facebook, Linkedin, Twitter } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { getBlurDataURL } from "@/lib/blog/images"
-import { formatDate } from "@/lib/utils"
-import Author from "@/components/blog/author"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import { MDX } from "@/components/blog/mdx"
+import Author from "@/components/blog/author";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import { MDX } from "@/components/blog/mdx";
+import BlurImage from "@/lib/blog/blur-image";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { getBlurDataURL } from "@/lib/blog/images";
+import { formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allChangelogPosts.map((post) => ({
-    slug: post.slug,
-  }))
+  return allChangelogPosts.map(post => ({
+    slug: post.slug
+  }));
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allChangelogPosts.find((post) => post.slug === params.slug)
+  const post = allChangelogPosts.find(post => post.slug === params.slug);
   if (!post) {
-    return
+    return;
   }
 
-  const { title, summary: description, image } = post
+  const { title, summary: description, image } = post;
 
   return constructMetadata({
     title,
     description,
-    image,
-  })
+    image
+  });
 }
 
 export default async function ChangelogPost({
-  params,
+  params
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const post = allChangelogPosts.find((post) => post.slug === params.slug)
+  const post = allChangelogPosts.find(post => post.slug === params.slug);
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -52,7 +52,7 @@ export default async function ChangelogPost({
       <div className="sticky top-10 hidden self-start md:col-span-1 md:block">
         <Link
           href="/changelog"
-          className="text-sm text-gray-500 transition-colors hover:text-gray-800"
+          className="text-gray-500 text-sm transition-colors hover:text-gray-800"
         >
           ← Tilbake til Endringslogg
         </Link>
@@ -62,18 +62,18 @@ export default async function ChangelogPost({
           <div className="flex flex-col">
             <Link
               href="/changelog"
-              className="my-5 text-sm text-gray-500 md:hidden"
+              className="my-5 text-gray-500 text-sm md:hidden"
             >
               ← Tilbake til Endringslogg
             </Link>
             <time
               dateTime={post.publishedAt}
-              className="flex items-center text-sm text-gray-500 md:text-base"
+              className="flex items-center text-gray-500 text-sm md:text-base"
             >
               {formatDate(post.publishedAt)}
             </time>
           </div>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
+          <h1 className="font-bold font-display text-3xl text-gray-800 tracking-tight sm:text-4xl">
             {post.title}
           </h1>
         </div>
@@ -117,18 +117,18 @@ export default async function ChangelogPost({
             </Link>
           </div>
         </div>
-        <MDX code={post.mdx} className="mx-5 sm:prose-lg md:mx-0" />
-        <div className="mt-10 flex justify-end border-t border-gray-200 pt-5">
+        <MDX code={post.mdx} className="sm:prose-lg mx-5 md:mx-0" />
+        <div className="mt-10 flex justify-end border-gray-200 border-t pt-5">
           <Link
             href={`https://github.com/codehagen/propdock/blob/main/apps/www/src/content/changelog/${params.slug}.mdx`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-gray-500 transition-colors hover:text-gray-800"
+            className="text-gray-500 text-sm transition-colors hover:text-gray-800"
           >
             <p>Fant du en skrivefeil? Rediger denne siden →</p>
           </Link>
         </div>
       </div>
     </MaxWidthWrapper>
-  )
+  );
 }

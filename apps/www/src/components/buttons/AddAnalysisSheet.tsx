@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createAnalysis } from "@/actions/create-analyse"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createAnalysis } from "@/actions/create-analyse";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetContent,
@@ -20,45 +19,46 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const AnalysisSchema = z.object({
-  name: z.string().min(1, "Navn er påkrevd"),
-})
+  name: z.string().min(1, "Navn er påkrevd")
+});
 
 export function AddAnalysisSheet() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(AnalysisSchema),
     defaultValues: {
-      name: "",
-    },
-  })
+      name: ""
+    }
+  });
 
   const onSubmit = async (data: z.infer<typeof AnalysisSchema>) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const result = await createAnalysis(data)
+      const result = await createAnalysis(data);
 
       if (!result.success) {
-        throw new Error(result.error || "Kunne ikke lagre analysen.")
+        throw new Error(result.error || "Kunne ikke lagre analysen.");
       }
 
-      toast.success(`Analyse ble lagret.`)
-      form.reset()
+      toast.success("Analyse ble lagret.");
+      form.reset();
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -99,5 +99,5 @@ export function AddAnalysisSheet() {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

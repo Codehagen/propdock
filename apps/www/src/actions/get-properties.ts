@@ -19,13 +19,13 @@ export async function getProperties() {
       where: {
         users: {
           some: {
-            id: userId,
-          },
-        },
+            id: userId
+          }
+        }
       },
       select: {
-        id: true,
-      },
+        id: true
+      }
     });
 
     if (!userWorkspace) {
@@ -35,12 +35,12 @@ export async function getProperties() {
 
     const properties = await prisma.property.findMany({
       where: {
-        workspaceId: userWorkspace.id,
+        workspaceId: userWorkspace.id
       },
       select: {
         id: true,
-        name: true,
-      },
+        name: true
+      }
     });
 
     return properties;

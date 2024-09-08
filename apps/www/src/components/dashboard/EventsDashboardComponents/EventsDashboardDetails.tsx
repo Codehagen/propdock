@@ -1,48 +1,48 @@
-import { useRouter } from "next/navigation"
-import { deleteEvent } from "@/actions/Dingify/delete-event"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { deleteEvent } from "@/actions/Dingify/delete-event";
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
-import { format } from "date-fns"
-import { File, Pencil, Trash } from "lucide-react"
-import { toast } from "sonner"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
+import { format } from "date-fns";
+import { File, Pencil, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-import { ViewDetailsButton } from "@/components/buttons/ViewDetailsButton"
-import { UserBadge } from "@/components/UserBadge"
+import { UserBadge } from "@/components/UserBadge";
+import { ViewDetailsButton } from "@/components/buttons/ViewDetailsButton";
 
 export default function EventsDashboardDetails({ event }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDelete = async () => {
     try {
-      await deleteEvent(event.id)
-      toast.success("The event has been deleted successfully.")
-      router.refresh()
+      await deleteEvent(event.id);
+      toast.success("The event has been deleted successfully.");
+      router.refresh();
     } catch (error) {
-      toast.error("There was an error deleting the event.")
-      console.error("Error deleting event:", error)
+      toast.error("There was an error deleting the event.");
+      console.error("Error deleting event:", error);
     }
-  }
+  };
 
-  const handleUserClick = (customerId) => {
-    router.push(`dashboard/users/${customerId}`)
-  }
+  const handleUserClick = customerId => {
+    router.push(`dashboard/users/${customerId}`);
+  };
 
   return (
     <>
@@ -112,7 +112,7 @@ export default function EventsDashboardDetails({ event }) {
                 <span className="text-muted-foreground">Project</span>
                 <span>
                   <Badge className="text-xs" variant="default">
-                    {event?.channel && event?.channel.project
+                    {event?.channel?.project
                       ? event?.channel.project.name
                       : "No Project"}
                   </Badge>
@@ -174,7 +174,7 @@ export default function EventsDashboardDetails({ event }) {
           </div>
         </CardContent>
         <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-          <div className="text-xs text-muted-foreground">
+          <div className="text-muted-foreground text-xs">
             Updated
             {/* <time dateTime={new Date(event?.createdAt).toISOString()}>
               {" "}
@@ -184,7 +184,7 @@ export default function EventsDashboardDetails({ event }) {
         </CardFooter>
       </Card>
     </>
-  )
+  );
 }
 
 function TruckIcon(props) {
@@ -207,7 +207,7 @@ function TruckIcon(props) {
       <circle cx="17" cy="18" r="2" />
       <circle cx="7" cy="18" r="2" />
     </svg>
-  )
+  );
 }
 
 function MoveVerticalIcon(props) {
@@ -228,7 +228,7 @@ function MoveVerticalIcon(props) {
       <polyline points="8 6 12 2 16 6" />
       <line x1="12" x2="12" y1="2" y2="22" />
     </svg>
-  )
+  );
 }
 
 function InfoIcon(props) {
@@ -249,5 +249,5 @@ function InfoIcon(props) {
       <path d="M12 16v-4" />
       <path d="M12 8h.01" />
     </svg>
-  )
+  );
 }

@@ -1,63 +1,63 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateContract } from "@/actions/update-contract" // Import the update function
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { updateContract } from "@/actions/update-contract"; // Import the update function
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@propdock/ui/components/popover"
+  PopoverTrigger
+} from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format, parseISO } from "date-fns"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SelectValue
+} from "@propdock/ui/components/select";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format, parseISO } from "date-fns";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 // Define validation schema
 const IndexationSchema = z.object({
   indexationType: z.enum(["MARKET", "CPI", "MANUAL"]),
   indexValue: z
     .string()
-    .refine((val) => !isNaN(parseFloat(val)), {
-      message: "Index Value must be a number",
+    .refine(val => !Number.isNaN(Number.parseFloat(val)), {
+      message: "Index Value must be a number"
     })
-    .transform((val) => parseFloat(val)),
-  indexationDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Indexation Date is required",
-  }),
-})
+    .transform(val => Number.parseFloat(val)),
+  indexationDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
+    message: "Indexation Date is required"
+  })
+});
 
 export function KpiDetailsForm({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(IndexationSchema),
@@ -66,39 +66,39 @@ export function KpiDetailsForm({ tenantDetails }) {
       indexValue: tenantDetails.contracts[0]?.indexValue?.toString() || "",
       indexationDate: tenantDetails.contracts[0]?.indexationDate
         ? tenantDetails.contracts[0]?.indexationDate.toISOString().split("T")[0]
-        : "",
-    },
-  })
+        : ""
+    }
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     const parsedData = {
       ...data,
-      indexValue: parseFloat(data.indexValue.toString()),
-      indexationDate: new Date(data.indexationDate),
-    }
+      indexValue: Number.parseFloat(data.indexValue.toString()),
+      indexationDate: new Date(data.indexationDate)
+    };
 
     try {
       const result = await updateContract(
         tenantDetails.contracts[0].id,
-        parsedData,
-      )
+        parsedData
+      );
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere indeksinformasjonen.",
-        )
+          result.error || "Kunne ikke oppdatere indeksinformasjonen."
+        );
       }
 
-      toast.success("Indeksinformasjon oppdatert")
+      toast.success("Indeksinformasjon oppdatert");
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card>
@@ -163,7 +163,7 @@ export function KpiDetailsForm({ tenantDetails }) {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground",
+                            !field.value && "text-muted-foreground"
                           )}
                         >
                           {field.value ? (
@@ -181,9 +181,9 @@ export function KpiDetailsForm({ tenantDetails }) {
                         selected={
                           field.value ? parseISO(field.value) : undefined
                         }
-                        onSelect={(date) =>
+                        onSelect={date =>
                           field.onChange(
-                            date ? date.toISOString().split("T")[0] : "",
+                            date ? date.toISOString().split("T")[0] : ""
                           )
                         }
                         initialFocus
@@ -203,5 +203,5 @@ export function KpiDetailsForm({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

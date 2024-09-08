@@ -6,13 +6,13 @@ const CallToActionComponent = () => {
   return (
     <div className="container mx-auto px-6 py-12 text-center">
       <h2
-        className="animate-fade-up font-urban text-3xl font-extrabold tracking-tight opacity-0 sm:text-4xl md:text-5xl"
+        className="animate-fade-up font-extrabold font-urban text-3xl tracking-tight opacity-0 sm:text-4xl md:text-5xl"
         style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
       >
         <Balancer>Boost your productivity today</Balancer>
       </h2>
       <p
-        className="mt-2 animate-fade-up leading-normal text-muted-foreground opacity-0"
+        className="mt-2 animate-fade-up text-muted-foreground leading-normal opacity-0"
         style={{ animationDelay: "0.45s", animationFillMode: "forwards" }}
       >
         <Balancer>

@@ -1,40 +1,40 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { userNameSchema } from "@/lib/validations/user"
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { userNameSchema } from "@/lib/validations/user";
 
 export interface FormData {
-  name: string
+  name: string;
 }
 
 export async function updateUserName(userId: string, data: FormData) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     if (!session?.user || session.user.id !== userId) {
-      throw new Error("Unauthorized")
+      throw new Error("Unauthorized");
     }
 
-    const { name } = userNameSchema.parse(data)
+    const { name } = userNameSchema.parse(data);
 
     // Update the user name.
     await prisma.user.update({
       where: {
-        id: userId,
+        id: userId
       },
       data: {
-        name: name,
-      },
-    })
+        name: name
+      }
+    });
 
-    revalidatePath("/dashboard/settings")
-    return { status: "success" }
+    revalidatePath("/dashboard/settings");
+    return { status: "success" };
   } catch (error) {
-    console.log(error)
-    return { status: "error" }
+    console.log(error);
+    return { status: "error" };
   }
 }

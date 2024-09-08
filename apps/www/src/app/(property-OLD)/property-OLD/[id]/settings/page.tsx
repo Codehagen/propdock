@@ -1,13 +1,13 @@
-import { redirect } from "next/navigation";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { UserNameForm } from "@/components/forms/user-name-form";
 import { authOptions } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Settings",
-  description: "Manage account and website settings.",
+  description: "Manage account and website settings."
 };
 
 export default async function SettingsPage() {

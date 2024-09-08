@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import type { MainNavItem } from "@/types"
-import type { User } from "next-auth"
-import { Button } from "@propdock/ui/components/button"
+import type { MainNavItem } from "@/types";
+import { Button } from "@propdock/ui/components/button";
+import type { User } from "next-auth";
 
-import useScroll from "@/hooks/use-scroll"
-import { useSigninModal } from "@/hooks/use-signin-modal"
+import useScroll from "@/hooks/use-scroll";
+import { useSigninModal } from "@/hooks/use-signin-modal";
 
-import { MainNav } from "./main-nav"
-import { UserAccountNav } from "./user-account-nav"
+import { MainNav } from "./main-nav";
+import { UserAccountNav } from "./user-account-nav";
 
 interface NavBarProps {
-  user: Pick<User, "name" | "image" | "email"> | undefined
-  items?: MainNavItem[]
-  children?: React.ReactNode
-  rightElements?: React.ReactNode
-  scroll?: boolean
+  user: Pick<User, "name" | "image" | "email"> | undefined;
+  items?: MainNavItem[];
+  children?: React.ReactNode;
+  rightElements?: React.ReactNode;
+  scroll?: boolean;
 }
 
 export function NavBar({
@@ -23,10 +23,10 @@ export function NavBar({
   items,
   children,
   rightElements,
-  scroll = false,
+  scroll = false
 }: NavBarProps) {
-  const scrolled = useScroll(50)
-  const signInModal = useSigninModal()
+  const scrolled = useScroll(50);
+  const signInModal = useSigninModal();
 
   return (
     <header
@@ -54,5 +54,5 @@ export function NavBar({
         </div>
       </div>
     </header>
-  )
+  );
 }

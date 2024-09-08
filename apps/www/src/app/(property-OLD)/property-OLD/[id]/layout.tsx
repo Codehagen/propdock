@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
 import { DashboardNav } from "@/components/layout/nav";
 import { NavBar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { propertyConfig } from "@/config/property";
 import { getCurrentUser } from "@/lib/session";
+import { notFound } from "next/navigation";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({
   children,
-  params,
+  params
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 

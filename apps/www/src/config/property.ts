@@ -1,10 +1,10 @@
-import { PropertyConfig } from "@/types";
+import type { PropertyConfig } from "@/types";
 
 export const propertyConfig: PropertyConfig = {
   mainNav: [
     {
       title: "Dashboard",
-      href: "/dashboard",
+      href: "/dashboard"
     },
     // {
     //   title: "Documentation",
@@ -13,29 +13,29 @@ export const propertyConfig: PropertyConfig = {
     {
       title: "Support",
       href: "/support",
-      disabled: true,
-    },
+      disabled: true
+    }
   ],
   sidebarNav: [
     {
       title: "Summary",
       href: "/",
-      icon: "piechart",
+      icon: "piechart"
     },
     {
       title: "Pictures",
-      href: `/pictures`,
-      icon: "media",
+      href: "/pictures",
+      icon: "media"
     },
     {
       title: "Appraisal Report",
       href: "/report",
-      icon: "home",
-    },
+      icon: "home"
+    }
     // {
     //   title: "Settings",
     //   href: "/settings",
     //   icon: "settings",
     // },
-  ],
+  ]
 };

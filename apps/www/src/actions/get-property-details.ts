@@ -1,5 +1,5 @@
 // actions/Dingify/get-property-details.ts
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function getPropertyDetails(propertyId: string) {
   try {
@@ -8,13 +8,13 @@ export async function getPropertyDetails(propertyId: string) {
       include: {
         buildings: true,
         tenants: true,
-        contracts: true,
-      },
-    })
+        contracts: true
+      }
+    });
 
-    return property
+    return property;
   } catch (error) {
-    console.error("Error fetching property details:", error)
-    return null
+    console.error("Error fetching property details:", error);
+    return null;
   }
 }

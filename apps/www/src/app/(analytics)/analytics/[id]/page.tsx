@@ -1,43 +1,43 @@
-import Link from "next/link"
-import { getAnalysisDetails } from "@/actions/get-analysis-details"
-import { Button } from "@propdock/ui/components/button"
+import { getAnalysisDetails } from "@/actions/get-analysis-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@propdock/ui/components/tabs"
+  TabsTrigger
+} from "@propdock/ui/components/tabs";
 import {
   BarChart2,
   Building2,
   LayoutGrid,
   TrendingUp,
-  Wallet,
-} from "lucide-react"
+  Wallet
+} from "lucide-react";
+import Link from "next/link";
 
-import { AnalysisDetailsTable } from "@/components/analyse/AnalysisDetailsTable"
-import { AnalysisInfoCard } from "@/components/analyse/AnalysisInfoCard"
-import { EditAnalysisNameCard } from "@/components/analyse/EditAnalysisNameCard"
-import { EditIncomeCard } from "@/components/analyse/EditIncomeCard"
-import { EditKpiCard } from "@/components/analyse/EditKpiCard.tsx"
-import { EditMarketDataCard } from "@/components/analyse/EditMarketDataCard"
-import { EditOwnerCostsCard } from "@/components/analyse/EditOwnerCostsCard"
-import { EditRentableAreaCard } from "@/components/analyse/EditRentableAreaCard"
-import { EditROICard } from "@/components/analyse/EditROICard"
-import { EditVacancyCard } from "@/components/analyse/EditVacancyCard"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { AnalysisDetailsTable } from "@/components/analyse/AnalysisDetailsTable";
+import { AnalysisInfoCard } from "@/components/analyse/AnalysisInfoCard";
+import { EditAnalysisNameCard } from "@/components/analyse/EditAnalysisNameCard";
+import { EditIncomeCard } from "@/components/analyse/EditIncomeCard";
+import { EditKpiCard } from "@/components/analyse/EditKpiCard.tsx";
+import { EditMarketDataCard } from "@/components/analyse/EditMarketDataCard";
+import { EditOwnerCostsCard } from "@/components/analyse/EditOwnerCostsCard";
+import { EditROICard } from "@/components/analyse/EditROICard";
+import { EditRentableAreaCard } from "@/components/analyse/EditRentableAreaCard";
+import { EditVacancyCard } from "@/components/analyse/EditVacancyCard";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
 
 export default async function AnalysisDetailsPage({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const analysisId = params.id
+  const analysisId = params.id;
 
   try {
     const { success, analysisDetails, error } =
-      await getAnalysisDetails(analysisId)
+      await getAnalysisDetails(analysisId);
 
     if (!success || !analysisDetails) {
       return (
@@ -47,7 +47,7 @@ export default async function AnalysisDetailsPage({
             text="Vi kunne ikke finne analysen du leter etter."
           />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -55,7 +55,7 @@ export default async function AnalysisDetailsPage({
         <DashboardHeader
           heading={analysisDetails.name}
           text="Detaljer om analysen."
-        ></DashboardHeader>
+        />
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
             <TabsTrigger value="overview">
@@ -200,12 +200,12 @@ export default async function AnalysisDetailsPage({
           </div>
         </Tabs>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Feil" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

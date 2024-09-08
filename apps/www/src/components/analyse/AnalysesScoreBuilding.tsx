@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { ChartContainer } from "@propdock/ui/components/chart"
-import { Bar, BarChart, Rectangle, XAxis } from "recharts"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { ChartContainer } from "@propdock/ui/components/chart";
+import { Bar, BarChart, Rectangle, XAxis } from "recharts";
 
 export default function AnalysesScoreBuilding() {
   return (
@@ -20,9 +20,9 @@ export default function AnalysesScoreBuilding() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
-        <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
+        <div className="flex items-baseline gap-2 font-bold text-3xl tabular-nums leading-none">
           1,254
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="font-normal text-muted-foreground text-sm">
             kcal/day
           </span>
         </div>
@@ -30,8 +30,8 @@ export default function AnalysesScoreBuilding() {
           config={{
             calories: {
               label: "Calories",
-              color: "hsl(var(--chart-1))",
-            },
+              color: "hsl(var(--chart-1))"
+            }
           }}
           className="ml-auto w-[64px]"
         >
@@ -41,37 +41,37 @@ export default function AnalysesScoreBuilding() {
               left: 0,
               right: 0,
               top: 0,
-              bottom: 0,
+              bottom: 0
             }}
             data={[
               {
                 date: "2024-01-01",
-                calories: 354,
+                calories: 354
               },
               {
                 date: "2024-01-02",
-                calories: 514,
+                calories: 514
               },
               {
                 date: "2024-01-03",
-                calories: 345,
+                calories: 345
               },
               {
                 date: "2024-01-04",
-                calories: 734,
+                calories: 734
               },
               {
                 date: "2024-01-05",
-                calories: 645,
+                calories: 645
               },
               {
                 date: "2024-01-06",
-                calories: 456,
+                calories: 456
               },
               {
                 date: "2024-01-07",
-                calories: 345,
-              },
+                calories: 345
+              }
             ]}
           >
             <Bar
@@ -93,5 +93,5 @@ export default function AnalysesScoreBuilding() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,11 +1,9 @@
-import { User } from '@prisma/client'
+import type { User } from "@prisma/client";
 
 type CustomContext = {
-    user?: User,
-    test?: boolean,
-    sdk?: unknown,
-}
+  user?: User;
+  test?: boolean;
+  sdk?: unknown;
+};
 
-export {
-    CustomContext
-}
+export type { CustomContext };

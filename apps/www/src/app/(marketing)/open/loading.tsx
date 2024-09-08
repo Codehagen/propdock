@@ -1,4 +1,4 @@
-import { Skeleton } from "@propdock/ui/components/skeleton"
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
 export default function Loading() {
   return (
@@ -7,7 +7,7 @@ export default function Loading() {
         <div className="mx-auto flex w-full flex-col items-center gap-5">
           <Skeleton className="mb-2 h-4 w-1/12" />
           <Skeleton className="h-10 w-2/6" />
-          <Skeleton className="mb-3 mt-5 h-8 w-1/5" />
+          <Skeleton className="mt-5 mb-3 h-8 w-1/5" />
         </div>
 
         <div className="mx-auto grid w-full max-w-screen-lg gap-5 bg-inherit py-5 md:grid-cols-3 lg:grid-cols-3">
@@ -24,5 +24,5 @@ export default function Loading() {
 
       <hr className="container" />
     </div>
-  )
+  );
 }

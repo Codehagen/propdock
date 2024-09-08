@@ -1,13 +1,13 @@
 "use client";
 
-import type { MainNavItem } from "@/types";
-import * as React from "react";
-import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Icons } from "@/components/shared/icons";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import type { MainNavItem } from "@/types";
+import Link from "next/link";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import * as React from "react";
 
 interface MainNavProps {
   items?: MainNavItem[];
@@ -15,7 +15,7 @@ interface MainNavProps {
 }
 
 export function MainNav({ items, children }: MainNavProps) {
-  const path = usePathname()
+  const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
   const toggleMobileMenu = () => {
@@ -40,7 +40,7 @@ export function MainNav({ items, children }: MainNavProps) {
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.logo />
-        <span className="hidden font-urban text-xl font-bold sm:inline-block">
+        <span className="hidden font-bold font-urban text-xl sm:inline-block">
           {siteConfig.name}
         </span>
       </Link>
@@ -49,19 +49,19 @@ export function MainNav({ items, children }: MainNavProps) {
           {items.map((item, index) => {
             return (
               <Link
-              key={index}
-              href={item.disabled ? "#" : item.href}
-              className={cn(
-                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                path.includes(item.href)
-                  ? "text-foreground"
-                  : "text-foreground/60",
-                item.disabled && "cursor-not-allowed opacity-80"
-              )}
-            >
-              {item.title}
-            </Link>
-            )
+                key={index}
+                href={item.disabled ? "#" : item.href}
+                className={cn(
+                  "flex items-center font-medium text-lg transition-colors hover:text-foreground/80 sm:text-sm",
+                  path.includes(item.href)
+                    ? "text-foreground"
+                    : "text-foreground/60",
+                  item.disabled && "cursor-not-allowed opacity-80"
+                )}
+              >
+                {item.title}
+              </Link>
+            );
           })}
         </nav>
       ) : null}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -6,15 +6,15 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
+  ChartTooltipContent
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -22,22 +22,22 @@ import {
   Rectangle,
   ReferenceLine,
   XAxis,
-  YAxis,
-} from "recharts"
+  YAxis
+} from "recharts";
 
 interface AnalysisDiagramDCFProps {
   details: {
-    name: string
+    name: string;
     // Add other necessary properties
-  }
+  };
 }
 
 const chartConfig = {
   netIncome: {
     label: "Netto inntekt",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
+    color: "hsl(var(--chart-2))"
+  }
+} satisfies ChartConfig;
 
 export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
   // Mock data - replace this with actual data from your analysis
@@ -50,11 +50,11 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
     { year: "2029", netIncome: 1276281 },
     { year: "2030", netIncome: 1340095 },
     { year: "2031", netIncome: 1407100 },
-    { year: "2032", netIncome: 1477455 },
-  ]
+    { year: "2032", netIncome: 1477455 }
+  ];
 
   const averageNetIncome =
-    chartData.reduce((sum, item) => sum + item.netIncome, 0) / chartData.length
+    chartData.reduce((sum, item) => sum + item.netIncome, 0) / chartData.length;
 
   return (
     <Card className="w-full">
@@ -72,7 +72,7 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
               left: 40,
               right: 40,
               top: 20,
-              bottom: 20,
+              bottom: 20
             }}
             data={chartData}
             width={1000}
@@ -92,7 +92,7 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
               tickMargin={8}
             />
             <YAxis
-              tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+              tickFormatter={value => `${(value / 1000000).toFixed(1)}M`}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -100,7 +100,7 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  valueFormatter={(value) => `${value.toLocaleString()} NOK`}
+                  valueFormatter={value => `${value.toLocaleString()} NOK`}
                 />
               }
               cursor={false}
@@ -137,11 +137,11 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
           </span>
           <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Gjennomsnittlig netto inntekt over prognoseperioden:{" "}
           {averageNetIncome.toLocaleString()} NOK
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

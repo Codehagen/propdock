@@ -1,14 +1,12 @@
-import * as React from "react"
-import Link from "next/link"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { Button, buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -17,8 +15,10 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
+import Link from "next/link";
+import * as React from "react";
 
 const leaseExpirationData = [
   {
@@ -29,7 +29,7 @@ const leaseExpirationData = [
     apr: 4,
     may: 2,
     jun: 0,
-    total: 12,
+    total: 12
   },
   {
     property: "Prop B",
@@ -39,7 +39,7 @@ const leaseExpirationData = [
     apr: 1,
     may: 2,
     jun: 2,
-    total: 11,
+    total: 11
   },
   {
     property: "Prop C",
@@ -49,7 +49,7 @@ const leaseExpirationData = [
     apr: 3,
     may: 4,
     jun: 2,
-    total: 15,
+    total: 15
   },
   {
     property: "Prop D",
@@ -59,9 +59,9 @@ const leaseExpirationData = [
     apr: 2,
     may: 1,
     jun: 1,
-    total: 8,
-  },
-]
+    total: 8
+  }
+];
 
 export default function DashboardTableLeaseExpiration() {
   return (
@@ -87,7 +87,7 @@ export default function DashboardTableLeaseExpiration() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {leaseExpirationData.map((row) => (
+            {leaseExpirationData.map(row => (
               <TableRow key={row.property}>
                 <TableCell className="font-medium">{row.property}</TableCell>
                 <TableCell>{row.jan}</TableCell>
@@ -111,5 +111,5 @@ export default function DashboardTableLeaseExpiration() {
         </Link>
       </CardFooter>
     </Card>
-  )
+  );
 }

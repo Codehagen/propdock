@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import { Loader2 as Spinner } from "lucide-react";
+import React, { useState } from "react";
 
 export default function PricingPage() {
   const [imageUrl, setImageUrl] = useState("");
@@ -9,14 +9,14 @@ export default function PricingPage() {
   const [results, setResults] = useState<string[]>([]);
   const [language, setLanguage] = useState("english");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setIsLoading(true);
 
     const response = await fetch("/api/ai/analyzeImage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ imageUrl, language }),
+      body: JSON.stringify({ imageUrl, language })
     });
 
     const responseData = await response.json();
@@ -25,8 +25,8 @@ export default function PricingPage() {
     if (responseData.choices && responseData.choices.length > 0) {
       const options = responseData.choices[0].message.content
         .split("\n")
-        .filter((line) => line.trim() !== "")
-        .map((line) => line.replace(/"/g, ""));
+        .filter(line => line.trim() !== "")
+        .map(line => line.replace(/"/g, ""));
       setResults(options);
     } else {
       setResults(["No analysis result found."]);
@@ -46,13 +46,13 @@ export default function PricingPage() {
           name="imageUrl"
           type="text"
           value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          onChange={e => setImageUrl(e.target.value)}
           placeholder="Paste image URL here"
           className="w-full rounded-md border border-gray-300 px-4 py-2"
         />
         <select
           value={language}
-          onChange={(e) => setLanguage(e.target.value)}
+          onChange={e => setLanguage(e.target.value)}
           className="w-full rounded-md border border-gray-300 px-4 py-2"
         >
           <option value="english">English</option>

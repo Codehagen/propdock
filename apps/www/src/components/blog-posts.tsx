@@ -1,6 +1,6 @@
+import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { formatDate } from "@/lib/utils";
 import Balancer from "react-wrap-balancer";
 
 export function BlogPosts({ posts }) {
@@ -39,7 +39,7 @@ export function BlogPosts({ posts }) {
       <section>
         <h2 className="mb-4 font-heading text-3xl">Blog Posts</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.slice(1).map((post) => (
+          {posts.slice(1).map(post => (
             <article
               key={post._id}
               className="group relative flex flex-col space-y-2"
@@ -62,7 +62,7 @@ export function BlogPosts({ posts }) {
                 </p>
               )}
               {post.date && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {formatDate(post.date)}
                 </p>
               )}

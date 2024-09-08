@@ -1,5 +1,5 @@
 // import { Logo } from "#/ui/icons";
-import { allHelpPosts } from "content-collections"
+import { allHelpPosts } from "content-collections";
 import {
   Airplay,
   BarChart,
@@ -14,83 +14,88 @@ import {
   Settings,
   TrendingUp,
   Users,
-  Webhook,
-} from "lucide-react"
+  Webhook
+} from "lucide-react";
 
 export const BLOG_CATEGORIES: {
-  title: string
-  slug: "company" | "education"
-  description: string
+  title: string;
+  slug: "company" | "education";
+  description: string;
 }[] = [
   {
     title: "Selskapsnyheter",
     slug: "company",
-    description: "Oppdateringer og kunngjøringer fra Propdock",
-  },
+    description: "Oppdateringer og kunngjøringer fra Propdock"
+  }
   // {
   //   title: "Education",
   //   slug: "education",
   //   description: "Educational content about link management.",
   // },
   // {
-]
+];
 
 export const POPULAR_ARTICLES = [
   "introduserer-propdock",
   "integrere-med-poweroffice",
-  "legge-til-leietaker",
-]
+  "legge-til-leietaker"
+];
 
 export const HELP_CATEGORIES: {
-  title: string
-  slug: "oversikt" | "starter" | "eiendomsforvaltning" | "api" | "integrasjoner"
-  description: string
-  icon: JSX.Element
+  title: string;
+  slug:
+    | "oversikt"
+    | "starter"
+    | "eiendomsforvaltning"
+    | "api"
+    | "integrasjoner";
+  description: string;
+  icon: JSX.Element;
 }[] = [
   {
     title: "Propdock Oversikt",
     slug: "oversikt",
     description:
       "Lær om Propdock og hvordan det kan hjelpe deg med eiendomsforvaltning.",
-    icon: <Settings className="h-6 w-6 text-gray-500" />,
+    icon: <Settings className="h-6 w-6 text-gray-500" />
   },
   {
     title: "Kom i Gang",
     slug: "starter",
     description: "Lær hvordan du kommer i gang med Propdock.",
-    icon: <PartyPopper className="h-6 w-6 text-gray-500" />,
+    icon: <PartyPopper className="h-6 w-6 text-gray-500" />
   },
   {
     title: "Integrasjoner",
     slug: "integrasjoner",
     description: "Lær hvordan du integrerer Propdock med andre systemer.",
-    icon: <Cable className="h-6 w-6 text-gray-500" />,
+    icon: <Cable className="h-6 w-6 text-gray-500" />
   },
   {
     title: "Eiendomsforvaltning",
     slug: "eiendomsforvaltning",
     description: "Lær hvordan du administrerer dine eiendommer på Propdock.",
-    icon: <Building className="h-6 w-6 text-gray-500" />,
+    icon: <Building className="h-6 w-6 text-gray-500" />
   },
   {
     title: "API",
     slug: "api",
     description: "Lær hvordan du bruker Propdock API.",
-    icon: <Webhook className="h-6 w-6 text-gray-500" />,
-  },
-]
+    icon: <Webhook className="h-6 w-6 text-gray-500" />
+  }
+];
 
 export const getPopularArticles = () => {
-  const popularArticles = POPULAR_ARTICLES.map((slug) => {
-    const post = allHelpPosts.find((post) => post.slug === slug)
+  const popularArticles = POPULAR_ARTICLES.map(slug => {
+    const post = allHelpPosts.find(post => post.slug === slug);
     if (!post) {
-      console.warn(`Popular article with slug "${slug}" not found`)
+      console.warn(`Popular article with slug "${slug}" not found`);
     }
-    return post
-  }).filter((post) => post != null)
+    return post;
+  }).filter(post => post != null);
 
-  return popularArticles
-}
+  return popularArticles;
+};
 
 export const FEATURES_LIST = [
   {
@@ -117,31 +122,31 @@ export const FEATURES_LIST = [
         description:
           "Få en helhetlig oversikt over alle dine leietakere med et brukervennlig dashboard som viser nøkkelinformasjon og viktige varsler.",
         image:
-          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/69efda6d-922a-40a0-497d-32d12863cf00/public",
+          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/69efda6d-922a-40a0-497d-32d12863cf00/public"
       },
       {
         title: "Fakturering og betalinger",
         description:
           "Automatiser fakturering og spor betalinger for å sikre stabil kontantstrøm.",
         image:
-          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/3f0f3069-737f-4b77-5b8c-7c527f6fc800/public",
+          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/3f0f3069-737f-4b77-5b8c-7c527f6fc800/public"
       },
       {
         title: "Kommunikasjonslogg",
         description:
-          "Hold oversikt over all kommunikasjon med leietakere for bedre service og oppfølging.",
+          "Hold oversikt over all kommunikasjon med leietakere for bedre service og oppfølging."
       },
       {
         title: "Eiendomsverdsettelser",
         description:
-          "Få oppdaterte verdsettelser av dine eiendommer basert på markedsdata og inntektsstrømmer for å optimalisere porteføljen din.",
+          "Få oppdaterte verdsettelser av dine eiendommer basert på markedsdata og inntektsstrømmer for å optimalisere porteføljen din."
       },
       {
         title: "Dokumenthåndtering",
         description:
-          "Lagre og organiser alle relevante dokumenter knyttet til hver leietaker sikkert og tilgjengelig.",
-      },
-    ],
+          "Lagre og organiser alle relevante dokumenter knyttet til hver leietaker sikkert og tilgjengelig."
+      }
+    ]
   },
   {
     title: "Avansert verdsettelse av næringseiendom",
@@ -167,31 +172,31 @@ export const FEATURES_LIST = [
         description:
           "Utfør detaljerte diskonterte kontantstrømanalyser for å beregne nåverdien av fremtidige kontantstrømmer fra eiendommen.",
         image:
-          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/1d4770d0-7585-4a4d-27a2-3ad7ec452800/public",
+          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/1d4770d0-7585-4a4d-27a2-3ad7ec452800/public"
       },
       {
         title: "Sensitivitetsanalyse",
         description:
           "Vurder hvordan endringer i nøkkelvariabler som leieinntekter, driftskostnader og avkastningskrav påvirker eiendomsverdien.",
         image:
-          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/3f0f3069-737f-4b77-5b8c-7c527f6fc800/public",
+          "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/3f0f3069-737f-4b77-5b8c-7c527f6fc800/public"
       },
       {
         title: "Latent skatt",
         description:
-          "Inkluder beregninger av latent skatt i verdsettelsen for å gi et mer nøyaktig bilde av eiendomsverdien.",
+          "Inkluder beregninger av latent skatt i verdsettelsen for å gi et mer nøyaktig bilde av eiendomsverdien."
       },
       {
         title: "Markedssammenligninger",
         description:
-          "Sammenlign eiendommen med lignende objekter i markedet for å validere verdsettelsen og identifisere potensielle muligheter.",
+          "Sammenlign eiendommen med lignende objekter i markedet for å validere verdsettelsen og identifisere potensielle muligheter."
       },
       {
         title: "Scenarioanalyse",
         description:
-          "Utforsk ulike fremtidsscenarier for eiendommen, inkludert potensielle utviklingsmuligheter og markedsendringer.",
-      },
-    ],
+          "Utforsk ulike fremtidsscenarier for eiendommen, inkludert potensielle utviklingsmuligheter og markedsendringer."
+      }
+    ]
   },
   {
     title: "Gratis QR-kodegenerator",
@@ -210,6 +215,6 @@ export const FEATURES_LIST = [
     videoLength: "1:07",
     bentoTitle: "Gorgeous QR codes for your links",
     bentoDescription:
-      "Create beautiful flyers and posters with QR codes for your links.",
-  },
-]
+      "Create beautiful flyers and posters with QR codes for your links."
+  }
+];

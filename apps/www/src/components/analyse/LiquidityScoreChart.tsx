@@ -1,41 +1,45 @@
-"use client"
+"use client";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingDown, TrendingUp } from "lucide-react"
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+  ChartTooltipContent
+} from "@propdock/ui/components/chart";
+import { TrendingDown, TrendingUp } from "lucide-react";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
 interface LiquidityScoreChartProps {
-  score: number
-  lastYearScore: number
+  score: number;
+  lastYearScore: number;
 }
 
 const chartConfig = {
   liquidity: {
     label: "Liquidity Score",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig
+    color: "hsl(var(--chart-1))"
+  }
+} satisfies ChartConfig;
 
 function getScoreColor(score: number): string {
-  if (score >= 0.8) return "hsl(var(--chart-good))"
-  if (score >= 0.5) return "hsl(var(--chart-average))"
-  return "hsl(var(--chart-poor))"
+  if (score >= 0.8) {
+    return "hsl(var(--chart-good))";
+  }
+  if (score >= 0.5) {
+    return "hsl(var(--chart-average))";
+  }
+  return "hsl(var(--chart-poor))";
 }
 
 export function LiquidityScoreChart({
   score,
-  lastYearScore,
+  lastYearScore
 }: LiquidityScoreChartProps) {
-  const chartData = [{ name: "Liquidity", value: score }]
-  const trend = score >= lastYearScore ? "up" : "down"
+  const chartData = [{ name: "Liquidity", value: score }];
+  const trend = score >= lastYearScore ? "up" : "down";
   const trendPercentage = Math.abs(
-    ((score - lastYearScore) / lastYearScore) * 100,
-  ).toFixed(1)
+    ((score - lastYearScore) / lastYearScore) * 100
+  ).toFixed(1);
 
   return (
     <div className="flex flex-col items-center">
@@ -66,7 +70,7 @@ export function LiquidityScoreChart({
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) - 10}
-                        className="fill-foreground text-3xl font-bold"
+                        className="fill-foreground font-bold text-3xl"
                       >
                         {score.toFixed(2)}
                       </tspan>
@@ -78,7 +82,7 @@ export function LiquidityScoreChart({
                         Liquidity Score
                       </tspan>
                     </text>
-                  )
+                  );
                 }
               }}
             />
@@ -101,10 +105,10 @@ export function LiquidityScoreChart({
             <TrendingDown className="h-4 w-4 text-red-500" />
           )}
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-sm">
           Compared to last year: {lastYearScore.toFixed(2)}
         </div>
       </div>
     </div>
-  )
+  );
 }

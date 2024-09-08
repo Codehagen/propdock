@@ -1,21 +1,22 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState } from "react"
+import type React from "react";
+import { createContext, useContext, useState } from "react";
 
-import { TreeViewElement } from "./tree-view-api"
+import type { TreeViewElement } from "./tree-view-api";
 
 interface FileTreeContextType {
-  fileTreeData: TreeViewElement[]
-  deleteItem: (id: string) => void
-  renameItem: (id: string, newName: string) => void
+  fileTreeData: TreeViewElement[];
+  deleteItem: (id: string) => void;
+  renameItem: (id: string, newName: string) => void;
 }
 
 const FileTreeContext = createContext<FileTreeContextType | undefined>(
-  undefined,
-)
+  undefined
+);
 
 export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
+  children
 }) => {
   const [fileTreeData, setFileTreeData] = useState<TreeViewElement[]>([
     {
@@ -24,7 +25,7 @@ export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
       children: [
         {
           id: "2",
-          name: "fullmakt.pdf",
+          name: "fullmakt.pdf"
         },
         {
           id: "3",
@@ -36,11 +37,11 @@ export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
               children: [
                 {
                   id: "21",
-                  name: "kontrakt.pdf",
-                },
-              ],
-            },
-          ],
+                  name: "kontrakt.pdf"
+                }
+              ]
+            }
+          ]
         },
         {
           id: "6",
@@ -48,53 +49,55 @@ export const FileTreeProvider: React.FC<{ children: React.ReactNode }> = ({
           children: [
             {
               id: "7",
-              name: "budsjett.excel",
-            },
-          ],
-        },
-      ],
-    },
-  ])
+              name: "budsjett.excel"
+            }
+          ]
+        }
+      ]
+    }
+  ]);
 
   const deleteItem = (id: string) => {
     const deleteRecursive = (items: TreeViewElement[]): TreeViewElement[] => {
-      return items.filter((item) => {
-        if (item.id === id) return false
-        if (item.children) {
-          item.children = deleteRecursive(item.children)
+      return items.filter(item => {
+        if (item.id === id) {
+          return false;
         }
-        return true
-      })
-    }
-    setFileTreeData(deleteRecursive(fileTreeData))
-  }
+        if (item.children) {
+          item.children = deleteRecursive(item.children);
+        }
+        return true;
+      });
+    };
+    setFileTreeData(deleteRecursive(fileTreeData));
+  };
 
   const renameItem = (id: string, newName: string) => {
     const renameRecursive = (items: TreeViewElement[]): TreeViewElement[] => {
-      return items.map((item) => {
+      return items.map(item => {
         if (item.id === id) {
-          return { ...item, name: newName }
+          return { ...item, name: newName };
         }
         if (item.children) {
-          return { ...item, children: renameRecursive(item.children) }
+          return { ...item, children: renameRecursive(item.children) };
         }
-        return item
-      })
-    }
-    setFileTreeData(renameRecursive(fileTreeData))
-  }
+        return item;
+      });
+    };
+    setFileTreeData(renameRecursive(fileTreeData));
+  };
 
   return (
     <FileTreeContext.Provider value={{ fileTreeData, deleteItem, renameItem }}>
       {children}
     </FileTreeContext.Provider>
-  )
-}
+  );
+};
 
 export const useFileTree = () => {
-  const context = useContext(FileTreeContext)
+  const context = useContext(FileTreeContext);
   if (context === undefined) {
-    throw new Error("useFileTree must be used within a FileTreeProvider")
+    throw new Error("useFileTree must be used within a FileTreeProvider");
   }
-  return context
-}
+  return context;
+};

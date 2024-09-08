@@ -10,8 +10,8 @@ export async function updateFloorDetails(floorId, data, currentPath) {
       where: { id: floorId },
       data: {
         number: data.number, // Ensure this matches your field name
-        maxTotalKvm: data.maxTotalKvm,
-      },
+        maxTotalKvm: data.maxTotalKvm
+      }
     });
 
     revalidatePath(currentPath);
@@ -27,8 +27,8 @@ export async function quickDeleteFloor(floorId, currentPath) {
   try {
     await prisma.floor.delete({
       where: {
-        id: floorId,
-      },
+        id: floorId
+      }
     });
 
     revalidatePath(currentPath);

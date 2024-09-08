@@ -6,16 +6,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": [
-      "./src/*.tsx",
-      "./src/*.ts"
-    ]
+    "./*": ["./src/*.tsx", "./src/*.ts"]
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "format": "biome format . --write",
-    "lint": "biome format ./src --write",
-    "check": "biome check ./src --write",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {

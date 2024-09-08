@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { Textarea } from "@propdock/ui/components/textarea"
+  SelectValue
+} from "@propdock/ui/components/select";
+import { Textarea } from "@propdock/ui/components/textarea";
 
 export function InputRightSideTest() {
   return (
@@ -81,5 +81,5 @@ export function InputRightSideTest() {
         <Button>Submit</Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

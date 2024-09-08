@@ -1,43 +1,43 @@
-import type { NextAuthOptions } from "next-auth"
-import MagicLinkEmail from "@/emails/magic-link-email"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import EmailProvider from "next-auth/providers/email"
-import GoogleProvider from "next-auth/providers/google"
+import MagicLinkEmail from "@/emails/magic-link-email";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import type { NextAuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
 
-import { env } from "@/env"
-import { siteConfig } from "@/config/site"
+import { siteConfig } from "@/config/site";
+import { env } from "@/env";
 
-import { prisma } from "./db"
+import { prisma } from "./db";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
   pages: {
-    signIn: "/login",
+    signIn: "/login"
   },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientSecret: env.GOOGLE_CLIENT_SECRET
     }),
     EmailProvider({
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         const user = await prisma.user.findUnique({
           where: {
-            email: identifier,
+            email: identifier
           },
           select: {
             name: true,
-            emailVerified: true,
-          },
-        })
+            emailVerified: true
+          }
+        });
 
-        const userVerified = user?.emailVerified ? true : false
+        const userVerified = !!user?.emailVerified;
         const authSubject = userVerified
           ? `Sign-in link for ${siteConfig.name}`
-          : "Activate your account"
+          : "Activate your account";
 
         try {
           // const result = await resend.emails.send({
@@ -59,28 +59,28 @@ export const authOptions: NextAuthOptions = {
           // });
           // console.log(result);
         } catch (error) {
-          throw new Error("Failed to send verification email.")
+          throw new Error("Failed to send verification email.");
         }
-      },
-    }),
+      }
+    })
   ],
   callbacks: {
     async session({ token, session }) {
       if (token) {
-        session.user.id = token.id
-        session.user.name = token.name
-        session.user.email = token.email
-        session.user.image = token.picture
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
       }
 
-      return session
+      return session;
     },
     async jwt({ token, user }) {
       const dbUser = await prisma.user.findFirst({
         where: {
-          email: token.email,
-        },
-      })
+          email: token.email
+        }
+      });
 
       if (dbUser && !dbUser.onboardingEmailSent) {
         if (dbUser.email && dbUser.name) {
@@ -88,34 +88,34 @@ export const authOptions: NextAuthOptions = {
 
           await prisma.user.update({
             where: { email: dbUser.email },
-            data: { onboardingEmailSent: true },
-          })
+            data: { onboardingEmailSent: true }
+          });
 
-          console.log(`Onboarding email sent to ${dbUser.email}`)
+          console.log(`Onboarding email sent to ${dbUser.email}`);
         } else {
           console.log(
-            `User email or name is null for user with email: ${token.email}`,
-          )
+            `User email or name is null for user with email: ${token.email}`
+          );
         }
       }
 
       if (!dbUser) {
         if (user) {
-          token.id = user.id!
-          token.email = user.email!
-          token.name = user.name!
+          token.id = user.id!;
+          token.email = user.email!;
+          token.name = user.name!;
         }
-        return token
+        return token;
       }
 
       return {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
-        picture: dbUser.image,
-      }
-    },
-  },
+        picture: dbUser.image
+      };
+    }
+  }
   // debug: process.env.NODE_ENV !== "production"
   // if you want to see the debug logs in the console
-}
+};

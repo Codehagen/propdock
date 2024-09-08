@@ -1,18 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
 import {
   quickAddOfficeSpace,
-  quickDeleteOfficeSpace,
-} from "@/actions/create-quick-office-space"
-import { quickDeleteFloor } from "@/actions/update-floor-details"
-import { Button } from "@propdock/ui/components/button"
+  quickDeleteOfficeSpace
+} from "@/actions/create-quick-office-space";
+import { quickDeleteFloor } from "@/actions/update-floor-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
-} from "@propdock/ui/components/collapsible"
+  CollapsibleTrigger
+} from "@propdock/ui/components/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,119 +18,119 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "@propdock/ui/components/tooltip"
+  TooltipTrigger
+} from "@propdock/ui/components/tooltip";
 import {
   ChevronDown,
   MinusCircle,
   MoreHorizontal,
   PlusCircle,
-  Trash2,
-} from "lucide-react"
-import { toast } from "sonner"
+  Trash2
+} from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet"
-import { EditFloorDetailsSheet } from "@/components/buttons/EditFloorDetailsSheet"
-import { EditOfficeSpaceSheet } from "@/components/buttons/EditOfficeSpaceSheet"
-import { SeeTenantsComboBox } from "@/components/buttons/SeeTenantsComboBox"
+import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet";
+import { EditFloorDetailsSheet } from "@/components/buttons/EditFloorDetailsSheet";
+import { EditOfficeSpaceSheet } from "@/components/buttons/EditOfficeSpaceSheet";
+import { SeeTenantsComboBox } from "@/components/buttons/SeeTenantsComboBox";
 
 export default function FloorsTable({ floors }) {
   const handleKontraktClick = () => {
-    console.log("Kontrakt clicked")
-  }
-  const params = useParams()
+    console.log("Kontrakt clicked");
+  };
+  const params = useParams();
   const propertyId = Array.isArray(params.propertyId)
     ? params.propertyId[0]
-    : params.propertyId
+    : params.propertyId;
   const buildingId = Array.isArray(params.buildingId)
     ? params.buildingId[0]
-    : params.buildingId
-  const currentPath = `/property/${propertyId}/building/${buildingId}`
+    : params.buildingId;
+  const currentPath = `/property/${propertyId}/building/${buildingId}`;
 
-  const handleQuickAdd = async (floorId) => {
+  const handleQuickAdd = async floorId => {
     try {
       const result = await quickAddOfficeSpace(
         floorId,
         {
           name: "Nytt Kontor",
           sizeKvm: 0,
-          isRented: false,
+          isRented: false
         },
-        currentPath,
-      )
+        currentPath
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to quick add office space.")
+        throw new Error(result.error || "Failed to quick add office space.");
       }
 
-      toast.success(`Nytt kontor "${result.office?.name}" er lagt til`)
+      toast.success(`Nytt kontor "${result.office?.name}" er lagt til`);
     } catch (error) {
-      toast.error("Error adding office space.")
-      console.error("Error adding office space:", error)
+      toast.error("Error adding office space.");
+      console.error("Error adding office space:", error);
     }
-  }
+  };
 
-  const handleQuickDelete = async (officeId) => {
+  const handleQuickDelete = async officeId => {
     try {
-      const result = await quickDeleteOfficeSpace(officeId, currentPath)
+      const result = await quickDeleteOfficeSpace(officeId, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to quick delete office space.")
+        throw new Error(result.error || "Failed to quick delete office space.");
       }
 
-      toast.success("Kontoret er slettet")
+      toast.success("Kontoret er slettet");
     } catch (error) {
-      toast.error("Error deleting office space.")
-      console.error("Error deleting office space:", error)
+      toast.error("Error deleting office space.");
+      console.error("Error deleting office space:", error);
     }
-  }
+  };
 
-  const handleDeleteFloor = async (floorId) => {
+  const handleDeleteFloor = async floorId => {
     try {
-      const result = await quickDeleteFloor(floorId, currentPath)
+      const result = await quickDeleteFloor(floorId, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to delete floor.")
+        throw new Error(result.error || "Failed to delete floor.");
       }
 
-      toast.success("Etasjen er slettet")
+      toast.success("Etasjen er slettet");
     } catch (error) {
-      toast.error("Error deleting floor.")
-      console.error("Error deleting floor:", error)
+      toast.error("Error deleting floor.");
+      console.error("Error deleting floor:", error);
     }
-  }
+  };
 
-  const calculateUnrentedCount = (officeSpaces) => {
-    return officeSpaces.filter((office) => !office.isRented).length
-  }
+  const calculateUnrentedCount = officeSpaces => {
+    return officeSpaces.filter(office => !office.isRented).length;
+  };
 
-  const calculateTotalOffices = (officeSpaces) => {
-    return officeSpaces.length
-  }
+  const calculateTotalOffices = officeSpaces => {
+    return officeSpaces.length;
+  };
 
-  const calculateOccupancyRate = (officeSpaces) => {
-    const totalOffices = officeSpaces.length
-    const rentedOffices = officeSpaces.filter(
-      (office) => office.isRented,
-    ).length
+  const calculateOccupancyRate = officeSpaces => {
+    const totalOffices = officeSpaces.length;
+    const rentedOffices = officeSpaces.filter(office => office.isRented).length;
     return totalOffices === 0
       ? "N/A"
-      : `${((rentedOffices / totalOffices) * 100).toFixed(2)}%`
-  }
+      : `${((rentedOffices / totalOffices) * 100).toFixed(2)}%`;
+  };
 
   return (
     <div className="w-full sm:p-4">
@@ -150,7 +148,7 @@ export default function FloorsTable({ floors }) {
           </TableHeader>
           <TableBody>
             {floors
-              ? floors.map((floor) => (
+              ? floors.map(floor => (
                   <Collapsible key={floor.id} asChild>
                     <>
                       <TableRow>
@@ -260,7 +258,7 @@ export default function FloorsTable({ floors }) {
                                 <TableBody>
                                   {floor.officeSpaces &&
                                   floor.officeSpaces.length > 0 ? (
-                                    floor.officeSpaces.map((office) => (
+                                    floor.officeSpaces.map(office => (
                                       <TableRow key={office.id}>
                                         <TableCell>{office.name}</TableCell>
                                         <TableCell>
@@ -273,7 +271,7 @@ export default function FloorsTable({ floors }) {
                                           {office.tenants &&
                                           office.tenants.length > 0
                                             ? office.tenants
-                                                .map((tenant) => tenant.name)
+                                                .map(tenant => tenant.name)
                                                 .join(", ")
                                             : "Ingen"}
                                         </TableCell>
@@ -281,10 +279,10 @@ export default function FloorsTable({ floors }) {
                                           {office.tenants &&
                                           office.tenants.length > 0
                                             ? office.tenants
-                                                .flatMap((tenant) =>
+                                                .flatMap(tenant =>
                                                   tenant.contacts.map(
-                                                    (contact) => contact.name,
-                                                  ),
+                                                    contact => contact.name
+                                                  )
                                                 )
                                                 .join(", ")
                                             : "Ingen kontaktperson"}
@@ -324,7 +322,7 @@ export default function FloorsTable({ floors }) {
                                               <DropdownMenuItem
                                                 onClick={() =>
                                                   navigator.clipboard.writeText(
-                                                    office.name,
+                                                    office.name
                                                   )
                                                 }
                                               >
@@ -393,5 +391,5 @@ export default function FloorsTable({ floors }) {
         </Table>
       </div>
     </div>
-  )
+  );
 }

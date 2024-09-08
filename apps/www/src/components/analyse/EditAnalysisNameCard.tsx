@@ -1,87 +1,87 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@propdock/ui/components/popover"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { nb } from "date-fns/locale"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  PopoverTrigger
+} from "@propdock/ui/components/popover";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { nb } from "date-fns/locale";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
-    message: "Navnet må være minst 2 tegn.",
+    message: "Navnet må være minst 2 tegn."
   }),
   appreciationDate: z.date({
-    required_error: "Verdivurderingsdato er påkrevd.",
-  }),
-})
+    required_error: "Verdivurderingsdato er påkrevd."
+  })
+});
 
 interface EditAnalysisNameCardProps {
-  analysisId: string
-  initialName: string
-  initialDate: Date
+  analysisId: string;
+  initialName: string;
+  initialDate: Date;
 }
 
 export function EditAnalysisNameCard({
   analysisId,
   initialName,
-  initialDate,
+  initialDate
 }: EditAnalysisNameCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: initialName,
-      appreciationDate: initialDate,
-    },
-  })
+      appreciationDate: initialDate
+    }
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         name: data.name,
-        appreciationDate: data.appreciationDate,
-      })
+        appreciationDate: data.appreciationDate
+      });
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Analysen ble oppdatert.");
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av analyse:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -120,7 +120,7 @@ export function EditAnalysisNameCard({
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground",
+                            !field.value && "text-muted-foreground"
                           )}
                         >
                           {field.value ? (
@@ -137,7 +137,7 @@ export function EditAnalysisNameCard({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
+                        disabled={date =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
                         initialFocus
@@ -156,5 +156,5 @@ export function EditAnalysisNameCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

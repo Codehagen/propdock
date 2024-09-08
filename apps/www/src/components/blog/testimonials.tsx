@@ -1,23 +1,23 @@
-import { nFormatter } from "@/lib/utils"
+import { nFormatter } from "@/lib/utils";
 
-import MaxWidthWrapper from "./max-width-wrapper"
-import TestimonialsMobile from "./testimonials-mobile"
+import MaxWidthWrapper from "./max-width-wrapper";
+import TestimonialsMobile from "./testimonials-mobile";
 
 // Placeholder testimonial data
 const testimonials = [
   { id: 1, content: "Eksempel på tilbakemelding 1" },
   { id: 2, content: "Eksempel på tilbakemelding 2" },
-  { id: 3, content: "Eksempel på tilbakemelding 3" },
+  { id: 3, content: "Eksempel på tilbakemelding 3" }
   // ... legg til flere eksempler på tilbakemeldinger etter behov
-]
+];
 
 export default async function Testimonials() {
-  const userCount = 100
+  const userCount = 100;
 
   return (
     <MaxWidthWrapper className="pt-20">
       <div className="mx-auto max-w-md text-center sm:max-w-xl">
-        <h2 className="font-display text-4xl font-extrabold leading-tight text-black sm:text-5xl sm:leading-tight">
+        <h2 className="font-display font-extrabold text-4xl text-black leading-tight sm:text-5xl sm:leading-tight">
           Elsket av{" "}
           <span className="bg-gradient-to-r from-red-600 to-amber-600 bg-clip-text text-transparent">
             {nFormatter(userCount)} brukere
@@ -41,5 +41,5 @@ export default async function Testimonials() {
         ))}
       </div>
     </MaxWidthWrapper>
-  )
+  );
 }

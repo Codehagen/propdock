@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss"
-import baseConfig from "@propdock/tailwind-config"
-import { fontFamily } from "tailwindcss/defaultTheme"
+import baseConfig from "@propdock/tailwind-config";
+import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   // Append the path to the UI package to the content array
@@ -10,7 +10,7 @@ const config: Config = {
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}"
   ],
   presets: [baseConfig],
   darkMode: ["class"],
@@ -19,12 +19,12 @@ const config: Config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1600px",
-      },
+        "2xl": "1600px"
+      }
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-sans)", ...fontFamily.sans]
       },
       colors: {
         border: "hsl(var(--border))",
@@ -34,89 +34,89 @@ const config: Config = {
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          foreground: "hsl(var(--primary-foreground))"
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          foreground: "hsl(var(--secondary-foreground))"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          foreground: "hsl(var(--destructive-foreground))"
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          foreground: "hsl(var(--muted-foreground))"
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          foreground: "hsl(var(--accent-foreground))"
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          foreground: "hsl(var(--popover-foreground))"
         },
         card: {
           DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+          foreground: "hsl(var(--card-foreground))"
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 4px)"
       },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "var(--radix-accordion-content-height)" }
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: "0" }
         },
         "border-beam": {
           "100%": {
-            "offset-distance": "100%",
-          },
+            "offset-distance": "100%"
+          }
         },
         "image-glow": {
           "0%": {
             opacity: "0",
-            "animation-timing-function": "cubic-bezier(0.74, 0.25, 0.76, 1)",
+            "animation-timing-function": "cubic-bezier(0.74, 0.25, 0.76, 1)"
           },
           "10%": {
             opacity: "0.7",
-            "animation-timing-function": "cubic-bezier(0.12, 0.01, 0.08, 0.99)",
+            "animation-timing-function": "cubic-bezier(0.12, 0.01, 0.08, 0.99)"
           },
           "100%": {
-            opacity: "0.4",
-          },
+            opacity: "0.4"
+          }
         },
         "fade-in": {
           from: { opacity: "0", transform: "translateY(-10px)" },
-          to: { opacity: "1", transform: "none" },
+          to: { opacity: "1", transform: "none" }
         },
         "fade-up": {
           from: { opacity: "0", transform: "translateY(20px)" },
-          to: { opacity: "1", transform: "none" },
+          to: { opacity: "1", transform: "none" }
         },
         shimmer: {
           "0%, 90%, 100%": {
-            "background-position": "calc(-100% - var(--shimmer-width)) 0",
+            "background-position": "calc(-100% - var(--shimmer-width)) 0"
           },
           "30%, 60%": {
-            "background-position": "calc(100% + var(--shimmer-width)) 0",
-          },
+            "background-position": "calc(100% + var(--shimmer-width)) 0"
+          }
         },
         marquee: {
           from: { transform: "translateX(0)" },
-          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" }
         },
         "marquee-vertical": {
           from: { transform: "translateY(0)" },
-          to: { transform: "translateY(calc(-100% - var(--gap)))" },
-        },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -127,19 +127,19 @@ const config: Config = {
         "fade-up": "fade-up 1000ms var(--animation-delay, 0ms) ease forwards",
         shimmer: "shimmer 8s infinite",
         marquee: "marquee var(--duration) infinite linear",
-        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite"
       },
       "accordion-down": {
         from: { height: "0" },
-        to: { height: "var(--radix-accordion-content-height)" },
+        to: { height: "var(--radix-accordion-content-height)" }
       },
       "accordion-up": {
         from: { height: "var(--radix-accordion-content-height)" },
-        to: { height: "0" },
-      },
-    },
+        to: { height: "0" }
+      }
+    }
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-}
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")]
+};
 
-export default config
+export default config;

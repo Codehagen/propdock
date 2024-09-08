@@ -1,24 +1,24 @@
-import Link from "next/link"
-import { getPropertyDetails } from "@/actions/get-property-details"
+import { getPropertyDetails } from "@/actions/get-property-details";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
+import Link from "next/link";
 
-import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function PropertyPage({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const propertyId = params.id
+  const propertyId = params.id;
 
   if (!propertyId) {
     return (
@@ -28,11 +28,11 @@ export default async function PropertyPage({
           text="Invalid property ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const propertyDetails = await getPropertyDetails(propertyId)
+    const propertyDetails = await getPropertyDetails(propertyId);
 
     if (!propertyDetails) {
       return (
@@ -42,7 +42,7 @@ export default async function PropertyPage({
             text="We couldn't find the property you're looking for."
           />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -65,7 +65,7 @@ export default async function PropertyPage({
             </EmptyPlaceholder>
           ) : (
             <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-              {propertyDetails.buildings.map((building) => (
+              {propertyDetails.buildings.map(building => (
                 <Card key={building.id}>
                   <CardHeader className="mb-5 bg-gradient-to-b from-muted/50 to-muted/10">
                     <CardTitle>
@@ -84,12 +84,12 @@ export default async function PropertyPage({
           )}
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

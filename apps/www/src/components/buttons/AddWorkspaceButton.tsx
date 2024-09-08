@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { createWorkspace } from "@/actions/create-workspace"
-import { Button } from "@propdock/ui/components/button"
+import { createWorkspace } from "@/actions/create-workspace";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -11,36 +9,38 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { toast } from "sonner"
+  DialogTrigger
+} from "@propdock/ui/components/dialog";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function AddWorkspaceButton() {
-  const [workspaceName, setWorkspaceName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [workspaceName, setWorkspaceName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    setIsLoading(true)
+  const handleSubmit = async event => {
+    event.preventDefault();
+    setIsLoading(true);
 
     try {
-      const result = await createWorkspace(workspaceName)
+      const result = await createWorkspace(workspaceName);
 
       if (!result.success) {
-        throw new Error(result.error || "Feil ved oppretting av workspace.")
+        throw new Error(result.error || "Feil ved oppretting av workspace.");
       }
 
-      toast.success(`Workspace "${workspaceName}" ble lagt til.`)
+      toast.success(`Workspace "${workspaceName}" ble lagt til.`);
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog>
@@ -66,7 +66,7 @@ export function AddWorkspaceButton() {
                 placeholder="Navn..."
                 className="col-span-3"
                 value={workspaceName}
-                onChange={(e) => setWorkspaceName(e.target.value)}
+                onChange={e => setWorkspaceName(e.target.value)}
                 required
                 disabled={isLoading}
               />
@@ -84,5 +84,5 @@ export function AddWorkspaceButton() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

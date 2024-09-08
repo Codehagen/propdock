@@ -1,26 +1,26 @@
-import Link from "next/link"
-import { getPropertyDetails } from "@/actions/get-property-details"
-import { Badge } from "@propdock/ui/components/badge"
+import { getPropertyDetails } from "@/actions/get-property-details";
+import { Badge } from "@propdock/ui/components/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
+import Link from "next/link";
 
-import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { AddBuildingSheet } from "@/components/buttons/AddBuildingSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function PropertyPage({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const propertyId = params.id
+  const propertyId = params.id;
 
   if (!propertyId) {
     return (
@@ -30,11 +30,11 @@ export default async function PropertyPage({
           text="Invalid property ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const propertyDetails = await getPropertyDetails(propertyId)
+    const propertyDetails = await getPropertyDetails(propertyId);
 
     if (!propertyDetails) {
       return (
@@ -44,7 +44,7 @@ export default async function PropertyPage({
             text="We couldn't find the property you're looking for."
           />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -67,7 +67,7 @@ export default async function PropertyPage({
             </EmptyPlaceholder>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {propertyDetails.buildings.map((building) => (
+              {propertyDetails.buildings.map(building => (
                 <Card key={building.id} className="overflow-hidden">
                   <CardHeader className="flex flex-row items-start bg-muted/50">
                     <div className="grid gap-0.5">
@@ -108,7 +108,7 @@ export default async function PropertyPage({
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       {/* Footer content if needed */}
                     </div>
                   </CardFooter>
@@ -118,12 +118,12 @@ export default async function PropertyPage({
           )}
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

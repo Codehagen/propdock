@@ -1,8 +1,6 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -10,56 +8,58 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-} from "@propdock/ui/components/dialog"
+  DialogTitle
+} from "@propdock/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { BarChart, ChevronDown, File, PlusCircle } from "lucide-react"
-import { toast } from "sonner"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { BarChart, ChevronDown, File, PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 export function AnalystNavTop({ analysisDetails }) {
-  const router = useRouter()
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [analysisName, setAnalysisName] = useState("")
-  const [analysisDescription, setAnalysisDescription] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [analysisName, setAnalysisName] = useState("");
+  const [analysisDescription, setAnalysisDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleExportClick = () => {
     // Placeholder for export functionality
-    toast.success("Export functionality to be implemented")
-  }
+    toast.success("Export functionality to be implemented");
+  };
 
   const handleChartClick = () => {
-    setIsDialogOpen(true)
-  }
+    setIsDialogOpen(true);
+  };
 
   const handleCreateNewAnalysis = () => {
     // Placeholder for creating new analysis
-    router.push("/analyse/new")
-  }
+    router.push("/analyse/new");
+  };
 
   const handleSubmit = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // Placeholder for submitting new chart
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      toast.success("Chart created successfully")
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success("Chart created successfully");
     } catch (error) {
-      toast.error("Failed to create chart")
+      toast.error("Failed to create chart");
     } finally {
-      setIsLoading(false)
-      setIsDialogOpen(false)
+      setIsLoading(false);
+      setIsDialogOpen(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center pb-2">
@@ -123,7 +123,7 @@ export function AnalystNavTop({ analysisDetails }) {
                 id="chartName"
                 placeholder="Skriv inn navn på diagram"
                 value={analysisName}
-                onChange={(e) => setAnalysisName(e.target.value)}
+                onChange={e => setAnalysisName(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -133,7 +133,7 @@ export function AnalystNavTop({ analysisDetails }) {
                 placeholder="Skriv inn beskrivelse"
                 rows={4}
                 value={analysisDescription}
-                onChange={(e) => setAnalysisDescription(e.target.value)}
+                onChange={e => setAnalysisDescription(e.target.value)}
                 className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
@@ -151,5 +151,5 @@ export function AnalystNavTop({ analysisDetails }) {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

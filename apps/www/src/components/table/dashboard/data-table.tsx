@@ -1,63 +1,63 @@
-"use client"
+"use client";
 
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
-import { useState } from "react"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-import { format } from "date-fns"
-import { nb } from "date-fns/locale"
+  useReactTable
+} from "@tanstack/react-table";
+import { format } from "date-fns";
+import { nb } from "date-fns/locale";
+import { useState } from "react";
 
-import InfoCard from "../info-card"
-import { DataTableToolbar } from "./data-table-toolbar"
+import InfoCard from "../info-card";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  type: "property" | "tenant"
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  type: "property" | "tenant";
 }
 
 interface selectedProp {
-  id: string
-  index: number
-  original: any
+  id: string;
+  index: number;
+  original: any;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  type,
+  type
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -74,11 +74,11 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
-    },
-  })
+      rowSelection
+    }
+  });
 
-  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"))
+  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"));
 
   return (
     <div className="grid gap-8 lg:grid-cols-4">
@@ -87,36 +87,36 @@ export function DataTable<TData, TValue>({
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
+                  {headerGroup.headers.map(header => {
                     return (
                       <TableHead key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext(),
+                              header.getContext()
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+                table.getRowModel().rows.map(row => (
                   <TableRow
                     onClick={() => setSelected(row)}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}
@@ -162,9 +162,9 @@ export function DataTable<TData, TValue>({
           tenants: selected.original.tenants,
           contracts: selected.original.contracts,
           analysis: selected.original.analysis,
-          orgnr: selected.original.orgnr,
+          orgnr: selected.original.orgnr
         }}
       />
     </div>
-  )
+  );
 }

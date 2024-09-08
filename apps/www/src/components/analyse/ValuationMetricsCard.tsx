@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { ChartContainer } from "@propdock/ui/components/chart"
-import { Bar, BarChart, Rectangle, XAxis } from "recharts"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { ChartContainer } from "@propdock/ui/components/chart";
+import { Bar, BarChart, Rectangle, XAxis } from "recharts";
 
 export function ValuationMetricsCard() {
   return (
@@ -20,9 +20,9 @@ export function ValuationMetricsCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
-        <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
+        <div className="flex items-baseline gap-2 font-bold text-3xl tabular-nums leading-none">
           7.2
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="font-normal text-muted-foreground text-sm">
             multiplikator
           </span>
         </div>
@@ -30,8 +30,8 @@ export function ValuationMetricsCard() {
           config={{
             multiplikator: {
               label: "Multiplikator",
-              color: "hsl(var(--chart-1))",
-            },
+              color: "hsl(var(--chart-1))"
+            }
           }}
           className="ml-auto w-[64px]"
         >
@@ -43,7 +43,7 @@ export function ValuationMetricsCard() {
               { kvartal: "Q2", multiplikator: 514 },
               { kvartal: "Q3", multiplikator: 345 },
               { kvartal: "Q4", multiplikator: 734 },
-              { kvartal: "Q1", multiplikator: 645 },
+              { kvartal: "Q1", multiplikator: 645 }
             ]}
           >
             <Bar
@@ -59,5 +59,5 @@ export function ValuationMetricsCard() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

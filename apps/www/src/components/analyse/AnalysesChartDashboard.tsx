@@ -1,52 +1,52 @@
-"use client"
+"use client";
 
-import type { ChartConfig } from "@propdock/ui/components/chart"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
+import type { ChartConfig } from "@propdock/ui/components/chart";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingDown, TrendingUp } from "lucide-react"
+  ChartTooltipContent
+} from "@propdock/ui/components/chart";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import {
   Area,
   AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   XAxis,
-  YAxis,
-} from "recharts"
+  YAxis
+} from "recharts";
 
 const revenueData = [
   { year: "2021", value: 1000000 },
   { year: "2022", value: 1200000 },
   { year: "2023", value: 1500000 },
-  { year: "2024", value: 1800000 },
-]
+  { year: "2024", value: 1800000 }
+];
 
 const expenseData = [
   { year: "2021", value: 800000 },
   { year: "2022", value: 950000 },
   { year: "2023", value: 1100000 },
-  { year: "2024", value: 1300000 },
-]
+  { year: "2024", value: 1300000 }
+];
 
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-2))"
   },
   expenses: {
     label: "Expenses",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig
+    color: "hsl(var(--chart-1))"
+  }
+} satisfies ChartConfig;
 
 export function AnalysesChartDashboard() {
   return (
@@ -64,14 +64,14 @@ export function AnalysesChartDashboard() {
         trend={{ value: 18, isPositive: false }}
       />
     </div>
-  )
+  );
 }
 
 interface ChartCardProps {
-  title: string
-  data: { year: string; value: number }[]
-  config: { label: string; color: string }
-  trend: { value: number; isPositive: boolean }
+  title: string;
+  data: { year: string; value: number }[];
+  config: { label: string; color: string };
+  trend: { value: number; isPositive: boolean };
 }
 
 function ChartCard({ title, data, config, trend }: ChartCardProps) {
@@ -90,7 +90,7 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
                 top: 10,
                 right: 10,
                 left: 0,
-                bottom: 0,
+                bottom: 0
               }}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -104,7 +104,7 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(value) => `$${value / 1000000}M`}
+                tickFormatter={value => `$${value / 1000000}M`}
                 domain={["auto", "dataMax + 200000"]}
                 tick={{ fontSize: 12 }}
               />
@@ -149,28 +149,28 @@ function ChartCard({ title, data, config, trend }: ChartCardProps) {
               {trend.isPositive ? "Økt" : "Redusert"} {title.toLowerCase()} med{" "}
               {trend.value}% i 2024
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+            <div className="flex items-center gap-2 text-muted-foreground leading-none">
               Sammenligning av {title.toLowerCase()} de siste årene
             </div>
           </div>
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 function TrendIcon({
-  trend,
+  trend
 }: {
-  trend: { value: number; isPositive: boolean }
+  trend: { value: number; isPositive: boolean };
 }) {
-  const Icon = trend.isPositive ? TrendingUp : TrendingDown
-  const colorClass = trend.isPositive ? "text-green-500" : "text-red-500"
+  const Icon = trend.isPositive ? TrendingUp : TrendingDown;
+  const colorClass = trend.isPositive ? "text-green-500" : "text-red-500";
 
   return (
     <div className={`flex items-center gap-1 ${colorClass}`}>
       <Icon className="h-5 w-5" />
-      <span className="text-sm font-medium">{trend.value}%</span>
+      <span className="font-medium text-sm">{trend.value}%</span>
     </div>
-  )
+  );
 }

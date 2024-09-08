@@ -1,19 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useParams } from "next/navigation"
-import { updateFloorDetails } from "@/actions/update-floor-details"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateFloorDetails } from "@/actions/update-floor-details";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetContent,
@@ -21,60 +19,62 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const EditFloorDetailsSchema = z.object({
   number: z.number().min(1, "Floor number is required"),
-  maxTotalKvm: z.number().min(1, "Total KVM is required"),
-})
+  maxTotalKvm: z.number().min(1, "Total KVM is required")
+});
 
 export function EditFloorDetailsSheet({
   floorId,
   currentNumber,
-  currentMaxTotalKvm,
+  currentMaxTotalKvm
 }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(EditFloorDetailsSchema),
     defaultValues: {
       number: currentNumber,
-      maxTotalKvm: currentMaxTotalKvm,
-    },
-  })
-  const params = useParams()
+      maxTotalKvm: currentMaxTotalKvm
+    }
+  });
+  const params = useParams();
   const propertyId = Array.isArray(params.propertyId)
     ? params.propertyId[0]
-    : params.propertyId
+    : params.propertyId;
   const buildingId = Array.isArray(params.buildingId)
     ? params.buildingId[0]
-    : params.buildingId
-  const currentPath = `/property/${propertyId}/building/${buildingId}`
+    : params.buildingId;
+  const currentPath = `/property/${propertyId}/building/${buildingId}`;
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
-      const result = await updateFloorDetails(floorId, data, currentPath)
+      const result = await updateFloorDetails(floorId, data, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to update floor details.")
+        throw new Error(result.error || "Failed to update floor details.");
       }
 
-      toast.success(`Floor details updated.`)
-      form.reset()
+      toast.success("Floor details updated.");
+      form.reset();
       // Optionally, refresh the page or update the state to show the updated floor details
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -99,7 +99,7 @@ export function EditFloorDetailsSheet({
                       type="number"
                       placeholder="Floor number.."
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      onChange={e => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -117,7 +117,7 @@ export function EditFloorDetailsSheet({
                       type="number"
                       placeholder="Total KVM.."
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      onChange={e => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -137,5 +137,5 @@ export function EditFloorDetailsSheet({
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

@@ -1,25 +1,26 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuTrigger,
-} from "@propdock/ui/components/context-menu"
-import { Input } from "@propdock/ui/components/input"
+  ContextMenuTrigger
+} from "@propdock/ui/components/context-menu";
+import { Input } from "@propdock/ui/components/input";
+import type React from "react";
+import { useState } from "react";
 
-import { FileTreeProvider, useFileTree } from "./FileTreeContext"
+import { FileTreeProvider, useFileTree } from "./FileTreeContext";
 import {
   CollapseButton,
   File,
   Folder,
   Tree,
-  TreeViewElement,
-} from "./tree-view-api"
+  type TreeViewElement
+} from "./tree-view-api";
 
 const TOC = () => {
-  const { fileTreeData } = useFileTree()
+  const { fileTreeData } = useFileTree();
 
   return (
     <Tree
@@ -30,27 +31,27 @@ const TOC = () => {
       <TreeItem elements={fileTreeData} />
       <CollapseButton elements={fileTreeData} />
     </Tree>
-  )
-}
+  );
+};
 
 const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
-  const { deleteItem, renameItem } = useFileTree()
-  const [isRenaming, setIsRenaming] = useState<string | null>(null)
-  const [newName, setNewName] = useState("")
+  const { deleteItem, renameItem } = useFileTree();
+  const [isRenaming, setIsRenaming] = useState<string | null>(null);
+  const [newName, setNewName] = useState("");
 
   const handleRename = (id: string) => {
-    setIsRenaming(id)
-    setNewName(elements.find((e) => e.id === id)?.name || "")
-  }
+    setIsRenaming(id);
+    setNewName(elements.find(e => e.id === id)?.name || "");
+  };
 
   const submitRename = (id: string) => {
-    renameItem(id, newName)
-    setIsRenaming(null)
-  }
+    renameItem(id, newName);
+    setIsRenaming(null);
+  };
 
   return (
     <>
-      {elements.map((element) => (
+      {elements.map(element => (
         <ContextMenu key={element.id}>
           <ContextMenuTrigger>
             {element.children && element.children.length > 0 ? (
@@ -62,9 +63,9 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
                 {isRenaming === element.id ? (
                   <Input
                     value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
+                    onChange={e => setNewName(e.target.value)}
                     onBlur={() => submitRename(element.id)}
-                    onKeyDown={(e) =>
+                    onKeyDown={e =>
                       e.key === "Enter" && submitRename(element.id)
                     }
                     className="h-6 px-1 py-0"
@@ -86,15 +87,15 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
         </ContextMenu>
       ))}
     </>
-  )
-}
+  );
+};
 
 const TOCWrapper = () => {
   return (
     <FileTreeProvider>
       <TOC />
     </FileTreeProvider>
-  )
-}
+  );
+};
 
-export default TOCWrapper
+export default TOCWrapper;

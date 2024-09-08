@@ -1,43 +1,43 @@
-import type { SidebarNavItem } from "@/types"
-import { notFound } from "next/navigation"
-import { getUserChannels } from "@/actions/Dingify/get-channels"
+import { getUserChannels } from "@/actions/Dingify/get-channels";
+import type { SidebarNavItem } from "@/types";
+import { notFound } from "next/navigation";
 
-import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
-import { DashboardNav } from "@/components/layout/nav"
-import { NavBar } from "@/components/layout/navbar"
-import { SiteFooter } from "@/components/layout/site-footer"
+import { DashboardNav } from "@/components/layout/nav";
+import { NavBar } from "@/components/layout/navbar";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { dashboardConfig } from "@/config/dashboard";
+import { getCurrentUser } from "@/lib/session";
 
 interface DashboardLayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export default async function DashboardLayout({
-  children,
+  children
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    return notFound()
+    return notFound();
   }
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
       title: "Data",
       href: "/analytics/",
-      icon: "home",
+      icon: "home"
     },
     {
       title: "Kart",
       href: "/analytics/maps",
-      icon: "map",
+      icon: "map"
     },
     {
       title: "API nøkkel",
       href: "/analytics/1",
-      icon: "piechart",
-    },
-  ]
+      icon: "piechart"
+    }
+  ];
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
@@ -53,5 +53,5 @@ export default async function DashboardLayout({
       </div>
       <SiteFooter className="border-t" />
     </div>
-  )
+  );
 }

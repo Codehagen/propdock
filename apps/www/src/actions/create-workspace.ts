@@ -21,13 +21,13 @@ export async function createWorkspace(workspaceName: string) {
       data: {
         name: workspaceName,
         users: {
-          connect: { id: userId },
-        },
-      },
+          connect: { id: userId }
+        }
+      }
     });
 
     console.log(
-      `Created workspace with ID: ${newWorkspace.id} for user ID: ${userId}.`,
+      `Created workspace with ID: ${newWorkspace.id} for user ID: ${userId}.`
     );
     revalidatePath("/dashboard"); // Updates the cache for the dashboard page
 

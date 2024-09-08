@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -6,14 +6,14 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
+  ChartTooltipContent
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
 import {
   Area,
   AreaChart,
@@ -21,10 +21,10 @@ import {
   Line,
   ReferenceLine,
   XAxis,
-  YAxis,
-} from "recharts"
+  YAxis
+} from "recharts";
 
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils";
 
 const historicalData = [
   { date: "2023-01", value: 10000000 },
@@ -33,8 +33,8 @@ const historicalData = [
   { date: "2023-10", value: 10800000 },
   { date: "2024-01", value: 11200000 },
   { date: "2024-04", value: 11500000 },
-  { date: "2024-07", value: 12000000 },
-]
+  { date: "2024-07", value: 12000000 }
+];
 
 const projectedData = [
   { date: "2024-07", value: 12000000 },
@@ -47,28 +47,31 @@ const projectedData = [
   { date: "2031-01", value: 18500000 },
   { date: "2032-01", value: 19500000 },
   { date: "2033-01", value: 20500000 },
-  { date: "2034-01", value: 21500000 },
-]
+  { date: "2034-01", value: 21500000 }
+];
 
-const combinedData = [...historicalData, ...projectedData.slice(1)]
+const combinedData = [...historicalData, ...projectedData.slice(1)];
 
 export function PropertyValueTrendCard() {
-  const currentValue = historicalData[historicalData.length - 1].value
-  const projectedValue = projectedData[projectedData.length - 1].value
+  const currentValue = historicalData[historicalData.length - 1].value;
+  const projectedValue = projectedData[projectedData.length - 1].value;
   const averageValue =
     historicalData.reduce((sum, item) => sum + item.value, 0) /
-    historicalData.length
+    historicalData.length;
   const growthPercentage = (
     (currentValue / historicalData[0].value - 1) *
     100
-  ).toFixed(1)
+  ).toFixed(1);
 
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Eiendomsverdi</CardTitle>
         <TrendIcon
-          trend={{ value: parseFloat(growthPercentage), isPositive: true }}
+          trend={{
+            value: Number.parseFloat(growthPercentage),
+            isPositive: true
+          }}
         />
       </CardHeader>
       <CardContent>
@@ -76,12 +79,12 @@ export function PropertyValueTrendCard() {
           config={{
             propertyValue: {
               label: "Eiendomsverdi",
-              color: "hsl(var(--chart-2))",
+              color: "hsl(var(--chart-2))"
             },
             projectedValue: {
               label: "Projisert verdi",
-              color: "hsl(var(--chart-1))",
-            },
+              color: "hsl(var(--chart-1))"
+            }
           }}
         >
           <AreaChart
@@ -92,7 +95,7 @@ export function PropertyValueTrendCard() {
               top: 10,
               right: 10,
               left: 0,
-              bottom: 0,
+              bottom: 0
             }}
           >
             <defs>
@@ -115,11 +118,11 @@ export function PropertyValueTrendCard() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => new Date(value).getFullYear()}
+              tickFormatter={value => new Date(value).getFullYear()}
               tick={{ fontSize: 12 }}
             />
             <YAxis
-              tickFormatter={(value) => `${value / 1000000}M`}
+              tickFormatter={value => `${value / 1000000}M`}
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12 }}
@@ -127,13 +130,13 @@ export function PropertyValueTrendCard() {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  labelFormatter={(value) => {
+                  labelFormatter={value => {
                     return new Date(value).toLocaleDateString("nb-NO", {
                       month: "long",
-                      year: "numeric",
-                    })
+                      year: "numeric"
+                    });
                   }}
-                  valueFormatter={(value) => formatCurrency(value)}
+                  valueFormatter={value => formatCurrency(value)}
                 />
               }
             />
@@ -163,7 +166,7 @@ export function PropertyValueTrendCard() {
               label={{
                 value: "Gjennomsnittlig verdi",
                 position: "insideBottomLeft",
-                fill: "hsl(var(--foreground))",
+                fill: "hsl(var(--foreground))"
               }}
             />
           </AreaChart>
@@ -176,30 +179,30 @@ export function PropertyValueTrendCard() {
               Økt eiendomsverdi med {growthPercentage}% siden{" "}
               {new Date(historicalData[0].date).getFullYear()}
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+            <div className="flex items-center gap-2 text-muted-foreground leading-none">
               Nåværende verdi: {formatCurrency(currentValue)}
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+            <div className="flex items-center gap-2 text-muted-foreground leading-none">
               Stipulert verdi om 10 år: {formatCurrency(projectedValue)}
             </div>
           </div>
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 function TrendIcon({
-  trend,
+  trend
 }: {
-  trend: { value: number; isPositive: boolean }
+  trend: { value: number; isPositive: boolean };
 }) {
-  const colorClass = trend.isPositive ? "text-green-500" : "text-red-500"
+  const colorClass = trend.isPositive ? "text-green-500" : "text-red-500";
 
   return (
     <div className={`flex items-center gap-1 ${colorClass}`}>
       <TrendingUp className="h-5 w-5" />
-      <span className="text-sm font-medium">{trend.value}%</span>
+      <span className="font-medium text-sm">{trend.value}%</span>
     </div>
-  )
+  );
 }

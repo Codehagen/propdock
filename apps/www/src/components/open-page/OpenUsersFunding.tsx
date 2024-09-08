@@ -3,11 +3,11 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 
-import OpenCardFundingChart from "./OpenCardFundingChart"
-import OpenCardFundingDiagram from "./OpenCardFundingDiagram"
+import OpenCardFundingChart from "./OpenCardFundingChart";
+import OpenCardFundingDiagram from "./OpenCardFundingDiagram";
 
 export default function OpenUsersFunding() {
   return (
@@ -35,7 +35,7 @@ export default function OpenUsersFunding() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // OR if we want it to be bigger

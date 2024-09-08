@@ -1,33 +1,33 @@
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
-} from "@propdock/ui/components/avatar"
-import { Button } from "@propdock/ui/components/button"
+  AvatarImage
+} from "@propdock/ui/components/avatar";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { Building, ExternalLink, Mail, Phone, User } from "lucide-react"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { Building, ExternalLink, Mail, Phone, User } from "lucide-react";
 
-import { EmptyPlaceholder } from "../shared/empty-placeholder"
+import { EmptyPlaceholder } from "../shared/empty-placeholder";
 
 interface OwnerInfo {
-  name: string
-  orgNumber: string
-  contactPerson: string
-  email: string
-  phone: string
+  name: string;
+  orgNumber: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
 }
 
 export default function AnalysesRaitingBuilding({
-  analysisDetails,
+  analysisDetails
 }: {
-  analysisDetails: { name: string }
+  analysisDetails: { name: string };
 }) {
   if (!analysisDetails.name || analysisDetails.name.length === 0) {
     return (
@@ -38,7 +38,7 @@ export default function AnalysesRaitingBuilding({
           Det er ingen eierinformasjon tilgjengelig for denne bygningen.
         </EmptyPlaceholder.Description>
       </EmptyPlaceholder>
-    )
+    );
   }
 
   // Mock data - replace with actual data from analysisDetails
@@ -47,8 +47,8 @@ export default function AnalysesRaitingBuilding({
     orgNumber: "912345678",
     contactPerson: "Christer Hagen",
     email: "christer@propdock.no",
-    phone: "+47 123 45 678",
-  }
+    phone: "+47 123 45 678"
+  };
 
   return (
     <Card className="w-full max-w-md">
@@ -72,8 +72,8 @@ export default function AnalysesRaitingBuilding({
               </AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="text-lg font-semibold">{ownerInfo.name}</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="font-semibold text-lg">{ownerInfo.name}</h3>
+              <p className="text-muted-foreground text-sm">
                 Org.nr: {ownerInfo.orgNumber}
               </p>
             </div>
@@ -87,7 +87,7 @@ export default function AnalysesRaitingBuilding({
               <Mail className="h-4 w-4 text-muted-foreground" />
               <a
                 href={`mailto:${ownerInfo.email}`}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-blue-600 text-sm hover:underline"
               >
                 {ownerInfo.email}
               </a>
@@ -96,7 +96,7 @@ export default function AnalysesRaitingBuilding({
               <Phone className="h-4 w-4 text-muted-foreground" />
               <a
                 href={`tel:${ownerInfo.phone}`}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-blue-600 text-sm hover:underline"
               >
                 {ownerInfo.phone}
               </a>
@@ -111,5 +111,5 @@ export default function AnalysesRaitingBuilding({
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

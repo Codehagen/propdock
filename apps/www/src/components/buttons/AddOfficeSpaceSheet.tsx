@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { createOfficeSpace } from "@/actions/create-office-space"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+import { createOfficeSpace } from "@/actions/create-office-space";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetContent,
@@ -21,56 +20,57 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const OfficeSpaceSchema = z.object({
   name: z.string().min(1, "Office space name is required"),
   sizeKvm: z.number().min(1, "Size in KVM is required"),
-  isRented: z.boolean(),
-})
+  isRented: z.boolean()
+});
 
 export function AddOfficeSpaceSheet({ floorId }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(OfficeSpaceSchema),
     defaultValues: {
       name: "",
       sizeKvm: "",
-      isRented: false,
-    },
-  })
+      isRented: false
+    }
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
       // Convert sizeKvm to a number
       const formData = {
         ...data,
-        sizeKvm: Number(data.sizeKvm),
-      }
+        sizeKvm: Number(data.sizeKvm)
+      };
 
-      const result = await createOfficeSpace(floorId, formData)
+      const result = await createOfficeSpace(floorId, formData);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save office space.")
+        throw new Error(result.error || "Failed to save office space.");
       }
 
-      toast.success(`Office space "${formData.name}" was saved.`)
-      form.reset()
+      toast.success(`Office space "${formData.name}" was saved.`);
+      form.reset();
       // Optionally, refresh the page or update the state to show the new office space
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -110,7 +110,7 @@ export function AddOfficeSpaceSheet({ floorId }) {
                       type="number"
                       placeholder="Hvor mange kvm er kontoret..."
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      onChange={e => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -146,5 +146,5 @@ export function AddOfficeSpaceSheet({ floorId }) {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

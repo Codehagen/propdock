@@ -1,11 +1,11 @@
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -13,20 +13,20 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
 import {
   ChevronDownIcon,
   CircleIcon,
   PlusIcon,
-  StarIcon,
-} from "@radix-ui/react-icons"
+  StarIcon
+} from "@radix-ui/react-icons";
 
 export function ChannelCard2({ channelDetails }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {channelDetails.events.map((event) => (
+      {channelDetails.events.map(event => (
         <Card key={event.id}>
           <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
             <div className="space-y-1">
@@ -71,7 +71,7 @@ export function ChannelCard2({ channelDetails }) {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex space-x-4 text-sm text-muted-foreground">
+            <div className="flex space-x-4 text-muted-foreground text-sm">
               <div className="flex items-center">
                 <CircleIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
                 TypeScript
@@ -86,5 +86,5 @@ export function ChannelCard2({ channelDetails }) {
         </Card>
       ))}
     </div>
-  )
+  );
 }

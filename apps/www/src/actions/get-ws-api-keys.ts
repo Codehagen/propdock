@@ -1,28 +1,28 @@
 // src/actions/get-api-keys.ts
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function getWsApiKeys(workspaceId: string) {
   try {
     const apiKeys = await prisma.wSApiKey.findMany({
       where: {
-        workspaceId,
+        workspaceId
       },
       select: {
         id: true,
         serviceName: true,
         // secret: true,
-        isActive: true,
+        isActive: true
       },
       orderBy: {
-        serviceName: "asc",
-      },
-    })
+        serviceName: "asc"
+      }
+    });
 
-    return { success: true, apiKeys }
+    return { success: true, apiKeys };
   } catch (error) {
-    console.error("Error fetching API keys:", error)
-    return { success: false, error: error.message }
+    console.error("Error fetching API keys:", error);
+    return { success: false, error: error.message };
   }
 }

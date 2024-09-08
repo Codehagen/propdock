@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -18,14 +17,15 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Separator } from "@propdock/ui/components/separator"
-import { Switch } from "@propdock/ui/components/switch"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Separator } from "@propdock/ui/components/separator";
+import { Switch } from "@propdock/ui/components/switch";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   ownerCostsMethod: z.boolean().default(false),
@@ -39,23 +39,23 @@ const FormSchema = z.object({
   costLegalFees: z.number().nonnegative().nullable(),
   costConsultFees: z.number().nonnegative().nullable(),
   costAssetMgmt: z.number().nonnegative().nullable(),
-  costSum: z.number().nonnegative().nullable(),
-})
+  costSum: z.number().nonnegative().nullable()
+});
 
 interface EditOwnerCostsCardProps {
-  analysisId: string
-  initialOwnerCostsMethod: boolean
-  initialOwnerCostsManual?: number
-  initialCostMaintenance?: number
-  initialCostInsurance?: number
-  initialCostRevision?: number
-  initialCostAdm?: number
-  initialCostOther?: number
-  initialCostNegotiation?: number
-  initialCostLegalFees?: number
-  initialCostConsultFees?: number
-  initialCostAssetMgmt?: number
-  initialCostSum?: number
+  analysisId: string;
+  initialOwnerCostsMethod: boolean;
+  initialOwnerCostsManual?: number;
+  initialCostMaintenance?: number;
+  initialCostInsurance?: number;
+  initialCostRevision?: number;
+  initialCostAdm?: number;
+  initialCostOther?: number;
+  initialCostNegotiation?: number;
+  initialCostLegalFees?: number;
+  initialCostConsultFees?: number;
+  initialCostAssetMgmt?: number;
+  initialCostSum?: number;
 }
 
 export function EditOwnerCostsCard({
@@ -71,9 +71,9 @@ export function EditOwnerCostsCard({
   initialCostLegalFees,
   initialCostConsultFees,
   initialCostAssetMgmt,
-  initialCostSum,
+  initialCostSum
 }: EditOwnerCostsCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -88,9 +88,9 @@ export function EditOwnerCostsCard({
       costLegalFees: initialCostLegalFees ?? null,
       costConsultFees: initialCostConsultFees ?? null,
       costAssetMgmt: initialCostAssetMgmt ?? null,
-      costSum: initialCostSum ?? null,
-    },
-  })
+      costSum: initialCostSum ?? null
+    }
+  });
 
   // Add this useEffect to calculate and update costSum
   useEffect(() => {
@@ -105,18 +105,18 @@ export function EditOwnerCostsCard({
           "costNegotiation",
           "costLegalFees",
           "costConsultFees",
-          "costAssetMgmt",
-        ].reduce((acc, field) => acc + (value[field] || 0), 0)
+          "costAssetMgmt"
+        ].reduce((acc, field) => acc + (value[field] || 0), 0);
 
-        form.setValue("costSum", sum)
+        form.setValue("costSum", sum);
       }
-    })
+    });
 
-    return () => subscription.unsubscribe()
-  }, [form])
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         costs: {
@@ -132,21 +132,21 @@ export function EditOwnerCostsCard({
             costLegalFees: data.costLegalFees,
             costConsultFees: data.costConsultFees,
             costAssetMgmt: data.costAssetMgmt,
-            costSum: data.costSum,
-          },
-        },
-      })
+            costSum: data.costSum
+          }
+        }
+      });
 
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Analysen ble oppdatert.");
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av analyse:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -154,49 +154,49 @@ export function EditOwnerCostsCard({
     {
       name: "costMaintenance",
       label: "Vedlikeholdskostnader",
-      description: "Årlige kostnader for vedlikehold av eiendommen",
+      description: "Årlige kostnader for vedlikehold av eiendommen"
     },
     {
       name: "costInsurance",
       label: "Forsikringskostnader",
-      description: "Årlige forsikringspremier for eiendommen",
+      description: "Årlige forsikringspremier for eiendommen"
     },
     {
       name: "costRevision",
       label: "Revisjonskostnader",
-      description: "Årlige kostnader for revisjon av regnskapet",
+      description: "Årlige kostnader for revisjon av regnskapet"
     },
     {
       name: "costAdm",
       label: "Administrasjonskostnader",
-      description: "Årlige kostnader for administrasjon av eiendommen",
+      description: "Årlige kostnader for administrasjon av eiendommen"
     },
     {
       name: "costOther",
       label: "Andre kostnader",
-      description: "Diverse andre årlige kostnader knyttet til eiendommen",
+      description: "Diverse andre årlige kostnader knyttet til eiendommen"
     },
     {
       name: "costNegotiation",
       label: "Forhandlingskostnader",
-      description: "Kostnader knyttet til forhandlinger og avtaler",
+      description: "Kostnader knyttet til forhandlinger og avtaler"
     },
     {
       name: "costLegalFees",
       label: "Juridiske kostnader",
-      description: "Årlige kostnader for juridisk rådgivning og tjenester",
+      description: "Årlige kostnader for juridisk rådgivning og tjenester"
     },
     {
       name: "costConsultFees",
       label: "Konsulentkostnader",
-      description: "Årlige kostnader for konsulentbistand",
+      description: "Årlige kostnader for konsulentbistand"
     },
     {
       name: "costAssetMgmt",
       label: "Forvaltningskostnader",
-      description: "Årlige kostnader for eiendomsforvaltning",
-    },
-  ]
+      description: "Årlige kostnader for eiendomsforvaltning"
+    }
+  ];
 
   return (
     <Card>
@@ -234,9 +234,9 @@ export function EditOwnerCostsCard({
             <Separator />
             {form.watch("ownerCostsMethod") ? (
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Detaljerte kostnader</h3>
+                <h3 className="font-medium text-lg">Detaljerte kostnader</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {costFields.map((cost) => (
+                  {costFields.map(cost => (
                     <FormField
                       key={cost.name}
                       control={form.control}
@@ -250,11 +250,11 @@ export function EditOwnerCostsCard({
                               placeholder={cost.label}
                               {...field}
                               value={field.value ?? ""}
-                              onChange={(e) =>
+                              onChange={e =>
                                 field.onChange(
                                   e.target.value === ""
                                     ? null
-                                    : Number(e.target.value),
+                                    : Number(e.target.value)
                                 )
                               }
                             />
@@ -318,5 +318,5 @@ export function EditOwnerCostsCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

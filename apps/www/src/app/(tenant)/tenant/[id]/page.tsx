@@ -1,30 +1,30 @@
-import Link from "next/link"
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Button } from "@propdock/ui/components/button"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { Button } from "@propdock/ui/components/button";
+import Link from "next/link";
 
-import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import UserCard from "@/components/users/UserCard"
+import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import UserCard from "@/components/users/UserCard";
 
 export default async function TenantDetailsPage({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   if (!tenantId) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Tenant not found" text="Invalid tenant ID." />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -47,7 +47,7 @@ export default async function TenantDetailsPage({
             />
           </EmptyPlaceholder>
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -60,12 +60,12 @@ export default async function TenantDetailsPage({
           <UserCard tenantDetails={tenantDetails} />
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={(error as Error).message} />
       </DashboardShell>
-    )
+    );
   }
 }

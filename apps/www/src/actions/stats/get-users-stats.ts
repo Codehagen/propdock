@@ -17,7 +17,7 @@ export async function getUserStats() {
 
   // Fetch total unique users involved in events
   const totalUsersResult = await prisma.event.groupBy({
-    by: ["userId"],
+    by: ["userId"]
   });
   const totalUsers = totalUsersResult.length;
 
@@ -26,9 +26,9 @@ export async function getUserStats() {
     by: ["userId"],
     where: {
       createdAt: {
-        gte: startOfToday,
-      },
-    },
+        gte: startOfToday
+      }
+    }
   });
   const usersToday = usersTodayResult.length;
 
@@ -37,9 +37,9 @@ export async function getUserStats() {
     by: ["userId"],
     where: {
       createdAt: {
-        gte: startOfThisWeek,
-      },
-    },
+        gte: startOfThisWeek
+      }
+    }
   });
   const usersThisWeek = usersThisWeekResult.length;
 
@@ -48,9 +48,9 @@ export async function getUserStats() {
     by: ["userId"],
     where: {
       createdAt: {
-        gte: startOfThisMonth,
-      },
-    },
+        gte: startOfThisMonth
+      }
+    }
   });
   const usersThisMonth = usersThisMonthResult.length;
 
@@ -58,6 +58,6 @@ export async function getUserStats() {
     totalUsers,
     usersToday,
     usersThisWeek,
-    usersThisMonth,
+    usersThisMonth
   };
 }

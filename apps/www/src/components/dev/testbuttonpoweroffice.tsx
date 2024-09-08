@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Button } from "@propdock/ui/components/button"
-import axios from "axios"
+import { Button } from "@propdock/ui/components/button";
+import axios from "axios";
+import React from "react";
 
 const TestPowerofficeButton = () => {
   const handleOAuth = async () => {
     try {
-      const response = await axios.get("/api/oauth/poweroffice/initiate")
-      const { url } = response.data
-      window.location.href = url
+      const response = await axios.get("/api/oauth/poweroffice/initiate");
+      const { url } = response.data;
+      window.location.href = url;
     } catch (error) {
-      console.error("Error initiating OAuth", error)
+      console.error("Error initiating OAuth", error);
     }
-  }
+  };
 
   return (
     <>
@@ -27,7 +27,7 @@ const TestPowerofficeButton = () => {
         Test Callback
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default TestPowerofficeButton
+export default TestPowerofficeButton;

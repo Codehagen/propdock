@@ -1,22 +1,22 @@
-import { Skeleton } from "@propdock/ui/components/skeleton"
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
-import { getCurrentUser } from "@/lib/session"
-import { getUserSubscriptionPlan } from "@/lib/subscription"
-import { PricingCards } from "@/components/pricing-cards"
-import { PricingFaq } from "@/components/pricing-faq"
+import { PricingCards } from "@/components/pricing-cards";
+import { PricingFaq } from "@/components/pricing-faq";
+import { getCurrentUser } from "@/lib/session";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 
 export const metadata = {
   title: "Dingify Pricing - Tailored Plans for Your Monitoring Needs",
   description:
-    "Explore competitive pricing plans for Dingify. Find the perfect package to enhance your real-time monitoring, event tracking, and data analytics.",
-}
+    "Explore competitive pricing plans for Dingify. Find the perfect package to enhance your real-time monitoring, event tracking, and data analytics."
+};
 
 export default async function PricingPage() {
-  const user = await getCurrentUser()
-  let subscriptionPlan
+  const user = await getCurrentUser();
+  let subscriptionPlan;
 
   if (user) {
-    subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    subscriptionPlan = await getUserSubscriptionPlan(user.id);
   }
 
   return (
@@ -25,5 +25,5 @@ export default async function PricingPage() {
       <hr className="container" />
       <PricingFaq />
     </div>
-  )
+  );
 }

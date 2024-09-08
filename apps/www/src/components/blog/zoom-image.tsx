@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import type { ImageProps } from "next/image"
-import Zoom from "react-medium-image-zoom"
+import type { ImageProps } from "next/image";
+import Zoom from "react-medium-image-zoom";
 
-import BlurImage from "@/lib/blog/blur-image"
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
+import BlurImage from "@/lib/blog/blur-image";
 
-import "react-medium-image-zoom/dist/styles.css"
+import "react-medium-image-zoom/dist/styles.css";
 
 export default function ZoomImage(
-  props: ImageProps & { blurDataURL?: string; hideCaption?: boolean },
+  props: ImageProps & { blurDataURL?: string; hideCaption?: boolean }
 ) {
-  const { width, height, isDesktop } = useMediaQuery()
+  const { width, height, isDesktop } = useMediaQuery();
   return (
     <figure className="not-prose flex flex-col items-center justify-center space-y-3">
       <Zoom
@@ -19,7 +19,7 @@ export default function ZoomImage(
         zoomImg={{
           src: props.src as string,
           alt: props.alt,
-          ...(width && height ? { width, height } : {}),
+          ...(width && height ? { width, height } : {})
         }}
       >
         <BlurImage
@@ -33,10 +33,10 @@ export default function ZoomImage(
         />
       </Zoom>
       {!props?.hideCaption && (
-        <figcaption className="text-center text-sm italic text-gray-500">
+        <figcaption className="text-center text-gray-500 text-sm italic">
           {props.alt}
         </figcaption>
       )}
     </figure>
-  )
+  );
 }

@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { deleteContactPerson } from "@/actions/delete-contact-person"
-import { updateContactPerson } from "@/actions/update-contact-person"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { deleteContactPerson } from "@/actions/delete-contact-person";
+import { updateContactPerson } from "@/actions/update-contact-person";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,9 +11,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetClose,
@@ -23,11 +22,12 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const ContactPersonSchema = z.object({
@@ -37,72 +37,72 @@ const ContactPersonSchema = z.object({
   fnr: z
     .string()
     .optional()
-    .refine((data) => !data || /^\d{11}$/.test(data), {
-      message: "Fødselnummer må være 11 siffer",
+    .refine(data => !data || /^\d{11}$/.test(data), {
+      message: "Fødselnummer må være 11 siffer"
     })
-    .nullable(),
-})
+    .nullable()
+});
 
 export function EditContactPersonSheet({
   contactPersonId,
   initialValues,
   currentPath,
-  children,
+  children
 }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ContactPersonSchema),
-    defaultValues: initialValues,
-  })
+    defaultValues: initialValues
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
       const result = await updateContactPerson(
         contactPersonId,
         data,
-        currentPath,
-      )
+        currentPath
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to update contact person.")
+        throw new Error(result.error || "Failed to update contact person.");
       }
 
-      toast.success(`Kontaktperson "${data.name}" ble oppdatert.`)
-      form.reset()
-      setIsOpen(false) // Close the sheet on success
+      toast.success(`Kontaktperson "${data.name}" ble oppdatert.`);
+      form.reset();
+      setIsOpen(false); // Close the sheet on success
       // Optionally, refresh the page or update the state to show the updated contact person
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const onDelete = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const result = await deleteContactPerson(contactPersonId, currentPath)
+      const result = await deleteContactPerson(contactPersonId, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to delete contact person.")
+        throw new Error(result.error || "Failed to delete contact person.");
       }
 
-      toast.success("Kontaktperson ble slettet.")
-      setIsOpen(false) // Close the sheet on success
+      toast.success("Kontaktperson ble slettet.");
+      setIsOpen(false); // Close the sheet on success
       // Optionally, refresh the page or update the state to remove the deleted contact person
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -193,5 +193,5 @@ export function EditContactPersonSheet({
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

@@ -1,15 +1,15 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function createContract(contractData) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
@@ -18,39 +18,39 @@ export async function createContract(contractData) {
       where: {
         users: {
           some: {
-            id: userId,
-          },
-        },
+            id: userId
+          }
+        }
       },
       select: {
-        id: true,
-      },
-    })
+        id: true
+      }
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return { success: false, error: "No workspace found" }
+      console.error("No workspace found for this user.");
+      return { success: false, error: "No workspace found" };
     }
 
     // Create a new contract
     const newContract = await prisma.contract.create({
       data: {
         workspace: {
-          connect: { id: userWorkspace.id },
+          connect: { id: userWorkspace.id }
         },
         tenant: {
-          connect: { id: contractData.tenantId },
+          connect: { id: contractData.tenantId }
         },
         property: {
-          connect: { id: contractData.propertyId },
+          connect: { id: contractData.propertyId }
         },
         building: {
-          connect: { id: contractData.buildingId },
+          connect: { id: contractData.buildingId }
         },
         floors: contractData.floors,
         officeSpaces: contractData.officeSpaces,
         contact: {
-          connect: { id: contractData.contactId },
+          connect: { id: contractData.contactId }
         },
         landlordOrgnr: contractData.landlordOrgnr,
         landlordName: contractData.landlordName,
@@ -73,17 +73,17 @@ export async function createContract(contractData) {
         vatTerms: contractData.vatTerms,
         businessCategory: contractData.businessCategory,
         collateral: contractData.collateral,
-        isContinuousRent: contractData.isContinuousRent || false,
-      },
-    })
+        isContinuousRent: contractData.isContinuousRent || false
+      }
+    });
 
     console.log(
-      `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`,
-    )
+      `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`
+    );
 
-    return { success: true, contract: newContract }
+    return { success: true, contract: newContract };
   } catch (error) {
-    console.error(`Error creating contract for user ID: ${userId}`, error)
-    return { success: false, error: error.message }
+    console.error(`Error creating contract for user ID: ${userId}`, error);
+    return { success: false, error: error.message };
   }
 }

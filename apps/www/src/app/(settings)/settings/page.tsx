@@ -1,23 +1,23 @@
-import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { UserMobileForm } from "@/components/forms/user-mobile-form" // Import UserMobileForm
-import { UserNameForm } from "@/components/forms/user-name-form"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { UserMobileForm } from "@/components/forms/user-mobile-form"; // Import UserMobileForm
+import { UserNameForm } from "@/components/forms/user-name-form";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
 export const metadata = {
   title: "Settings",
-  description: "Manage account and website settings.",
-}
+  description: "Manage account and website settings."
+};
 
 export default async function SettingsPage() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   const user = await prisma.user.findUnique({
@@ -26,12 +26,12 @@ export default async function SettingsPage() {
       id: true,
       name: true,
       email: true,
-      phone: true, // Include phone here
-    },
-  })
+      phone: true // Include phone here
+    }
+  });
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   return (
@@ -45,5 +45,5 @@ export default async function SettingsPage() {
         <UserMobileForm user={{ id: user.id, phone: user.phone || "" }} />
       </div>
     </DashboardShell>
-  )
+  );
 }

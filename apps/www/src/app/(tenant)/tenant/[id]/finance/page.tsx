@@ -1,27 +1,27 @@
-import { getContractDetails } from "@/actions/get-contract-details"
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Button } from "@propdock/ui/components/button"
+import { getContractDetails } from "@/actions/get-contract-details";
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { format } from "date-fns"
-import { Building, Home, Settings } from "lucide-react"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { format } from "date-fns";
+import { Building, Home, Settings } from "lucide-react";
 
-import { formatCurrency } from "@/lib/utils"
-import { EditContractSheet } from "@/components/buttons/EditContractDetails"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { ContractCheck } from "@/components/tenant/ContractCheck"
+import { EditContractSheet } from "@/components/buttons/EditContractDetails";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { ContractCheck } from "@/components/tenant/ContractCheck";
+import { formatCurrency } from "@/lib/utils";
 
 export default async function EconomySettings({
-  params,
+  params
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   if (!tenantId) {
     return (
@@ -31,12 +31,12 @@ export default async function EconomySettings({
           text="Ugyldig leietaker-ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
-    const contractDetails = await getContractDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
+    const contractDetails = await getContractDetails(tenantId);
 
     if (!tenantDetails) {
       return (
@@ -46,10 +46,10 @@ export default async function EconomySettings({
             text="Leietakerdetaljer ikke funnet."
           />
         </DashboardShell>
-      )
+      );
     }
 
-    const hasContract = contractDetails && contractDetails.length > 0
+    const hasContract = contractDetails && contractDetails.length > 0;
 
     return (
       <DashboardShell>
@@ -61,7 +61,7 @@ export default async function EconomySettings({
         {hasContract ? (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-2xl font-bold">
+              <CardTitle className="font-bold text-2xl">
                 Kontraktoversikt
               </CardTitle>
               <EditContractSheet
@@ -73,7 +73,7 @@ export default async function EconomySettings({
                   negotiationDate: contractDetails[0].negotiationDate,
                   baseRent: contractDetails[0].baseRent,
                   indexationType: contractDetails[0].indexationType,
-                  indexValue: contractDetails[0].indexValue || 0,
+                  indexValue: contractDetails[0].indexValue || 0
                 }}
                 currentPath={`/tenant/${tenantId}/finance`}
                 tenantId={tenantId}
@@ -87,32 +87,32 @@ export default async function EconomySettings({
             <CardContent>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">
+                  <p className="font-medium text-muted-foreground text-sm">
                     Månedlig leie
                   </p>
-                  <p className="text-2xl font-bold">
+                  <p className="font-bold text-2xl">
                     {formatCurrency(
                       contractDetails[0].baseRent ?? 0,
-                      contractDetails[0].currencyIso,
+                      contractDetails[0].currencyIso
                     )}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">
+                  <p className="font-medium text-muted-foreground text-sm">
                     Årlig leie
                   </p>
-                  <p className="text-2xl font-bold">
+                  <p className="font-bold text-2xl">
                     {formatCurrency(
                       (contractDetails[0].baseRent ?? 0) * 12,
-                      contractDetails[0].currencyIso,
+                      contractDetails[0].currencyIso
                     )}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">
+                  <p className="font-medium text-muted-foreground text-sm">
                     Indeksering
                   </p>
-                  <p className="text-2xl font-bold">
+                  <p className="font-bold text-2xl">
                     {contractDetails[0].indexationType} (
                     {contractDetails[0].indexValue}%)
                   </p>
@@ -124,7 +124,7 @@ export default async function EconomySettings({
                   <span>
                     {format(
                       new Date(contractDetails[0].startDate),
-                      "dd.MM.yyyy",
+                      "dd.MM.yyyy"
                     )}
                   </span>
                 </div>
@@ -147,7 +147,7 @@ export default async function EconomySettings({
                 </div>
               </div>
               <div className="mt-6">
-                <h3 className="mb-2 text-lg font-semibold">
+                <h3 className="mb-2 font-semibold text-lg">
                   Eiendomsinformasjon
                 </h3>
                 <div className="space-y-2">
@@ -173,7 +173,7 @@ export default async function EconomySettings({
           <ContractCheck tenantDetails={tenantDetails} />
         )}
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
@@ -183,12 +183,12 @@ export default async function EconomySettings({
         />
         <Card>
           <CardContent className="pt-6">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Feilmelding: {error.message}
             </p>
           </CardContent>
         </Card>
       </DashboardShell>
-    )
+    );
   }
 }

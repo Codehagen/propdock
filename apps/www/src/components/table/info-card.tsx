@@ -1,64 +1,64 @@
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
-import { format } from "date-fns"
-import { File, MoreHorizontal, Pencil, Trash } from "lucide-react"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
+import { format } from "date-fns";
+import { File, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 function formatNOK(amount: number): string {
   const formatter = new Intl.NumberFormat("no-NO", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })
-  return `kr ${formatter.format(amount)}`
+    maximumFractionDigits: 0
+  });
+  return `kr ${formatter.format(amount)}`;
 }
 
 export default function InfoCard({
   data,
-  type,
+  type
 }: {
   data?: {
-    id: string
-    name: string
-    createdAt: Date
-    orgnr?: number
-    building?: { name: string }
-    floor?: { number: number } | null
-    officeSpace?: { name: string } | null
+    id: string;
+    name: string;
+    createdAt: Date;
+    orgnr?: number;
+    building?: { name: string };
+    floor?: { number: number } | null;
+    officeSpace?: { name: string } | null;
     contracts?: {
-      id: string
-      startDate: Date
-      endDate: Date
-      baseRent?: number
-    }[]
-    currentRent?: number | null
-    contractStartDate?: Date | null
-    contractEndDate?: Date | null
+      id: string;
+      startDate: Date;
+      endDate: Date;
+      baseRent?: number;
+    }[];
+    currentRent?: number | null;
+    contractStartDate?: Date | null;
+    contractEndDate?: Date | null;
     contactPerson?: {
-      name: string
-      email: string
-      phone?: string
-    } | null
-  }
-  type: "property" | "tenant"
+      name: string;
+      email: string;
+      phone?: string;
+    } | null;
+  };
+  type: "property" | "tenant";
 }) {
   const handleDelete = () => {
     // Handle delete action
-  }
+  };
 
   // Calculate maxTotalKvm
   const maxTotalKvm =
@@ -69,41 +69,41 @@ export default function InfoCard({
               acc +
               building.floors.reduce(
                 (floorAcc, floor) => floorAcc + floor.maxTotalKvm,
-                0,
+                0
               )
-            )
+            );
           }, 0)
           .toString()
-      : "Legg til areal"
+      : "Legg til areal";
 
   // Calculate number of tenants
-  const numberOfTenants = data?.tenants?.length || 0
+  const numberOfTenants = data?.tenants?.length || 0;
 
   // Calculate number of contracts
-  const numberOfContracts = data?.contracts?.length || 0
+  const numberOfContracts = data?.contracts?.length || 0;
 
   // Calculate total rent
   const totalRent =
     data?.contracts?.reduce(
       (acc, contract) => acc + (contract.baseRent || 0),
-      0,
-    ) || 0
+      0
+    ) || 0;
 
   // Calculate vacancy rate
   const vacancyRate =
     data?.buildings?.reduce((acc, building) => {
       const totalArea = building.floors.reduce(
         (sum, floor) => sum + floor.maxTotalKvm,
-        0,
-      )
+        0
+      );
       const occupiedArea =
         data.contracts?.reduce(
           (sum, contract) =>
             sum + (contract.baseRent ? contract.baseRent / 12 : 0),
-          0,
-        ) || 0
-      return acc + (totalArea - occupiedArea) / totalArea
-    }, 0) || 0
+          0
+        ) || 0;
+      return acc + (totalArea - occupiedArea) / totalArea;
+    }, 0) || 0;
 
   // Calculate average rent per sqm
   const averageRentPerSqm =
@@ -112,8 +112,8 @@ export default function InfoCard({
       (acc, building) =>
         acc +
         building.floors.reduce((sum, floor) => sum + floor.maxTotalKvm, 0),
-      0,
-    ) || 1)
+      0
+    ) || 1);
 
   return (
     <Card className="overflow-hidden">
@@ -141,7 +141,7 @@ export default function InfoCard({
                 {data?.building?.name
                   ? data.building.name
                   : "Placeholder Building"}
-                {data?.floor && " - " + data.floor.number}
+                {data?.floor && ` - ${data.floor.number}`}
               </>
             )}
           </CardDescription>
@@ -328,7 +328,7 @@ export default function InfoCard({
         )}
       </CardContent>
       <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           {/* Oppdatert */}
           {/* <time dateTime={new Date(data?.createdAt).toISOString()}>
             {" "}
@@ -337,5 +337,5 @@ export default function InfoCard({
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

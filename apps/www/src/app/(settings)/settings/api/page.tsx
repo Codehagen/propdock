@@ -1,34 +1,34 @@
-// pages/settings/api.js
-import { redirect } from "next/navigation"
-import { Badge } from "@propdock/ui/components/badge"
-import { Separator } from "@propdock/ui/components/separator"
+import { Badge } from "@propdock/ui/components/badge";
+import { Separator } from "@propdock/ui/components/separator";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
-import { getServerSession } from "next-auth"
+  TableRow
+} from "@propdock/ui/components/table";
+import { getServerSession } from "next-auth";
+// pages/settings/api.js
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { poweroffice } from "@/lib/poweroffice-sdk"
-import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { AddApiKeyButton } from "@/components/buttons/AddApiKeyButton";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { poweroffice } from "@/lib/poweroffice-sdk";
 
 export const metadata = {
   title: "API keys",
-  description: "Manage your API keys.",
-}
+  description: "Manage your API keys."
+};
 
 export default async function SettingsPage() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   const userApiKeys = await prisma.userApiKey.findMany({
@@ -37,12 +37,12 @@ export default async function SettingsPage() {
       id: true,
       secret: true,
       createdAt: true,
-      serviceName: true,
-    },
-  })
+      serviceName: true
+    }
+  });
 
   if (!userApiKeys) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
   // const x = await poweroffice.getCustomers()
   // console.log(x)
@@ -77,7 +77,7 @@ export default async function SettingsPage() {
       />
       <AddApiKeyButton />
       <div className="mt-6">
-        <h2 className="mb-4 text-xl font-bold">Your API Keys</h2>
+        <h2 className="mb-4 font-bold text-xl">Your API Keys</h2>
         {userApiKeys.length > 0 ? (
           <Table>
             <TableHeader>
@@ -88,7 +88,7 @@ export default async function SettingsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {userApiKeys.map((key) => (
+              {userApiKeys.map(key => (
                 <TableRow key={key.id}>
                   <TableCell>
                     <Badge variant="outline">{key.secret}</Badge>
@@ -106,5 +106,5 @@ export default async function SettingsPage() {
         )}
       </div>
     </DashboardShell>
-  )
+  );
 }

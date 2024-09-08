@@ -1,8 +1,8 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function updateContactPerson(contactPersonId, data, currentPath) {
   try {
@@ -12,15 +12,15 @@ export async function updateContactPerson(contactPersonId, data, currentPath) {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        fnr: parseInt(data.fnr), // Ensure fnr is parsed to integer
-      },
-    })
+        fnr: Number.parseInt(data.fnr) // Ensure fnr is parsed to integer
+      }
+    });
 
-    revalidatePath(currentPath)
+    revalidatePath(currentPath);
 
-    return { success: true, contactPerson: updatedContactPerson }
+    return { success: true, contactPerson: updatedContactPerson };
   } catch (error) {
-    console.error("Error updating contact person details:", error)
-    return { success: false, error: error.message }
+    console.error("Error updating contact person details:", error);
+    return { success: false, error: error.message };
   }
 }

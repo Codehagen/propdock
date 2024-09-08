@@ -12,8 +12,8 @@ export default function AlertsOverviewChart(props) {
         { x: "Mar", y: 90 },
         { x: "Apr", y: 120 },
         { x: "May", y: 50 },
-        { x: "Jun", y: 40 },
-      ],
+        { x: "Jun", y: 40 }
+      ]
     },
     {
       id: "Warning",
@@ -23,8 +23,8 @@ export default function AlertsOverviewChart(props) {
         { x: "Mar", y: 100 },
         { x: "Apr", y: 110 },
         { x: "May", y: 80 },
-        { x: "Jun", y: 100 },
-      ],
+        { x: "Jun", y: 100 }
+      ]
     },
     {
       id: "Info",
@@ -34,9 +34,9 @@ export default function AlertsOverviewChart(props) {
         { x: "Mar", y: 60 },
         { x: "Apr", y: 70 },
         { x: "May", y: 90 },
-        { x: "Jun", y: 120 },
-      ],
-    },
+        { x: "Jun", y: 120 }
+      ]
+    }
   ];
 
   return (
@@ -45,21 +45,21 @@ export default function AlertsOverviewChart(props) {
         data={data}
         margin={{ top: 10, right: 10, bottom: 40, left: 40 }}
         xScale={{
-          type: "point",
+          type: "point"
         }}
         yScale={{
-          type: "linear",
+          type: "linear"
         }}
         axisTop={null}
         axisRight={null}
         axisBottom={{
           tickSize: 0,
-          tickPadding: 16,
+          tickPadding: 16
         }}
         axisLeft={{
           tickSize: 0,
           tickValues: 5,
-          tickPadding: 16,
+          tickPadding: 16
         }}
         colors={["#e11d48", "#f97316", "#3b82f6"]}
         pointSize={6}
@@ -68,21 +68,21 @@ export default function AlertsOverviewChart(props) {
         theme={{
           tooltip: {
             chip: {
-              borderRadius: "9999px",
+              borderRadius: "9999px"
             },
             container: {
               fontSize: "12px",
               textTransform: "capitalize",
               borderRadius: "6px",
               background: "#000000",
-              color: "#ffffff",
-            },
+              color: "#ffffff"
+            }
           },
           grid: {
             line: {
-              stroke: "#f3f4f6",
-            },
-          },
+              stroke: "#f3f4f6"
+            }
+          }
         }}
         role="application"
       />

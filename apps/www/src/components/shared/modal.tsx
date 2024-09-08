@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { Dialog, DialogContent } from "@propdock/ui/components/dialog"
-import { Drawer } from "vaul"
+import { Dialog, DialogContent } from "@propdock/ui/components/dialog";
+import { Drawer } from "vaul";
 
-import { cn } from "@/lib/utils"
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
 interface ModalProps {
-  children: React.ReactNode
-  className?: string
-  showModal: boolean
-  setShowModal: () => void
+  children: React.ReactNode;
+  className?: string;
+  showModal: boolean;
+  setShowModal: () => void;
 }
 
 export function Modal({
   children,
   className,
   showModal,
-  setShowModal,
+  setShowModal
 }: ModalProps) {
-  const { isMobile } = useMediaQuery()
+  const { isMobile } = useMediaQuery();
 
   if (isMobile) {
     return (
@@ -29,7 +29,7 @@ export function Modal({
           <Drawer.Content
             className={cn(
               "fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-2xl border bg-background",
-              className,
+              className
             )}
           >
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
@@ -40,7 +40,7 @@ export function Modal({
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    )
+    );
   }
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
@@ -48,5 +48,5 @@ export function Modal({
         {children}
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@propdock/ui/components/card";
 import { ChartContainer } from "@propdock/ui/components/chart";
 import { Bar, BarChart, Rectangle, XAxis } from "recharts";
@@ -20,9 +20,9 @@ export function NetOperatingIncomeCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
-        <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
+        <div className="flex items-baseline gap-2 font-bold text-3xl tabular-nums leading-none">
           1.2M
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="font-normal text-muted-foreground text-sm">
             NOK/quarter
           </span>
         </div>
@@ -30,8 +30,8 @@ export function NetOperatingIncomeCard() {
           config={{
             noi: {
               label: "NOI",
-              color: "hsl(var(--chart-4))",
-            },
+              color: "hsl(var(--chart-4))"
+            }
           }}
           className="ml-auto w-[64px]"
         >
@@ -42,7 +42,7 @@ export function NetOperatingIncomeCard() {
               { quarter: "Q1", noi: 1050000 },
               { quarter: "Q2", noi: 1100000 },
               { quarter: "Q3", noi: 1150000 },
-              { quarter: "Q4", noi: 1200000 },
+              { quarter: "Q4", noi: 1200000 }
             ]}
           >
             <Bar

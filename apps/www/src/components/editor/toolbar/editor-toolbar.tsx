@@ -1,7 +1,6 @@
-import type { Editor } from "@tiptap/react"
-import React from "react"
-import { Toggle } from "@propdock/ui/components/toggle"
-import { ToggleGroup, Toolbar } from "@propdock/ui/components/toolbar"
+import { Toggle } from "@propdock/ui/components/toggle";
+import { ToggleGroup, Toolbar } from "@propdock/ui/components/toolbar";
+import type { Editor } from "@tiptap/react";
 import {
   Bold,
   Code,
@@ -12,13 +11,14 @@ import {
   Quote,
   Redo,
   Strikethrough,
-  Undo,
-} from "lucide-react"
+  Undo
+} from "lucide-react";
+import React from "react";
 
-import { FormatType } from "./format-type"
+import { FormatType } from "./format-type";
 
 interface EditorToolbarProps {
-  editor: Editor
+  editor: Editor;
 }
 
 const EditorToolbar = ({ editor }: EditorToolbarProps) => {
@@ -137,7 +137,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
         </Toggle>
       </ToggleGroup>
     </Toolbar>
-  )
-}
+  );
+};
 
-export default EditorToolbar
+export default EditorToolbar;

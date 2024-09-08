@@ -1,10 +1,8 @@
-"use client"
+"use client";
 
-import type { ColumnDef } from "@tanstack/react-table"
-import Link from "next/link"
-import { deleteTenant } from "@/actions/delete-tenant"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { deleteTenant } from "@/actions/delete-tenant";
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,32 +10,34 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import format from "date-fns/format"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { toast } from "sonner"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import type { ColumnDef } from "@tanstack/react-table";
+import format from "date-fns/format";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
 
-import { EditTenantSheet } from "@/components/buttons/EditTenantSheet"
+import { EditTenantSheet } from "@/components/buttons/EditTenantSheet";
 
 export interface tenants {
-  name: string
-  id: number
+  name: string;
+  id: number;
   building: {
-    name: string
-  }
+    name: string;
+  };
   floor: {
-    number: number
-  } | null
+    number: number;
+  } | null;
   officeSpace: {
-    name: string
-  } | null
-  orgnr: number | null
-  numEmployees: number
-  isRenting: boolean
-  currentRent: number | null
-  contractStartDate: string | null
-  contractEndDate: string | null
+    name: string;
+  } | null;
+  orgnr: number | null;
+  numEmployees: number;
+  isRenting: boolean;
+  currentRent: number | null;
+  contractStartDate: string | null;
+  contractEndDate: string | null;
 }
 
 export const TenantColumns: ColumnDef<tenants>[] = [
@@ -59,8 +59,8 @@ export const TenantColumns: ColumnDef<tenants>[] = [
             <span className="truncate font-medium">{row.original.name}</span>
           </Link>
         </div>
-      )
-    },
+      );
+    }
   },
   {
     accessorKey: "isRenting",
@@ -69,58 +69,58 @@ export const TenantColumns: ColumnDef<tenants>[] = [
       <Badge variant={row.getValue("isRenting") ? "default" : "secondary"}>
         {row.getValue("isRenting") ? "Leier" : "Leier ikke"}
       </Badge>
-    ),
+    )
   },
   {
     accessorKey: "currentRent",
     header: "Nåværende leie",
     cell: ({ row }) => {
-      const amount = row.getValue("currentRent")
+      const amount = row.getValue("currentRent");
       return amount ? (
         `${amount.toLocaleString()} NOK`
       ) : (
         <Badge variant="secondary">Ingen leie</Badge>
-      )
-    },
+      );
+    }
   },
   {
     accessorKey: "contractStartDate",
     header: "Kontraktstart",
     cell: ({ row }) => {
-      const date = row.getValue("contractStartDate")
+      const date = row.getValue("contractStartDate");
       return date ? (
         format(new Date(date), "dd.MM.yyyy")
       ) : (
         <Badge variant="secondary">Ingen dato</Badge>
-      )
-    },
+      );
+    }
   },
   {
     accessorKey: "contractEndDate",
     header: "Kontraktslutt",
     cell: ({ row }) => {
-      const date = row.getValue("contractEndDate")
+      const date = row.getValue("contractEndDate");
       return date ? (
         format(new Date(date), "dd.MM.yyyy")
       ) : (
         <Badge variant="secondary">Ingen dato</Badge>
-      )
-    },
+      );
+    }
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const name = row.original.name
-      const id = row.original.id
+      const name = row.original.name;
+      const id = row.original.id;
 
       const handleDelete = async () => {
-        const result = await deleteTenant(id.toString())
+        const result = await deleteTenant(id.toString());
         if (result.success) {
-          toast.success(`Leietaker "${name}" ble slettet`)
+          toast.success(`Leietaker "${name}" ble slettet`);
         } else {
-          toast.error(`Kunne ikke slette leietaker "${name}"`)
+          toast.error(`Kunne ikke slette leietaker "${name}"`);
         }
-      }
+      };
 
       return (
         <div className="hidden md:block">
@@ -134,7 +134,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Handlinger</DropdownMenuLabel>
               <EditTenantSheet tenant={row.original}>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <DropdownMenuItem onSelect={e => e.preventDefault()}>
                   Rediger
                 </DropdownMenuItem>
               </EditTenantSheet>
@@ -146,7 +146,7 @@ export const TenantColumns: ColumnDef<tenants>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      )
-    },
-  },
-]
+      );
+    }
+  }
+];

@@ -1,65 +1,65 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import * as z from "zod"
+  SelectValue
+} from "@propdock/ui/components/select";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
-import { Icons } from "@/components/shared/icons"
+import { Icons } from "@/components/shared/icons";
 
 const languageSchema = z.object({
   language: z.string({
-    required_error: "Language is required",
-  }),
-})
+    required_error: "Language is required"
+  })
+});
 
 export function LanguageForm2({ user }) {
   const [selectedLanguage, setSelectedLanguage] = useState(
-    user.language || "english",
-  )
-  const [isPending, setPending] = useState(false)
+    user.language || "english"
+  );
+  const [isPending, setPending] = useState(false);
   const form = useForm({
-    resolver: zodResolver(languageSchema),
+    resolver: zodResolver(languageSchema)
     // Remove defaultValues here, we will use useState to manage the select's value
-  })
+  });
 
-  const { handleSubmit, setValue } = form
+  const { handleSubmit, setValue } = form;
 
-  const onSubmit = async (data) => {
-    setPending(true)
-    console.log("Submitted data:", data) // Check what is being submitted
+  const onSubmit = async data => {
+    setPending(true);
+    console.log("Submitted data:", data); // Check what is being submitted
     try {
-      toast.success("Language updated successfully.")
+      toast.success("Language updated successfully.");
     } catch (error) {
-      console.error("Update error:", error) // Log any caught errors
-      toast.error(error.message || "Failed to update language.")
+      console.error("Update error:", error); // Log any caught errors
+      toast.error(error.message || "Failed to update language.");
     } finally {
-      setPending(false)
+      setPending(false);
     }
-  }
+  };
 
   // Use this function to handle the language change
-  const handleLanguageChange = (language) => {
-    setSelectedLanguage(language)
-    setValue("language", language) // Update form value manually
-    console.log("Language changed to:", language) // Log the change for debugging
-  }
+  const handleLanguageChange = language => {
+    setSelectedLanguage(language);
+    setValue("language", language); // Update form value manually
+    console.log("Language changed to:", language); // Log the change for debugging
+  };
 
   return (
     <Card>
@@ -98,5 +98,5 @@ export function LanguageForm2({ user }) {
         </CardFooter>
       </form>
     </Card>
-  )
+  );
 }

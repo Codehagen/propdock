@@ -3,31 +3,31 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
-import { format } from "date-fns"
+  TableRow
+} from "@propdock/ui/components/table";
+import { format } from "date-fns";
 
 interface AnalysisDetailsTableProps {
-  details: any
+  details: any;
 }
 
 export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
-  const tableHeaders = ["Field", "Value"]
+  const tableHeaders = ["Field", "Value"];
 
   const formatValue = (value: any) => {
     if (value instanceof Date) {
-      return format(value, "yyyy-MM-dd")
+      return format(value, "yyyy-MM-dd");
     }
-    return value
-  }
+    return value;
+  };
 
   const dataRows = [
     // { label: "Building", value: details.building.name },
@@ -37,17 +37,17 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
     { label: "Sum Value Exit", value: details.sumValueExit },
     {
       label: "Appreciation Date",
-      value: formatValue(details.appreciationDate),
+      value: formatValue(details.appreciationDate)
     },
     { label: "Last Day of Year", value: formatValue(details.lastDayOfYear) },
     { label: "Last Balance Date", value: formatValue(details.lastBalanceDate) },
     {
       label: "Vacancy Per Year",
-      value: JSON.stringify(details.vacancyPerYear),
+      value: JSON.stringify(details.vacancyPerYear)
     },
     {
       label: "Owner Costs Method",
-      value: details.ownerCostsMethod ? "True" : "False",
+      value: details.ownerCostsMethod ? "True" : "False"
     },
     { label: "Owner Costs Manual", value: details.ownerCostsManual },
     { label: "Cost Maintenance", value: details.costMaintenance },
@@ -70,13 +70,13 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
     { label: "Market Rent Misc", value: details.marketRentMisc },
     {
       label: "Use Prime Yield",
-      value: details.usePrimeYield ? "True" : "False",
+      value: details.usePrimeYield ? "True" : "False"
     },
     { label: "Manual Yield Office", value: details.manYieldOffice },
     { label: "Manual Yield Merch", value: details.manYieldMerch },
     { label: "Manual Yield Misc", value: details.manYieldMisc },
-    { label: "Manual Yield Weighted", value: details.manYieldWeighted },
-  ]
+    { label: "Manual Yield Weighted", value: details.manYieldWeighted }
+  ];
 
   return (
     <Card>
@@ -88,7 +88,7 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              {tableHeaders.map((header) => (
+              {tableHeaders.map(header => (
                 <TableHead key={header}>{header}</TableHead>
               ))}
             </TableRow>
@@ -104,5 +104,5 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }

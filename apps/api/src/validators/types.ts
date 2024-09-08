@@ -1,28 +1,26 @@
 interface User {
-  id: number
-  email: string
-  workspaceId: string | null
-  apiKey: string
+  id: number;
+  email: string;
+  workspaceId: string | null;
+  apiKey: string;
 }
 
 interface Property {
-  id: string
-  name: string
-  type: string
-  workspaceId: string
+  id: string;
+  name: string;
+  type: string;
+  workspaceId: string;
 }
 
 interface Building {
-  id: string
-  propertyId: string
+  id: string;
+  propertyId: string;
   // Add other relevant fields based on your application's needs
 }
 
-interface Env {
-  // Add environment-specific properties here
-}
+type Env = {};
 
 interface CustomContext {
-  user?: User
-  test?: boolean
+  user?: User;
+  test?: boolean;
 }

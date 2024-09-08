@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import type { User } from "next-auth"
-import Link from "next/link"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
 import {
   Book,
   CreditCard,
   LayoutDashboard,
   LogOut,
-  Settings,
-} from "lucide-react"
-import { signOut } from "next-auth/react"
+  Settings
+} from "lucide-react";
+import type { User } from "next-auth";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
 
-import { UserAvatar } from "@/components/shared/user-avatar"
+import { UserAvatar } from "@/components/shared/user-avatar";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">
+  user: Pick<User, "name" | "image" | "email">;
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
@@ -38,7 +38,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
             {user.email && (
-              <p className="w-[200px] truncate text-sm text-muted-foreground">
+              <p className="w-[200px] truncate text-muted-foreground text-sm">
                 {user.email}
               </p>
             )}
@@ -75,11 +75,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
-            event.preventDefault()
+          onSelect={event => {
+            event.preventDefault();
             signOut({
-              callbackUrl: `${window.location.origin}/`,
-            })
+              callbackUrl: `${window.location.origin}/`
+            });
           }}
         >
           <div className="flex items-center space-x-2.5">
@@ -89,5 +89,5 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

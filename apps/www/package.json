@@ -8,9 +8,6 @@
     "clean": "git clean -xdf .next .turbo node_modules",
     "content-collections": "content-collections-build",
     "dev": "pnpm with-env next dev",
-    "format": "biome format . --write",
-    "lint": "biome format ./src --write",
-    "check": "biome check ./src --write",
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"

@@ -1,28 +1,28 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function createTenant(tenantData) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
     // Fetch the user's workspace to associate the tenant
     const workspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
-      select: { id: true },
-    })
+      select: { id: true }
+    });
 
     if (!workspace) {
-      throw new Error("No workspace found for this user")
+      throw new Error("No workspace found for this user");
     }
 
     // Create a new tenant within the found workspace
@@ -32,18 +32,18 @@ export async function createTenant(tenantData) {
         orgnr: tenantData.orgnr,
         numEmployees: tenantData.numEmployees,
         propertyId: tenantData.propertyId,
-        buildingId: tenantData.buildingId,
-      },
-    })
+        buildingId: tenantData.buildingId
+      }
+    });
     console.log(
-      `Created tenant with ID: ${newTenant.id} for workspace ID: ${workspace.id}.`,
-    )
+      `Created tenant with ID: ${newTenant.id} for workspace ID: ${workspace.id}.`
+    );
 
-    revalidatePath("/tenant")
+    revalidatePath("/tenant");
 
-    return { success: true, tenant: newTenant }
+    return { success: true, tenant: newTenant };
   } catch (error) {
-    console.error(`Error creating tenant for user ID: ${userId}`, error)
-    return { success: false, error: error.message }
+    console.error(`Error creating tenant for user ID: ${userId}`, error);
+    return { success: false, error: error.message };
   }
 }

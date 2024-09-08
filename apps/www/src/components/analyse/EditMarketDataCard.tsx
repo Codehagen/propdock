@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -18,15 +17,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Separator } from "@propdock/ui/components/separator"
-import { Switch } from "@propdock/ui/components/switch"
-import { Percent } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Separator } from "@propdock/ui/components/separator";
+import { Switch } from "@propdock/ui/components/switch";
+import { Percent } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   marketRentOffice: z.string().nonempty("Markedsleie kontor er påkrevd."),
@@ -37,50 +37,58 @@ const FormSchema = z.object({
     .string()
     .optional()
     .refine(
-      (value) =>
+      value =>
         !value ||
-        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
-      { message: "Yield kontor må være et tall mellom 0 og 100." },
+        (!Number.isNaN(Number(value)) &&
+          Number(value) >= 0 &&
+          Number(value) <= 100),
+      { message: "Yield kontor må være et tall mellom 0 og 100." }
     ),
   manYieldMerch: z
     .string()
     .optional()
     .refine(
-      (value) =>
+      value =>
         !value ||
-        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
-      { message: "Yield handel må være et tall mellom 0 og 100." },
+        (!Number.isNaN(Number(value)) &&
+          Number(value) >= 0 &&
+          Number(value) <= 100),
+      { message: "Yield handel må være et tall mellom 0 og 100." }
     ),
   manYieldMisc: z
     .string()
     .optional()
     .refine(
-      (value) =>
+      value =>
         !value ||
-        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
-      { message: "Yield annet må være et tall mellom 0 og 100." },
+        (!Number.isNaN(Number(value)) &&
+          Number(value) >= 0 &&
+          Number(value) <= 100),
+      { message: "Yield annet må være et tall mellom 0 og 100." }
     ),
   manYieldWeighted: z
     .string()
     .optional()
     .refine(
-      (value) =>
+      value =>
         !value ||
-        (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100),
-      { message: "Vektet yield må være et tall mellom 0 og 100." },
-    ),
-})
+        (!Number.isNaN(Number(value)) &&
+          Number(value) >= 0 &&
+          Number(value) <= 100),
+      { message: "Vektet yield må være et tall mellom 0 og 100." }
+    )
+});
 
 interface EditMarketDataCardProps {
-  analysisId: string
-  initialMarketRentOffice: number
-  initialMarketRentMerch: number
-  initialMarketRentMisc: number
-  initialUsePrimeYield: boolean
-  initialManYieldOffice?: number
-  initialManYieldMerch?: number
-  initialManYieldMisc?: number
-  initialManYieldWeighted?: number
+  analysisId: string;
+  initialMarketRentOffice: number;
+  initialMarketRentMerch: number;
+  initialMarketRentMisc: number;
+  initialUsePrimeYield: boolean;
+  initialManYieldOffice?: number;
+  initialManYieldMerch?: number;
+  initialManYieldMisc?: number;
+  initialManYieldWeighted?: number;
 }
 
 export function EditMarketDataCard({
@@ -92,9 +100,9 @@ export function EditMarketDataCard({
   initialManYieldOffice,
   initialManYieldMerch,
   initialManYieldMisc,
-  initialManYieldWeighted,
+  initialManYieldWeighted
 }: EditMarketDataCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -114,12 +122,12 @@ export function EditMarketDataCard({
         : "",
       manYieldWeighted: initialManYieldWeighted
         ? (initialManYieldWeighted * 100).toString()
-        : "",
-    },
-  })
+        : ""
+    }
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         marketRentOffice: Number(data.marketRentOffice),
@@ -137,23 +145,23 @@ export function EditMarketDataCard({
           : undefined,
         manYieldWeighted: data.manYieldWeighted
           ? Number(data.manYieldWeighted) / 100
-          : undefined,
-      })
+          : undefined
+      });
       if (result.success) {
-        toast.success("Markedsdata og prime yield ble oppdatert.")
+        toast.success("Markedsdata og prime yield ble oppdatert.");
       } else {
         throw new Error(
-          result.error || "Kunne ikke oppdatere markedsdata og prime yield.",
-        )
+          result.error || "Kunne ikke oppdatere markedsdata og prime yield."
+        );
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
       console.error(
         "Feil ved oppdatering av markedsdata og prime yield:",
-        error,
-      )
+        error
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -161,42 +169,42 @@ export function EditMarketDataCard({
     {
       name: "marketRentOffice",
       label: "Markedsleie kontor",
-      description: "Gjennomsnittlig markedsleie for kontorarealer per kvm/år",
+      description: "Gjennomsnittlig markedsleie for kontorarealer per kvm/år"
     },
     {
       name: "marketRentMerch",
       label: "Markedsleie handel",
-      description: "Gjennomsnittlig markedsleie for handelsarealer per kvm/år",
+      description: "Gjennomsnittlig markedsleie for handelsarealer per kvm/år"
     },
     {
       name: "marketRentMisc",
       label: "Markedsleie annet",
-      description: "Gjennomsnittlig markedsleie for andre arealer per kvm/år",
-    },
-  ]
+      description: "Gjennomsnittlig markedsleie for andre arealer per kvm/år"
+    }
+  ];
 
   const yieldFields = [
     {
       name: "manYieldOffice",
       label: "Yield kontor",
-      description: "Prime yield for kontorarealer",
+      description: "Prime yield for kontorarealer"
     },
     {
       name: "manYieldMerch",
       label: "Yield handel",
-      description: "Prime yield for handelsarealer",
+      description: "Prime yield for handelsarealer"
     },
     {
       name: "manYieldMisc",
       label: "Yield annet",
-      description: "Prime yield for andre arealer",
+      description: "Prime yield for andre arealer"
     },
     {
       name: "manYieldWeighted",
       label: "Vektet yield",
-      description: "Vektet prime yield for alle arealer",
-    },
-  ]
+      description: "Vektet prime yield for alle arealer"
+    }
+  ];
 
   return (
     <Card>
@@ -210,9 +218,9 @@ export function EditMarketDataCard({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <h3 className="mb-4 text-lg font-medium">Markedsleie</h3>
+              <h3 className="mb-4 font-medium text-lg">Markedsleie</h3>
               <div className="grid gap-4 sm:grid-cols-3">
-                {marketRentFields.map((field) => (
+                {marketRentFields.map(field => (
                   <FormField
                     key={field.name}
                     control={form.control}
@@ -225,7 +233,7 @@ export function EditMarketDataCard({
                             type="number"
                             placeholder={field.label}
                             {...formField}
-                            onChange={(e) => formField.onChange(e.target.value)}
+                            onChange={e => formField.onChange(e.target.value)}
                           />
                         </FormControl>
                         <FormDescription>{field.description}</FormDescription>
@@ -240,7 +248,7 @@ export function EditMarketDataCard({
             <Separator className="my-6" />
 
             <div>
-              <h3 className="mb-4 text-lg font-medium">Prime Yield</h3>
+              <h3 className="mb-4 font-medium text-lg">Prime Yield</h3>
               <FormField
                 control={form.control}
                 name="usePrimeYield"
@@ -265,7 +273,7 @@ export function EditMarketDataCard({
               />
               {form.watch("usePrimeYield") && (
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {yieldFields.map((field) => (
+                  {yieldFields.map(field => (
                     <FormField
                       key={field.name}
                       control={form.control}
@@ -281,7 +289,7 @@ export function EditMarketDataCard({
                                 {...formField}
                               />
                               <Percent
-                                className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                                className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                                 size={16}
                               />
                             </div>
@@ -303,5 +311,5 @@ export function EditMarketDataCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

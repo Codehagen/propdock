@@ -1,8 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import { DashboardHeader } from "@/components/dashboard/header";
@@ -10,11 +7,14 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 import { PropertyColumns } from "@/components/table/dashboard/columns";
 import { DataTable } from "@/components/table/dashboard/data-table";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Dingify Dashboard - Your Alerts Overview",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
+    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard."
 };
 
 export default async function PropertyPage() {
@@ -29,13 +29,13 @@ export default async function PropertyPage() {
     where: {
       users: {
         some: {
-          id: user.id,
-        },
-      },
+          id: user.id
+        }
+      }
     },
     select: {
-      id: true,
-    },
+      id: true
+    }
   });
 
   if (!userWorkspace) {
@@ -62,7 +62,7 @@ export default async function PropertyPage() {
   // Fetch properties associated with the user's workspace
   const properties: any = await prisma.property.findMany({
     where: {
-      workspaceId: userWorkspace.id,
+      workspaceId: userWorkspace.id
     },
     select: {
       id: true,
@@ -75,34 +75,34 @@ export default async function PropertyPage() {
           address: true,
           floors: {
             select: {
-              maxTotalKvm: true,
-            },
-          },
-        },
+              maxTotalKvm: true
+            }
+          }
+        }
       },
       tenants: {
         select: {
           id: true,
-          name: true,
-        },
+          name: true
+        }
       },
       contracts: {
         select: {
           id: true,
           startDate: true,
-          endDate: true,
-        },
+          endDate: true
+        }
       },
       analysis: {
         select: {
-          id: true,
+          id: true
           // Add fields related to financial analysis
-        },
-      },
+        }
+      }
     },
     orderBy: {
-      createdAt: "desc",
-    },
+      createdAt: "desc"
+    }
   });
 
   return (

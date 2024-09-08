@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Select,
   SelectContent,
@@ -9,22 +8,23 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { toast } from "@propdock/ui/components/use-toast"
+  SelectValue
+} from "@propdock/ui/components/select";
+import { toast } from "@propdock/ui/components/use-toast";
+import { useState } from "react";
 
-import { useLanguageModal } from "@/hooks/use-language-modal"
-import { Modal } from "@/components/shared/modal"
+import { Modal } from "@/components/shared/modal";
+import { useLanguageModal } from "@/hooks/use-language-modal";
 
 // Add any additional imports for user feedback or styling
 
 export const LanguageModal = () => {
-  const languageModal = useLanguageModal()
-  const [selectedLanguage, setSelectedLanguage] = useState("")
+  const languageModal = useLanguageModal();
+  const [selectedLanguage, setSelectedLanguage] = useState("");
 
   const handleLanguageSubmit = async () => {
-    console.log("yeah")
-  }
+    console.log("yeah");
+  };
 
   return (
     <Modal
@@ -34,8 +34,8 @@ export const LanguageModal = () => {
       <div className="w-full">
         <div className="flex flex-col items-center justify-center space-y-3 border-b bg-background px-4 py-6 pt-8 text-center md:px-16">
           {/* Modal header content */}
-          <h3 className="font-urban text-2xl font-bold">Select Language</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-bold font-urban text-2xl">Select Language</h3>
+          <p className="text-gray-500 text-sm">
             Choose your preferred language for Propwrite. (You can always edit
             this in settings)
           </p>
@@ -63,5 +63,5 @@ export const LanguageModal = () => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};

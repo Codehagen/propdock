@@ -1,13 +1,10 @@
 type BuildingData = {
-    name: string,
-    address: string,
-    gnr: number,
-    bnr: number,
-    snr: number,
-    fnr: number,
-}
+  name: string;
+  address: string;
+  gnr: number;
+  bnr: number;
+  snr: number;
+  fnr: number;
+};
 
-
-export {
-    BuildingData
-}
+export type { BuildingData };

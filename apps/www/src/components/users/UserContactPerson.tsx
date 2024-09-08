@@ -3,14 +3,14 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 
-import { AddContactPersonSheet } from "../buttons/AddContactPersonSheet"
-import { EmptyPlaceholder } from "../shared/empty-placeholder"
+import { AddContactPersonSheet } from "../buttons/AddContactPersonSheet";
+import { EmptyPlaceholder } from "../shared/empty-placeholder";
 
 export default function UserContactPerson({ tenantDetails }) {
-  const contacts = tenantDetails.contacts
+  const contacts = tenantDetails.contacts;
 
   if (!contacts || contacts.length === 0) {
     return (
@@ -25,7 +25,7 @@ export default function UserContactPerson({ tenantDetails }) {
           currentPath={`/tenant/${tenantDetails.id}/`}
         />
       </EmptyPlaceholder>
-    )
+    );
   }
 
   return (
@@ -40,25 +40,25 @@ export default function UserContactPerson({ tenantDetails }) {
             <div key={index} className="grid gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <p className="text-sm font-medium leading-none">Navn</p>
+                  <p className="font-medium text-sm leading-none">Navn</p>
                 </div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="font-medium text-muted-foreground text-sm">
                   {contact.name}
                 </p>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <p className="text-sm font-medium leading-none">Telefon</p>
+                  <p className="font-medium text-sm leading-none">Telefon</p>
                 </div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="font-medium text-muted-foreground text-sm">
                   {contact.phone || "Ingen telefonnummer"}
                 </p>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <p className="text-sm font-medium leading-none">Epost</p>
+                  <p className="font-medium text-sm leading-none">Epost</p>
                 </div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="font-medium text-muted-foreground text-sm">
                   {contact.email || "Ingen epost"}
                 </p>
               </div>
@@ -67,5 +67,5 @@ export default function UserContactPerson({ tenantDetails }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

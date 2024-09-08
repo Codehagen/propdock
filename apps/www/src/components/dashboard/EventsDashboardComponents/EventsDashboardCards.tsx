@@ -1,17 +1,17 @@
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { Progress } from "@propdock/ui/components/progress"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { Progress } from "@propdock/ui/components/progress";
 
-import { CreateEventButton } from "@/components/buttons/CreatEventButton"
+import { CreateEventButton } from "@/components/buttons/CreatEventButton";
 
-import { EventDashboardDetailsSheet } from "./EventDashboardDetailsSheet"
+import { EventDashboardDetailsSheet } from "./EventDashboardDetailsSheet";
 
 export default function EventsDashboardCards({ eventStats }) {
   return (
@@ -37,7 +37,7 @@ export default function EventsDashboardCards({ eventStats }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-muted-foreground text-xs">
             {eventStats.weeklyChange >= 0
               ? `+${eventStats.weeklyChange.toFixed(2)}%`
               : `${eventStats.weeklyChange.toFixed(2)}%`}{" "}
@@ -59,7 +59,7 @@ export default function EventsDashboardCards({ eventStats }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-muted-foreground text-xs">
             {eventStats.monthlyChange >= 0
               ? `+${eventStats.monthlyChange.toFixed(2)}%`
               : `${eventStats.monthlyChange.toFixed(2)}%`}{" "}
@@ -74,5 +74,5 @@ export default function EventsDashboardCards({ eventStats }) {
         </CardFooter>
       </Card>
     </>
-  )
+  );
 }

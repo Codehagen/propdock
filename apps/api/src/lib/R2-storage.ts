@@ -1,38 +1,38 @@
-import { User } from "@prisma/client"
+import type { User } from "@prisma/client";
 
-import { Env } from "@/env"
-import { prisma } from "@/lib/db"
+import type { Env } from "@/env";
+import { prisma } from "@/lib/db";
 
 export async function storeSignedDocument(
   env: Env,
   documentId: string,
   content: ArrayBuffer | Buffer,
-  contentType: string,
+  contentType: string
 ): Promise<string> {
-  const bucket = env.PROPDOCK_BINDING
+  const bucket = env.PROPDOCK_BINDING;
 
   if (!bucket) {
-    throw new Error("R2 bucket is not configured")
+    throw new Error("R2 bucket is not configured");
   }
 
-  const key = `signed-documents/${documentId}`
+  const key = `signed-documents/${documentId}`;
 
   await bucket.put(key, content, {
-    httpMetadata: { contentType },
-  })
+    httpMetadata: { contentType }
+  });
 
-  return key
+  return key;
 }
 
 export function getProxyUrl(requestUrl: string, documentId: string): string {
-  const url = new URL(requestUrl)
-  return `${url.origin}/api/internal/esign/documents/${documentId}`
+  const url = new URL(requestUrl);
+  return `${url.origin}/api/internal/esign/documents/${documentId}`;
 }
 
 export async function getAccessToken(env: Env): Promise<string> {
   const credentials = btoa(
-    `${env.SIGNICAT_CLIENT_ID}:${env.SIGNICAT_CLIENT_SECRET}`,
-  )
+    `${env.SIGNICAT_CLIENT_ID}:${env.SIGNICAT_CLIENT_SECRET}`
+  );
 
   const response = await fetch(
     "https://api.signicat.com/auth/open/connect/token",
@@ -40,28 +40,28 @@ export async function getAccessToken(env: Env): Promise<string> {
       method: "POST",
       headers: {
         Authorization: `Basic ${credentials}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       body: new URLSearchParams({
         grant_type: "client_credentials",
-        scope: "signicat-api",
-      }),
-    },
-  )
+        scope: "signicat-api"
+      })
+    }
+  );
 
   if (!response.ok) {
-    throw new Error(`Failed to obtain access token: ${response.statusText}`)
+    throw new Error(`Failed to obtain access token: ${response.statusText}`);
   }
-  const data = (await response.json()) as { access_token: string }
-  return data.access_token
+  const data = (await response.json()) as { access_token: string };
+  return data.access_token;
 }
 
 export async function handleDocumentSigned(
   env: Env,
   eventData: any,
-  requestUrl: string,
+  requestUrl: string
 ) {
-  const { documentId, externalId } = eventData
+  const { documentId, externalId } = eventData;
 
   // 1. Update document status in your database
   //   const document = await prisma(env).document.update({
@@ -70,38 +70,38 @@ export async function handleDocumentSigned(
   //   })
 
   // 2. Retrieve the signed document
-  console.log("Attempting to retrieve signed document")
-  const accessToken = await getAccessToken(env)
-  console.log("Access token obtained")
+  console.log("Attempting to retrieve signed document");
+  const accessToken = await getAccessToken(env);
+  console.log("Access token obtained");
 
   // Construct the URL with query parameters
   const url = new URL(
-    `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`,
-  )
+    `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`
+  );
   // url.searchParams.append("fileFormat", "pades")
   // url.searchParams.append("originalFileName", "true")
 
-  console.log(`Fetching document from URL: ${url.toString()}`)
+  console.log(`Fetching document from URL: ${url.toString()}`);
   const response = await fetch(url.toString(), {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      Accept: "application/pdf",
-    },
-  })
+      Accept: "application/pdf"
+    }
+  });
 
   if (response.ok) {
-    const fileContent = await response.arrayBuffer()
+    const fileContent = await response.arrayBuffer();
     const contentType =
-      response.headers.get("Content-Type") || "application/pdf"
+      response.headers.get("Content-Type") || "application/pdf";
 
     // Store the file content in R2
     const storageKey = await storeSignedDocument(
       env,
       documentId,
       fileContent,
-      contentType,
-    )
+      contentType
+    );
 
     // Update the document record with the storage key
     // await prisma(env).document.update({
@@ -109,10 +109,10 @@ export async function handleDocumentSigned(
     //   data: { storageKey },
     // })
 
-    console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`)
+    console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`);
 
     // Generate a proxy URL for the document
-    const proxyUrl = getProxyUrl(requestUrl, documentId)
+    const proxyUrl = getProxyUrl(requestUrl, documentId);
 
     // 3. Fetch signers information
     // const signers = await prisma(env).documentSigner.findMany({
@@ -135,7 +135,7 @@ export async function handleDocumentSigned(
     // For example, trigger a workflow, update related records, etc.
     // You can add more logic here as needed
   } else {
-    console.error(`Failed to retrieve signed document: ${response.statusText}`)
+    console.error(`Failed to retrieve signed document: ${response.statusText}`);
     // Handle the error appropriately
   }
 }
@@ -143,67 +143,67 @@ export async function handleDocumentSigned(
 export async function handleDocumentCompletedSigned(
   env: Env,
   eventData: any,
-  requestUrl: string,
+  requestUrl: string
 ) {
-  console.log("Starting handleDocumentCompletedSigned function")
-  const { id: documentId } = eventData
-  console.log(`Document ID: ${documentId}`)
+  console.log("Starting handleDocumentCompletedSigned function");
+  const { id: documentId } = eventData;
+  console.log(`Document ID: ${documentId}`);
 
   try {
     // Retrieve the access token
-    const accessToken = await getAccessToken(env)
-    console.log("Access token obtained")
+    const accessToken = await getAccessToken(env);
+    console.log("Access token obtained");
 
     // Fetch the document summary
-    const summaryUrl = `https://api.signicat.com/express/sign/documents/${documentId}/summary`
+    const summaryUrl = `https://api.signicat.com/express/sign/documents/${documentId}/summary`;
     const summaryResponse = await fetch(summaryUrl, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
 
     if (!summaryResponse.ok) {
       throw new Error(
-        `Failed to retrieve document summary: ${summaryResponse.statusText}`,
-      )
+        `Failed to retrieve document summary: ${summaryResponse.statusText}`
+      );
     }
 
-    const summary = await summaryResponse.json()
-    console.log("Document summary retrieved successfully")
+    const summary = await summaryResponse.json();
+    console.log("Document summary retrieved successfully");
 
     // Fetch the signed document
-    const fileUrl = `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`
+    const fileUrl = `https://api.signicat.com/express/sign/documents/${documentId}/files?fileFormat=pades`;
     const fileResponse = await fetch(fileUrl, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: "application/pdf",
-      },
-    })
+        Accept: "application/pdf"
+      }
+    });
 
     if (!fileResponse.ok) {
       throw new Error(
-        `Failed to retrieve signed document: ${fileResponse.statusText}`,
-      )
+        `Failed to retrieve signed document: ${fileResponse.statusText}`
+      );
     }
 
-    const fileContent = await fileResponse.arrayBuffer()
+    const fileContent = await fileResponse.arrayBuffer();
     const contentType =
-      fileResponse.headers.get("Content-Type") || "application/pdf"
+      fileResponse.headers.get("Content-Type") || "application/pdf";
 
     // Store the file content in R2
     const storageKey = await storeSignedDocument(
       env,
       documentId,
       fileContent,
-      contentType,
-    )
+      contentType
+    );
 
-    console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`)
+    console.log(`Document ${documentId} stored in R2 with key: ${storageKey}`);
 
     // Generate a proxy URL for the document
-    const proxyUrl = getProxyUrl(requestUrl, documentId)
+    const proxyUrl = getProxyUrl(requestUrl, documentId);
 
     // Update the document in the database
     await prisma(env).document.update({
@@ -214,21 +214,23 @@ export async function handleDocumentCompletedSigned(
         contentType,
         signedAt: new Date((summary as any).lastUpdated),
         signers: (summary as any).documentSignatures,
-        downloadUrl: proxyUrl,
-      },
-    })
+        downloadUrl: proxyUrl
+      }
+    });
 
-    console.log("Document updated in the database")
+    console.log("Document updated in the database");
 
     // Here you can add any additional processing, like sending notifications
 
-    console.log("handleDocumentCompletedSigned function completed successfully")
+    console.log(
+      "handleDocumentCompletedSigned function completed successfully"
+    );
   } catch (error) {
     console.error(
       `Error in handleDocumentSigned for document ${documentId}:`,
-      error,
-    )
-    throw error
+      error
+    );
+    throw error;
   }
 }
 
@@ -236,18 +238,18 @@ export async function createDocumentInDatabase(
   env: Env,
   documentData: any,
   createdDocument: any,
-  user: User,
+  user: User
 ): Promise<void> {
-  console.log("Debug: Entering createDocumentInDatabase")
-  console.log("Debug: documentData", JSON.stringify(documentData, null, 2))
+  console.log("Debug: Entering createDocumentInDatabase");
+  console.log("Debug: documentData", JSON.stringify(documentData, null, 2));
   console.log(
     "Debug: createdDocument",
-    JSON.stringify(createdDocument, null, 2),
-  )
-  console.log("Debug: user", JSON.stringify(user, null, 2))
+    JSON.stringify(createdDocument, null, 2)
+  );
+  console.log("Debug: user", JSON.stringify(user, null, 2));
 
   try {
-    console.log("Debug: Attempting to create document")
+    console.log("Debug: Attempting to create document");
     await prisma(env).document.create({
       data: {
         externalId: createdDocument.documentId,
@@ -258,12 +260,12 @@ export async function createDocumentInDatabase(
         userId: user.id,
         workspaceId: user.workspaceId,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    })
-    console.log("Debug: Document created successfully")
+        updatedAt: new Date()
+      }
+    });
+    console.log("Debug: Document created successfully");
   } catch (error) {
-    console.error("Debug: Error in createDocumentInDatabase", error)
-    throw error
+    console.error("Debug: Error in createDocumentInDatabase", error);
+    throw error;
   }
 }

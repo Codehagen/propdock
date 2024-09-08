@@ -1,19 +1,19 @@
-import { Metadata } from "next"
-import { notFound } from "next/navigation"
-import { allLegalPosts } from "content-collections"
+import { allLegalPosts } from "content-collections";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import LegalPage from "@/components/blog/legal"
+import LegalPage from "@/components/blog/legal";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata: Metadata = constructMetadata({
   title: "Personvern – Propdock",
-  image: "/api/og/help?title=Personvern&summary=propdock.no/personvern",
-})
+  image: "/api/og/help?title=Personvern&summary=propdock.no/personvern"
+});
 
 export default function Privacy() {
-  const post = allLegalPosts.find((post) => post.slug === "privacy")
+  const post = allLegalPosts.find(post => post.slug === "privacy");
   if (!post) {
-    notFound()
+    notFound();
   }
-  return <LegalPage post={post} />
+  return <LegalPage post={post} />;
 }

@@ -1,34 +1,34 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function deleteWsApiKey(workspaceId: string, serviceName: string) {
   try {
     const apiKey = await prisma.wSApiKey.findFirst({
       where: {
         workspaceId,
-        serviceName,
-      },
-    })
+        serviceName
+      }
+    });
 
     if (!apiKey) {
-      throw new Error("API key not found for the given service.")
+      throw new Error("API key not found for the given service.");
     }
 
     await prisma.wSApiKey.delete({
       where: {
-        id: apiKey.id,
-      },
-    })
+        id: apiKey.id
+      }
+    });
 
     // Revalidate the path after the API key is deleted
-    revalidatePath("/settings/import")
+    revalidatePath("/settings/import");
 
-    return { success: true }
+    return { success: true };
   } catch (error) {
-    console.error("Error disconnecting service:", error)
-    return { success: false, error: error.message }
+    console.error("Error disconnecting service:", error);
+    return { success: false, error: error.message };
   }
 }

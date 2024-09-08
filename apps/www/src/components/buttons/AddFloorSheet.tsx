@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createFloor } from "@/actions/create-floor"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Card, CardContent } from "@propdock/ui/components/card"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+import { createFloor } from "@/actions/create-floor";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Card, CardContent } from "@propdock/ui/components/card";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -13,11 +12,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { Separator } from "@propdock/ui/components/separator"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { Separator } from "@propdock/ui/components/separator";
 import {
   Sheet,
   SheetContent,
@@ -25,57 +24,58 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { Loader2Icon } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { Loader2Icon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { PlusIcon } from "../shared/icons"
+import { PlusIcon } from "../shared/icons";
 
 // Define the validation schema
 const FloorSchema = z.object({
   totalKvm: z.number().min(1, "Total KVM is required"),
   floors: z.number().min(1, "Number of floors is required"),
-  splitKvm: z.boolean(),
-})
+  splitKvm: z.boolean()
+});
 
 export function AddFloorSheet({ buildingId }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [floorDistribution, setFloorDistribution] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [floorDistribution, setFloorDistribution] = useState("");
 
   const form = useForm({
     resolver: zodResolver(FloorSchema),
     defaultValues: {
       totalKvm: undefined,
       floors: undefined,
-      splitKvm: false,
-    },
-  })
+      splitKvm: false
+    }
+  });
 
-  const totalKvm = form.watch("totalKvm")
-  const floors = form.watch("floors")
-  const splitKvm = form.watch("splitKvm")
+  const totalKvm = form.watch("totalKvm");
+  const floors = form.watch("floors");
+  const splitKvm = form.watch("splitKvm");
 
   useEffect(() => {
     if (totalKvm && floors) {
       if (splitKvm) {
-        const kvmPerFloor = (totalKvm / floors).toFixed(2)
-        setFloorDistribution(`${floors} etasjer med ${kvmPerFloor} KVM hver.`)
+        const kvmPerFloor = (totalKvm / floors).toFixed(2);
+        setFloorDistribution(`${floors} etasjer med ${kvmPerFloor} KVM hver.`);
       } else {
-        setFloorDistribution(`1 etasje med ${totalKvm} KVM.`)
+        setFloorDistribution(`1 etasje med ${totalKvm} KVM.`);
       }
     } else {
-      setFloorDistribution("")
+      setFloorDistribution("");
     }
-  }, [totalKvm, floors, splitKvm])
+  }, [totalKvm, floors, splitKvm]);
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
-    const { totalKvm, floors, splitKvm } = data
-    const maxTotalKvm = splitKvm ? totalKvm / floors : totalKvm
+    const { totalKvm, floors, splitKvm } = data;
+    const maxTotalKvm = splitKvm ? totalKvm / floors : totalKvm;
 
     try {
       if (splitKvm) {
@@ -84,12 +84,12 @@ export function AddFloorSheet({ buildingId }) {
             number: i,
             maxTotalKvm,
             maxOfficeKvm: 0, // Assuming default value, replace with actual value if needed
-            maxCommonKvm: 0, // Assuming default value, replace with actual value if needed
-          }
-          const result = await createFloor(buildingId, floorData)
+            maxCommonKvm: 0 // Assuming default value, replace with actual value if needed
+          };
+          const result = await createFloor(buildingId, floorData);
 
           if (!result.success) {
-            throw new Error(result.error || "Failed to save floor.")
+            throw new Error(result.error || "Failed to save floor.");
           }
         }
       } else {
@@ -97,25 +97,25 @@ export function AddFloorSheet({ buildingId }) {
           number: floors,
           maxTotalKvm,
           maxOfficeKvm: 0, // Assuming default value, replace with actual value if needed
-          maxCommonKvm: 0, // Assuming default value, replace with actual value if needed
-        }
-        const result = await createFloor(buildingId, floorData)
+          maxCommonKvm: 0 // Assuming default value, replace with actual value if needed
+        };
+        const result = await createFloor(buildingId, floorData);
 
         if (!result.success) {
-          throw new Error(result.error || "Failed to save floor.")
+          throw new Error(result.error || "Failed to save floor.");
         }
       }
 
-      toast.success(`Det er lagt til ${floors} etasjer.`)
-      form.reset()
+      toast.success(`Det er lagt til ${floors} etasjer.`);
+      form.reset();
       // Optionally, refresh the page or update the state to show the new floor
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -147,7 +147,7 @@ export function AddFloorSheet({ buildingId }) {
                         type="number"
                         placeholder="1000 kvm..."
                         {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        onChange={e => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
                     <FormMessage />
@@ -165,7 +165,7 @@ export function AddFloorSheet({ buildingId }) {
                         type="number"
                         placeholder="3..."
                         {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        onChange={e => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
                     <FormMessage />
@@ -195,7 +195,7 @@ export function AddFloorSheet({ buildingId }) {
               {floorDistribution && (
                 <Card>
                   <CardContent className="pt-4">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Fordeling: {floorDistribution}
                     </p>
                   </CardContent>
@@ -218,5 +218,5 @@ export function AddFloorSheet({ buildingId }) {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

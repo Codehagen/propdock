@@ -4,7 +4,7 @@ import {
   Cog6ToothIcon,
   FingerPrintIcon,
   LockClosedIcon,
-  ServerIcon,
+  ServerIcon
 } from "@heroicons/react/20/solid";
 import { Balancer } from "react-wrap-balancer";
 
@@ -14,20 +14,20 @@ const FeatureSection1 = () => {
       icon: CloudArrowUpIcon,
       title: "Instant Listing Drafts",
       description:
-        "Harness AI to generate captivating property listings instantly. Save time and attract more buyers with eloquent, detail-rich descriptions that stand out.",
+        "Harness AI to generate captivating property listings instantly. Save time and attract more buyers with eloquent, detail-rich descriptions that stand out."
     },
     {
       icon: LockClosedIcon,
       title: "Secure Data Handling",
       description:
-        "With our robust SSL encryption, your sensitive property data and client information are safeguarded at every step.",
+        "With our robust SSL encryption, your sensitive property data and client information are safeguarded at every step."
     },
     {
       icon: ArrowPathIcon,
       title: "Effortless Organization",
       description:
-        "Manage queues of properties with ease. Our system simplifies task management, making follow-ups and updates a breeze.",
-    },
+        "Manage queues of properties with ease. Our system simplifies task management, making follow-ups and updates a breeze."
+    }
     // Add the rest of your features here
   ];
 
@@ -36,13 +36,13 @@ const FeatureSection1 = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h1
-            className="animate-fade-up font-urban text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
+            className="animate-fade-up font-extrabold font-urban text-3xl tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
             style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
           >
             <Balancer>Streamlined Real Estate Efficiency</Balancer>
           </h1>
           <p
-            className="mt-4 max-w-[42rem] animate-fade-up leading-normal text-muted-foreground opacity-0 sm:text-xl sm:leading-8"
+            className="mt-4 max-w-[42rem] animate-fade-up text-muted-foreground leading-normal opacity-0 sm:text-xl sm:leading-8"
             style={{ animationDelay: "0.45s", animationFillMode: "forwards" }}
           >
             <Balancer>
@@ -61,14 +61,14 @@ const FeatureSection1 = () => {
                 <div className="mx-auto h-12 w-12">
                   <feature.icon aria-hidden="true" />
                 </div>
-                <dt className="mt-4 inline text-lg font-semibold">
+                <dt className="mt-4 inline font-semibold text-lg">
                   <Balancer>{feature.title}</Balancer>
                 </dt>
                 <dd
-                  className="mt-2 animate-fade-up leading-normal text-muted-foreground opacity-0"
+                  className="mt-2 animate-fade-up text-muted-foreground leading-normal opacity-0"
                   style={{
                     animationDelay: `${0.55 + index * 0.1}s`,
-                    animationFillMode: "forwards",
+                    animationFillMode: "forwards"
                   }}
                 >
                   <Balancer>{feature.description}</Balancer>

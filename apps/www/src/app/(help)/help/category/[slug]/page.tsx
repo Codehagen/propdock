@@ -1,69 +1,69 @@
-import { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allHelpPosts } from "content-collections"
-import { ChevronRight } from "lucide-react"
+import { allHelpPosts } from "content-collections";
+import { ChevronRight } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content"
-import HelpArticleLink from "@/components/blog/help-article-link"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import SearchButton from "@/components/blog/search-button"
+import HelpArticleLink from "@/components/blog/help-article-link";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import SearchButton from "@/components/blog/search-button";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content";
 
 export async function generateStaticParams() {
-  return HELP_CATEGORIES.map((category) => ({
-    slug: category.slug,
-  }))
+  return HELP_CATEGORIES.map(category => ({
+    slug: category.slug
+  }));
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Promise<Metadata | undefined> {
   const category = HELP_CATEGORIES.find(
-    (category) => category.slug === params.slug,
-  )
+    category => category.slug === params.slug
+  );
   if (!category) {
-    return
+    return;
   }
 
-  const { title, description } = category
+  const { title, description } = category;
 
   return constructMetadata({
     title: `${title} – Propdock Hjelpesenter`,
     description,
     image: `/api/og/help?title=${encodeURIComponent(
-      title,
-    )}&summary=${encodeURIComponent(description)}`,
-  })
+      title
+    )}&summary=${encodeURIComponent(description)}`
+  });
 }
 
 export default function HelpCategory({
-  params,
+  params
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const data = HELP_CATEGORIES.find((category) => category.slug === params.slug)
+  const data = HELP_CATEGORIES.find(category => category.slug === params.slug);
   if (!data) {
-    notFound()
+    notFound();
   }
   const articles = allHelpPosts
-    .filter((post) => post.categories.includes(data.slug))
+    .filter(post => post.categories.includes(data.slug))
     // order by POPULAR_ARTICLES
     .reduce(
       (acc, curr) => {
         if (POPULAR_ARTICLES.includes(curr.slug)) {
-          acc.unshift(curr)
+          acc.unshift(curr);
         } else {
-          acc.push(curr)
+          acc.push(curr);
         }
-        return acc
+        return acc;
       },
-      [] as typeof allHelpPosts,
-    )
+      [] as typeof allHelpPosts
+    );
 
   return (
     <>
@@ -76,33 +76,33 @@ export default function HelpCategory({
           <div className="flex items-center space-x-2">
             <Link
               href="/help"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              className="font-medium text-muted-foreground text-sm hover:text-foreground"
             >
               Alle kategorier
             </Link>
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
             <Link
               href={`/help/category/${data.slug}`}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              className="font-medium text-muted-foreground text-sm hover:text-foreground"
             >
               {data.title}
             </Link>
           </div>
           <div className="my-8 flex flex-col space-y-4">
             <Link href={`/help/category/${data.slug}`}>
-              <h1 className="font-display text-2xl font-bold text-foreground sm:text-4xl">
+              <h1 className="font-bold font-display text-2xl text-foreground sm:text-4xl">
                 {data.title}
               </h1>
             </Link>
             <p className="text-muted-foreground">{data.description}</p>
           </div>
           <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
-            {articles.map((article) => (
+            {articles.map(article => (
               <HelpArticleLink key={article.slug} article={article} />
             ))}
           </div>
         </MaxWidthWrapper>
       </div>
     </>
-  )
+  );
 }

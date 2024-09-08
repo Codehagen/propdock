@@ -1,4 +1,4 @@
-import { Separator } from "@propdock/ui/components/separator"
+import { Separator } from "@propdock/ui/components/separator";
 
 export default function OpenMiddleSection() {
   return (
@@ -10,11 +10,11 @@ export default function OpenMiddleSection() {
         <h2 className="font-heading text-3xl leading-[1.1] md:text-5xl">
           Funding
         </h2>
-        <p className="text-large font-medium text-muted-foreground">
+        <p className="font-medium text-large text-muted-foreground">
           Vi har ikke noe funding, bør vi?
         </p>
       </div>
       <Separator />
     </section>
-  )
+  );
 }

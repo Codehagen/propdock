@@ -1,71 +1,72 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { deleteWsApiKey } from "@/actions/delete-ws-api-key"
-import { Button } from "@propdock/ui/components/button"
-import axios from "axios"
-import { toast } from "sonner"
+import { deleteWsApiKey } from "@/actions/delete-ws-api-key";
+import { Button } from "@propdock/ui/components/button";
+import axios from "axios";
+import type React from "react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface ConnectorButtonProps {
-  serviceName: string
-  status: string
-  workspaceId: string
+  serviceName: string;
+  status: string;
+  workspaceId: string;
 }
 
 const ConnectorButton: React.FC<ConnectorButtonProps> = ({
   serviceName,
   status,
-  workspaceId,
+  workspaceId
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDisconnect = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await deleteWsApiKey(workspaceId, serviceName)
+      const result = await deleteWsApiKey(workspaceId, serviceName);
       if (result.success) {
-        toast.success(`Disconnected from ${serviceName}`)
-        window.location.reload()
+        toast.success(`Disconnected from ${serviceName}`);
+        window.location.reload();
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
     } catch (error) {
-      toast.error(`Error disconnecting from ${serviceName}: ${error.message}`)
+      toast.error(`Error disconnecting from ${serviceName}: ${error.message}`);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleOAuth = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const url = `/api/oauth/${serviceName}/initiate`
-      console.log("Sending request to:", url)
+      const url = `/api/oauth/${serviceName}/initiate`;
+      console.log("Sending request to:", url);
 
       const response = await axios.get(url, {
         headers: {
           "Cache-Control": "no-cache",
           Pragma: "no-cache",
-          Expires: "0",
+          Expires: "0"
         },
         params: {
-          _: new Date().getTime(),
-        },
-      })
+          _: new Date().getTime()
+        }
+      });
 
-      console.log("Response received:", response)
-      console.log("Response data:", response.data)
+      console.log("Response received:", response);
+      console.log("Response data:", response.data);
 
-      const data = response.data
-      window.location.href = data.url
+      const data = response.data;
+      window.location.href = data.url;
     } catch (error) {
-      console.error("Detailed error:", error)
-      console.error("Error response:", error.response)
-      toast.error(`Error initiating OAuth: ${error.message}`)
+      console.error("Detailed error:", error);
+      console.error("Error response:", error.response);
+      toast.error(`Error initiating OAuth: ${error.message}`);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return status === "Connected" ? (
     <Button
@@ -80,7 +81,7 @@ const ConnectorButton: React.FC<ConnectorButtonProps> = ({
     <Button variant="outline" size="sm" onClick={handleOAuth}>
       {isLoading ? "Connecting..." : "Connect"}
     </Button>
-  )
-}
+  );
+};
 
-export default ConnectorButton
+export default ConnectorButton;

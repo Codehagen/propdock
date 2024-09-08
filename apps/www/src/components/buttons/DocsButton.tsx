@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { buttonVariants } from "@propdock/ui/components/button"
+import { buttonVariants } from "@propdock/ui/components/button";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export function DocsButton() {
   return (
@@ -11,5 +11,5 @@ export function DocsButton() {
     >
       Explore Docs
     </Link>
-  )
+  );
 }

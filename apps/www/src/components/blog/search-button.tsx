@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useContext } from "react"
-import { Search } from "lucide-react"
+import { Search } from "lucide-react";
+import { useContext } from "react";
 
-import { AppContext } from "@/components/providers"
+import { AppContext } from "@/components/providers";
 
 export default function SearchButton() {
-  const { setShowCMDK } = useContext(AppContext)
+  const { setShowCMDK } = useContext(AppContext);
   return (
     <button
       onClick={() => setShowCMDK(true)}
@@ -16,9 +16,9 @@ export default function SearchButton() {
       <div className="w-full rounded-xl border border-border bg-background p-3 pl-12 text-left text-muted-foreground transition-colors group-active:bg-muted">
         Søk etter artikler...
       </div>
-      <span className="absolute inset-y-0 right-4 my-auto h-5 text-sm text-muted-foreground">
+      <span className="absolute inset-y-0 right-4 my-auto h-5 text-muted-foreground text-sm">
         ⌘K
       </span>
     </button>
-  )
+  );
 }

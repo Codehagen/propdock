@@ -2,22 +2,20 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 
-export default function CardSection(
-  {
-    //   totalUsers,
-    //   usersToday,
-    //   usersThisWeek,
-    //   usersThisMonth,
-  },
-) {
+export default function CardSection({
+  //   totalUsers,
+  //   usersToday,
+  //   usersThisWeek,
+  //   usersThisMonth,
+}) {
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Today's Users</CardTitle>
+          <CardTitle className="font-medium text-sm">Today's Users</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -32,13 +30,13 @@ export default function CardSection(
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">14</div>
-          <p className="text-xs text-muted-foreground">New users today</p>
+          <div className="font-bold text-2xl">14</div>
+          <p className="text-muted-foreground text-xs">New users today</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="font-medium text-sm">
             This Week's Users
           </CardTitle>
           <svg
@@ -57,13 +55,13 @@ export default function CardSection(
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">28</div>
-          <p className="text-xs text-muted-foreground">New users this week</p>
+          <div className="font-bold text-2xl">28</div>
+          <p className="text-muted-foreground text-xs">New users this week</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="font-medium text-sm">
             This Month's Users
           </CardTitle>
           <svg
@@ -81,13 +79,13 @@ export default function CardSection(
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">114</div>
-          <p className="text-xs text-muted-foreground">New users this month</p>
+          <div className="font-bold text-2xl">114</div>
+          <p className="text-muted-foreground text-xs">New users this month</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">All Users</CardTitle>
+          <CardTitle className="font-medium text-sm">All Users</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -102,10 +100,10 @@ export default function CardSection(
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">573</div>
-          <p className="text-xs text-muted-foreground">Total users</p>
+          <div className="font-bold text-2xl">573</div>
+          <p className="text-muted-foreground text-xs">Total users</p>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

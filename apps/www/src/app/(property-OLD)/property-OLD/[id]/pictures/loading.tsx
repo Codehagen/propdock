@@ -1,4 +1,4 @@
-import { Skeleton } from "@propdock/ui/components/skeleton"
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
 export default function PicturesLoading() {
   return (
@@ -7,7 +7,7 @@ export default function PicturesLoading() {
         <Skeleton className="h-10 w-48" />
         <Skeleton className="h-7 w-60" />
       </div>
-      <div className="min-lg:flex-col justify-center gap-x-4 max-lg:space-y-4 lg:flex">
+      <div className="justify-center gap-x-4 max-lg:space-y-4 lg:flex min-lg:flex-col">
         <div className="lg:w-1/2">
           <Skeleton className="h-[25rem]" />
         </div>
@@ -17,7 +17,7 @@ export default function PicturesLoading() {
           <Skeleton className="h-[7.5rem]" />
         </div>
       </div>
-      <div className="min-lg:flex-col justify-center gap-x-4 max-lg:space-y-4 lg:flex">
+      <div className="justify-center gap-x-4 max-lg:space-y-4 lg:flex min-lg:flex-col">
         <div className="lg:w-1/2">
           <Skeleton className="h-[25rem]" />
         </div>
@@ -28,5 +28,5 @@ export default function PicturesLoading() {
         </div>
       </div>
     </div>
-  )
+  );
 }

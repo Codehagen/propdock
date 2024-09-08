@@ -17,7 +17,7 @@ export function DocsPageHeader({
         <h1 className="inline-block font-heading text-4xl lg:text-5xl">
           {heading}
         </h1>
-        {text && <p className="text-xl text-muted-foreground">{text}</p>}
+        {text && <p className="text-muted-foreground text-xl">{text}</p>}
       </div>
       <hr className="my-4" />
     </>

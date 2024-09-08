@@ -1,60 +1,60 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateContract } from "@/actions/update-contract" // Import the update function
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateContract } from "@/actions/update-contract"; // Import the update function
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { Switch } from "@propdock/ui/components/switch"
-import { addYears, format, parseISO } from "date-fns"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SelectValue
+} from "@propdock/ui/components/select";
+import { Switch } from "@propdock/ui/components/switch";
+import { addYears, format, parseISO } from "date-fns";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define validation schema
 const TermsSchema = z.object({
   baseRent: z
     .string()
-    .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
-      message: "Base Rent must be a positive number",
+    .refine(val => !Number.isNaN(Number.parseFloat(val.replace(/\s/g, ""))), {
+      message: "Base Rent must be a positive number"
     })
-    .transform((val) => parseFloat(val.replace(/\s/g, ""))),
+    .transform(val => Number.parseFloat(val.replace(/\s/g, ""))),
   isMonthly: z.boolean().default(false).optional(),
   isRenewable: z.boolean().default(false).optional(),
-  renewablePeriod: z.string().optional().nullable(),
-})
+  renewablePeriod: z.string().optional().nullable()
+});
 
 export function TermsDetailsForm({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [isMonthly, setIsMonthly] = useState(
-    tenantDetails.contracts[0]?.isMonthly || false,
-  )
+    tenantDetails.contracts[0]?.isMonthly || false
+  );
   const [isRenewable, setIsRenewable] = useState(
-    tenantDetails.contracts[0]?.isRenewable || false,
-  )
+    tenantDetails.contracts[0]?.isRenewable || false
+  );
 
   const form = useForm({
     resolver: zodResolver(TermsSchema),
@@ -68,58 +68,58 @@ export function TermsDetailsForm({ tenantDetails }) {
       isRenewable: tenantDetails.contracts[0]?.isRenewable || false,
       renewablePeriod: tenantDetails.contracts[0]?.renewablePeriod
         ? tenantDetails.contracts[0]?.renewablePeriod.toString()
-        : "",
-    },
-  })
+        : ""
+    }
+  });
 
-  const formatBaseRent = (value) => {
-    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-  }
+  const formatBaseRent = value => {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
 
-  const handleBaseRentChange = (e) => {
-    const { value } = e.target
-    const formattedValue = formatBaseRent(value.replace(/\s/g, ""))
-    form.setValue("baseRent", formattedValue)
-  }
+  const handleBaseRentChange = e => {
+    const { value } = e.target;
+    const formattedValue = formatBaseRent(value.replace(/\s/g, ""));
+    form.setValue("baseRent", formattedValue);
+  };
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     const baseRent = isMonthly
-      ? parseFloat(data.baseRent.toString().replace(/\s/g, "")) * 12
-      : parseFloat(data.baseRent.toString().replace(/\s/g, ""))
+      ? Number.parseFloat(data.baseRent.toString().replace(/\s/g, "")) * 12
+      : Number.parseFloat(data.baseRent.toString().replace(/\s/g, ""));
 
     const parsedData = {
       baseRent,
       isRenewable: data.isRenewable,
       renewablePeriod: isRenewable
-        ? addYears(new Date(), parseInt(data.renewablePeriod))
-        : null,
-    }
+        ? addYears(new Date(), Number.parseInt(data.renewablePeriod))
+        : null
+    };
 
     try {
       const result = await updateContract(
         tenantDetails.contracts[0].id,
-        parsedData,
-      )
+        parsedData
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "Kunne ikke oppdatere kontrakten.")
+        throw new Error(result.error || "Kunne ikke oppdatere kontrakten.");
       }
 
-      toast.success("Kontrakten oppdatert")
+      toast.success("Kontrakten oppdatert");
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // Calculate yearly rent based on monthly input if applicable
   const calculatedYearlyRent = isMonthly
-    ? parseFloat(form.watch("baseRent").replace(/\s/g, "")) * 12
-    : parseFloat(form.watch("baseRent").replace(/\s/g, ""))
+    ? Number.parseFloat(form.watch("baseRent").replace(/\s/g, "")) * 12
+    : Number.parseFloat(form.watch("baseRent").replace(/\s/g, ""));
 
   return (
     <Card>
@@ -162,9 +162,9 @@ export function TermsDetailsForm({ tenantDetails }) {
                   <FormControl>
                     <Switch
                       checked={field.value}
-                      onCheckedChange={(value) => {
-                        field.onChange(value)
-                        setIsMonthly(value)
+                      onCheckedChange={value => {
+                        field.onChange(value);
+                        setIsMonthly(value);
                       }}
                     />
                   </FormControl>
@@ -193,5 +193,5 @@ export function TermsDetailsForm({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation"
+import { notFound } from "next/navigation";
 
-import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
-import { NavBar } from "@/components/layout/navbar"
-import { SiteFooter } from "@/components/layout/site-footer"
+import { NavBar } from "@/components/layout/navbar";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { dashboardConfig } from "@/config/dashboard";
+import { getCurrentUser } from "@/lib/session";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
 export default async function DashboardLayout({
-  children,
+  children
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 

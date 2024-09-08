@@ -1,4 +1,4 @@
-import { withContentCollections } from '@content-collections/next';
+import { withContentCollections } from "@content-collections/next";
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -8,25 +8,25 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "avatars.githubusercontent.com",
+        hostname: "avatars.githubusercontent.com"
       },
       {
         protocol: "https",
-        hostname: "lh3.googleusercontent.com",
+        hostname: "lh3.googleusercontent.com"
       },
       {
         protocol: "https",
-        hostname: "avatar.vercel.sh",
+        hostname: "avatar.vercel.sh"
       },
       {
         protocol: "https",
-        hostname: "imagedelivery.net",
+        hostname: "imagedelivery.net"
       },
       {
         protocol: "https",
-        hostname: "d2vwwcvoksz7ty.cloudfront.net",
-      },
-    ],
+        hostname: "d2vwwcvoksz7ty.cloudfront.net"
+      }
+    ]
   },
 
   /** Enables hot reloading for local packages without a build step */
@@ -34,7 +34,7 @@ const config = {
 
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  typescript: { ignoreBuildErrors: true }
 };
 
 export default withContentCollections(config);

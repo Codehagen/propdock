@@ -1,12 +1,12 @@
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
 
 export default function AddTenantDropdownButton() {
   return (
@@ -26,7 +26,7 @@ export default function AddTenantDropdownButton() {
         <DropdownMenuItem>Option 4</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 function ChevronDownIcon(props) {
@@ -45,5 +45,5 @@ function ChevronDownIcon(props) {
     >
       <path d="m6 9 6 6 6-6" />
     </svg>
-  )
+  );
 }

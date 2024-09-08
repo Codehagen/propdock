@@ -1,41 +1,41 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function generateDefaultAnalysis(propertyData: any) {
   try {
-    const user = await getCurrentUser()
-    const userId = user?.id
+    const user = await getCurrentUser();
+    const userId = user?.id;
 
     if (!userId) {
-      console.error("No user is currently logged in.")
-      return { success: false, error: "User not authenticated" }
+      console.error("No user is currently logged in.");
+      return { success: false, error: "User not authenticated" };
     }
 
     const userWorkspace = await prisma.workspace.findFirst({
       where: {
         users: {
           some: {
-            id: userId,
-          },
-        },
+            id: userId
+          }
+        }
       },
       select: {
-        id: true,
-      },
-    })
+        id: true
+      }
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return { success: false, error: "No workspace found" }
+      console.error("No workspace found for this user.");
+      return { success: false, error: "No workspace found" };
     }
 
-    const bra = propertyData.rentableArea || 0
-    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0
-    const ownerCostsManual = propertyData.ownerCostsManual || 0
+    const bra = propertyData.rentableArea || 0;
+    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0;
+    const ownerCostsManual = propertyData.ownerCostsManual || 0;
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
@@ -85,17 +85,17 @@ export async function generateDefaultAnalysis(propertyData: any) {
             costLegalFees: 1000,
             costConsultFees: 1500,
             costAssetMgmt: 2500,
-            costSum: 45000,
-          },
+            costSum: 45000
+          }
         },
         incomeUnits: {
           create: [
             {
               typeDescription: "Office Space",
               areaPerUnit: bra,
-              valuePerUnit: sumDriftsinntekter,
-            },
-          ],
+              valuePerUnit: sumDriftsinntekter
+            }
+          ]
         },
         tenants: {
           create: [
@@ -110,7 +110,7 @@ export async function generateDefaultAnalysis(propertyData: any) {
               totalOperatingCosts: 750000,
               operatingResult: 250000,
               netFinance: -50000,
-              resultBeforeTax: 200000,
+              resultBeforeTax: 200000
             },
             {
               name: "Corponor AS",
@@ -122,21 +122,21 @@ export async function generateDefaultAnalysis(propertyData: any) {
               totalOperatingCosts: 562500,
               operatingResult: 187500,
               netFinance: -37500,
-              resultBeforeTax: 150000,
-            },
-          ],
-        },
-      },
-    })
+              resultBeforeTax: 150000
+            }
+          ]
+        }
+      }
+    });
 
-    console.log(`Generated new analysis with ID: ${newAnalysis.id}`)
+    console.log(`Generated new analysis with ID: ${newAnalysis.id}`);
 
     // Update the revalidatePath call
     // revalidatePath(`/analytics/${newAnalysis.id}`)
 
-    return { success: true, analysis: newAnalysis }
+    return { success: true, analysis: newAnalysis };
   } catch (error) {
-    console.error("Error generating default analysis:", error)
-    return { success: false, error: error.message }
+    console.error("Error generating default analysis:", error);
+    return { success: false, error: error.message };
   }
 }

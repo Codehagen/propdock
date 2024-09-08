@@ -1,15 +1,15 @@
-import Link from "next/link"
-import { compileMDX, MDXRemote } from "next-mdx-remote/rsc"
+import { MDXRemote, compileMDX } from "next-mdx-remote/rsc";
+import Link from "next/link";
 
 const components = {
   h1: (props: any) => (
-    <h1 className="mb-4 mt-8 text-3xl font-bold" {...props} />
+    <h1 className="mt-8 mb-4 font-bold text-3xl" {...props} />
   ),
   h2: (props: any) => (
-    <h2 className="mb-3 mt-6 text-2xl font-semibold" {...props} />
+    <h2 className="mt-6 mb-3 font-semibold text-2xl" {...props} />
   ),
   h3: (props: any) => (
-    <h3 className="mb-2 mt-4 text-xl font-medium" {...props} />
+    <h3 className="mt-4 mb-2 font-medium text-xl" {...props} />
   ),
   p: (props: any) => <p className="mb-4" {...props} />,
   ul: (props: any) => <ul className="mb-4 list-disc pl-6" {...props} />,
@@ -23,17 +23,17 @@ const components = {
   ),
   pre: (props: any) => (
     <pre className="mb-4 overflow-x-auto rounded bg-gray-100 p-4" {...props} />
-  ),
-}
+  )
+};
 
 export async function MDXComponent({ code }: { code: string }) {
   const { content } = await compileMDX({
     source: code,
     components,
     options: {
-      parseFrontmatter: true,
-    },
-  })
+      parseFrontmatter: true
+    }
+  });
 
-  return content
+  return content;
 }

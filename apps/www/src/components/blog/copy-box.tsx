@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Check, Copy } from "lucide-react"
-import { toast } from "sonner"
+import { Check, Copy } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CopyBox(props) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
   return (
     <div className="not-prose my-4 rounded-xl border border-gray-200 bg-white p-4">
       <p>{props.title}</p>
@@ -19,10 +19,10 @@ export default function CopyBox(props) {
           type="button"
           className="rounded-md p-1 transition-colors hover:bg-gray-200 active:bg-gray-300"
           onClick={() => {
-            navigator.clipboard.writeText(props.copy)
-            setCopied(true)
-            toast.success("Copied to clipboard")
-            setTimeout(() => setCopied(false), 3000)
+            navigator.clipboard.writeText(props.copy);
+            setCopied(true);
+            toast.success("Copied to clipboard");
+            setTimeout(() => setCopied(false), 3000);
           }}
         >
           {copied ? (
@@ -33,5 +33,5 @@ export default function CopyBox(props) {
         </button>
       </div>
     </div>
-  )
+  );
 }

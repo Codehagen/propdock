@@ -1,38 +1,39 @@
-"use client"
+"use client";
 
-import React, { forwardRef, useCallback, useRef } from "react"
-import { useVirtualizer } from "@tanstack/react-virtual"
-import useResizeObserver from "use-resize-observer"
+import { useVirtualizer } from "@tanstack/react-virtual";
+import type React from "react";
+import { forwardRef, useCallback, useRef } from "react";
+import useResizeObserver from "use-resize-observer";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 import {
   CollapseButton,
   File,
   Folder,
   Tree,
-  TreeViewElement,
-} from "./tree-view-api"
+  type TreeViewElement
+} from "./tree-view-api";
 
 // TODO: Add the ability to add custom icons
 
 interface TreeViewComponentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 type TreeViewProps = {
-  initialSelectedId?: string
-  elements: TreeViewElement[]
-  indicator?: boolean
+  initialSelectedId?: string;
+  elements: TreeViewElement[];
+  indicator?: boolean;
 } & (
   | {
-      initialExpendedItems?: string[]
-      expandAll?: false
+      initialExpendedItems?: string[];
+      expandAll?: false;
     }
   | {
-      initialExpendedItems?: undefined
-      expandAll: true
+      initialExpendedItems?: undefined;
+      expandAll: true;
     }
 ) &
-  TreeViewComponentProps
+  TreeViewComponentProps;
 
 export const TreeView = ({
   elements,
@@ -40,26 +41,26 @@ export const TreeView = ({
   initialSelectedId,
   initialExpendedItems,
   expandAll,
-  indicator = false,
+  indicator = false
 }: TreeViewProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: elements.length,
     getScrollElement: () => containerRef.current,
     estimateSize: useCallback(() => 40, []),
-    overscan: 5,
-  })
+    overscan: 5
+  });
 
   const { height = getTotalSize(), width } = useResizeObserver({
-    ref: containerRef,
-  })
+    ref: containerRef
+  });
   return (
     <div
       ref={containerRef}
       className={cn(
         "relative w-full overflow-hidden rounded-md py-1",
-        className,
+        className
       )}
     >
       <Tree
@@ -69,7 +70,7 @@ export const TreeView = ({
         style={{ height, width }}
         className="h-full w-full overflow-y-auto"
       >
-        {getVirtualItems().map((element) => (
+        {getVirtualItems().map(element => (
           <TreeItem
             aria-label="Root"
             key={element.key}
@@ -82,50 +83,49 @@ export const TreeView = ({
         </CollapseButton>
       </Tree>
     </div>
-  )
-}
+  );
+};
 
-TreeView.displayName = "TreeView"
+TreeView.displayName = "TreeView";
 
 export const TreeItem = forwardRef<
   HTMLUListElement,
   {
-    elements?: TreeViewElement[]
-    indicator?: boolean
+    elements?: TreeViewElement[];
+    indicator?: boolean;
   } & React.HTMLAttributes<HTMLUListElement>
 >(({ className, elements, indicator, ...props }, ref) => {
   return (
     <ul ref={ref} className="w-full space-y-1 " {...props}>
-      {elements &&
-        elements.map((element) => (
-          <li key={element.id} className="w-full">
-            {element.children && element.children?.length > 0 ? (
-              <Folder
-                element={element.name}
-                value={element.id}
-                isSelectable={element.isSelectable}
-              >
-                <TreeItem
-                  key={element.id}
-                  aria-label={`folder ${element.name}`}
-                  elements={element.children}
-                  indicator={indicator}
-                />
-              </Folder>
-            ) : (
-              <File
-                value={element.id}
-                aria-label={`File ${element.name}`}
+      {elements?.map(element => (
+        <li key={element.id} className="w-full">
+          {element.children && element.children?.length > 0 ? (
+            <Folder
+              element={element.name}
+              value={element.id}
+              isSelectable={element.isSelectable}
+            >
+              <TreeItem
                 key={element.id}
-                isSelectable={element.isSelectable}
-              >
-                <span>{element?.name}</span>
-              </File>
-            )}
-          </li>
-        ))}
+                aria-label={`folder ${element.name}`}
+                elements={element.children}
+                indicator={indicator}
+              />
+            </Folder>
+          ) : (
+            <File
+              value={element.id}
+              aria-label={`File ${element.name}`}
+              key={element.id}
+              isSelectable={element.isSelectable}
+            >
+              <span>{element?.name}</span>
+            </File>
+          )}
+        </li>
+      ))}
     </ul>
-  )
-})
+  );
+});
 
-TreeItem.displayName = "TreeItem"
+TreeItem.displayName = "TreeItem";

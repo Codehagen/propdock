@@ -1,15 +1,15 @@
-import { OpenAPIHono, z } from "@hono/zod-openapi"
-import * as yaml from "yaml"
+import { OpenAPIHono, z } from "@hono/zod-openapi";
+import * as yaml from "yaml";
 import {
+  type ZodOpenApiOperationObject,
   createDocument,
-  extendZodWithOpenApi,
-  ZodOpenApiOperationObject,
-} from "zod-openapi"
+  extendZodWithOpenApi
+} from "zod-openapi";
 
-extendZodWithOpenApi(z)
+extendZodWithOpenApi(z);
 
-const app = new OpenAPIHono()
-const registry = app.openAPIRegistry
+const app = new OpenAPIHono();
+const registry = app.openAPIRegistry;
 
 // User Schema
 const UserSchema = z
@@ -17,9 +17,9 @@ const UserSchema = z
     id: z.number(),
     email: z.string().email(),
     workspaceId: z.string().nullable(),
-    apiKey: z.string(),
+    apiKey: z.string()
   })
-  .openapi({ ref: "User" })
+  .openapi({ ref: "User" });
 
 // Property Schema
 const PropertySchema = z
@@ -27,34 +27,34 @@ const PropertySchema = z
     id: z.string(),
     name: z.string(),
     type: z.string(),
-    workspaceId: z.string(),
+    workspaceId: z.string()
   })
-  .openapi({ ref: "Property" })
+  .openapi({ ref: "Property" });
 
 // Building Schema
 const BuildingSchema = z
   .object({
     id: z.string(),
-    propertyId: z.string(),
+    propertyId: z.string()
     // Add other relevant fields based on your application's needs
   })
-  .openapi({ ref: "Building" })
+  .openapi({ ref: "Building" });
 
 // Property Create Schema
 const PropertyCreateSchema = z
   .object({
     name: z.string(),
-    type: z.string(),
+    type: z.string()
   })
-  .openapi({ ref: "PropertyCreate" })
+  .openapi({ ref: "PropertyCreate" });
 
 // Building Create Schema
 const BuildingCreateSchema = z
   .object({
-    propertyId: z.string(),
+    propertyId: z.string()
     // Add other relevant fields based on your application's needs
   })
-  .openapi({ ref: "BuildingCreate" })
+  .openapi({ ref: "BuildingCreate" });
 
 // CRUD operations for Properties
 const createProperty: ZodOpenApiOperationObject = {
@@ -63,27 +63,27 @@ const createProperty: ZodOpenApiOperationObject = {
   requestBody: {
     content: {
       "application/json": {
-        schema: PropertyCreateSchema,
-      },
-    },
+        schema: PropertyCreateSchema
+      }
+    }
   },
   responses: {
     "201": {
       description: "Property created successfully.",
       content: {
         "application/json": {
-          schema: PropertySchema,
-        },
-      },
+          schema: PropertySchema
+        }
+      }
     },
     "400": {
-      description: "Invalid input data.",
+      description: "Invalid input data."
     },
     "500": {
-      description: "Server error.",
-    },
-  },
-}
+      description: "Server error."
+    }
+  }
+};
 
 const getAllProperties: ZodOpenApiOperationObject = {
   operationId: "getAllProperties",
@@ -93,15 +93,15 @@ const getAllProperties: ZodOpenApiOperationObject = {
       description: "List of properties retrieved successfully.",
       content: {
         "application/json": {
-          schema: z.array(PropertySchema),
-        },
-      },
+          schema: z.array(PropertySchema)
+        }
+      }
     },
     "500": {
-      description: "Server error.",
-    },
-  },
-}
+      description: "Server error."
+    }
+  }
+};
 
 // CRUD operations for Buildings
 const createBuilding: ZodOpenApiOperationObject = {
@@ -110,27 +110,27 @@ const createBuilding: ZodOpenApiOperationObject = {
   requestBody: {
     content: {
       "application/json": {
-        schema: BuildingCreateSchema,
-      },
-    },
+        schema: BuildingCreateSchema
+      }
+    }
   },
   responses: {
     "201": {
       description: "Building created successfully.",
       content: {
         "application/json": {
-          schema: BuildingSchema,
-        },
-      },
+          schema: BuildingSchema
+        }
+      }
     },
     "400": {
-      description: "Invalid input data.",
+      description: "Invalid input data."
     },
     "500": {
-      description: "Server error.",
-    },
-  },
-}
+      description: "Server error."
+    }
+  }
+};
 
 const getAllBuildings: ZodOpenApiOperationObject = {
   operationId: "getAllBuildings",
@@ -140,15 +140,15 @@ const getAllBuildings: ZodOpenApiOperationObject = {
       description: "List of buildings retrieved successfully.",
       content: {
         "application/json": {
-          schema: z.array(BuildingSchema),
-        },
-      },
+          schema: z.array(BuildingSchema)
+        }
+      }
     },
     "500": {
-      description: "Server error.",
-    },
-  },
-}
+      description: "Server error."
+    }
+  }
+};
 
 // Generate an OpenAPI document
 export function generateOpenAPIDocument() {
@@ -157,23 +157,23 @@ export function generateOpenAPIDocument() {
     info: {
       title: "Propdock API",
       description: "API for managing properties and buildings.",
-      version: "1.0.0",
+      version: "1.0.0"
     },
     servers: [
       {
         url: "https://api.vegard.workers.dev",
-        description: "Production server.",
-      },
+        description: "Production server."
+      }
     ],
     paths: {
       "/properties": {
         post: createProperty,
-        get: getAllProperties,
+        get: getAllProperties
       },
       "/buildings": {
         post: createBuilding,
-        get: getAllBuildings,
-      },
+        get: getAllBuildings
+      }
     },
     components: {
       schemas: {
@@ -181,15 +181,15 @@ export function generateOpenAPIDocument() {
         Property: PropertySchema,
         Building: BuildingSchema,
         PropertyCreate: PropertyCreateSchema,
-        BuildingCreate: BuildingCreateSchema,
+        BuildingCreate: BuildingCreateSchema
       },
       securitySchemes: {
         Bearer: {
           type: "http",
-          scheme: "bearer",
-        },
-      },
+          scheme: "bearer"
+        }
+      }
     },
-    security: [{ Bearer: [] }],
-  })
+    security: [{ Bearer: [] }]
+  });
 }

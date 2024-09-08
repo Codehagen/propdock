@@ -1,63 +1,63 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateContract } from "@/actions/update-contract" // Import the update function
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { updateContract } from "@/actions/update-contract"; // Import the update function
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@propdock/ui/components/popover"
+  PopoverTrigger
+} from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
-import { Switch } from "@propdock/ui/components/switch"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { addYears, format, parseISO } from "date-fns"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SelectValue
+} from "@propdock/ui/components/select";
+import { Switch } from "@propdock/ui/components/switch";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { addYears, format, parseISO } from "date-fns";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 // Define validation schema
 const TimeSchema = z.object({
-  startDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Start Date is required",
+  startDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
+    message: "Start Date is required"
   }),
-  endDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "End Date is required",
+  endDate: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
+    message: "End Date is required"
   }),
   isRenewable: z.boolean().optional(),
   renewablePeriod: z.string().optional().nullable(),
-  isContinuousRent: z.boolean(),
-})
+  isContinuousRent: z.boolean()
+});
 
 export function TimeDetailsForm({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(TimeSchema),
     defaultValues: {
@@ -75,41 +75,41 @@ export function TimeDetailsForm({ tenantDetails }) {
       renewablePeriod: tenantDetails.contracts[0]?.renewablePeriod
         ? tenantDetails.contracts[0]?.renewablePeriod.toString()
         : "",
-      isContinuousRent: tenantDetails.contracts[0]?.isContinuousRent || false,
-    },
-  })
+      isContinuousRent: tenantDetails.contracts[0]?.isContinuousRent || false
+    }
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
-      const endDate = new Date(data.endDate)
+      const endDate = new Date(data.endDate);
       const renewablePeriod = data.isRenewable
-        ? addYears(endDate, parseInt(data.renewablePeriod))
-        : null
+        ? addYears(endDate, Number.parseInt(data.renewablePeriod))
+        : null;
 
       const result = await updateContract(tenantDetails.contracts[0].id, {
         startDate: new Date(data.startDate),
         endDate,
         isRenewable: data.isRenewable,
         renewablePeriod,
-        isContinuousRent: data.isContinuousRent,
-      })
+        isContinuousRent: data.isContinuousRent
+      });
 
       if (!result.success) {
         throw new Error(
-          result.error || "Kunne ikke oppdatere tidsinformasjonen.",
-        )
+          result.error || "Kunne ikke oppdatere tidsinformasjonen."
+        );
       }
 
-      toast.success("Tidsinformasjon oppdatert")
+      toast.success("Tidsinformasjon oppdatert");
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card>
@@ -136,7 +136,7 @@ export function TimeDetailsForm({ tenantDetails }) {
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
@@ -154,9 +154,9 @@ export function TimeDetailsForm({ tenantDetails }) {
                           selected={
                             field.value ? parseISO(field.value) : undefined
                           }
-                          onSelect={(date) =>
+                          onSelect={date =>
                             field.onChange(
-                              date ? date.toISOString().split("T")[0] : "",
+                              date ? date.toISOString().split("T")[0] : ""
                             )
                           }
                           initialFocus
@@ -180,7 +180,7 @@ export function TimeDetailsForm({ tenantDetails }) {
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
@@ -198,9 +198,9 @@ export function TimeDetailsForm({ tenantDetails }) {
                           selected={
                             field.value ? parseISO(field.value) : undefined
                           }
-                          onSelect={(date) =>
+                          onSelect={date =>
                             field.onChange(
-                              date ? date.toISOString().split("T")[0] : "",
+                              date ? date.toISOString().split("T")[0] : ""
                             )
                           }
                           initialFocus
@@ -282,5 +282,5 @@ export function TimeDetailsForm({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

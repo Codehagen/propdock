@@ -1,15 +1,13 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -17,52 +15,56 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
+  DropdownMenuTrigger
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
 import {
   CaretSortIcon,
   ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons"
+  DotsHorizontalIcon
+} from "@radix-ui/react-icons";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table"
-import { format } from "date-fns"
+  useReactTable
+} from "@tanstack/react-table";
+import { format } from "date-fns";
+import Link from "next/link";
+import * as React from "react";
 
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils";
 
 function safelyParseDate(dateString: string | null | undefined): Date | null {
-  if (!dateString) return null
-  const date = new Date(dateString)
-  return isNaN(date.getTime()) ? null : date
+  if (!dateString) {
+    return null;
+  }
+  const date = new Date(dateString);
+  return Number.isNaN(date.getTime()) ? null : date;
 }
 
 interface Analysis {
-  id: string
-  name: string
-  rentableArea: number
-  rentPerArea: number
-  sumValueNow: number
-  sumValueExit: number
-  appreciationDate: Date
+  id: string;
+  name: string;
+  rentableArea: number;
+  rentPerArea: number;
+  sumValueNow: number;
+  sumValueExit: number;
+  appreciationDate: Date;
 }
 
 const columns: ColumnDef<Analysis>[] = [
@@ -71,19 +73,19 @@ const columns: ColumnDef<Analysis>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={value => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: false
   },
   {
     accessorKey: "name",
@@ -95,7 +97,7 @@ const columns: ColumnDef<Analysis>[] = [
       >
         {row.getValue("name")}
       </Link>
-    ),
+    )
   },
   {
     accessorKey: "rentableArea",
@@ -112,7 +114,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {row.getValue<number>("rentableArea").toLocaleString()}
       </div>
-    ),
+    )
   },
   {
     accessorKey: "rentPerArea",
@@ -121,7 +123,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("rentPerArea"))}
       </div>
-    ),
+    )
   },
   {
     accessorKey: "sumValueNow",
@@ -130,7 +132,7 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("sumValueNow"))}
       </div>
-    ),
+    )
   },
   {
     accessorKey: "sumValueExit",
@@ -139,19 +141,19 @@ const columns: ColumnDef<Analysis>[] = [
       <div className="text-right">
         {formatCurrency(row.getValue("sumValueExit"))}
       </div>
-    ),
+    )
   },
   {
     accessorKey: "appreciationDate",
     header: "Verdivurderingsdato",
     cell: ({ row }) => {
-      const date = row.getValue("appreciationDate")
+      const date = row.getValue("appreciationDate");
       return (
         <div className="text-right">
           {date instanceof Date ? format(date, "dd.MM.yyyy") : "N/A"}
         </div>
-      )
-    },
+      );
+    }
   },
   {
     id: "actions",
@@ -175,22 +177,22 @@ const columns: ColumnDef<Analysis>[] = [
           <DropdownMenuItem>Edit analysis</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    ),
-  },
-]
+    )
+  }
+];
 
 interface AnalysesTableProps {
-  analyses: Analysis[]
+  analyses: Analysis[];
 }
 
 export function AnalysesTable({ analyses }: AnalysesTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  )
+    []
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: analyses,
@@ -207,9 +209,9 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
-    },
-  })
+      rowSelection
+    }
+  });
 
   return (
     <Card>
@@ -221,7 +223,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
           <Input
             placeholder="Filter analyser..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
+            onChange={event =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -235,20 +237,20 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
             <DropdownMenuContent align="end">
               {table
                 .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
+                .filter(column => column.getCanHide())
+                .map(column => {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
+                      onCheckedChange={value =>
                         column.toggleVisibility(!!value)
                       }
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -256,15 +258,15 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
+                  {headerGroup.headers.map(header => (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   ))}
@@ -273,16 +275,16 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+                table.getRowModel().rows.map(row => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}
@@ -302,7 +304,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
           </Table>
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="flex-1 text-muted-foreground text-sm">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
@@ -327,5 +329,5 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -7,12 +7,12 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
-  Tooltip,
+  Tooltip
 } from "recharts";
 
 const data = [
   { name: "Founders", value: 90.0 },
-  { name: "Team Pool", value: 10.0 },
+  { name: "Team Pool", value: 10.0 }
 ];
 
 const COLORS = ["#888888", "#FAFAFA"]; // Adjust colors for better visibility if necessary

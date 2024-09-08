@@ -1,8 +1,8 @@
-import type { SiteConfig } from "@/types"
+import type { SiteConfig } from "@/types";
 
-import { env } from "@/env"
+import { env } from "@/env";
 
-const site_url = env.NEXT_PUBLIC_APP_URL
+const site_url = env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
   name: "Propdock",
@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
   ogImage: "https://propdock.no/_static/thumbnail.png",
   links: {
     twitter: "https://twitter.com/codehagen",
-    github: "https://github.com/codehagen",
+    github: "https://github.com/codehagen"
   },
-  mailSupport: "Christer@propdock.no",
-}
+  mailSupport: "Christer@propdock.no"
+};

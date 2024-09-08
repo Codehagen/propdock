@@ -3,29 +3,29 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
 
 interface SensitivityAnalysisTableProps {
   analysis: {
-    sumValueNow: number
+    sumValueNow: number;
     costs: {
-      costSum: number
-    }
-    [key: string]: any
-  }
+      costSum: number;
+    };
+    [key: string]: any;
+  };
 }
 
 export function SensitivityAnalysisTable({
-  analysis,
+  analysis
 }: SensitivityAnalysisTableProps) {
   /**
    * Developer Note: Sensitivity Analysis Calculation
@@ -56,30 +56,36 @@ export function SensitivityAnalysisTable({
    */
   const calculateSensitivity = (
     buildCostsChange: number,
-    gdvChange: number,
+    gdvChange: number
   ) => {
-    const baseBuildCosts = analysis.costs.costSum
-    const baseGDV = analysis.sumValueNow
+    const baseBuildCosts = analysis.costs.costSum;
+    const baseGDV = analysis.sumValueNow;
 
-    const adjustedBuildCosts = baseBuildCosts * (1 + buildCostsChange / 100)
-    const adjustedGDV = baseGDV * (1 + gdvChange / 100)
+    const adjustedBuildCosts = baseBuildCosts * (1 + buildCostsChange / 100);
+    const adjustedGDV = baseGDV * (1 + gdvChange / 100);
 
-    const profit = adjustedGDV - adjustedBuildCosts
-    const roc = (profit / adjustedBuildCosts) * 100
+    const profit = adjustedGDV - adjustedBuildCosts;
+    const roc = (profit / adjustedBuildCosts) * 100;
 
-    return roc.toFixed(1)
-  }
+    return roc.toFixed(1);
+  };
 
-  const buildCostsRange = [-20, -10, 0, 10, 20]
-  const gdvRange = [-20, -10, 0, 10, 20]
+  const buildCostsRange = [-20, -10, 0, 10, 20];
+  const gdvRange = [-20, -10, 0, 10, 20];
 
   const getCellColor = (value: string) => {
-    const numValue = parseFloat(value)
-    if (numValue < 0) return "bg-red-200"
-    if (numValue < 10) return "bg-yellow-200"
-    if (numValue < 20) return "bg-green-100"
-    return "bg-green-200"
-  }
+    const numValue = Number.parseFloat(value);
+    if (numValue < 0) {
+      return "bg-red-200";
+    }
+    if (numValue < 10) {
+      return "bg-yellow-200";
+    }
+    if (numValue < 20) {
+      return "bg-green-100";
+    }
+    return "bg-green-200";
+  };
 
   return (
     <Card>
@@ -92,7 +98,7 @@ export function SensitivityAnalysisTable({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Build costs</TableHead>
-              {gdvRange.map((gdv) => (
+              {gdvRange.map(gdv => (
                 <TableHead key={gdv} className="text-center">
                   GDV {gdv > 0 ? "+" : ""}
                   {gdv}%
@@ -101,14 +107,14 @@ export function SensitivityAnalysisTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {buildCostsRange.map((buildCosts) => (
+            {buildCostsRange.map(buildCosts => (
               <TableRow key={buildCosts}>
                 <TableCell className="font-medium">
                   {buildCosts > 0 ? "+" : ""}
                   {buildCosts}%
                 </TableCell>
-                {gdvRange.map((gdv) => {
-                  const value = calculateSensitivity(buildCosts, gdv)
+                {gdvRange.map(gdv => {
+                  const value = calculateSensitivity(buildCosts, gdv);
                   return (
                     <TableCell
                       key={gdv}
@@ -116,7 +122,7 @@ export function SensitivityAnalysisTable({
                     >
                       {value}%
                     </TableCell>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -124,5 +130,5 @@ export function SensitivityAnalysisTable({
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }

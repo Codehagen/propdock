@@ -1,20 +1,20 @@
-import { redirect } from "next/navigation";
 import { getAnalyticsStats } from "@/actions/stats/get-analytics-stats";
 import { getUserStats } from "@/actions/stats/get-users-stats";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth";
-import { getCurrentUser } from "@/lib/session";
 import CardSection from "@/components/analytics/CardSection";
 import EventsTrendOverTimeChart from "@/components/dashboard/charts/EventsTrendOverTime";
 import UserGrowthTrend from "@/components/dashboard/charts/UserGrowthChart";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Dingify Analytics - Your Alerts Overview",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
+    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard."
 };
 
 export default async function DashboardPage() {
@@ -38,10 +38,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader
-        heading="Analytics"
-        text="Your analytics dashboard"
-      ></DashboardHeader>
+      <DashboardHeader heading="Analytics" text="Your analytics dashboard" />
       <div>
         <CardSection
         // totalUsers={totalUsers}

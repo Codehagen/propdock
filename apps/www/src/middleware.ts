@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
 export default withAuth(
   async function middleware(req) {
@@ -25,7 +25,7 @@ export default withAuth(
       }
 
       return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
+        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
       );
     }
   },
@@ -36,11 +36,11 @@ export default withAuth(
         // We return true here so that the middleware function above
         // is always called.
         return true;
-      },
-    },
-  },
+      }
+    }
+  }
 );
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/register"],
+  matcher: ["/dashboard/:path*", "/login", "/register"]
 };

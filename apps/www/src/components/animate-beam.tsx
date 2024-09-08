@@ -1,7 +1,7 @@
 "use client";
 
-import { RefObject, useEffect, useId, useState } from "react";
 import { motion } from "framer-motion";
+import { type RefObject, useEffect, useId, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -42,7 +42,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   startXOffset = 0,
   startYOffset = 0,
   endXOffset = 0,
-  endYOffset = 0,
+  endYOffset = 0
 }) => {
   const id = useId();
   const [pathD, setPathD] = useState("");
@@ -54,13 +54,13 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         x1: ["90%", "-10%"],
         x2: ["100%", "0%"],
         y1: ["0%", "0%"],
-        y2: ["0%", "0%"],
+        y2: ["0%", "0%"]
       }
     : {
         x1: ["10%", "110%"],
         x2: ["0%", "100%"],
         y1: ["0%", "0%"],
-        y2: ["0%", "0%"],
+        y2: ["0%", "0%"]
       };
 
   useEffect(() => {
@@ -92,9 +92,9 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     };
 
     // Initialize ResizeObserver
-    const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver(entries => {
       // For all entries, recalculate the path
-      for (let entry of entries) {
+      for (const entry of entries) {
         updatePath();
       }
     });
@@ -119,7 +119,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     startXOffset,
     startYOffset,
     endXOffset,
-    endYOffset,
+    endYOffset
   ]);
 
   return (
@@ -129,8 +129,8 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       height={svgDimensions.height}
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
-        "pointer-events-none absolute left-0 top-0 transform-gpu stroke-2",
-        className,
+        "pointer-events-none absolute top-0 left-0 transform-gpu stroke-2",
+        className
       )}
       viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
     >
@@ -157,30 +157,26 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
             x1: "0%",
             x2: "0%",
             y1: "0%",
-            y2: "0%",
+            y2: "0%"
           }}
           animate={{
             x1: gradientCoordinates.x1,
             x2: gradientCoordinates.x2,
             y1: gradientCoordinates.y1,
-            y2: gradientCoordinates.y2,
+            y2: gradientCoordinates.y2
           }}
           transition={{
             delay,
             duration,
             ease: [0.16, 1, 0.3, 1], // https://easings.net/#easeOutExpo
-            repeat: Infinity,
-            repeatDelay: 0,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatDelay: 0
           }}
         >
-          <stop stopColor={gradientStartColor} stopOpacity="0"></stop>
-          <stop stopColor={gradientStartColor}></stop>
-          <stop offset="32.5%" stopColor={gradientStopColor}></stop>
-          <stop
-            offset="100%"
-            stopColor={gradientStopColor}
-            stopOpacity="0"
-          ></stop>
+          <stop stopColor={gradientStartColor} stopOpacity="0" />
+          <stop stopColor={gradientStartColor} />
+          <stop offset="32.5%" stopColor={gradientStopColor} />
+          <stop offset="100%" stopColor={gradientStopColor} stopOpacity="0" />
         </motion.linearGradient>
       </defs>
     </svg>

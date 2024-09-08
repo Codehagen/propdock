@@ -1,7 +1,5 @@
-import type { Column } from "@tanstack/react-table"
-import * as React from "react"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -9,35 +7,37 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-} from "@propdock/ui/components/command"
+  CommandSeparator
+} from "@propdock/ui/components/command";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@propdock/ui/components/popover"
-import { Separator } from "@propdock/ui/components/separator"
-import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons"
+  PopoverTrigger
+} from "@propdock/ui/components/popover";
+import { Separator } from "@propdock/ui/components/separator";
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+import type { Column } from "@tanstack/react-table";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface DataTableFacetedFilter<TData, TValue> {
-  column?: Column<TData, TValue>
-  title?: string
+  column?: Column<TData, TValue>;
+  title?: string;
   options: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+    label: string;
+    value: string;
+    icon?: React.ComponentType<{ className?: string }>;
+  }[];
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
-  options,
+  options
 }: DataTableFacetedFilter<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as string[])
+  const facets = column?.getFacetedUniqueValues();
+  const selectedValues = new Set(column?.getFilterValue() as string[]);
 
   return (
     <Popover>
@@ -64,8 +64,8 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </Badge>
                 ) : (
                   options
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
+                    .filter(option => selectedValues.has(option.value))
+                    .map(option => (
                       <Badge
                         variant="secondary"
                         key={option.value}
@@ -86,8 +86,8 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => {
-                const isSelected = selectedValues.has(option.value)
+              {options.map(option => {
+                const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
                     key={option.value}
@@ -100,12 +100,12 @@ export function DataTableFacetedFilter<TData, TValue>({
                     </div>
                     {option.icon &&
                       React.createElement(option.icon, {
-                        className: "mr-2 h-4 w-4 text-muted-foreground",
+                        className: "mr-2 h-4 w-4 text-muted-foreground"
                       })}
                     <span>{option.label}</span>
                     {/* ... other item logic */}
                   </CommandItem>
-                )
+                );
               })}
             </CommandGroup>
             {selectedValues.size > 0 && (
@@ -125,5 +125,5 @@ export function DataTableFacetedFilter<TData, TValue>({
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

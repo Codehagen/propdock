@@ -9,8 +9,8 @@ export async function getOfficeSpaces(floorId: number) {
       where: { floorId },
       select: {
         id: true,
-        name: true,
-      },
+        name: true
+      }
     });
     return officeSpaces;
   } catch (error) {

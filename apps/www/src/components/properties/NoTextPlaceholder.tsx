@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default function NoTextPlaceholder({ propertyId, setDescriptionData }) {
   return (
@@ -12,5 +12,5 @@ export default function NoTextPlaceholder({ propertyId, setDescriptionData }) {
       </EmptyPlaceholder.Description>
       {/* <AddFilesButton slug={slug} propertyId={propertyId} /> */}
     </EmptyPlaceholder>
-  )
+  );
 }

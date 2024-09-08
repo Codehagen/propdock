@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
-import { ChartContainer } from "@propdock/ui/components/chart"
-import { Bar, BarChart, Rectangle, XAxis } from "recharts"
+  CardTitle
+} from "@propdock/ui/components/card";
+import { ChartContainer } from "@propdock/ui/components/chart";
+import { Bar, BarChart, Rectangle, XAxis } from "recharts";
 
 export function CapitalizationRateCard() {
   return (
@@ -18,9 +18,9 @@ export function CapitalizationRateCard() {
         <CardDescription>Kalkulert yield for denne eiendommen </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
-        <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
+        <div className="flex items-baseline gap-2 font-bold text-3xl tabular-nums leading-none">
           6.8%
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="font-normal text-muted-foreground text-sm">
             Yield
           </span>
         </div>
@@ -28,8 +28,8 @@ export function CapitalizationRateCard() {
           config={{
             capRate: {
               label: "Cap Rate",
-              color: "hsl(var(--chart-2))",
-            },
+              color: "hsl(var(--chart-2))"
+            }
           }}
           className="ml-auto w-[64px]"
         >
@@ -43,7 +43,7 @@ export function CapitalizationRateCard() {
               { date: "2024-04", capRate: 6.5 },
               { date: "2024-05", capRate: 6.6 },
               { date: "2024-06", capRate: 6.7 },
-              { date: "2024-07", capRate: 6.8 },
+              { date: "2024-07", capRate: 6.8 }
             ]}
           >
             <Bar
@@ -59,5 +59,5 @@ export function CapitalizationRateCard() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

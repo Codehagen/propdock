@@ -1,26 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { createProperty } from "@/actions/create-property"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createProperty } from "@/actions/create-property";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@propdock/ui/components/select"
+  SelectValue
+} from "@propdock/ui/components/select";
 import {
   Sheet,
   SheetContent,
@@ -28,56 +26,58 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const PropertySchema = z.object({
   name: z.string().min(1, "Eiendomsnavn er påkrevd"),
   type: z.string().min(1, "Eiendomstype er påkrevd"),
-  countryCode: z.string().min(2, "Landkode er påkrevd").max(2),
-})
+  countryCode: z.string().min(2, "Landkode er påkrevd").max(2)
+});
 
 export function AddPropertyButton() {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(PropertySchema),
     defaultValues: {
       name: "",
       type: "",
-      countryCode: "NO",
-    },
-  })
+      countryCode: "NO"
+    }
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
       const result = await createProperty(
         data.name,
         data.type,
-        data.countryCode,
-      )
+        data.countryCode
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "Feil ved oppretting av eiendom.")
+        throw new Error(result.error || "Feil ved oppretting av eiendom.");
       }
 
-      toast.success(`Eiendommen "${data.name}" ble lagt til.`)
-      form.reset()
-      router.push(`/property/${result.property?.id}`)
+      toast.success(`Eiendommen "${data.name}" ble lagt til.`);
+      form.reset();
+      router.push(`/property/${result.property?.id}`);
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -174,5 +174,5 @@ export function AddPropertyButton() {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

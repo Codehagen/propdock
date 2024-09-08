@@ -1,40 +1,40 @@
-import { useRouter } from "next/navigation"
-import { Badge } from "@propdock/ui/components/badge"
+import { Badge } from "@propdock/ui/components/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@propdock/ui/components/card"
+  CardTitle
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@propdock/ui/components/table"
+  TableRow
+} from "@propdock/ui/components/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@propdock/ui/components/tabs"
+  TabsTrigger
+} from "@propdock/ui/components/tabs";
+import { useRouter } from "next/navigation";
 
-import { UserBadge } from "@/components/UserBadge"
+import { UserBadge } from "@/components/UserBadge";
 
 export default function EventsDashboardTable({
   events,
   setSelectedEventId,
-  selectedEventId,
+  selectedEventId
 }) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleUserClick = (customerId) => {
-    router.push(`dashboard/users/${customerId}`)
-  }
+  const handleUserClick = customerId => {
+    router.push(`dashboard/users/${customerId}`);
+  };
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function EventsDashboardTable({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {events.map((event) => (
+                  {events.map(event => (
                     <TableRow
                       key={event.id}
                       onClick={() => setSelectedEventId(event.id)}
@@ -104,18 +104,16 @@ export default function EventsDashboardTable({
                       }
                     >
                       <TableCell>
-                        {event.channel && event.channel.name && (
+                        {event.channel?.name && (
                           <div className="font-medium">
                             {event.channel.name}
                           </div>
                         )}
-                        {event.channel &&
-                          event.channel.project &&
-                          event.channel.project.name && (
-                            <div className="hidden text-sm text-muted-foreground md:inline">
-                              {event.channel.project.name}
-                            </div>
-                          )}
+                        {event.channel?.project?.name && (
+                          <div className="hidden text-muted-foreground text-sm md:inline">
+                            {event.channel.project.name}
+                          </div>
+                        )}
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
                         {event.name}
@@ -148,7 +146,7 @@ export default function EventsDashboardTable({
         </TabsContent>
       </Tabs>
     </>
-  )
+  );
 }
 
 function FileIcon(props) {
@@ -168,7 +166,7 @@ function FileIcon(props) {
       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
     </svg>
-  )
+  );
 }
 
 function ListFilterIcon(props) {
@@ -189,5 +187,5 @@ function ListFilterIcon(props) {
       <path d="M7 12h10" />
       <path d="M10 18h4" />
     </svg>
-  )
+  );
 }

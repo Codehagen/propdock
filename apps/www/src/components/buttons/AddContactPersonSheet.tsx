@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { createContactPerson } from "@/actions/create-contact-person"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createContactPerson } from "@/actions/create-contact-person";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+  FormMessage
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetClose,
@@ -21,11 +20,12 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+  SheetTrigger
+} from "@propdock/ui/components/sheet";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const ContactPersonSchema = z.object({
@@ -35,15 +35,15 @@ const ContactPersonSchema = z.object({
   fnr: z
     .string()
     .optional()
-    .refine((data) => !data || /^\d{11}$/.test(data), {
-      message: "fnr must be exactly 11 digits",
+    .refine(data => !data || /^\d{11}$/.test(data), {
+      message: "fnr must be exactly 11 digits"
     })
-    .nullable(),
-})
+    .nullable()
+});
 
 export function AddContactPersonSheet({ tenantId, currentPath }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ContactPersonSchema),
@@ -51,31 +51,31 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
       name: "",
       email: "",
       phone: "",
-      fnr: "",
-    },
-  })
+      fnr: ""
+    }
+  });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true)
+  const onSubmit = async data => {
+    setIsLoading(true);
 
     try {
-      const result = await createContactPerson(tenantId, data, currentPath)
+      const result = await createContactPerson(tenantId, data, currentPath);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save contact person.")
+        throw new Error(result.error || "Failed to save contact person.");
       }
 
-      toast.success(`Kontaktperson "${data.name}" ble lagret.`)
-      form.reset()
-      setIsOpen(false) // Close the sheet on success
+      toast.success(`Kontaktperson "${data.name}" ble lagret.`);
+      form.reset();
+      setIsOpen(false); // Close the sheet on success
       // Revalidate the path to refresh the page or update the state to show the new contact person
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -156,5 +156,5 @@ export function AddContactPersonSheet({ tenantId, currentPath }) {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

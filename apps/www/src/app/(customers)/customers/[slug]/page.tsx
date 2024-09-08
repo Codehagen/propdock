@@ -1,50 +1,50 @@
-import { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allBlogPosts, allCustomersPosts } from "content-collections"
+import { allBlogPosts, allCustomersPosts } from "content-collections";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { getBlurDataURL } from "@/lib/blog/images"
-import { cn } from "@/lib/utils"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import { MDX } from "@/components/blog/mdx"
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import { MDX } from "@/components/blog/mdx";
+import BlurImage from "@/lib/blog/blur-image";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { getBlurDataURL } from "@/lib/blog/images";
+import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  return allCustomersPosts.map((post) => ({
-    slug: post.slug,
-  }))
+  return allCustomersPosts.map(post => ({
+    slug: post.slug
+  }));
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const post = allCustomersPosts.find((post) => post.slug === params.slug)
+  const post = allCustomersPosts.find(post => post.slug === params.slug);
   if (!post) {
-    return
+    return;
   }
 
-  const { title, summary, image } = post
+  const { title, summary, image } = post;
 
   return constructMetadata({
     title: `${title} –Propdock`,
     description: summary,
-    image,
-  })
+    image
+  });
 }
 
 export default async function CustomerStory({
-  params,
+  params
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const data = allCustomersPosts.find((post) => post.slug === params.slug)
+  const data = allCustomersPosts.find(post => post.slug === params.slug);
   if (!data) {
-    notFound()
+    notFound();
   }
 
   const [thumbnailBlurhash, images] = await Promise.all([
@@ -52,10 +52,10 @@ export default async function CustomerStory({
     await Promise.all(
       data.images.map(async (src: string) => ({
         src,
-        blurDataURL: await getBlurDataURL(src),
-      })),
-    ),
-  ])
+        blurDataURL: await getBlurDataURL(src)
+      }))
+    )
+  ]);
 
   return (
     <>
@@ -63,14 +63,14 @@ export default async function CustomerStory({
         <div className="flex max-w-screen-md flex-col space-y-4 pt-16">
           <Link
             href="/customers"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground text-sm hover:text-foreground"
           >
             ← Tilbake til kunder
           </Link>
-          <h1 className="font-display text-3xl font-extrabold text-foreground [text-wrap:balance] sm:text-4xl sm:leading-snug">
+          <h1 className="font-display font-extrabold text-3xl text-foreground [text-wrap:balance] sm:text-4xl sm:leading-snug">
             {data.title}
           </h1>
-          <p className="text-xl text-muted-foreground">{data.summary}</p>
+          <p className="text-muted-foreground text-xl">{data.summary}</p>
         </div>
       </MaxWidthWrapper>
 
@@ -102,7 +102,7 @@ export default async function CustomerStory({
                     href={data.companyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+                    className="text-muted-foreground text-sm underline-offset-4 hover:underline"
                   >
                     {data.companyUrl}
                   </a>
@@ -111,19 +111,19 @@ export default async function CustomerStory({
               {sidebarContent.map(({ title, value }) => (
                 <div
                   key={title}
-                  className={cn(`col-span-1 flex flex-col space-y-2`, {
-                    "col-span-2": title === "About",
+                  className={cn("col-span-1 flex flex-col space-y-2", {
+                    "col-span-2": title === "About"
                   })}
                 >
                   <p className="font-medium text-foreground">{title}</p>
-                  <p className="text-sm text-muted-foreground">{data[value]}</p>
+                  <p className="text-muted-foreground text-sm">{data[value]}</p>
                 </div>
               ))}
             </div>
             <MDX
               code={data.mdx}
               images={images}
-              className="px-5 pb-20 pt-4 sm:px-10"
+              className="px-5 pt-4 pb-20 sm:px-10"
             />
           </div>
           <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-border self-start md:flex">
@@ -141,7 +141,7 @@ export default async function CustomerStory({
                   href={data.companyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+                  className="text-muted-foreground text-sm underline-offset-4 hover:underline"
                 >
                   {data.companyUrl}
                 </a>
@@ -150,7 +150,7 @@ export default async function CustomerStory({
             {sidebarContent.map(({ title, value }) => (
               <div key={title} className="flex flex-col space-y-2 py-5">
                 <p className="font-medium text-foreground">{title}</p>
-                <p className="text-sm text-muted-foreground">{data[value]}</p>
+                <p className="text-muted-foreground text-sm">{data[value]}</p>
               </div>
             ))}
           </div>
@@ -158,28 +158,28 @@ export default async function CustomerStory({
       </div>
       {/* <CTA /> */}
     </>
-  )
+  );
 }
 
 const sidebarContent = [
   {
     title: "Om bedriften",
-    value: "companyDescription",
+    value: "companyDescription"
   },
   {
     title: "Bransje",
-    value: "companyIndustry",
+    value: "companyIndustry"
   },
   {
     title: "Selskapsstørrelse",
-    value: "companySize",
+    value: "companySize"
   },
   {
     title: "Stiftet",
-    value: "companyFounded",
+    value: "companyFounded"
   },
   {
     title: "Propdock-plan",
-    value: "plan",
-  },
-]
+    value: "plan"
+  }
+];

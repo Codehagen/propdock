@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Tilt from "react-parallax-tilt"
+import Link from "next/link";
+import Tilt from "react-parallax-tilt";
 
-import BlurImage from "@/lib/blog/blur-image"
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
+import BlurImage from "@/lib/blog/blur-image";
 
-import ExpandingArrow from "./icons/expanding-arrow"
+import ExpandingArrow from "./icons/expanding-arrow";
 
 export const Integration = ({
   slug,
   site,
-  description,
+  description
 }: {
-  slug: string
-  site?: string
-  description?: string
+  slug: string;
+  site?: string;
+  description?: string;
 }) => {
-  const { isDesktop } = useMediaQuery()
+  const { isDesktop } = useMediaQuery();
   return (
     <Tilt
       glareEnable={true}
@@ -47,17 +47,17 @@ export const Integration = ({
         />
         {description && (
           <>
-            <hr className="w-full border-t border-gray-200" />
-            <p className="text-center text-sm text-gray-600">{description}</p>
+            <hr className="w-full border-gray-200 border-t" />
+            <p className="text-center text-gray-600 text-sm">{description}</p>
           </>
         )}
         <div className="flex space-x-1">
-          <p className="text-sm font-medium text-gray-500 group-hover:text-green-500">
+          <p className="font-medium text-gray-500 text-sm group-hover:text-green-500">
             {site ? "Gå til nettside" : "Les om integrasjon"}
           </p>
           <ExpandingArrow className="text-gray-500 group-hover:text-green-500" />
         </div>
       </Link>
     </Tilt>
-  )
-}
+  );
+};

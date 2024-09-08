@@ -2,7 +2,7 @@ import { Hr, Tailwind, Text } from "@react-email/components";
 
 export default function Footer({
   email,
-  marketing,
+  marketing
 }: {
   email: string;
   marketing?: boolean;
@@ -11,7 +11,7 @@ export default function Footer({
     <Tailwind>
       <Hr className="mx-0 my-6 w-full border border-gray-200" />
       {marketing ? (
-        <Text className="text-[12px] leading-6 text-gray-500">
+        <Text className="text-[12px] text-gray-500 leading-6">
           This email was intended for{" "}
           <span className="text-black">{email}</span>. If you were not expecting
           this email, you can ignore this email. If you don't want to receive
@@ -22,7 +22,7 @@ export default function Footer({
           .
         </Text>
       ) : (
-        <Text className="text-[12px] leading-6 text-gray-500">
+        <Text className="text-[12px] text-gray-500 leading-6">
           This email was intended for{" "}
           <span className="text-black">{email}</span>. If you were not expecting
           this email, you can ignore this email. If you are concerned about your
