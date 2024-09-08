@@ -10,7 +10,7 @@
     "enabled": true
   },
   "linter": {
-    "ignore": ["node_modules", ".next"],
+    "ignore": ["dist", "node_modules", ".next", "build", ".contentlayer"],
     "enabled": true,
     "rules": {
       "recommended": true,
