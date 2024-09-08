@@ -1,5 +1,6 @@
 // src/app/(property)/property/[id]/building/[buildingId]/page.tsx
 
+import { Suspense } from "react"
 import { getBuildingDetails } from "@/actions/get-building-details"
 
 import { AddFloorSheet } from "@/components/buttons/AddFloorSheet"
@@ -8,6 +9,7 @@ import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import FloorsTable from "@/components/table/floors/floors-table"
 import FloorsTable2 from "@/components/table/floors/floors-table-2"
+import FloorsTable2Loading from "@/components/table/floors/floors-table-loading"
 
 export default async function BuildingPage({ params }) {
   const { buildingId } = params
@@ -59,8 +61,9 @@ export default async function BuildingPage({ params }) {
               <AddFloorSheet buildingId={buildingId} />
             </EmptyPlaceholder>
           ) : (
-            // <FloorsTable floors={buildingDetails.floors} />
-            <FloorsTable2 floors={buildingDetails.floors} />
+            <Suspense fallback={<FloorsTable2Loading />}>
+              <FloorsTable2 floors={buildingDetails.floors} />
+            </Suspense>
           )}
         </div>
       </DashboardShell>

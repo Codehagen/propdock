@@ -3,7 +3,11 @@
 import React, { useEffect, useReducer, useState } from "react"
 import { useParams, usePathname } from "next/navigation"
 import { createFloor } from "@/actions/create-floor"
-import { quickAddOfficeSpace } from "@/actions/create-quick-office-space"
+import {
+  quickAddOfficeSpace,
+  quickDeleteOfficeSpace,
+} from "@/actions/create-quick-office-space"
+import { updateFloor } from "@/actions/update-floor-table"
 import { updateOfficeSpace } from "@/actions/update-office-space"
 import {
   Alert,
@@ -36,10 +40,16 @@ import {
   TableRow,
 } from "@propdock/ui/components/table"
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@propdock/ui/components/tooltip"
+import {
   AlertTriangle,
   ArrowUpDown,
   Building2,
   CheckCircle2,
+  MinusCircle,
   PlusCircle,
   XCircle,
 } from "lucide-react"
@@ -83,6 +93,7 @@ type Action =
     }
   | { type: "ADD_OFFICE"; floorId: string; office: OfficeSpace }
   | { type: "SORT"; key: keyof OfficeSpace }
+  | { type: "DELETE_OFFICE"; officeId: string }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -106,7 +117,16 @@ function reducer(state: State, action: Action): State {
                 ...floor,
                 officeSpaces: floor.officeSpaces.map((office) =>
                   office.id === action.officeId
-                    ? { ...office, [action.field]: action.value }
+                    ? {
+                        ...office,
+                        [action.field]: action.value,
+                        // Update isRented based on tenants
+                        ...(action.field === "tenants" && {
+                          isRented:
+                            Array.isArray(action.value) &&
+                            action.value.length > 0,
+                        }),
+                      }
                     : office,
                 ),
               }
@@ -137,6 +157,16 @@ function reducer(state: State, action: Action): State {
               : "ascending",
         },
       }
+    case "DELETE_OFFICE":
+      return {
+        ...state,
+        floors: state.floors.map((floor) => ({
+          ...floor,
+          officeSpaces: floor.officeSpaces.filter(
+            (office) => office.id !== action.officeId,
+          ),
+        })),
+      }
     default:
       return state
   }
@@ -144,7 +174,7 @@ function reducer(state: State, action: Action): State {
 
 const initialState: State = {
   floors: [],
-  tenants: ["Tenant A", "Tenant B", "Tenant C"], // You might want to fetch this from the database
+  tenants: ["Leietaker A", "Leietaker B", "Leietaker C"], // You might want to fetch this from the database
   sortConfig: { key: null, direction: "ascending" },
 }
 
@@ -175,36 +205,134 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     field: string,
     value: string | number,
   ) => {
-    setEditingCell(null)
     try {
       let parsedValue: string | number = value
-      if (field === "sizeKvm" || field === "commonAreaKvm") {
+      if (
+        field === "sizeKvm" ||
+        field === "commonAreaKvm" ||
+        field === "exclusiveAreaKvm"
+      ) {
         parsedValue = Number(value)
         if (isNaN(parsedValue)) {
-          throw new Error(`Invalid number for ${field}`)
+          throw new Error(`Ugyldig tall for ${field}`)
         }
       }
 
-      const result = await updateOfficeSpace(
+      // Update local state immediately
+      dispatch({
+        type: "UPDATE_OFFICE",
+        floorId,
         officeId,
-        { [field]: parsedValue },
-        pathname,
-      )
+        field: field as keyof OfficeSpace,
+        value: parsedValue,
+      })
+
+      // Call the server action
+      const result = await updateOfficeSpace(officeId, { [field]: parsedValue })
+
       if (result.success) {
-        dispatch({
-          type: "UPDATE_OFFICE",
-          floorId,
-          officeId,
-          field: field as keyof OfficeSpace,
-          value: parsedValue,
-        })
-        toast.success("Office space updated successfully.")
+        toast.success("Kontorlokale oppdatert.")
       } else {
-        throw new Error(result.error || "Failed to update office space.")
+        throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
       }
     } catch (error) {
+      // Revert the local state update if there's an error
+      dispatch({
+        type: "UPDATE_OFFICE",
+        floorId,
+        officeId,
+        field: field as keyof OfficeSpace,
+        value: office[field as keyof OfficeSpace],
+      })
       toast.error(error.message)
-      console.error("Error updating office space:", error)
+      console.error("Feil ved oppdatering av kontorlokale:", error)
+    } finally {
+      setEditingCell(null)
+    }
+  }
+
+  const handleCellChange = async (
+    floorId: string,
+    officeId: string,
+    field: string,
+    value: string | boolean,
+  ) => {
+    try {
+      let updateData: any = { [field]: value }
+
+      // If changing tenant, we need to update both tenants and isRented
+      if (field === "tenants") {
+        updateData = {
+          tenants: value === "none" ? [] : [{ name: value }],
+          isRented: value !== "none",
+        }
+      }
+
+      // Update local state immediately
+      dispatch({
+        type: "UPDATE_OFFICE",
+        floorId,
+        officeId,
+        field: field as keyof OfficeSpace,
+        value: updateData[field],
+      })
+
+      // Call the server action
+      const result = await updateOfficeSpace(officeId, updateData)
+
+      if (result.success) {
+        toast.success("Kontorlokale oppdatert.")
+      } else {
+        throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
+      }
+    } catch (error) {
+      // Revert the local state update if there's an error
+      dispatch({
+        type: "UPDATE_OFFICE",
+        floorId,
+        officeId,
+        field: field as keyof OfficeSpace,
+        value: office[field as keyof OfficeSpace],
+      })
+      toast.error(error.message)
+      console.error("Feil ved oppdatering av kontorlokale:", error)
+    }
+  }
+
+  const handleFloorEdit = async (
+    floorId: string,
+    field: string,
+    value: number,
+  ) => {
+    try {
+      // Update local state immediately
+      dispatch({
+        type: "UPDATE_FLOOR",
+        floorId,
+        field: field as keyof Floor,
+        value,
+      })
+
+      // Call the server action
+      const result = await updateFloor(floorId, { [field]: value })
+
+      if (result.success) {
+        toast.success("Etasje oppdatert.")
+      } else {
+        throw new Error(result.error || "Kunne ikke oppdatere etasje.")
+      }
+    } catch (error) {
+      // Revert the local state update if there's an error
+      dispatch({
+        type: "UPDATE_FLOOR",
+        floorId,
+        field: field as keyof Floor,
+        value: floor[field as keyof Floor],
+      })
+      toast.error(error.message)
+      console.error("Feil ved oppdatering av etasje:", error)
+    } finally {
+      setEditingCell(null)
     }
   }
 
@@ -253,6 +381,46 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
     )
   }
 
+  const EditableFloorCell = ({ floor, field, type = "text" }) => {
+    const isEditing =
+      editingCell?.floorId === floor.id &&
+      editingCell?.officeId === null &&
+      editingCell?.field === field
+    const value = floor[field]
+
+    return (
+      <div
+        onClick={() =>
+          setEditingCell({ floorId: floor.id, officeId: null, field })
+        }
+        className="relative cursor-pointer p-2"
+      >
+        {isEditing ? (
+          <Input
+            type={type}
+            defaultValue={value}
+            autoFocus
+            onBlur={(e) =>
+              handleFloorEdit(floor.id, field, Number(e.target.value))
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleFloorEdit(floor.id, field, Number(e.currentTarget.value))
+              }
+            }}
+            className="absolute inset-0 h-full w-full border-2 border-blue-500 bg-white p-2 text-lg font-semibold focus:ring-2 focus:ring-blue-500"
+          />
+        ) : (
+          <div className="text-right text-lg font-semibold">
+            {type === "number" && value != null
+              ? Number(value).toLocaleString()
+              : value || ""}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   const sortedOffices = (offices: OfficeSpace[]) => {
     if (!state.sortConfig.key) return offices
 
@@ -288,7 +456,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
 
   const handleAddFloor = async () => {
     if (!buildingId) {
-      toast.error("Building ID is missing")
+      toast.error("Bygnings-ID mangler")
       return
     }
 
@@ -311,12 +479,12 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
             officeSpaces: [],
           },
         })
-        toast.success(`Floor ${newFloorNumber} has been added`)
+        toast.success(`Etasje ${newFloorNumber} er lagt til`)
       } else {
-        throw new Error(result.error || "Failed to add floor")
+        throw new Error(result.error || "Kunne ikke legge til etasje")
       }
     } catch (error) {
-      toast.error("Error adding floor: " + error.message)
+      toast.error("Feil ved tillegging av etasje: " + error.message)
     }
   }
 
@@ -325,7 +493,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
       const result = await quickAddOfficeSpace(
         floorId,
         {
-          name: `Office ${state.floors.find((f) => f.id === floorId)?.officeSpaces.length + 1 || 1}`,
+          name: `Kontor ${state.floors.find((f) => f.id === floorId)?.officeSpaces.length + 1 || 1}`,
           sizeKvm: 0,
           exclusiveAreaKvm: 0,
           commonAreaKvm: 0,
@@ -344,12 +512,33 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
           floorId,
           office: officeWithTenants,
         })
-        toast.success(`Office ${result.office.name} has been added`)
+        toast.success(`Kontor ${result.office.name} er lagt til`)
       } else {
-        throw new Error(result.error || "Failed to add office")
+        throw new Error(result.error || "Kunne ikke legge til kontor")
       }
     } catch (error) {
-      toast.error("Error adding office: " + error.message)
+      toast.error("Feil ved tillegging av kontor: " + error.message)
+    }
+  }
+
+  const handleQuickDelete = async (officeId: string) => {
+    try {
+      const result = await quickDeleteOfficeSpace(officeId, pathname)
+
+      if (!result.success) {
+        throw new Error(result.error || "Failed to quick delete office space.")
+      }
+
+      toast.success("Kontoret er slettet")
+
+      // Update local state
+      dispatch({
+        type: "DELETE_OFFICE",
+        officeId,
+      })
+    } catch (error) {
+      toast.error("Error deleting office space.")
+      console.error("Error deleting office space:", error)
     }
   }
 
@@ -363,17 +552,18 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
           <Card key={floor.id}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-2xl font-bold">
-                Floor {floor.number}
+                Etasje {floor.number}
               </CardTitle>
               <div className="flex items-center space-x-2">
-                <span className="font-semibold">Total floor area:</span>
-                <EditableCell
-                  floor={floor}
-                  office={floor}
-                  field="maxTotalKvm"
-                  type="number"
-                />
-                <span>sqm</span>
+                <span className="font-semibold">Totalt etasjeareal:</span>
+                <div className="w-24">
+                  <EditableFloorCell
+                    floor={floor}
+                    field="maxTotalKvm"
+                    type="number"
+                  />
+                </div>
+                <span>kvm</span>
               </div>
               <Button
                 variant="outline"
@@ -381,7 +571,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                 onClick={() => handleQuickAddOffice(floor.id)}
               >
                 <PlusCircle className="mr-2 h-4 w-4" />
-                Add office
+                Legg til kontor
               </Button>
             </CardHeader>
             <CardContent>
@@ -394,7 +584,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                     >
                       <div className="flex items-center">
                         <Building2 className="mr-2 h-4 w-4" />
-                        Office
+                        Kontor
                         {renderSortIcon("name")}
                       </div>
                     </TableHead>
@@ -402,7 +592,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                       onClick={() => dispatch({ type: "SORT", key: "sizeKvm" })}
                       className="cursor-pointer"
                     >
-                      Exclusive area (sqm) {renderSortIcon("sizeKvm")}
+                      Eksklusivt areal (kvm) {renderSortIcon("sizeKvm")}
                     </TableHead>
                     <TableHead
                       onClick={() =>
@@ -410,18 +600,19 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                       }
                       className="cursor-pointer"
                     >
-                      Common area (sqm) {renderSortIcon("commonAreaKvm")}
+                      Fellesareal (kvm) {renderSortIcon("commonAreaKvm")}
                     </TableHead>
-                    <TableHead>Total area (sqm)</TableHead>
+                    <TableHead>Totalt areal (kvm)</TableHead>
                     <TableHead
                       onClick={() =>
                         dispatch({ type: "SORT", key: "isRented" })
                       }
                       className="cursor-pointer"
                     >
-                      Tenant {renderSortIcon("isRented")}
+                      Leietaker {renderSortIcon("isRented")}
                     </TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Slett</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -469,10 +660,12 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                           }
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Select tenant" />
+                            <SelectValue placeholder="Velg leietaker" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="none">No tenant</SelectItem>
+                            <SelectItem value="none">
+                              Ingen leietaker
+                            </SelectItem>
                             {state.tenants.map((tenant) => (
                               <SelectItem key={tenant} value={tenant}>
                                 {tenant}
@@ -488,7 +681,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                             className="flex items-center gap-1 bg-green-100 text-green-800"
                           >
                             <CheckCircle2 className="h-4 w-4" />
-                            Rented
+                            Utleid
                           </Badge>
                         ) : (
                           <Badge
@@ -496,9 +689,23 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
                             className="flex items-center gap-1"
                           >
                             <XCircle className="h-4 w-4" />
-                            Available
+                            Ledig
                           </Badge>
                         )}
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              onClick={() => handleQuickDelete(office.id)}
+                              variant="ghost"
+                              size="icon"
+                            >
+                              <MinusCircle className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Slett kontor</TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -509,13 +716,14 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
               {areaDiscrepancy !== 0 && (
                 <Alert variant="destructive">
                   <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Area Discrepancy</AlertTitle>
+                  <AlertTitle>Arealavvik</AlertTitle>
                   <AlertDescription>
-                    The total area of offices ({totalOfficeArea} sqm) does not
-                    match the total floor area ({floor.maxTotalKvm} sqm).
+                    Det totale arealet av kontorer ({totalOfficeArea} kvm)
+                    samsvarer ikke med det totale etasjearealet (
+                    {floor.maxTotalKvm} kvm).
                     {areaDiscrepancy > 0
-                      ? ` There is ${areaDiscrepancy} sqm unallocated area.`
-                      : ` The offices exceed the floor area by ${Math.abs(areaDiscrepancy)} sqm.`}
+                      ? ` Det er ${areaDiscrepancy} kvm uallokert areal.`
+                      : ` Kontorene overstiger etasjearealet med ${Math.abs(areaDiscrepancy)} kvm.`}
                   </AlertDescription>
                 </Alert>
               )}
@@ -526,7 +734,7 @@ export default function FloorsTable2({ floors }: FloorsTable2Props) {
       <div className="flex justify-center">
         <Button onClick={handleAddFloor} size="lg">
           <PlusCircle className="mr-2 h-5 w-5" />
-          Add floor
+          Legg til etasje
         </Button>
       </div>
     </div>
