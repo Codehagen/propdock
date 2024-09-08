@@ -79,7 +79,6 @@ export const contractTemplate = `
 <p>_________________________					______________________</p>
 <p>[Utleiers repr.]								[Leietakers repr.]</p>
 `
-// prettier-ignore
 export const generateContractContent = (tenantDetails: any) => {
   let content = contractTemplate
 

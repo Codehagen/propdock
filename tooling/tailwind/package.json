@@ -9,11 +9,11 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
+    "format": "biome format . --write",
+    "lint": "biome format ./src --write",
+    "check": "biome check ./src --write",
     "typecheck": "tsc --noEmit"
   },
-  "prettier": "@propdock/prettier-config",
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "postcss": "^8.4.38",
@@ -21,11 +21,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@propdock/eslint-config": "workspace:*",
-    "@propdock/prettier-config": "workspace:*",
     "@propdock/tsconfig": "workspace:*",
-    "eslint": "^9.0.0",
-    "prettier": "^3.2.5",
     "typescript": "^5.4.5"
   }
 }

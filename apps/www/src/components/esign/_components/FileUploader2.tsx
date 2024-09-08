@@ -188,6 +188,7 @@ export function FileUploader2(props: FileUploaderProps) {
   }
 
   // Revoke preview url when component unmounts
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   React.useEffect(() => {
     return () => {
       if (!files) return
@@ -197,7 +198,6 @@ export function FileUploader2(props: FileUploaderProps) {
         }
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const isDisabled = disabled || (files?.length ?? 0) >= maxFileCount

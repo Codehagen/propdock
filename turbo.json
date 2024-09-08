@@ -27,12 +27,16 @@
 			"cache": false
 		},
 		"format": {
-			"outputs": ["node_modules/.cache/.prettiercache"],
+			"outputs": ["node_modules/.cache/.formatcache"],
 			"outputMode": "new-only"
 		},
 		"lint": {
 			"dependsOn": ["^topo"],
-			"outputs": ["node_modules/.cache/.eslintcache"]
+			"outputs": ["node_modules/.cache/.lintcache"]
+		},
+		"check": {
+			"dependsOn": ["^topo"],
+			"outputs": ["node_modules/.cache/.checkcache"]
 		},
 		"typecheck": {
 			"dependsOn": ["^topo"],

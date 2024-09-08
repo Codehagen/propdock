@@ -13,11 +13,11 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint ./src",
+    "format": "biome format . --write",
+    "lint": "biome format ./src --write",
+    "check": "biome check ./src --write",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
-  "prettier": "@propdock/prettier-config",
   "dependencies": {
     "@radix-ui/react-accessible-icon": "^1.0.3",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -61,8 +61,6 @@
     "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
-    "@propdock/eslint-config": "workspace:*",
-    "@propdock/prettier-config": "workspace:*",
     "@propdock/tailwind-config": "workspace:*",
     "@propdock/tsconfig": "workspace:*",
     "react": "18.2.0"

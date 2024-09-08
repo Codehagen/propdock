@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { z } from "zod"
 
 export const zEnv = z.object({
