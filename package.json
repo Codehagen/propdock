@@ -14,7 +14,7 @@
     "db:migrate:dev": "pnpm -F db db:migrate:dev",
     "db:studio": "pnpm -F db db:studio",
     "dev": "turbo dev --parallel",
-    "postinstall": "pnpm lint:ws",
+    "postinstall": "pnpm sort-packages && pnpm lint:ws",
     "format": "biome format .",
     "format:fix": "biome format . --write",
     "lint": "biome lint .",
@@ -22,12 +22,14 @@
     "check": "biome check .",
     "check:fix": "biome check . --write",
     "lint:ws": "pnpm dlx sherif@latest",
+    "sort-packages": "sort-package-json \"**/package.json\"",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
     "husky": "^8.0.3",
+    "sort-package-json": "^2.10.1",
     "turbo": "^1.13.2",
     "typescript": "^5.4.5"
   },
