@@ -41,8 +41,9 @@ export default async function BuildingPage({ params }) {
     }
 
     // Fetch tenants for the workspace
-    const workspaceId = buildingDetails.workspaceId // Assuming this is available in buildingDetails
+    const workspaceId = buildingDetails.workspaceId
     const { success, tenants } = await getWorkspaceTenants(workspaceId)
+    console.log("tenants", tenants)
 
     if (!success) {
       console.error("Failed to fetch tenants")

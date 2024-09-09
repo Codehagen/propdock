@@ -298,6 +298,14 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
           field: field as keyof OfficeSpace,
           value: result.office[field as keyof OfficeSpace],
         })
+        // Also update the isRented status
+        dispatch({
+          type: "UPDATE_OFFICE",
+          floorId,
+          officeId,
+          field: "isRented",
+          value: result.office.isRented,
+        })
         toast.success("Kontorlokale oppdatert.")
       } else {
         throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
