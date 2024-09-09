@@ -1,6 +1,4 @@
-import * as React from "react"
-import Link from "next/link"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { Button, buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -8,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -18,7 +16,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
+import Link from "next/link";
+import * as React from "react";
 
 const properties = [
   {
@@ -56,7 +56,7 @@ const properties = [
     expenses: "kr 3.500,00",
     noi: "kr 10.500,00",
   },
-]
+];
 
 export default function DashboardTableBestProperties() {
   return (
@@ -97,8 +97,10 @@ export default function DashboardTableBestProperties() {
               <TableCell className="text-right">
                 {properties
                   .reduce((total, property) => {
-                    const noi = parseFloat(property.noi.replace(/[\s,kr]/g, ""))
-                    return total + noi
+                    const noi = Number.parseFloat(
+                      property.noi.replace(/[\s,kr]/g, ""),
+                    );
+                    return total + noi;
                   }, 0)
                   .toLocaleString("no-NO", {
                     style: "currency",
@@ -118,5 +120,5 @@ export default function DashboardTableBestProperties() {
         </Link>
       </CardFooter>
     </Card>
-  )
+  );
 }

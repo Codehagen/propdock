@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import React from "react"
-import { useRouter } from "next/navigation"
-import { createContract } from "@/actions/create-contract"
-import { Button } from "@propdock/ui/components/button"
-import { toast } from "sonner"
+import { createContract } from "@/actions/create-contract";
+import { Button } from "@propdock/ui/components/button";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { toast } from "sonner";
 
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 interface ContractCheckProps {
-  tenantDetails: any // Update this type to match your tenant details structure
-  onContractCreated?: () => void
+  tenantDetails: any; // Update this type to match your tenant details structure
+  onContractCreated?: () => void;
 }
 
 export function ContractCheck({
   tenantDetails,
   onContractCreated,
 }: ContractCheckProps) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleCreateContract = async () => {
     try {
@@ -56,23 +56,23 @@ export function ContractCheck({
         currency: "NOK", // Default to NOK
         currencyIso: "NOK", // Default to NOK
         isContinuousRent: false,
-      }
+      };
 
-      const result = await createContract(contractData)
+      const result = await createContract(contractData);
       if (result.success) {
-        toast.success("Ny kontrakt opprettet")
+        toast.success("Ny kontrakt opprettet");
         if (onContractCreated) {
-          onContractCreated()
+          onContractCreated();
         }
-        router.refresh()
+        router.refresh();
       } else {
-        throw new Error(result.error || "Failed to create contract.")
+        throw new Error(result.error || "Failed to create contract.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     }
-  }
+  };
 
   return (
     <EmptyPlaceholder>
@@ -84,5 +84,5 @@ export function ContractCheck({
       </EmptyPlaceholder.Description>
       <Button onClick={handleCreateContract}>Opprett ny kontrakt</Button>
     </EmptyPlaceholder>
-  )
+  );
 }

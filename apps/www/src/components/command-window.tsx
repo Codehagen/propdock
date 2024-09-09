@@ -1,7 +1,5 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,21 +7,23 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
+} from "@propdock/ui/components/command";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function GlobalSearch() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -49,5 +49,5 @@ export default function GlobalSearch() {
         </CommandGroup>
       </CommandList>
     </CommandDialog>
-  )
+  );
 }

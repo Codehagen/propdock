@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation"
-import { getWsApiKeys } from "@/actions/get-ws-api-keys"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { getWsApiKeys } from "@/actions/get-ws-api-keys";
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -17,27 +16,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
-import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react"
-import { getServerSession } from "next-auth"
+} from "@propdock/ui/components/table";
+import { ChevronDownIcon, PackageIcon, XIcon } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
-import ConnectorButton from "./_components/ConnectorButton"
+import ConnectorButton from "./_components/ConnectorButton";
 
 export const metadata = {
   title: "Settings",
   description: "Manage account and website settings.",
-}
+};
 
 export default async function ImportPage() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   const user = await prisma.user.findUnique({
@@ -45,13 +45,13 @@ export default async function ImportPage() {
     select: {
       workspaceId: true,
     },
-  })
+  });
 
   if (!user?.workspaceId) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
-  const { apiKeys } = await getWsApiKeys(user.workspaceId)
+  const { apiKeys } = await getWsApiKeys(user.workspaceId);
 
   // List of all connectors with their default status
   const connectors = [
@@ -59,17 +59,17 @@ export default async function ImportPage() {
     { name: "Fiken", provider: "fiken", status: "Disconnected" },
     { name: "Tripletex", provider: "tripletex", status: "Disconnected" },
     { name: "X-ledger", provider: "x-ledger", status: "Disconnected" },
-  ]
+  ];
 
   // Update the status of the connectors based on the fetched API keys
   apiKeys.forEach((key) => {
     const connector = connectors.find(
       (c) => c.provider.toLowerCase() === key.serviceName.toLowerCase(),
-    )
+    );
     if (connector) {
-      connector.status = key.isActive ? "Connected" : "Disconnected"
+      connector.status = key.isActive ? "Connected" : "Disconnected";
     }
-  })
+  });
 
   return (
     <DashboardShell>
@@ -80,7 +80,7 @@ export default async function ImportPage() {
       <div className="grid gap-10">
         <div className="flex h-full flex-col">
           <header className="flex items-center justify-between border-b bg-background px-6 py-4">
-            <h1 className="text-2xl font-bold">API Connectors</h1>
+            <h1 className="font-bold text-2xl">API Connectors</h1>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
@@ -152,5 +152,5 @@ export default async function ImportPage() {
         </div>
       </div>
     </DashboardShell>
-  )
+  );
 }

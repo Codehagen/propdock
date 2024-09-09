@@ -3,15 +3,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { format } from "date-fns"
+} from "@propdock/ui/components/card";
+import { format } from "date-fns";
 
 export default function DashboardCardsTop({ dashboardData }) {
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="font-medium text-sm">
             Total verdi portefølje
           </CardTitle>
           <svg
@@ -30,20 +30,20 @@ export default function DashboardCardsTop({ dashboardData }) {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-xl font-bold">
+          <div className="font-bold text-xl">
             {new Intl.NumberFormat("no-NO", {
               style: "currency",
               currency: "NOK",
             }).format(dashboardData.totalValue)}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Totale verdi av porteføljen
           </p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Inntekt</CardTitle>
+          <CardTitle className="font-medium text-sm">Inntekt</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -58,19 +58,19 @@ export default function DashboardCardsTop({ dashboardData }) {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-xl font-bold">
+          <div className="font-bold text-xl">
             {new Intl.NumberFormat("no-NO", {
               style: "currency",
               currency: "NOK",
             }).format(dashboardData.totalIncome)}
           </div>
-          <p className="text-xs text-muted-foreground">Stipulert inntekt</p>
+          <p className="text-muted-foreground text-xs">Stipulert inntekt</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Utleide enheter</CardTitle>
+          <CardTitle className="font-medium text-sm">Utleide enheter</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -86,21 +86,21 @@ export default function DashboardCardsTop({ dashboardData }) {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
+          <div className="font-bold text-2xl">
             {(
               (dashboardData.rentedUnits / dashboardData.totalUnits) *
               100
             ).toFixed(1)}
             %
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             {dashboardData.rentedUnits} av {dashboardData.totalUnits} enheter
           </p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="font-medium text-sm">
             Leiekontrakter som utgår
           </CardTitle>
           <svg
@@ -117,14 +117,14 @@ export default function DashboardCardsTop({ dashboardData }) {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
+          <div className="font-bold text-2xl">
             {dashboardData.expiringContracts}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Leiekontrakter som går ut innen 6 måneder
           </p>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -1,7 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   ChevronLeft,
   Home,
@@ -15,15 +13,17 @@ import {
   ShoppingCart,
   Upload,
   Users2,
-} from "lucide-react"
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import UserChangeStatusCard from "./UserChangeStatusCard"
-import { UserChartActivity } from "./UserChartActivity"
-import UserContactPerson from "./UserContactPerson"
-import UserEmailCard from "./UserEmailCard"
-import { UserGridActivity } from "./UserGridActivity"
-import { UserFinancialCard } from "./UserPowerCard"
-import UsersDashboardTable from "./UsersDashboardTable"
+import UserChangeStatusCard from "./UserChangeStatusCard";
+import { UserChartActivity } from "./UserChartActivity";
+import UserContactPerson from "./UserContactPerson";
+import UserEmailCard from "./UserEmailCard";
+import { UserGridActivity } from "./UserGridActivity";
+import { UserFinancialCard } from "./UserPowerCard";
+import UsersDashboardTable from "./UsersDashboardTable";
 
 export function UserMainSection({ tenantDetails }) {
   return (
@@ -43,5 +43,5 @@ export function UserMainSection({ tenantDetails }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

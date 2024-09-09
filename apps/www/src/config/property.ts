@@ -1,4 +1,4 @@
-import { PropertyConfig } from "@/types";
+import type { PropertyConfig } from "@/types";
 
 export const propertyConfig: PropertyConfig = {
   mainNav: [
@@ -24,7 +24,7 @@ export const propertyConfig: PropertyConfig = {
     },
     {
       title: "Pictures",
-      href: `/pictures`,
+      href: "/pictures",
       icon: "media",
     },
     {

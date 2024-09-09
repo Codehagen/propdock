@@ -1,25 +1,26 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@propdock/ui/components/context-menu"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/context-menu";
+import { Input } from "@propdock/ui/components/input";
+import type React from "react";
+import { useState } from "react";
 
-import { FileTreeProvider, useFileTree } from "./FileTreeContext"
+import { FileTreeProvider, useFileTree } from "./FileTreeContext";
 import {
   CollapseButton,
   File,
   Folder,
   Tree,
-  TreeViewElement,
-} from "./tree-view-api"
+  type TreeViewElement,
+} from "./tree-view-api";
 
 const TOC = () => {
-  const { fileTreeData } = useFileTree()
+  const { fileTreeData } = useFileTree();
 
   return (
     <Tree
@@ -30,23 +31,23 @@ const TOC = () => {
       <TreeItem elements={fileTreeData} />
       <CollapseButton elements={fileTreeData} />
     </Tree>
-  )
-}
+  );
+};
 
 const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
-  const { deleteItem, renameItem } = useFileTree()
-  const [isRenaming, setIsRenaming] = useState<string | null>(null)
-  const [newName, setNewName] = useState("")
+  const { deleteItem, renameItem } = useFileTree();
+  const [isRenaming, setIsRenaming] = useState<string | null>(null);
+  const [newName, setNewName] = useState("");
 
   const handleRename = (id: string) => {
-    setIsRenaming(id)
-    setNewName(elements.find((e) => e.id === id)?.name || "")
-  }
+    setIsRenaming(id);
+    setNewName(elements.find((e) => e.id === id)?.name || "");
+  };
 
   const submitRename = (id: string) => {
-    renameItem(id, newName)
-    setIsRenaming(null)
-  }
+    renameItem(id, newName);
+    setIsRenaming(null);
+  };
 
   return (
     <>
@@ -86,15 +87,15 @@ const TreeItem: React.FC<{ elements: TreeViewElement[] }> = ({ elements }) => {
         </ContextMenu>
       ))}
     </>
-  )
-}
+  );
+};
 
 const TOCWrapper = () => {
   return (
     <FileTreeProvider>
       <TOC />
     </FileTreeProvider>
-  )
-}
+  );
+};
 
-export default TOCWrapper
+export default TOCWrapper;

@@ -1,15 +1,15 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function createContract(contractData) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
@@ -25,11 +25,11 @@ export async function createContract(contractData) {
       select: {
         id: true,
       },
-    })
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return { success: false, error: "No workspace found" }
+      console.error("No workspace found for this user.");
+      return { success: false, error: "No workspace found" };
     }
 
     // Create a new contract
@@ -75,15 +75,15 @@ export async function createContract(contractData) {
         collateral: contractData.collateral,
         isContinuousRent: contractData.isContinuousRent || false,
       },
-    })
+    });
 
     console.log(
       `Created contract with ID: ${newContract.id} for workspace ID: ${userWorkspace.id}.`,
-    )
+    );
 
-    return { success: true, contract: newContract }
+    return { success: true, contract: newContract };
   } catch (error) {
-    console.error(`Error creating contract for user ID: ${userId}`, error)
-    return { success: false, error: error.message }
+    console.error(`Error creating contract for user ID: ${userId}`, error);
+    return { success: false, error: error.message };
   }
 }

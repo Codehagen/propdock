@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createEvent } from "@/actions/Dingify/create-event" // Import the createEvent action
-import { getUserData } from "@/actions/Dingify/get-user-details"
-import { Button } from "@propdock/ui/components/button"
+import { createEvent } from "@/actions/Dingify/create-event"; // Import the createEvent action
+import { getUserData } from "@/actions/Dingify/get-user-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,68 +11,69 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { CopyIcon } from "@radix-ui/react-icons"
-import { CopyToClipboard } from "react-copy-to-clipboard"
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
-import json from "react-syntax-highlighter/dist/esm/languages/hljs/json"
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs"
-import { toast } from "sonner" // Import toast from sonner
+} from "@propdock/ui/components/dialog";
+import { CopyIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import json from "react-syntax-highlighter/dist/esm/languages/hljs/json";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { toast } from "sonner"; // Import toast from sonner
 
-import { Confetti } from "../ui/confetti"
+import { Confetti } from "../ui/confetti";
 
-SyntaxHighlighter.registerLanguage("json", json)
+SyntaxHighlighter.registerLanguage("json", json);
 
 const handleClick = () => {
-  const duration = 2.5 * 1000
-  const animationEnd = Date.now() + duration
-  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+  const duration = 2.5 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-  const randomInRange = (min, max) => Math.random() * (max - min) + min
+  const randomInRange = (min, max) => Math.random() * (max - min) + min;
 
   const interval = window.setInterval(() => {
-    const timeLeft = animationEnd - Date.now()
+    const timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
-      return clearInterval(interval)
+      return clearInterval(interval);
     }
 
-    const particleCount = 50 * (timeLeft / duration)
+    const particleCount = 50 * (timeLeft / duration);
     Confetti({
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-    })
+    });
     Confetti({
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-    })
-  }, 250)
-}
+    });
+  }, 250);
+};
 
 export function CreateEventButton() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const [apiKey, setApiKey] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const data = await getUserData()
-        setApiKey(data.apiKey as string)
+        const data = await getUserData();
+        setApiKey(data.apiKey as string);
       } catch (error) {
-        console.error("Failed to fetch user data", error)
+        console.error("Failed to fetch user data", error);
       }
     }
 
-    fetchUserData()
-  }, [])
+    fetchUserData();
+  }, []);
 
   const handleButtonClick = async (event) => {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
 
     // Hardcoded event data for now; modify this to collect data from a form if needed
     const eventData = {
@@ -82,23 +82,23 @@ export function CreateEventButton() {
       user_id: "user-123",
       icon: "🤩",
       notify: true,
-    }
+    };
 
     try {
-      await createEvent(eventData) // Call the createEvent action with event data
-      handleClick()
-      setIsOpen(false) // Close the dialog after the event is created
+      await createEvent(eventData); // Call the createEvent action with event data
+      handleClick();
+      setIsOpen(false); // Close the dialog after the event is created
     } catch (error) {
-      console.error("Error creating event", error)
+      console.error("Error creating event", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleCopy = () => {
-    setCopied(true)
-    toast.success("cURL command copied to clipboard.")
-  }
+    setCopied(true);
+    toast.success("cURL command copied to clipboard.");
+  };
 
   const curlCommand = `
   curl -X POST https://api.dingify.workers.dev/api/events \\
@@ -115,7 +115,7 @@ export function CreateEventButton() {
       "cycle": "monthly"
     }
   }'
-  `
+  `;
 
   return (
     <>
@@ -140,7 +140,7 @@ export function CreateEventButton() {
               {curlCommand}
             </SyntaxHighlighter>
             <CopyToClipboard text={curlCommand} onCopy={handleCopy}>
-              <Button variant="outline" className="absolute right-2 top-2">
+              <Button variant="outline" className="absolute top-2 right-2">
                 <CopyIcon className="h-4 w-4" />
               </Button>
             </CopyToClipboard>
@@ -159,5 +159,5 @@ export function CreateEventButton() {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

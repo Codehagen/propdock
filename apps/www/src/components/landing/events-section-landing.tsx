@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -9,20 +8,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
-import { ArrowRightIcon } from "@radix-ui/react-icons"
-import { useInView } from "framer-motion"
-import { FileInputIcon } from "lucide-react"
+} from "@propdock/ui/components/command";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { useInView } from "framer-motion";
+import { FileInputIcon } from "lucide-react";
+import { useRef } from "react";
 
-import { BentoCard } from "../ui/bento-grid"
+import { BentoCard } from "../ui/bento-grid";
 
 export default function EventsSectionLanding() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-100px" })
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8">
-      <h2 className="translate-y-[-1rem] animate-fade-in text-balance bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent opacity-0 [--animation-delay:200ms] dark:from-white dark:to-white/40 sm:text-6xl md:text-7xl lg:text-8xl">
+      <h2 className="translate-y-[-1rem] animate-fade-in text-balance bg-gradient-to-br from-30% from-black to-black/40 bg-clip-text py-6 font-medium text-5xl text-transparent leading-none tracking-tighter opacity-0 [--animation-delay:200ms] sm:text-6xl md:text-7xl lg:text-8xl dark:from-white dark:to-white/40">
         Informasjonen du trenger
         <br className="hidden md:block" /> når du trenger den
       </h2>
@@ -38,7 +38,7 @@ export default function EventsSectionLanding() {
           href="/"
           cta="Learn more"
           background={
-            <Command className="absolute right-10 top-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
+            <Command className="group-hover:-translate-x-10 absolute top-10 right-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)]">
               <CommandInput placeholder="Type a command or search..." />
               <CommandList>
                 <CommandEmpty>Ingen resultat.</CommandEmpty>
@@ -55,11 +55,11 @@ export default function EventsSectionLanding() {
           }
         />
       </div>
-      <p className="mb-12 mt-12 translate-y-[-1rem] animate-fade-in text-balance text-lg tracking-tight text-gray-400 opacity-0 [--animation-delay:400ms] md:text-xl">
+      <p className="mt-12 mb-12 translate-y-[-1rem] animate-fade-in text-balance text-gray-400 text-lg tracking-tight opacity-0 [--animation-delay:400ms] md:text-xl">
         Unlock the power of Propdock
         <br className="hidden md:block" /> All informasjonen du trenger på en
         plass
       </p>
     </section>
-  )
+  );
 }

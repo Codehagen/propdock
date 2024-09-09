@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import type { ColumnDef } from "@tanstack/react-table"
-import Link from "next/link"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,16 +10,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+} from "@propdock/ui/components/dropdown-menu";
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 
-import { propertyLabels, propertyStatuses } from "./propertystatus"
+import { propertyLabels, propertyStatuses } from "./propertystatus";
 
 export interface Property {
-  id: string
-  name: string
-  label?: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY"
-  createdAt?: Date
+  id: string;
+  name: string;
+  label?: "APARTMENT" | "HOUSE" | "CABIN" | "PROPERTY";
+  createdAt?: Date;
 }
 
 export const PropertyColumns: ColumnDef<Property>[] = [
@@ -39,7 +39,7 @@ export const PropertyColumns: ColumnDef<Property>[] = [
     cell: ({ row }) => {
       const propertyLabel = propertyLabels.find(
         (label) => label.value === row.original.label,
-      )
+      );
 
       return (
         <div className="flex w-full space-x-2 md:w-[500px]">
@@ -48,13 +48,13 @@ export const PropertyColumns: ColumnDef<Property>[] = [
             <span className="truncate font-medium">{row.original.name}</span>
           </Link>
         </div>
-      )
+      );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const name = row.original.name
+      const name = row.original.name;
 
       return (
         <div className="hidden md:block">
@@ -83,7 +83,7 @@ export const PropertyColumns: ColumnDef<Property>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      )
+      );
     },
   },
-]
+];

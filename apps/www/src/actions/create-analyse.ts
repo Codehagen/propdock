@@ -1,27 +1,27 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function createAnalysis(analysisData: { name: string }) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
     const workspace = await prisma.workspace.findFirst({
       where: { users: { some: { id: userId } } },
       select: { id: true },
-    })
+    });
 
     if (!workspace) {
-      throw new Error("No workspace found for this user")
+      throw new Error("No workspace found for this user");
     }
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
@@ -86,15 +86,15 @@ export async function createAnalysis(analysisData: { name: string }) {
           ],
         },
       },
-    })
+    });
 
-    console.log(`Created analysis with ID: ${newAnalysis.id}.`)
+    console.log(`Created analysis with ID: ${newAnalysis.id}.`);
 
-    revalidatePath("/analytics")
+    revalidatePath("/analytics");
 
-    return { success: true, analysis: newAnalysis }
+    return { success: true, analysis: newAnalysis };
   } catch (error) {
-    console.error(`Error creating analysis for user ID: ${userId}`, error)
-    return { success: false, error: error.message }
+    console.error(`Error creating analysis for user ID: ${userId}`, error);
+    return { success: false, error: error.message };
   }
 }

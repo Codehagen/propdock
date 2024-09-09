@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
@@ -11,13 +10,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Progress } from "@propdock/ui/components/progress"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { Pencil, SendIcon, Trash2 } from "lucide-react"
-import { useFieldArray, useForm } from "react-hook-form"
-import * as z from "zod"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Progress } from "@propdock/ui/components/progress";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { Pencil, SendIcon, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Tittel er påkrevd" }),
@@ -32,9 +32,9 @@ const formSchema = z.object({
     )
     .min(1, { message: "Minst én signerer er påkrevd" }),
   // Legg til flere felter etter behov
-})
+});
 
-const TOTAL_STEPS = 3
+const TOTAL_STEPS = 3;
 
 const stepContent = {
   1: {
@@ -49,14 +49,14 @@ const stepContent = {
     title: "Gjennomgang",
     description: "Gjennomgå og bekreft all informasjon før innsending.",
   },
-}
+};
 
 export function ESignGeneralForm({
   onFormSubmit,
 }: {
-  onFormSubmit: (data: z.infer<typeof formSchema>) => void
+  onFormSubmit: (data: z.infer<typeof formSchema>) => void;
 }) {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,42 +66,42 @@ export function ESignGeneralForm({
       signers: [{ name: "", mobile: "", email: "" }],
     },
     mode: "onChange",
-  })
+  });
 
   const { fields, append, remove } = useFieldArray({
     name: "signers",
     control: form.control,
-  })
+  });
 
   // Funksjon for å legge til deg selv som signerer
   function addMyself() {
     // Du ville vanligvis hente denne informasjonen fra en bruker-kontekst eller tilstand
-    const myEmail = "christer.hagen@dingify.com"
-    const myName = "Christer Hagen"
-    const myMobile = "98453571" // Add your default mobile number here
-    append({ name: myName, mobile: myMobile, email: myEmail })
+    const myEmail = "christer.hagen@dingify.com";
+    const myName = "Christer Hagen";
+    const myMobile = "98453571"; // Add your default mobile number here
+    append({ name: myName, mobile: myMobile, email: myEmail });
   }
 
   async function onContinue() {
-    const fields = step === 1 ? ["title"] : step === 2 ? ["signers"] : []
-    const isStepValid = await form.trigger(fields as any)
+    const fields = step === 1 ? ["title"] : step === 2 ? ["signers"] : [];
+    const isStepValid = await form.trigger(fields as any);
     if (isStepValid) {
-      setStep(Math.min(TOTAL_STEPS, step + 1))
+      setStep(Math.min(TOTAL_STEPS, step + 1));
     }
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onFormSubmit(values) // Pass the form data to the parent component
+    onFormSubmit(values); // Pass the form data to the parent component
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold leading-none tracking-tight">
+          <h3 className="font-semibold text-lg leading-none tracking-tight">
             {stepContent[step].title}
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {stepContent[step].description}
           </p>
         </div>
@@ -255,7 +255,7 @@ export function ESignGeneralForm({
         )}
 
         <div className="space-y-2">
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             Steg {step} av {TOTAL_STEPS}
           </div>
           <Progress value={(step / TOTAL_STEPS) * 100} className="w-full" />
@@ -283,5 +283,5 @@ export function ESignGeneralForm({
         </div>
       </form>
     </Form>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import { Button } from "@propdock/ui/components/button"
-import { Card, CardContent, CardHeader } from "@propdock/ui/components/card"
-import { Skeleton } from "@propdock/ui/components/skeleton"
+import { Button } from "@propdock/ui/components/button";
+import { Card, CardContent, CardHeader } from "@propdock/ui/components/card";
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
 
 export default function TenantDetailsLoading() {
   return (
@@ -107,5 +107,5 @@ export default function TenantDetailsLoading() {
         </div>
       </div>
     </DashboardShell>
-  )
+  );
 }

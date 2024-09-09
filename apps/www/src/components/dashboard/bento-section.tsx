@@ -1,6 +1,7 @@
 "use client";
 
-import React, { forwardRef, useRef } from "react";
+import type React from "react";
+import { forwardRef, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -37,11 +38,11 @@ export function BentoSection() {
             Pricing
           </h4> */}
 
-          <h2 className="text-5xl font-bold tracking-tight text-black dark:text-white sm:text-6xl">
+          <h2 className="font-bold text-5xl text-black tracking-tight sm:text-6xl dark:text-white">
             Easy to integrate
           </h2>
 
-          <p className="mt-6 text-xl leading-8 text-black/80 dark:text-white">
+          <p className="mt-6 text-black/80 text-xl leading-8 dark:text-white">
             Choose an <strong>affordable plan</strong> that&apos;s packed with
             the best features for engaging your audience, creating customer
             loyalty, and driving sales.
@@ -49,7 +50,7 @@ export function BentoSection() {
         </div>
       </div>
 
-      <div className="container mb-14 mt-8 flex items-center justify-center px-4 md:px-6">
+      <div className="container mt-8 mb-14 flex items-center justify-center px-4 md:px-6">
         {" "}
         {/* Reduced margins */}
         <div

@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,30 +16,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
 import {
   ChevronDownIcon,
   CircleIcon,
   PlusIcon,
   StarIcon,
-} from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { BellIcon, BellOffIcon, Tag, TrashIcon } from "lucide-react"
-import { toast } from "sonner"
+} from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { BellIcon, BellOffIcon, Tag, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function ChannelCard({ channelDetails }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDelete = async (eventId) => {
     try {
-      toast.success("The event has been deleted successfully.")
-      router.refresh()
+      toast.success("The event has been deleted successfully.");
+      router.refresh();
     } catch (error) {
-      toast.error("There was an error deleting the event.")
-      console.error("Error deleting event:", error)
+      toast.error("There was an error deleting the event.");
+      console.error("Error deleting event:", error);
     }
-  }
+  };
 
   return (
     <div>
@@ -90,7 +90,7 @@ export function ChannelCard({ channelDetails }) {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex space-x-4 text-sm text-muted-foreground">
+            <div className="flex space-x-4 text-muted-foreground text-sm">
               <div className="flex items-center">
                 <Tag className="mr-1 h-3 w-3 " />
                 Placeholder
@@ -105,5 +105,5 @@ export function ChannelCard({ channelDetails }) {
         </Card>
       ))}
     </div>
-  )
+  );
 }

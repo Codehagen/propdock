@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 
 interface EmailButtonProps {
-  email: string
-  subject: string
-  body: string
+  email: string;
+  subject: string;
+  body: string;
 }
 
 const EmailButton: React.FC<EmailButtonProps> = ({ email, subject, body }) => {
   const handleClick = () => {
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    window.location.href = mailtoLink
-  }
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <Button size="sm" variant="secondary" onClick={handleClick}>
       Send Email
     </Button>
-  )
-}
+  );
+};
 
-export default EmailButton
+export default EmailButton;

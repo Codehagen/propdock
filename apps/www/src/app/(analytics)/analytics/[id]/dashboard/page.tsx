@@ -1,22 +1,22 @@
-import { getAnalysisDetails } from "@/actions/get-analysis-details"
+import { getAnalysisDetails } from "@/actions/get-analysis-details";
 
-import { AnalystDashboardCard } from "@/components/analyse/AnalystDashboardCard"
-import { SensitivityAnalysisTable } from "@/components/analyse/SensitivityAnalysisTable"
-import TenantTableAnalysis from "@/components/analyse/TenantTableAnalysis"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { AnalystDashboardCard } from "@/components/analyse/AnalystDashboardCard";
+import { SensitivityAnalysisTable } from "@/components/analyse/SensitivityAnalysisTable";
+import TenantTableAnalysis from "@/components/analyse/TenantTableAnalysis";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
 
 export default async function DashboardAnalysisPage({
   params,
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const analysisId = params.id
+  const analysisId = params.id;
 
   try {
     const { success, analysisDetails, error } =
-      await getAnalysisDetails(analysisId)
-    console.log(analysisDetails)
+      await getAnalysisDetails(analysisId);
+    console.log(analysisDetails);
 
     if (!success || !analysisDetails) {
       return (
@@ -26,7 +26,7 @@ export default async function DashboardAnalysisPage({
             text="We couldn't find the analysis you're looking for."
           />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -34,17 +34,17 @@ export default async function DashboardAnalysisPage({
         <DashboardHeader
           heading={`Dashboard for ${analysisDetails.name}`}
           text="Nøkkeltall for analysen."
-        ></DashboardHeader>
+        />
         <div>
           <AnalystDashboardCard analysisDetails={analysisDetails} />
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

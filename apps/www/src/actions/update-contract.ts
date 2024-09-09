@@ -1,15 +1,15 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function updateContract(contractId, updateData) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
@@ -18,13 +18,13 @@ export async function updateContract(contractId, updateData) {
       data: {
         ...updateData,
       },
-    })
+    });
 
-    console.log(`Updated contract with ID: ${updatedContract.id}.`)
+    console.log(`Updated contract with ID: ${updatedContract.id}.`);
 
-    return { success: true, contract: updatedContract }
+    return { success: true, contract: updatedContract };
   } catch (error) {
-    console.error(`Error updating contract for user ID: ${userId}`, error)
-    return { success: false, error: error.message }
+    console.error(`Error updating contract for user ID: ${userId}`, error);
+    return { success: false, error: error.message };
   }
 }

@@ -1,8 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
 import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
 import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
 import { DashboardHeader } from "@/components/dashboard/header";
@@ -10,6 +7,9 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 import { PropertyColumns } from "@/components/table/dashboard/columns";
 import { DataTable } from "@/components/table/dashboard/data-table";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Dingify Dashboard - Your Alerts Overview",

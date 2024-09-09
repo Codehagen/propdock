@@ -1,17 +1,17 @@
-"use server"
+"use server";
 
-import axios from "axios"
+import axios from "axios";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function createSmsTenant(tenantId, message) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
@@ -19,15 +19,15 @@ export async function createSmsTenant(tenantId, message) {
     const currentUser = await prisma.user.findUnique({
       where: { id: userId },
       select: { phone: true },
-    })
+    });
 
-    console.log("Current user:", currentUser)
+    console.log("Current user:", currentUser);
 
     if (!currentUser?.phone) {
-      throw new Error("Current user does not have a phone number")
+      throw new Error("Current user does not have a phone number");
     }
 
-    const originator = `47${currentUser.phone}`
+    const originator = `47${currentUser.phone}`;
 
     // Fetch tenant details to get contact phone number
     const tenant = await prisma.tenant.findUnique({
@@ -35,17 +35,17 @@ export async function createSmsTenant(tenantId, message) {
       include: {
         contacts: true,
       },
-    })
+    });
 
-    console.log("Tenant details:", tenant)
+    console.log("Tenant details:", tenant);
 
     if (!tenant || tenant.contacts.length === 0) {
-      throw new Error("No contact person found for this tenant")
+      throw new Error("No contact person found for this tenant");
     }
 
-    const contactPhone = `47${tenant.contacts[0]?.phone}`
+    const contactPhone = `47${tenant.contacts[0]?.phone}`;
     if (!contactPhone) {
-      throw new Error("Contact person does not have a phone number")
+      throw new Error("Contact person does not have a phone number");
     }
 
     const payload = {
@@ -55,14 +55,14 @@ export async function createSmsTenant(tenantId, message) {
       messages: [
         {
           originator: originator,
-          msisdn: parseInt(contactPhone, 10),
+          msisdn: Number.parseInt(contactPhone, 10),
           message: message,
           dlrurl: "dlrtest.php",
         },
       ],
-    }
+    };
 
-    console.log("Payload to be sent:", payload)
+    console.log("Payload to be sent:", payload);
 
     const response = await axios.post(
       "https://api.eurobate.com/json_api.php",
@@ -72,18 +72,17 @@ export async function createSmsTenant(tenantId, message) {
           "Content-Type": "application/json",
         },
       },
-    )
+    );
 
-    console.log("Response from SMS API:", response.data)
+    console.log("Response from SMS API:", response.data);
 
     if (response.data && response.data.error === 0) {
-      console.log(`SMS sent to ${contactPhone}: ${message}`)
-      return { success: true }
-    } else {
-      throw new Error(response.data.REASON || "Failed to send SMS")
+      console.log(`SMS sent to ${contactPhone}: ${message}`);
+      return { success: true };
     }
+    throw new Error(response.data.REASON || "Failed to send SMS");
   } catch (error) {
-    console.error("Error sending SMS:", error)
-    return { success: false, error: error.message }
+    console.error("Error sending SMS:", error);
+    return { success: false, error: error.message };
   }
 }

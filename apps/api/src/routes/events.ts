@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import { Env } from "../env";
+import type { Env } from "../env";
 import { prisma } from "../lib/db";
 import { parsePrismaError } from "../lib/parsePrismaError";
 import {

@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { createBuilding } from "@/actions/create-building"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createBuilding } from "@/actions/create-building";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
+} from "@propdock/ui/components/dialog";
 import {
   Form,
   FormControl,
@@ -20,11 +19,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const BuildingSchema = z.object({
@@ -34,10 +34,10 @@ const BuildingSchema = z.object({
   bnr: z.number().optional(),
   snr: z.number().optional(),
   fnr: z.number().optional(),
-})
+});
 
 export function AddBuildingButton({ propertyId }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(BuildingSchema),
     defaultValues: {
@@ -48,28 +48,28 @@ export function AddBuildingButton({ propertyId }) {
       snr: undefined,
       fnr: undefined,
     },
-  })
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const result = await createBuilding(propertyId, data)
+      const result = await createBuilding(propertyId, data);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save building.")
+        throw new Error(result.error || "Failed to save building.");
       }
 
-      toast.success(`Byggningen "${data.name}" ble lagret.`)
-      form.reset()
+      toast.success(`Byggningen "${data.name}" ble lagret.`);
+      form.reset();
       // Optionally, refresh the page or update the state to show the new building
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog>
@@ -178,5 +178,5 @@ export function AddBuildingButton({ propertyId }) {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

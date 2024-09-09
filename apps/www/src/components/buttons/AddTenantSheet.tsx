@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createTenant } from "@/actions/create-tenant"
-import { getBuildings } from "@/actions/get-buildings"
-import { getProperties } from "@/actions/get-properties"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createTenant } from "@/actions/create-tenant";
+import { getBuildings } from "@/actions/get-buildings";
+import { getProperties } from "@/actions/get-properties";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
@@ -13,15 +12,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
+} from "@propdock/ui/components/select";
 import {
   Sheet,
   SheetContent,
@@ -30,10 +29,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/sheet";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const TenantSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),
@@ -44,23 +44,23 @@ const TenantSchema = z.object({
   numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
   buildingId: z.string().optional(),
-})
+});
 
 interface Property {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 interface Building {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export function AddTenantSheet() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [properties, setProperties] = useState<Property[]>([])
-  const [buildings, setBuildings] = useState<Building[]>([])
-  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(TenantSchema),
@@ -71,57 +71,57 @@ export function AddTenantSheet() {
       propertyId: "",
       buildingId: "",
     },
-  })
+  });
 
   useEffect(() => {
     async function fetchProperties() {
       try {
-        const properties = await getProperties()
-        setProperties(properties)
+        const properties = await getProperties();
+        setProperties(properties);
       } catch (error) {
-        console.error("Failed to fetch properties:", error)
+        console.error("Failed to fetch properties:", error);
       }
     }
-    fetchProperties()
-  }, [])
+    fetchProperties();
+  }, []);
 
   const onPropertyChange = async (propertyId: string) => {
-    form.setValue("propertyId", propertyId)
+    form.setValue("propertyId", propertyId);
     try {
-      const buildings = await getBuildings(propertyId)
-      setBuildings(buildings)
+      const buildings = await getBuildings(propertyId);
+      setBuildings(buildings);
     } catch (error) {
-      console.error("Failed to fetch buildings:", error)
+      console.error("Failed to fetch buildings:", error);
     }
-  }
+  };
 
   const onSubmit = async (data: z.infer<typeof TenantSchema>) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const tenantData = {
         ...data,
-        orgnr: parseInt(data.orgnr, 10),
+        orgnr: Number.parseInt(data.orgnr, 10),
         numEmployees: Number(data.numEmployees),
-      }
+      };
 
-      const result = await createTenant(tenantData)
+      const result = await createTenant(tenantData);
 
       if (!result.success) {
-        throw new Error(result.error || "Kunne ikke lagre leietaker.")
+        throw new Error(result.error || "Kunne ikke lagre leietaker.");
       }
 
-      toast.success(`Leietaker ${data.name} ble lagret.`)
-      form.reset()
-      setIsOpen(false) // Close the sheet on success
+      toast.success(`Leietaker ${data.name} ble lagret.`);
+      form.reset();
+      setIsOpen(false); // Close the sheet on success
       // Optionally, refresh the page or update the state to show the new tenant
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -192,8 +192,8 @@ export function AddTenantSheet() {
                   <FormLabel>Eiendom</FormLabel>
                   <Select
                     onValueChange={(value) => {
-                      field.onChange(value)
-                      onPropertyChange(value)
+                      field.onChange(value);
+                      onPropertyChange(value);
                     }}
                     value={field.value}
                   >
@@ -225,7 +225,7 @@ export function AddTenantSheet() {
                   <FormLabel>Bygning</FormLabel>
                   <Select
                     onValueChange={(value) => {
-                      field.onChange(value)
+                      field.onChange(value);
                     }}
                     value={field.value}
                     disabled={!buildings.length}
@@ -263,5 +263,5 @@ export function AddTenantSheet() {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

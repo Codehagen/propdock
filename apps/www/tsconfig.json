@@ -14,5 +14,5 @@
     "noImplicitAny": false, // TODO: Resolve errors when setting this to 'true'
     "useUnknownInCatchVariables": false // TODO: Resolve errors when setting this to 'true'
   },
-  "include": ["src", ".next/types/**/*.ts", "content-collections.ts"],
+  "include": ["src", ".next/types/**/*.ts", "content-collections.ts"]
 }

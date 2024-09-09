@@ -1,24 +1,24 @@
-import React, { useState } from "react"
-import { getTenantDetails } from "@/actions/get-tenant-details"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import React, { useState } from "react";
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { generateContractContent } from "@/components/editor/contractTemplate"
-import TenantEditor from "@/components/editor/TenantEditor"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import TenantEditor from "@/components/editor/TenantEditor";
+import { generateContractContent } from "@/components/editor/contractTemplate";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const tenantId = parseInt(params.id)
+  const tenantId = Number.parseInt(params.id);
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
-    const missingFields: string[] = []
+    const missingFields: string[] = [];
     if (!tenantDetails?.contacts || tenantDetails.contacts.length === 0) {
-      missingFields.push("Du må legge til kontaktperson")
+      missingFields.push("Du må legge til kontaktperson");
     }
     if (!tenantDetails?.contracts || tenantDetails.contracts.length === 0) {
-      missingFields.push("Du må legge til kontrakt")
+      missingFields.push("Du må legge til kontrakt");
     }
 
     if (missingFields.length > 0) {
@@ -42,10 +42,10 @@ export default async function Home({ params }: { params: { id: string } }) {
             </EmptyPlaceholder.Description>
           </EmptyPlaceholder>
         </DashboardShell>
-      )
+      );
     }
 
-    const contractContent = generateContractContent(tenantDetails)
+    const contractContent = generateContractContent(tenantDetails);
 
     return (
       <DashboardShell>
@@ -56,12 +56,12 @@ export default async function Home({ params }: { params: { id: string } }) {
         <TenantEditor contractContent={contractContent} />
         {/* <Tiptap /> */}
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

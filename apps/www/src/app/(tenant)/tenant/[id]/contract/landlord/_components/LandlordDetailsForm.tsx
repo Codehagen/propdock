@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateContract } from "@/actions/update-contract" // Import the update function
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateContract } from "@/actions/update-contract"; // Import the update function
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -11,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -19,27 +18,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/select";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define validation schema
 const LandlordSchema = z.object({
   landlordOrgnr: z.string().min(1, "Organisasjonsnummer er påkrevd"),
   landlordName: z.string().min(1, "Navn er påkrevd"),
-})
+});
 
 export function LandlordDetailsForm({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(LandlordSchema),
@@ -48,31 +48,31 @@ export function LandlordDetailsForm({ tenantDetails }) {
         tenantDetails.contracts[0]?.landlordOrgnr?.toString() || "",
       landlordName: tenantDetails.contracts[0]?.landlordName || "",
     },
-  })
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const result = await updateContract(tenantDetails.contracts[0].id, {
-        landlordOrgnr: parseInt(data.landlordOrgnr),
+        landlordOrgnr: Number.parseInt(data.landlordOrgnr),
         landlordName: data.landlordName,
-      })
+      });
 
       if (!result.success) {
         throw new Error(
           result.error || "Kunne ikke oppdatere kontaktinformasjonen.",
-        )
+        );
       }
 
-      toast.success("Kontaktinformasjon oppdatert")
+      toast.success("Kontaktinformasjon oppdatert");
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card>
@@ -120,5 +120,5 @@ export function LandlordDetailsForm({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

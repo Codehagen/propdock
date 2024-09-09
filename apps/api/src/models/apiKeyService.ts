@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import type { PrismaClient } from "@prisma/client";
 
 // Function to get API key from the database
 async function getAPIKey(
@@ -15,13 +15,13 @@ async function getAPIKey(
     select: {
       secret: true,
     },
-  })
+  });
 
   if (!apiKey) {
-    throw new Error(`API key for service "${serviceName}" not found`)
+    throw new Error(`API key for service "${serviceName}" not found`);
   }
 
-  return apiKey.secret
+  return apiKey.secret;
 }
 
-export { getAPIKey }
+export { getAPIKey };

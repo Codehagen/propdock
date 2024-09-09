@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Dispatch, SetStateAction } from "react"
-import { useRouter } from "next/navigation"
-import * as Dialog from "@radix-ui/react-dialog"
-import { Drawer } from "vaul"
+import * as Dialog from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
+import type { Dispatch, SetStateAction } from "react";
+import { Drawer } from "vaul";
 
-import { cn } from "@/lib/utils"
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
 export default function Modal({
   children,
@@ -17,32 +17,32 @@ export default function Modal({
   onClose,
   preventDefaultClose,
 }: {
-  children: React.ReactNode
-  className?: string
-  dialogOnly?: boolean
-  showModal?: boolean
-  setShowModal?: Dispatch<SetStateAction<boolean>>
-  onClose?: () => void
-  preventDefaultClose?: boolean
+  children: React.ReactNode;
+  className?: string;
+  dialogOnly?: boolean;
+  showModal?: boolean;
+  setShowModal?: Dispatch<SetStateAction<boolean>>;
+  onClose?: () => void;
+  preventDefaultClose?: boolean;
 }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const closeModal = ({ dragged }: { dragged?: boolean } = {}) => {
     if (preventDefaultClose && !dragged) {
-      return
+      return;
     }
     // fire onClose event if provided
-    onClose && onClose()
+    onClose?.();
 
     // if setShowModal is defined, use it to close modal
     if (setShowModal) {
-      setShowModal(false)
+      setShowModal(false);
       // else, this is intercepting route @modal
     } else {
-      router.back()
+      router.back();
     }
-  }
-  const { isMobile } = useMediaQuery()
+  };
+  const { isMobile } = useMediaQuery();
 
   if (isMobile && !dialogOnly) {
     return (
@@ -50,7 +50,7 @@ export default function Modal({
         open={setShowModal ? showModal : true}
         onOpenChange={(open) => {
           if (!open) {
-            closeModal({ dragged: true })
+            closeModal({ dragged: true });
           }
         }}
       >
@@ -58,7 +58,7 @@ export default function Modal({
         <Drawer.Portal>
           <Drawer.Content
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-50 mt-24 rounded-t-[10px] border-t border-gray-200 bg-white",
+              "fixed right-0 bottom-0 left-0 z-50 mt-24 rounded-t-[10px] border-gray-200 border-t bg-white",
               className,
             )}
           >
@@ -70,14 +70,14 @@ export default function Modal({
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    )
+    );
   }
   return (
     <Dialog.Root
       open={setShowModal ? showModal : true}
       onOpenChange={(open) => {
         if (!open) {
-          closeModal()
+          closeModal();
         }
       }}
     >
@@ -91,7 +91,7 @@ export default function Modal({
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           className={cn(
-            "animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-gray-200 bg-white p-0 shadow-xl md:rounded-2xl",
+            "fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md animate-scale-in overflow-hidden border border-gray-200 bg-white p-0 shadow-xl md:rounded-2xl",
             className,
           )}
         >
@@ -99,5 +99,5 @@ export default function Modal({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  )
+  );
 }

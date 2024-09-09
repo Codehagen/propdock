@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import type { SidebarNavItem } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 export interface DocsSidebarNavProps {
   items: SidebarNavItem[];
@@ -16,7 +16,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
     <div className="w-full">
       {items.map((item) => (
         <div key={item.href + item.title} className={cn("pb-8")}>
-          <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-medium">
+          <h4 className="mb-1 rounded-md px-2 py-1 font-medium text-sm">
             {item.title}
           </h4>
           {item.items ? (
@@ -48,7 +48,7 @@ export function DocsSidebarNavItems({
               "flex w-full items-center rounded-md p-2 hover:underline",
               {
                 "bg-muted": pathname === item.href,
-              }
+              },
             )}
             target={item.external ? "_blank" : ""}
             rel={item.external ? "noreferrer" : ""}
@@ -62,7 +62,7 @@ export function DocsSidebarNavItems({
           >
             {item.title}
           </span>
-        )
+        ),
       )}
     </div>
   ) : null;

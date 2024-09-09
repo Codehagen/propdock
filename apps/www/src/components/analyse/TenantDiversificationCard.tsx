@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -7,22 +7,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
-import { Cell, Pie, PieChart } from "recharts"
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
+import { Cell, Pie, PieChart } from "recharts";
 
 const tenantData = [
   { sector: "Kontor", value: 40, fill: "var(--color-kontor)" },
   { sector: "Handel", value: 30, fill: "var(--color-handel)" },
   { sector: "Industri", value: 20, fill: "var(--color-industri)" },
   { sector: "Annet", value: 10, fill: "var(--color-annet)" },
-]
+];
 
 const chartConfig = {
   tenantDiversity: {
@@ -44,12 +44,12 @@ const chartConfig = {
     label: "Annet",
     color: "hsl(var(--chart-4))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function TenantDiversificationCard() {
   const largestSector = tenantData.reduce((prev, current) =>
     prev.value > current.value ? prev : current,
-  )
+  );
 
   return (
     <Card className="flex flex-col">
@@ -92,7 +92,7 @@ export function TenantDiversificationCard() {
           Største sektor: {largestSector.sector} ({largestSector.value}%)
           <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Viser fordeling av leietakere etter sektor
         </div>
       </CardFooter>
@@ -113,5 +113,5 @@ export function TenantDiversificationCard() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

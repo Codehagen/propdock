@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import {
   Command,
   CommandEmpty,
@@ -6,17 +5,18 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
+} from "@propdock/ui/components/command";
+import type { ReactNode } from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface FeatureCardProps {
-  Icon: ReactNode
-  name: string
-  description: string
-  href: string
-  cta: string
-  background: ReactNode
+  Icon: ReactNode;
+  name: string;
+  description: string;
+  href: string;
+  cta: string;
+  background: ReactNode;
 }
 
 export function FeatureCard({
@@ -32,8 +32,8 @@ export function FeatureCard({
       <div className="mb-4 flex items-center">
         <div className="mr-4">{Icon}</div>
         <div>
-          <h2 className="text-xl font-semibold">{name}</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <h2 className="font-semibold text-xl">{name}</h2>
+          <p className="text-gray-600 text-sm dark:text-gray-400">
             {description}
           </p>
         </div>
@@ -43,5 +43,5 @@ export function FeatureCard({
         {cta}
       </a>
     </div>
-  )
+  );
 }

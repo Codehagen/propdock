@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import { Check, ChevronRight, Circle } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "../utils";
 
@@ -29,7 +29,7 @@ const ContextMenuSubTrigger = React.forwardRef<
     className={cn(
       "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
       inset && "pl-8",
-      className
+      className,
     )}
     {...props}
   >
@@ -46,8 +46,8 @@ const ContextMenuSubContent = React.forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in slide-in-from-left-1",
-      className
+      "slide-in-from-left-1 z-50 min-w-[8rem] animate-in overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+      className,
     )}
     {...props}
   />
@@ -62,8 +62,8 @@ const ContextMenuContent = React.forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80",
-        className
+        "fade-in-80 z-50 min-w-[8rem] animate-in overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+        className,
       )}
       {...props}
     />
@@ -82,7 +82,7 @@ const ContextMenuItem = React.forwardRef<
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
-      className
+      className,
     )}
     {...props}
   />
@@ -96,8 +96,8 @@ const ContextMenuCheckboxItem = React.forwardRef<
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
     )}
     checked={checked}
     {...props}
@@ -120,8 +120,8 @@ const ContextMenuRadioItem = React.forwardRef<
   <ContextMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
     )}
     {...props}
   >
@@ -144,9 +144,9 @@ const ContextMenuLabel = React.forwardRef<
   <ContextMenuPrimitive.Label
     ref={ref}
     className={cn(
-      "px-2 py-1.5 text-sm font-semibold text-foreground",
+      "px-2 py-1.5 font-semibold text-foreground text-sm",
       inset && "pl-8",
-      className
+      className,
     )}
     {...props}
   />
@@ -172,8 +172,8 @@ const ContextMenuShortcut = ({
   return (
     <span
       className={cn(
-        "ml-auto text-xs tracking-widest text-muted-foreground",
-        className
+        "ml-auto text-muted-foreground text-xs tracking-widest",
+        className,
       )}
       {...props}
     />

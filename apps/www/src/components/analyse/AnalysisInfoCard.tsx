@@ -1,5 +1,5 @@
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -7,24 +7,24 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
-import { format } from "date-fns"
-import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react"
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
+import { format } from "date-fns";
+import { File, MoveVerticalIcon, Pencil, Trash } from "lucide-react";
 
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils";
 
 export function AnalysisInfoCard({ analysisDetails }) {
   const handleDelete = () => {
     // Handle delete action
-  }
+  };
 
   return (
     <Card className="overflow-hidden">
@@ -178,13 +178,13 @@ export function AnalysisInfoCard({ analysisDetails }) {
         </div>
       </CardContent>
       <CardFooter className="flex flex-row items-center justify-between border-t bg-muted/50 px-6 py-3">
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           Oppdatert {format(new Date(analysisDetails.updatedAt), "dd.MM.yyyy")}
         </div>
-        <div className="text-xs font-medium">
+        <div className="font-medium text-xs">
           Totalverdi: {formatCurrency(analysisDetails.sumValueNow)}
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

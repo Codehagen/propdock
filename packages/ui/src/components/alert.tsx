@@ -1,11 +1,11 @@
 import type { VariantProps } from "class-variance-authority";
-import * as React from "react";
 import { cva } from "class-variance-authority";
+import * as React from "react";
 
 import { cn } from "../utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&:has(svg)]:pl-11 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 [&:has(svg)]:pl-11 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:top-4 [&>svg]:left-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
@@ -17,7 +17,7 @@ const alertVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 const Alert = React.forwardRef<

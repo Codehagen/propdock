@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +9,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { ScrollArea } from "@propdock/ui/components/scroll-area"
-import { Separator } from "@propdock/ui/components/separator"
+} from "@propdock/ui/components/dropdown-menu";
+import { ScrollArea } from "@propdock/ui/components/scroll-area";
+import { Separator } from "@propdock/ui/components/separator";
 import {
   Sheet,
   SheetClose,
@@ -21,7 +20,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@propdock/ui/components/sheet"
+} from "@propdock/ui/components/sheet";
 import {
   Table,
   TableBody,
@@ -29,13 +28,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@propdock/ui/components/tooltip"
+} from "@propdock/ui/components/tooltip";
 import {
   AlertCircle,
   ArrowUpDown,
@@ -52,30 +51,31 @@ import {
   Users,
   X,
   XCircle,
-} from "lucide-react"
-import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts"
+} from "lucide-react";
+import { useState } from "react";
+import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts";
 
-import { formatCurrency } from "@/lib/utils" // Add this import
+import { formatCurrency } from "@/lib/utils"; // Add this import
 
 // Define the Tenant type based on the provided fields
 interface Tenant {
-  financialAnalysisBuildingId: string
-  name: string
-  organizationNumber: string | null
-  address: string | null
-  employees: number | null
-  operatingIncome: number | null
-  wagesCosts: number | null
-  totalOperatingCosts: number | null
-  operatingResult: number | null
-  netFinance: number | null
-  resultBeforeTax: number | null
-  rating: "good" | "average" | "poor"
-  description: string
-  foundedYear: number
-  industry: string
-  liquidityScore: number
-  lastYearLiquidityScore: number
+  financialAnalysisBuildingId: string;
+  name: string;
+  organizationNumber: string | null;
+  address: string | null;
+  employees: number | null;
+  operatingIncome: number | null;
+  wagesCosts: number | null;
+  totalOperatingCosts: number | null;
+  operatingResult: number | null;
+  netFinance: number | null;
+  resultBeforeTax: number | null;
+  rating: "good" | "average" | "poor";
+  description: string;
+  foundedYear: number;
+  industry: string;
+  liquidityScore: number;
+  lastYearLiquidityScore: number;
 }
 
 // Sample data (replace this with your actual data)
@@ -138,7 +138,7 @@ const tenants: Tenant[] = [
     lastYearLiquidityScore: 0.35,
   },
   // Add more sample data here...
-]
+];
 
 // Add this function to get the badge details
 function getTenantRatingBadge(rating: Tenant["rating"]) {
@@ -154,9 +154,9 @@ function getTenantRatingBadge(rating: Tenant["rating"]) {
       text: "Gjennomsnittlig",
     },
     poor: { color: "bg-red-100 text-red-800", icon: XCircle, text: "Dårlig" },
-  }
+  };
 
-  const config = badgeConfig[rating]
+  const config = badgeConfig[rating];
   return (
     <Badge
       variant="outline"
@@ -165,41 +165,53 @@ function getTenantRatingBadge(rating: Tenant["rating"]) {
       <config.icon className="h-3 w-3" />
       {config.text}
     </Badge>
-  )
+  );
 }
 
 // Add this function to calculate the color based on the score
 function getScoreColor(score: number): string {
-  if (score >= 0.7) return "hsl(var(--chart-2))" // Green-yellow for 70% and above
-  if (score >= 0.3) return "hsl(var(--chart-4))" // Teal for 30% to 70%
-  return "hsl(var(--chart-1))" // Orange-red for below 30%
+  if (score >= 0.7) {
+    return "hsl(var(--chart-2))"; // Green-yellow for 70% and above
+  }
+  if (score >= 0.3) {
+    return "hsl(var(--chart-4))"; // Teal for 30% to 70%
+  }
+  return "hsl(var(--chart-1))"; // Orange-red for below 30%
 }
 
 export default function TenantTableAnalysis() {
-  const [sortColumn, setSortColumn] = useState<keyof Tenant | null>(null)
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
-  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null)
+  const [sortColumn, setSortColumn] = useState<keyof Tenant | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
 
   const sortedTenants = [...tenants].sort((a, b) => {
     if (sortColumn) {
-      const aValue = a[sortColumn]
-      const bValue = b[sortColumn]
-      if (aValue === null) return sortDirection === "asc" ? 1 : -1
-      if (bValue === null) return sortDirection === "asc" ? -1 : 1
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+      if (aValue === null) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      if (bValue === null) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (aValue < bValue) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
     }
-    return 0
-  })
+    return 0;
+  });
 
   const handleSort = (column: keyof Tenant) => {
     if (sortColumn === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
-      setSortColumn(column)
-      setSortDirection("asc")
+      setSortColumn(column);
+      setSortDirection("asc");
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-10">
@@ -331,8 +343,8 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <Building2 className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">Bransje</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="font-medium text-sm leading-none">Bransje</p>
+                    <p className="text-muted-foreground text-sm">
                       {selectedTenant.industry}
                     </p>
                   </div>
@@ -340,10 +352,10 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <Calendar className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">
+                    <p className="font-medium text-sm leading-none">
                       Grunnlagt
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {selectedTenant.foundedYear}
                     </p>
                   </div>
@@ -351,8 +363,8 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <Users className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">Ansatte</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="font-medium text-sm leading-none">Ansatte</p>
+                    <p className="text-muted-foreground text-sm">
                       {selectedTenant.employees}
                     </p>
                   </div>
@@ -360,10 +372,10 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <DollarSign className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">
+                    <p className="font-medium text-sm leading-none">
                       Driftsinntekter
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {formatCurrency(selectedTenant.operatingIncome)}
                     </p>
                   </div>
@@ -371,10 +383,10 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <PiggyBank className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">
+                    <p className="font-medium text-sm leading-none">
                       Resultat før skatt
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {formatCurrency(selectedTenant.resultBeforeTax)}
                     </p>
                   </div>
@@ -382,7 +394,7 @@ export default function TenantTableAnalysis() {
                 <div className="flex items-center space-x-4">
                   <Briefcase className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm font-medium leading-none">
+                    <p className="font-medium text-sm leading-none">
                       Vurdering
                     </p>
                     <div className="mt-1">
@@ -392,7 +404,7 @@ export default function TenantTableAnalysis() {
                 </div>
 
                 <div className="mt-6">
-                  <h3 className="mb-2 text-lg font-semibold">
+                  <h3 className="mb-2 font-semibold text-lg">
                     Likviditetsscore
                   </h3>
                   <div className="mx-auto w-full max-w-[250px]">
@@ -430,14 +442,14 @@ export default function TenantTableAnalysis() {
                         y="50%"
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        className="fill-foreground text-3xl font-bold"
+                        className="fill-foreground font-bold text-3xl"
                       >
                         {selectedTenant.liquidityScore.toFixed(2)}
                       </text>
                     </RadialBarChart>
                   </div>
                   <div className="mt-2 text-center">
-                    <p className="text-sm font-medium">
+                    <p className="font-medium text-sm">
                       {selectedTenant.liquidityScore >= 0.5 ? (
                         <span className="flex items-center justify-center text-green-600">
                           Økende trend <TrendingUp className="ml-1 h-4 w-4" />
@@ -449,7 +461,7 @@ export default function TenantTableAnalysis() {
                         </span>
                       )}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Sammenlignet med i fjor:{" "}
                       {selectedTenant.lastYearLiquidityScore.toFixed(2)}
                     </p>
@@ -457,10 +469,10 @@ export default function TenantTableAnalysis() {
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-medium leading-none">
+                  <p className="mb-2 font-medium text-sm leading-none">
                     Beskrivelse
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedTenant.description}
                   </p>
                 </div>
@@ -475,5 +487,5 @@ export default function TenantTableAnalysis() {
         </SheetContent>
       </Sheet>
     </div>
-  )
+  );
 }

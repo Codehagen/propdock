@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Tilt from "react-parallax-tilt"
+import Link from "next/link";
+import Tilt from "react-parallax-tilt";
 
-import BlurImage from "@/lib/blog/blur-image"
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
+import BlurImage from "@/lib/blog/blur-image";
 
-import ExpandingArrow from "./icons/expanding-arrow"
+import ExpandingArrow from "./icons/expanding-arrow";
 
 export const Customer = ({ slug, site }: { slug: string; site?: string }) => {
-  const { isDesktop } = useMediaQuery()
+  const { isDesktop } = useMediaQuery();
   return (
     <Tilt
       glareEnable={true}
@@ -34,12 +34,12 @@ export const Customer = ({ slug, site }: { slug: string; site?: string }) => {
           className="max-h-16 grayscale transition-all group-hover:grayscale-0"
         />
         <div className="flex space-x-1">
-          <p className="text-sm font-medium text-gray-500 group-hover:text-green-500">
+          <p className="font-medium text-gray-500 text-sm group-hover:text-green-500">
             {site ? "Besøk nettsted" : "Les mer"}
           </p>
           <ExpandingArrow className="text-gray-500 group-hover:text-green-500" />
         </div>
       </Link>
     </Tilt>
-  )
-}
+  );
+};

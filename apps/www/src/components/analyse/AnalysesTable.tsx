@@ -1,15 +1,13 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+} from "@propdock/ui/components/card";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -18,8 +16,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
 import {
   Table,
   TableBody,
@@ -27,42 +25,46 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
 import {
   CaretSortIcon,
   ChevronDownIcon,
   DotsHorizontalIcon,
-} from "@radix-ui/react-icons"
+} from "@radix-ui/react-icons";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table"
-import { format } from "date-fns"
+} from "@tanstack/react-table";
+import { format } from "date-fns";
+import Link from "next/link";
+import * as React from "react";
 
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils";
 
 function safelyParseDate(dateString: string | null | undefined): Date | null {
-  if (!dateString) return null
-  const date = new Date(dateString)
-  return isNaN(date.getTime()) ? null : date
+  if (!dateString) {
+    return null;
+  }
+  const date = new Date(dateString);
+  return Number.isNaN(date.getTime()) ? null : date;
 }
 
 interface Analysis {
-  id: string
-  name: string
-  rentableArea: number
-  rentPerArea: number
-  sumValueNow: number
-  sumValueExit: number
-  appreciationDate: Date
+  id: string;
+  name: string;
+  rentableArea: number;
+  rentPerArea: number;
+  sumValueNow: number;
+  sumValueExit: number;
+  appreciationDate: Date;
 }
 
 const columns: ColumnDef<Analysis>[] = [
@@ -145,12 +147,12 @@ const columns: ColumnDef<Analysis>[] = [
     accessorKey: "appreciationDate",
     header: "Verdivurderingsdato",
     cell: ({ row }) => {
-      const date = row.getValue("appreciationDate")
+      const date = row.getValue("appreciationDate");
       return (
         <div className="text-right">
           {date instanceof Date ? format(date, "dd.MM.yyyy") : "N/A"}
         </div>
-      )
+      );
     },
   },
   {
@@ -177,20 +179,20 @@ const columns: ColumnDef<Analysis>[] = [
       </DropdownMenu>
     ),
   },
-]
+];
 
 interface AnalysesTableProps {
-  analyses: Analysis[]
+  analyses: Analysis[];
 }
 
 export function AnalysesTable({ analyses }: AnalysesTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: analyses,
@@ -209,7 +211,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <Card>
@@ -248,7 +250,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -302,7 +304,7 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
           </Table>
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="flex-1 text-muted-foreground text-sm">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
@@ -327,5 +329,5 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

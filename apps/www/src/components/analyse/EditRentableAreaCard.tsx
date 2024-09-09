@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -18,18 +17,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Percent } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Percent } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   rentableArea: z
     .string()
     .nonempty("Utleibart areal er påkrevd.")
-    .refine((value) => !isNaN(Number(value)), {
+    .refine((value) => !Number.isNaN(Number(value)), {
       message: "Utleibart areal må være et tall.",
     }),
   ratioAreaOffice: z
@@ -37,7 +37,9 @@ const FormSchema = z.object({
     .nonempty("Andel kontorareal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
         message: "Andel kontorareal må være et tall mellom 0 og 100.",
       },
@@ -47,7 +49,9 @@ const FormSchema = z.object({
     .nonempty("Andel handelsareal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
         message: "Andel handelsareal må være et tall mellom 0 og 100.",
       },
@@ -57,19 +61,21 @@ const FormSchema = z.object({
     .nonempty("Andel annet areal er påkrevd.")
     .refine(
       (value) =>
-        !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 100,
+        !Number.isNaN(Number(value)) &&
+        Number(value) >= 0 &&
+        Number(value) <= 100,
       {
         message: "Andel annet areal må være et tall mellom 0 og 100.",
       },
     ),
-})
+});
 
 interface EditRentableAreaCardProps {
-  analysisId: string
-  initialRentableArea: number
-  initialRatioAreaOffice: number
-  initialRatioAreaMerch: number
-  initialRatioAreaMisc: number
+  analysisId: string;
+  initialRentableArea: number;
+  initialRatioAreaOffice: number;
+  initialRatioAreaMerch: number;
+  initialRatioAreaMisc: number;
 }
 
 export function EditRentableAreaCard({
@@ -79,7 +85,7 @@ export function EditRentableAreaCard({
   initialRatioAreaMerch,
   initialRatioAreaMisc,
 }: EditRentableAreaCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -89,27 +95,27 @@ export function EditRentableAreaCard({
       ratioAreaMerch: (initialRatioAreaMerch * 100).toString(),
       ratioAreaMisc: (initialRatioAreaMisc * 100).toString(),
     },
-  })
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         rentableArea: Number(data.rentableArea),
         ratioAreaOffice: Number(data.ratioAreaOffice) / 100,
         ratioAreaMerch: Number(data.ratioAreaMerch) / 100,
         ratioAreaMisc: Number(data.ratioAreaMisc) / 100,
-      })
+      });
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Analysen ble oppdatert.");
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av analyse:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -153,7 +159,7 @@ export function EditRentableAreaCard({
                         {...field}
                       />
                       <Percent
-                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                         size={16}
                       />
                     </div>
@@ -176,7 +182,7 @@ export function EditRentableAreaCard({
                         {...field}
                       />
                       <Percent
-                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                         size={16}
                       />
                     </div>
@@ -199,7 +205,7 @@ export function EditRentableAreaCard({
                         {...field}
                       />
                       <Percent
-                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+                        className="-translate-y-1/2 absolute top-1/2 right-3 transform text-gray-400"
                         size={16}
                       />
                     </div>
@@ -215,5 +221,5 @@ export function EditRentableAreaCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

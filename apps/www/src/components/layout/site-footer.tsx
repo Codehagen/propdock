@@ -1,11 +1,11 @@
-import * as React from "react";
-import Link from "next/link";
 import { DiscordLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import type * as React from "react";
 
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { Icons } from "@/components/shared/icons";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 
 const footerNavs = [
   {
@@ -95,7 +95,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           <div className="mb-12 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
               <Icons.logo className="h-8 w-8 text-primary" />
-              <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+              <span className="self-center whitespace-nowrap font-semibold text-2xl dark:text-white">
                 Propdock
               </span>
             </Link>
@@ -106,7 +106,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
             {footerNavs.map((nav) => (
               <div key={nav.label}>
-                <h2 className="mb-6 text-sm font-medium uppercase tracking-tighter text-gray-900 dark:text-white">
+                <h2 className="mb-6 font-medium text-gray-900 text-sm uppercase tracking-tighter dark:text-white">
                   {nav.label}
                 </h2>
                 <ul className="grid gap-2">
@@ -114,7 +114,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="cursor-pointer text-sm font-[450] text-gray-400 duration-200 hover:text-gray-200"
+                        className="cursor-pointer font-[450] text-gray-400 text-sm duration-200 hover:text-gray-200"
                       >
                         {item.name}
                       </Link>

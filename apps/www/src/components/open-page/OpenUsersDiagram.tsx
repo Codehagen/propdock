@@ -4,10 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 
-import OpenCardNewUsers from "./OpenCardNewUsers"
-import OpenCardUsers from "./OpenCardUsers"
+import OpenCardNewUsers from "./OpenCardNewUsers";
+import OpenCardUsers from "./OpenCardUsers";
 
 export default function OpenUsersDiagram() {
   return (
@@ -35,7 +35,7 @@ export default function OpenUsersDiagram() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // OR if we want it to be bigger

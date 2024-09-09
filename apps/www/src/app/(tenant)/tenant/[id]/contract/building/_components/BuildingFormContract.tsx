@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createContract } from "@/actions/create-contract"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createContract } from "@/actions/create-contract";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -11,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -19,17 +18,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
+} from "@propdock/ui/components/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/select";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define the validation schema
 const ContractSchema = z.object({
@@ -38,13 +38,13 @@ const ContractSchema = z.object({
   floor: z.string().min(1, "Etasje er påkrevd"),
   officeSpace: z.string().min(1, "Kontorlokale er påkrevd"),
   contactId: z.string().min(1, "Kontaktperson er påkrevd"),
-})
+});
 
 export function BuildingFormContract({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState(
     tenantDetails?.floor?.id?.toString() || "",
-  )
+  );
 
   const form = useForm({
     resolver: zodResolver(ContractSchema),
@@ -55,47 +55,47 @@ export function BuildingFormContract({ tenantDetails }) {
       officeSpace: tenantDetails?.officeSpace?.id?.toString() || "",
       contactId: tenantDetails?.contacts[0]?.id?.toString() || "",
     },
-  })
+  });
 
   useEffect(() => {
     if (tenantDetails?.floor?.id) {
-      setSelectedFloor(tenantDetails.floor.id.toString())
-      form.setValue("floor", tenantDetails.floor.id.toString())
+      setSelectedFloor(tenantDetails.floor.id.toString());
+      form.setValue("floor", tenantDetails.floor.id.toString());
     }
     if (tenantDetails?.officeSpace?.id) {
-      form.setValue("officeSpace", tenantDetails.officeSpace.id.toString())
+      form.setValue("officeSpace", tenantDetails.officeSpace.id.toString());
     }
-  }, [tenantDetails, form])
+  }, [tenantDetails, form]);
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const result = await createContract({
         ...data,
         tenantId: tenantDetails.id,
-      })
+      });
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to submit issue.")
+        throw new Error(result.error || "Failed to submit issue.");
       }
 
-      toast.success("Informasjonen er nå lagret")
-      form.reset()
+      toast.success("Informasjonen er nå lagret");
+      form.reset();
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // Get office spaces for the selected floor
   const officeSpaces = selectedFloor
     ? tenantDetails.floors.find(
         (floor) => floor.id.toString() === selectedFloor,
       )?.officeSpaces || []
-    : []
+    : [];
 
   return (
     <Card>
@@ -246,5 +246,5 @@ export function BuildingFormContract({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

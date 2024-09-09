@@ -1,13 +1,10 @@
-// pages/settings/api.js
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getAnalyses } from "@/actions/get-analyst"
+import { getAnalyses } from "@/actions/get-analyst";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -15,36 +12,39 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@propdock/ui/components/tabs"
+} from "@propdock/ui/components/tabs";
+// pages/settings/api.js
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import { AnalysesTable } from "@/components/analyse/AnalysesTable"
-import { AddAnalysisSheet } from "@/components/buttons/AddAnalysisSheet"
-import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import PropertyMap from "@/components/maps/PropertyMap"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { AnalysesTable } from "@/components/analyse/AnalysesTable";
+import { AddAnalysisSheet } from "@/components/buttons/AddAnalysisSheet";
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import PropertyMap from "@/components/maps/PropertyMap";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Propdock Analyser - Oversikt over dine analyser",
   description:
     "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
-}
+};
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   // Fetch workspace associated with the user
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
     select: {
       id: true,
     },
-  })
+  });
 
   if (!userWorkspace) {
     return (
@@ -80,18 +80,18 @@ export default async function DashboardPage() {
           <AddWorkspaceButton />
         </EmptyPlaceholder>
       </DashboardShell>
-    )
+    );
   }
 
   // Fetch analyses associated with the user's workspace
-  const { success, analyses = [], error } = await getAnalyses(userWorkspace.id)
+  const { success, analyses = [], error } = await getAnalyses(userWorkspace.id);
 
   if (!success) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error} />
       </DashboardShell>
-    )
+    );
   }
 
   return (
@@ -128,5 +128,5 @@ export default async function DashboardPage() {
         </Tabs>
       )}
     </DashboardShell>
-  )
+  );
 }

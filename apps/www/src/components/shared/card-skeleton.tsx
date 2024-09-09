@@ -3,8 +3,8 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@propdock/ui/components/card"
-import { Skeleton } from "@propdock/ui/components/skeleton"
+} from "@propdock/ui/components/card";
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
 export function CardSkeleton() {
   return (
@@ -18,5 +18,5 @@ export function CardSkeleton() {
         <Skeleton className="h-8 w-[120px]" />
       </CardFooter>
     </Card>
-  )
+  );
 }

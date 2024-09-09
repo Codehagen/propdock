@@ -3,15 +3,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { format } from "date-fns"
+} from "@propdock/ui/components/card";
+import { format } from "date-fns";
 
-import { EmptyPlaceholder } from "../shared/empty-placeholder"
-import AnalysesScoreBuilding from "./AnalysesScoreBuilding"
-import { CapitalizationRateCard } from "./CapitalizationRateCard"
-import { NetOperatingIncomeCard } from "./NetOperatingIncomeCard"
-import { OccupancyRateCard } from "./OccupancyRateCard"
-import { ValuationMetricsCard } from "./ValuationMetricsCard"
+import { EmptyPlaceholder } from "../shared/empty-placeholder";
+import AnalysesScoreBuilding from "./AnalysesScoreBuilding";
+import { CapitalizationRateCard } from "./CapitalizationRateCard";
+import { NetOperatingIncomeCard } from "./NetOperatingIncomeCard";
+import { OccupancyRateCard } from "./OccupancyRateCard";
+import { ValuationMetricsCard } from "./ValuationMetricsCard";
 
 export function AnalystCardsSection({ analysisDetails }) {
   const {
@@ -21,14 +21,14 @@ export function AnalystCardsSection({ analysisDetails }) {
     sumValueNow,
     roiCalculated,
     tenants,
-  } = analysisDetails
+  } = analysisDetails;
 
   return (
     <div className="-mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {rentableArea > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Areal</CardTitle>
+            <CardTitle className="font-medium text-sm">Areal</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -45,10 +45,10 @@ export function AnalystCardsSection({ analysisDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="font-bold text-xl">
               {new Intl.NumberFormat("no-NO").format(rentableArea)} m²
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Totalt areal for eiendommen
             </p>
           </CardContent>
@@ -66,7 +66,7 @@ export function AnalystCardsSection({ analysisDetails }) {
       {rentPerArea > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pris pr m²</CardTitle>
+            <CardTitle className="font-medium text-sm">Pris pr m²</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -81,10 +81,10 @@ export function AnalystCardsSection({ analysisDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="font-bold text-xl">
               {new Intl.NumberFormat("no-NO").format(rentPerArea)} NOK/m²
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Leiepris pr kvm for leietakeren
             </p>
           </CardContent>
@@ -102,7 +102,7 @@ export function AnalystCardsSection({ analysisDetails }) {
       {roiCalculated > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="font-medium text-sm">
               Leiekontrakten går ut
             </CardTitle>
             <svg
@@ -120,10 +120,10 @@ export function AnalystCardsSection({ analysisDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="font-bold text-2xl">
               {(roiCalculated * 100).toFixed(2)}%
             </div>
-            <p className="text-xs text-muted-foreground">igjen av leietiden</p>
+            <p className="text-muted-foreground text-xs">igjen av leietiden</p>
           </CardContent>
         </Card>
       ) : (
@@ -139,7 +139,7 @@ export function AnalystCardsSection({ analysisDetails }) {
       {tenants.length > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="font-medium text-sm">
               Antall leietakere
             </CardTitle>
             <svg
@@ -156,8 +156,8 @@ export function AnalystCardsSection({ analysisDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{tenants.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">{tenants.length}</div>
+            <p className="text-muted-foreground text-xs">
               Antall leietakere i eiendommen
             </p>
           </CardContent>
@@ -176,5 +176,5 @@ export function AnalystCardsSection({ analysisDetails }) {
       <OccupancyRateCard />
       <NetOperatingIncomeCard />
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Bar,
   BarChart,
@@ -17,7 +17,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
 
 const lineChartData = [
   { month: "Jan", events: 400 },
@@ -32,7 +32,7 @@ const lineChartData = [
   { month: "Oct", events: 390 },
   { month: "Nov", events: 139 },
   { month: "Dec", events: 240 },
-]
+];
 
 const barChartData = [
   { eventType: "Login", count: 120 },
@@ -41,25 +41,23 @@ const barChartData = [
   { eventType: "Signup", count: 80 },
   { eventType: "Profile Update", count: 150 },
   { eventType: "Password Reset", count: 60 },
-]
+];
 
-export default function EventsTrendOverTimeChart(
-  {
-    // lineChartData,
-    // barChartData,
-  },
-) {
+export default function EventsTrendOverTimeChart({
+  // lineChartData,
+  // barChartData,
+}) {
   return (
     <div className=" grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="font-normal text-base">
             Monthly Events
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">Event Trends Over Time</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="font-bold text-2xl">Event Trends Over Time</div>
+          <p className="text-muted-foreground text-xs">
             Number of events created each month over the last year.
           </p>
           <div className="h-[200px]">
@@ -83,7 +81,7 @@ export default function EventsTrendOverTimeChart(
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
                             <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              <span className="text-[0.70rem] text-muted-foreground uppercase">
                                 Month
                               </span>
                               <span className="font-bold text-muted-foreground">
@@ -91,7 +89,7 @@ export default function EventsTrendOverTimeChart(
                               </span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              <span className="text-[0.70rem] text-muted-foreground uppercase">
                                 Events
                               </span>
                               <span className="font-bold">
@@ -100,10 +98,10 @@ export default function EventsTrendOverTimeChart(
                             </div>
                           </div>
                         </div>
-                      )
+                      );
                     }
 
-                    return null
+                    return null;
                   }}
                 />
                 <Legend />
@@ -115,13 +113,13 @@ export default function EventsTrendOverTimeChart(
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="font-normal text-base">
             Top Event Types
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">Event Type Breakdown</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="font-bold text-2xl">Event Type Breakdown</div>
+          <p className="text-muted-foreground text-xs">
             Number of each event type over the last year.
           </p>
           <div className="mt-4 h-[200px]">
@@ -137,7 +135,7 @@ export default function EventsTrendOverTimeChart(
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
                             <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              <span className="text-[0.70rem] text-muted-foreground uppercase">
                                 Event Type
                               </span>
                               <span className="font-bold text-muted-foreground">
@@ -145,7 +143,7 @@ export default function EventsTrendOverTimeChart(
                               </span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              <span className="text-[0.70rem] text-muted-foreground uppercase">
                                 Count
                               </span>
                               <span className="font-bold">
@@ -154,10 +152,10 @@ export default function EventsTrendOverTimeChart(
                             </div>
                           </div>
                         </div>
-                      )
+                      );
                     }
 
-                    return null
+                    return null;
                   }}
                 />
                 <Legend />
@@ -176,5 +174,5 @@ export default function EventsTrendOverTimeChart(
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

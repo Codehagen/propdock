@@ -1,9 +1,9 @@
 "use client";
 
 import type { DialogProps } from "@radix-ui/react-dialog";
-import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "../utils";
 import { Dialog, DialogContent } from "./dialog";
@@ -46,7 +46,7 @@ const CommandInput = React.forwardRef<
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
-        "placeholder:text-foreground-muted flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-foreground-muted disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       {...props}
@@ -89,7 +89,7 @@ const CommandGroup = React.forwardRef<
   <CommandPrimitive.Group
     ref={ref}
     className={cn(
-      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
+      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:text-xs",
       className,
     )}
     {...props}
@@ -133,7 +133,7 @@ const CommandShortcut = ({
   return (
     <span
       className={cn(
-        "ml-auto text-xs tracking-widest text-muted-foreground",
+        "ml-auto text-muted-foreground text-xs tracking-widest",
         className,
       )}
       {...props}

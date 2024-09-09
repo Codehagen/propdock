@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { Dispatch, ReactNode, SetStateAction } from "react"
-import * as PopoverPrimitive from "@radix-ui/react-popover"
-import { Drawer } from "vaul"
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
+import { Drawer } from "vaul";
 
-import useMediaQuery from "@/hooks/use-media-query"
+import useMediaQuery from "@/hooks/use-media-query";
 
 export default function Popover({
   children,
@@ -14,14 +14,14 @@ export default function Popover({
   setOpenPopover,
   mobileOnly,
 }: {
-  children: ReactNode
-  content: ReactNode | string
-  align?: "center" | "start" | "end"
-  openPopover: boolean
-  setOpenPopover: Dispatch<SetStateAction<boolean>>
-  mobileOnly?: boolean
+  children: ReactNode;
+  content: ReactNode | string;
+  align?: "center" | "start" | "end";
+  openPopover: boolean;
+  setOpenPopover: Dispatch<SetStateAction<boolean>>;
+  mobileOnly?: boolean;
 }) {
-  const { isMobile } = useMediaQuery()
+  const { isMobile } = useMediaQuery();
 
   if (mobileOnly || isMobile) {
     return (
@@ -29,7 +29,7 @@ export default function Popover({
         <div className="sm:hidden">{children}</div>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-gray-100 bg-opacity-10 backdrop-blur" />
         <Drawer.Portal>
-          <Drawer.Content className="fixed bottom-0 left-0 right-0 z-50 mt-24 rounded-t-[10px] border-t border-gray-200 bg-white">
+          <Drawer.Content className="fixed right-0 bottom-0 left-0 z-50 mt-24 rounded-t-[10px] border-gray-200 border-t bg-white">
             <div className="sticky top-0 z-20 flex w-full items-center justify-center rounded-t-[10px] bg-inherit">
               <div className="my-3 h-1 w-12 rounded-full bg-gray-300" />
             </div>
@@ -40,7 +40,7 @@ export default function Popover({
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    )
+    );
   }
 
   return (
@@ -52,11 +52,11 @@ export default function Popover({
         <PopoverPrimitive.Content
           sideOffset={8}
           align={align}
-          className="animate-slide-up-fade z-50 hidden items-center rounded-md border border-gray-200 bg-white drop-shadow-lg sm:block"
+          className="z-50 hidden animate-slide-up-fade items-center rounded-md border border-gray-200 bg-white drop-shadow-lg sm:block"
         >
           {content}
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>
     </PopoverPrimitive.Root>
-  )
+  );
 }

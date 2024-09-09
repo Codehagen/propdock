@@ -1,13 +1,13 @@
-import Link from "next/link"
-import { allChangelogPosts } from "content-collections"
-import { Rss } from "lucide-react"
+import { allChangelogPosts } from "content-collections";
+import { Rss } from "lucide-react";
+import Link from "next/link";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { getBlurDataURL } from "@/lib/blog/images"
-import { formatDate } from "@/lib/utils"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import { MDX } from "@/components/blog/mdx"
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import { MDX } from "@/components/blog/mdx";
+import BlurImage from "@/lib/blog/blur-image";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { getBlurDataURL } from "@/lib/blog/images";
+import { formatDate } from "@/lib/utils";
 
 // import { Twitter } from "@/components/shared/icons"
 
@@ -16,24 +16,24 @@ export const metadata = constructMetadata({
   description:
     "Alle de siste oppdateringene, forbedringene og feilrettingene til Propdock - eiendomsadministrasjonsverktøyet for moderne eiendomsforvaltere.",
   image: "/api/og/changelog",
-})
+});
 
 export default function Changelog() {
   return (
     <MaxWidthWrapper className="px-0">
-      <div className="relative grid border-b border-gray-200 py-20 md:grid-cols-4">
+      <div className="relative grid border-gray-200 border-b py-20 md:grid-cols-4">
         <div className="md:col-span-1" />
         <div className="mx-5 flex flex-col space-y-6 md:col-span-3 md:mx-0">
-          <h1 className="font-display text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">
+          <h1 className="font-bold font-display text-4xl text-gray-800 tracking-tight md:text-5xl">
             Endringslogg
           </h1>
-          <p className="text-lg text-gray-500">
+          <p className="text-gray-500 text-lg">
             Alle de siste oppdateringene, forbedringene og feilrettingene til
             Propdock.
           </p>
         </div>
-        <div className="absolute bottom-2 right-0 flex items-center space-x-2">
-          <p className="text-sm text-gray-500">Abonner på oppdateringer →</p>
+        <div className="absolute right-0 bottom-2 flex items-center space-x-2">
+          <p className="text-gray-500 text-sm">Abonner på oppdateringer →</p>
           <Link
             href="https://twitter.com/codehagen"
             className="rounded-full bg-blue-100 p-2 transition-colors hover:bg-blue-200"
@@ -88,21 +88,21 @@ export default function Changelog() {
                 >
                   <time
                     dateTime={post.publishedAt}
-                    className="text-sm text-gray-500 transition-all group-hover:text-gray-800 md:hidden"
+                    className="text-gray-500 text-sm transition-all group-hover:text-gray-800 md:hidden"
                   >
                     {formatDate(post.publishedAt)}
                   </time>
                 </Link>
                 <Link href={`/changelog/${post.slug}`} className="mx-5 md:mx-0">
-                  <h2 className="font-display text-3xl font-bold tracking-tight text-gray-800 hover:underline hover:decoration-1 hover:underline-offset-4 md:text-4xl">
+                  <h2 className="font-bold font-display text-3xl text-gray-800 tracking-tight hover:underline hover:decoration-1 hover:underline-offset-4 md:text-4xl">
                     {post.title}
                   </h2>
                 </Link>
-                <MDX code={post.mdx} className="mx-5 sm:prose-lg md:mx-0" />
+                <MDX code={post.mdx} className="sm:prose-lg mx-5 md:mx-0" />
               </div>
             </div>
           ))}
       </div>
     </MaxWidthWrapper>
-  )
+  );
 }

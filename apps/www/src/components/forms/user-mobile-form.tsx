@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import type { User } from "@prisma/client"
-import { useTransition } from "react"
-import { updateUserMobile } from "@/actions/update-user-mobile"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { buttonVariants } from "@propdock/ui/components/button"
+import { updateUserMobile } from "@/actions/update-user-mobile";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { User } from "@prisma/client";
+import { buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -12,27 +11,28 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+} from "@propdock/ui/components/card";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils"
-import { userMobileSchema } from "@/lib/validations/user"
-import { Icons } from "@/components/shared/icons"
+import { Icons } from "@/components/shared/icons";
+import { cn } from "@/lib/utils";
+import { userMobileSchema } from "@/lib/validations/user";
 
 interface UserMobileFormProps {
-  user: Pick<User, "id" | "phone">
+  user: Pick<User, "id" | "phone">;
 }
 
 interface FormData {
-  phone: string
+  phone: string;
 }
 
 export function UserMobileForm({ user }: UserMobileFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const updateUserMobileWithId = updateUserMobile.bind(null, user.id)
+  const [isPending, startTransition] = useTransition();
+  const updateUserMobileWithId = updateUserMobile.bind(null, user.id);
 
   const {
     handleSubmit,
@@ -43,19 +43,21 @@ export function UserMobileForm({ user }: UserMobileFormProps) {
     defaultValues: {
       phone: user.phone || "",
     },
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
-      const { status } = await updateUserMobileWithId(data)
+      const { status } = await updateUserMobileWithId(data);
 
       if (status !== "success") {
-        toast.error("Ditt mobilnummer ble ikke oppdatert. Vennligst prøv igjen")
+        toast.error(
+          "Ditt mobilnummer ble ikke oppdatert. Vennligst prøv igjen",
+        );
       } else {
-        toast.success("Mobil nummeret ditt har blitt oppdatert")
+        toast.success("Mobil nummeret ditt har blitt oppdatert");
       }
-    })
-  })
+    });
+  });
 
   return (
     <form onSubmit={onSubmit}>
@@ -76,7 +78,7 @@ export function UserMobileForm({ user }: UserMobileFormProps) {
               {...register("phone")}
             />
             {errors.phone && (
-              <p className="px-1 text-xs text-red-600">
+              <p className="px-1 text-red-600 text-xs">
                 {errors.phone.message}
               </p>
             )}
@@ -96,5 +98,5 @@ export function UserMobileForm({ user }: UserMobileFormProps) {
         </CardFooter>
       </Card>
     </form>
-  )
+  );
 }

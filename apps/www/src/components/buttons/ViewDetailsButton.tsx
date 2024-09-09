@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +15,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { BellIcon, InfoIcon } from "lucide-react"
+} from "@propdock/ui/components/dialog";
+import { BellIcon, InfoIcon } from "lucide-react";
 
 export function ViewDetailsButton({ event }) {
   return (
@@ -44,13 +44,13 @@ export function ViewDetailsButton({ event }) {
             <CardContent className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-medium text-gray-500 text-sm dark:text-gray-400">
                     Event Type
                   </p>
                   <p className="font-medium">{event?.name}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-medium text-gray-500 text-sm dark:text-gray-400">
                     Channel
                   </p>
                   <p className="font-medium">
@@ -60,7 +60,7 @@ export function ViewDetailsButton({ event }) {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-medium text-gray-500 text-sm dark:text-gray-400">
                     Project
                   </p>
                   <p className="font-medium">
@@ -68,14 +68,14 @@ export function ViewDetailsButton({ event }) {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-medium text-gray-500 text-sm dark:text-gray-400">
                     User
                   </p>
                   <p className="font-medium">{event?.userId}</p>
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="font-medium text-gray-500 text-sm dark:text-gray-400">
                   Description
                 </p>
                 <p>{event?.description || "No Description"}</p>
@@ -83,8 +83,8 @@ export function ViewDetailsButton({ event }) {
             </CardContent>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter></DialogFooter>
+        <DialogFooter />
       </DialogContent>
     </Dialog>
-  )
+  );
 }

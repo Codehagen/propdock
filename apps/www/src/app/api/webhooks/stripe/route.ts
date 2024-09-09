@@ -1,39 +1,39 @@
-import type Stripe from "stripe"
-import { headers } from "next/headers"
+import { headers } from "next/headers";
+import type Stripe from "stripe";
 
-import { env } from "@/env"
-import { prisma } from "@/lib/db"
-import { stripe } from "@/lib/stripe"
+import { env } from "@/env";
+import { prisma } from "@/lib/db";
+import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
-  const body = await req.text()
-  const signature = headers().get("Stripe-Signature")!
+  const body = await req.text();
+  const signature = headers().get("Stripe-Signature")!;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
       env.STRIPE_WEBHOOK_SECRET,
-    )
+    );
   } catch (error) {
-    console.error("Webhook Error:", error)
-    return new Response(`Webhook Error: ${error.message}`, { status: 400 })
+    console.error("Webhook Error:", error);
+    return new Response(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  console.log("Received Stripe event:", event)
+  console.log("Received Stripe event:", event);
 
   // Handling checkout.session.completed event
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object
-    console.log("Session details:", session)
+    const session = event.data.object;
+    console.log("Session details:", session);
 
     try {
       const subscription = await stripe.subscriptions.retrieve(
         session.subscription as string,
-      )
-      console.log("Subscription details for session completed:", subscription)
+      );
+      console.log("Subscription details for session completed:", subscription);
 
       const updatedUser = await prisma.user.update({
         where: {
@@ -54,27 +54,27 @@ export async function POST(req: Request) {
           stripePriceId: true,
           stripeCurrentPeriodEnd: true,
         },
-      })
+      });
 
       console.log(
         "User updated successfully for session completed:",
         updatedUser,
-      )
+      );
     } catch (error) {
-      console.error("Error updating user for session completed:", error)
+      console.error("Error updating user for session completed:", error);
     }
   }
 
   // Handling invoice.payment_succeeded event
   if (event.type === "invoice.payment_succeeded") {
-    const invoice = event.data.object
-    console.log("Invoice details:", invoice)
+    const invoice = event.data.object;
+    console.log("Invoice details:", invoice);
 
     try {
       const subscription = await stripe.subscriptions.retrieve(
         invoice.subscription as string,
-      )
-      console.log("Subscription details for payment succeeded:", subscription)
+      );
+      console.log("Subscription details for payment succeeded:", subscription);
 
       const updatedUser = await prisma.user.update({
         where: {
@@ -91,16 +91,16 @@ export async function POST(req: Request) {
           stripePriceId: true,
           stripeCurrentPeriodEnd: true,
         },
-      })
+      });
 
       console.log(
         "User updated successfully for payment succeeded:",
         updatedUser,
-      )
+      );
     } catch (error) {
-      console.error("Error updating user for payment succeeded:", error)
+      console.error("Error updating user for payment succeeded:", error);
     }
   }
 
-  return new Response(null, { status: 200 })
+  return new Response(null, { status: 200 });
 }

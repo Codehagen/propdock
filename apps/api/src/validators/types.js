@@ -1,4 +1,3 @@
-"use strict";
 // interface User {
 //   workspaceId: any;
 //   id: number;

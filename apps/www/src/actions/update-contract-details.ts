@@ -1,22 +1,22 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { currencies } from "@/lib/currencies" // Added this import
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { currencies } from "@/lib/currencies"; // Added this import
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function updateContractDetails(
   contractId: string | null,
   data: any,
   currentPath: string,
 ) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "No user is currently logged in." }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "No user is currently logged in." };
   }
 
   try {
@@ -31,11 +31,11 @@ export async function updateContractDetails(
       select: {
         id: true,
       },
-    })
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return { success: false, error: "No workspace found for this user." }
+      console.error("No workspace found for this user.");
+      return { success: false, error: "No workspace found for this user." };
     }
 
     const tenant = await prisma.tenant.findUnique({
@@ -44,14 +44,14 @@ export async function updateContractDetails(
         building: true,
         property: true,
       },
-    })
+    });
 
     if (!tenant || !tenant.building || !tenant.property) {
-      console.error("Tenant or associated building/property not found.")
+      console.error("Tenant or associated building/property not found.");
       return {
         success: false,
         error: "Tenant or associated building/property not found.",
-      }
+      };
     }
 
     const contractData = {
@@ -65,16 +65,16 @@ export async function updateContractDetails(
       currency:
         currencies.find((c) => c.code === data.currencyIso)?.name ||
         data.currencyIso,
-    }
+    };
 
-    let contract
+    let contract;
 
     if (contractId && contractId !== "0") {
       // Update existing contract
       contract = await prisma.contract.update({
         where: { id: contractId },
         data: contractData,
-      })
+      });
     } else {
       // Create new contract
       contract = await prisma.contract.create({
@@ -85,14 +85,14 @@ export async function updateContractDetails(
           workspaceId: userWorkspace.id,
           propertyId: tenant.property.id,
         },
-      })
+      });
     }
 
-    revalidatePath(currentPath)
+    revalidatePath(currentPath);
 
-    return { success: true, contract }
+    return { success: true, contract };
   } catch (error) {
-    console.error("Error updating contract details:", error)
-    return { success: false, error: error.message }
+    console.error("Error updating contract details:", error);
+    return { success: false, error: error.message };
   }
 }

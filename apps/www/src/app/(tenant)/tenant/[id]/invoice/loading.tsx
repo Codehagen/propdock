@@ -1,13 +1,16 @@
-import { Button } from "@propdock/ui/components/button"
-import { Skeleton } from "@propdock/ui/components/skeleton"
+import { Button } from "@propdock/ui/components/button";
+import { Skeleton } from "@propdock/ui/components/skeleton";
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
 
 export default function InvoiceLoading() {
   return (
     <DashboardShell>
-      <DashboardHeader heading="Lag faktura" text="Laster inn fakturadetaljer...">
+      <DashboardHeader
+        heading="Lag faktura"
+        text="Laster inn fakturadetaljer..."
+      >
         <Button disabled>
           <Skeleton className="h-4 w-[100px]" />
         </Button>
@@ -22,5 +25,5 @@ export default function InvoiceLoading() {
         </div>
       </div>
     </DashboardShell>
-  )
+  );
 }

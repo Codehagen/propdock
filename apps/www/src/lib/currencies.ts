@@ -3,4 +3,4 @@ export const currencies = [
   { code: "USD", name: "Amerikanske dollar" },
   { code: "EUR", name: "Euro" },
   // Legg til flere valutaer etter behov
-]
+];

@@ -1,6 +1,4 @@
-import * as React from "react"
-import Link from "next/link"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
+import { Button, buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -8,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -18,7 +16,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
+import Link from "next/link";
+import * as React from "react";
 
 const leaseExpirationData = [
   {
@@ -61,7 +61,7 @@ const leaseExpirationData = [
     jun: 1,
     total: 8,
   },
-]
+];
 
 export default function DashboardTableLeaseExpiration() {
   return (
@@ -111,5 +111,5 @@ export default function DashboardTableLeaseExpiration() {
         </Link>
       </CardFooter>
     </Card>
-  )
+  );
 }

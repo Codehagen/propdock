@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -12,22 +12,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
-import { format } from "date-fns"
+} from "@propdock/ui/components/table";
+import { format } from "date-fns";
 
 interface AnalysisDetailsTableProps {
-  details: any
+  details: any;
 }
 
 export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
-  const tableHeaders = ["Field", "Value"]
+  const tableHeaders = ["Field", "Value"];
 
   const formatValue = (value: any) => {
     if (value instanceof Date) {
-      return format(value, "yyyy-MM-dd")
+      return format(value, "yyyy-MM-dd");
     }
-    return value
-  }
+    return value;
+  };
 
   const dataRows = [
     // { label: "Building", value: details.building.name },
@@ -76,7 +76,7 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
     { label: "Manual Yield Merch", value: details.manYieldMerch },
     { label: "Manual Yield Misc", value: details.manYieldMisc },
     { label: "Manual Yield Weighted", value: details.manYieldWeighted },
-  ]
+  ];
 
   return (
     <Card>
@@ -104,5 +104,5 @@ export function AnalysisDetailsTable({ details }: AnalysisDetailsTableProps) {
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }

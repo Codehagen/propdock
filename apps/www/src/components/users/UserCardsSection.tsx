@@ -3,52 +3,52 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { differenceInDays, format, formatDistanceToNow } from "date-fns"
+} from "@propdock/ui/components/card";
+import { differenceInDays, format, formatDistanceToNow } from "date-fns";
 
-import { EmptyPlaceholder } from "../shared/empty-placeholder"
+import { EmptyPlaceholder } from "../shared/empty-placeholder";
 
 export default function UserCardsSection({ tenantDetails }) {
   const totalBaseRent = tenantDetails.contracts.reduce(
     (sum, contract) => sum + contract.baseRent,
     0,
-  )
+  );
 
   const indexValues = tenantDetails.contracts
     .map((contract) => contract.indexValue)
-    .join(", ")
+    .join(", ");
 
   const getRemainingDays = (contracts) => {
     if (contracts.length === 0) {
-      return null
+      return null;
     }
 
-    const currentDate = new Date()
+    const currentDate = new Date();
 
     // Find the active or future contract with the latest end date
     const activeContract = contracts.reduce((latest, contract) => {
-      const contractEndDate = new Date(contract.endDate)
+      const contractEndDate = new Date(contract.endDate);
       return contractEndDate > currentDate &&
         contractEndDate > new Date(latest.endDate)
         ? contract
-        : latest
-    }, contracts[0])
+        : latest;
+    }, contracts[0]);
 
     if (new Date(activeContract.endDate) <= currentDate) {
-      return null // No active or future contracts
+      return null; // No active or future contracts
     }
 
-    return differenceInDays(new Date(activeContract.endDate), currentDate)
-  }
+    return differenceInDays(new Date(activeContract.endDate), currentDate);
+  };
 
-  const remainingDays = getRemainingDays(tenantDetails.contracts)
+  const remainingDays = getRemainingDays(tenantDetails.contracts);
 
   return (
-    <div className="-mt-4  grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="-mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {totalBaseRent > 0 ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Leieinntekter</CardTitle>
+            <CardTitle className="font-medium text-sm">Leieinntekter</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -65,10 +65,10 @@ export default function UserCardsSection({ tenantDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="font-bold text-xl">
               {new Intl.NumberFormat("no-NO").format(totalBaseRent)} NOK
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Totale leieinntekter for dette året
             </p>
           </CardContent>
@@ -86,7 +86,7 @@ export default function UserCardsSection({ tenantDetails }) {
       {indexValues ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="font-medium text-sm">
               KPI regulering
             </CardTitle>
             <svg
@@ -103,8 +103,8 @@ export default function UserCardsSection({ tenantDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{indexValues}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-xl">{indexValues}</div>
+            <p className="text-muted-foreground text-xs">
               Avtalte KPI reguleringen
             </p>
           </CardContent>
@@ -122,7 +122,7 @@ export default function UserCardsSection({ tenantDetails }) {
       {remainingDays !== null ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="font-medium text-sm">
               Leiekontrakten går ut
             </CardTitle>
             <svg
@@ -140,8 +140,8 @@ export default function UserCardsSection({ tenantDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{remainingDays} dager</div>
-            <p className="text-xs text-muted-foreground">igjen av leietiden</p>
+            <div className="font-bold text-2xl">{remainingDays} dager</div>
+            <p className="text-muted-foreground text-xs">igjen av leietiden</p>
           </CardContent>
         </Card>
       ) : (
@@ -157,7 +157,7 @@ export default function UserCardsSection({ tenantDetails }) {
       {indexValues ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="font-medium text-sm">
               Sendte faktura
             </CardTitle>
             <svg
@@ -174,8 +174,8 @@ export default function UserCardsSection({ tenantDetails }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{indexValues}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">{indexValues}</div>
+            <p className="text-muted-foreground text-xs">
               Totalt sendte faktura
             </p>
           </CardContent>
@@ -190,5 +190,5 @@ export default function UserCardsSection({ tenantDetails }) {
         </EmptyPlaceholder>
       )}
     </div>
-  )
+  );
 }

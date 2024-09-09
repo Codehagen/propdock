@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { extendZodWithOpenApi, createDocument } from "zod-openapi";
 import * as yaml from "yaml";
+import { z } from "zod";
+import { createDocument, extendZodWithOpenApi } from "zod-openapi";
 
 // Extend Zod with OpenAPI functionality
 extendZodWithOpenApi(z);

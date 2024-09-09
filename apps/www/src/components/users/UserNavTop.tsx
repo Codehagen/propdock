@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { createSmsTenant } from "@/actions/create-sms-tenant"
-import { Button } from "@propdock/ui/components/button"
+import { createSmsTenant } from "@/actions/create-sms-tenant";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -13,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
+} from "@propdock/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,53 +20,55 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { ChevronDown, File, MessageSquare, PlusCircle } from "lucide-react"
-import { toast } from "sonner"
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { ChevronDown, File, MessageSquare, PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 export function UserNavTop({ tenantDetails }) {
-  const router = useRouter()
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [contactName, setContactName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [message, setMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [contactName, setContactName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleKontraktClick = () => {
-    router.push(`/tenant/${tenantDetails.id}/contract/`)
-  }
+    router.push(`/tenant/${tenantDetails.id}/contract/`);
+  };
 
   const handleSMSClick = () => {
     if (tenantDetails.contacts && tenantDetails.contacts.length > 0) {
-      const contact = tenantDetails.contacts[0]
-      setContactName(contact.name || "")
-      setPhone(contact.phone || "Ingen telefonnummer registrert")
+      const contact = tenantDetails.contacts[0];
+      setContactName(contact.name || "");
+      setPhone(contact.phone || "Ingen telefonnummer registrert");
     } else {
-      setContactName("Ingen kontaktperson registrert")
-      setPhone("Ingen telefonnummer registrert")
+      setContactName("Ingen kontaktperson registrert");
+      setPhone("Ingen telefonnummer registrert");
     }
-    setIsDialogOpen(true)
-  }
+    setIsDialogOpen(true);
+  };
 
   const handleSubmit = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await createSmsTenant(tenantDetails.id, message)
+      const result = await createSmsTenant(tenantDetails.id, message);
       if (result.success) {
-        toast.success("SMS sent successfully")
+        toast.success("SMS sent successfully");
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
     } catch (error) {
-      toast.error(error.message || "Failed to send SMS")
+      toast.error(error.message || "Failed to send SMS");
     } finally {
-      setIsLoading(false)
-      setIsDialogOpen(false)
+      setIsLoading(false);
+      setIsDialogOpen(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center pb-2">
@@ -172,5 +172,5 @@ export function UserNavTop({ tenantDetails }) {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

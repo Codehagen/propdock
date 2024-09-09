@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
+} from "@propdock/ui/components/dialog";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import Link from "next/link";
 
 export function SubmitProperty() {
   return (
@@ -32,5 +32,5 @@ export function SubmitProperty() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

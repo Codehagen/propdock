@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import type { UserSubscriptionPlan } from "@/types"
-import * as React from "react"
-import Link from "next/link"
-import { buttonVariants } from "@propdock/ui/components/button"
+import type { UserSubscriptionPlan } from "@/types";
+import { buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -11,12 +9,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
+import Link from "next/link";
+import type * as React from "react";
 
-import { cn, formatDate } from "@/lib/utils"
+import { cn, formatDate } from "@/lib/utils";
 
 interface BillingInfoProps extends React.HTMLAttributes<HTMLFormElement> {
-  subscriptionPlan: UserSubscriptionPlan
+  subscriptionPlan: UserSubscriptionPlan;
 }
 
 export function BillingInfo({ subscriptionPlan }: BillingInfoProps) {
@@ -36,7 +36,7 @@ export function BillingInfo({ subscriptionPlan }: BillingInfoProps) {
         </Link>
 
         {subscriptionPlan.isPaid ? (
-          <p className="rounded-full text-xs font-medium">
+          <p className="rounded-full font-medium text-xs">
             {subscriptionPlan.isCanceled
               ? "Your plan will be canceled on "
               : "Your plan renews on "}
@@ -45,5 +45,5 @@ export function BillingInfo({ subscriptionPlan }: BillingInfoProps) {
         ) : null}
       </CardFooter>
     </Card>
-  )
+  );
 }

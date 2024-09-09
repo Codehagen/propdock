@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -7,20 +7,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
-import { Pie, PieChart } from "recharts"
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
+import { Pie, PieChart } from "recharts";
 
 const chartData = [
   { status: "Utleid", value: 70, fill: "hsl(var(--chart-1))" },
   { status: "Ledig", value: 30, fill: "hsl(var(--chart-2))" },
-]
+];
 
 const chartConfig = {
   value: {
@@ -34,7 +34,7 @@ const chartConfig = {
     label: "Ledig",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function DashboardRentedChart() {
   return (
@@ -66,10 +66,10 @@ export function DashboardRentedChart() {
         <div className="flex items-center gap-2 font-medium leading-none">
           Økning på 5.2% denne måneden <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Viser oversikt over utleide og ledige eiendommer
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

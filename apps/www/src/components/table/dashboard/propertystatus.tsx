@@ -1,7 +1,9 @@
 import {
-  CheckCircledIcon, CrossCircledIcon, QuestionMarkCircledIcon,
-  StopwatchIcon
-} from "@radix-ui/react-icons"
+  CheckCircledIcon,
+  CrossCircledIcon,
+  QuestionMarkCircledIcon,
+  StopwatchIcon,
+} from "@radix-ui/react-icons";
 
 export const propertyStatuses = [
   {

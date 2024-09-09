@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import va from "@vercel/analytics"
-import Cookies from "js-cookie"
-import { toast } from "sonner"
+import va from "@vercel/analytics";
+import Cookies from "js-cookie";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const reactions = [
   {
@@ -21,19 +21,21 @@ const reactions = [
     emoji: "😀",
     label: "Veldig hjelpsom",
   },
-]
+];
 
 export default function Feedback() {
-  const { slug } = useParams() as { slug: string }
+  const { slug } = useParams() as { slug: string };
 
-  const [reaction, setReaction] = useState<string | null>(null)
+  const [reaction, setReaction] = useState<string | null>(null);
   useEffect(() => {
-    const reaction = Cookies.get(`feedback-help-${slug}`)
-    if (reaction) setReaction(reaction)
-  }, [slug, reaction])
+    const reaction = Cookies.get(`feedback-help-${slug}`);
+    if (reaction) {
+      setReaction(reaction);
+    }
+  }, [slug, reaction]);
 
   return (
-    <div className="mb-10 flex flex-col items-center justify-center space-y-2 border-t border-gray-200 py-10">
+    <div className="mb-10 flex flex-col items-center justify-center space-y-2 border-gray-200 border-t py-10">
       <p className="text-gray-500 sm:text-lg">
         Svarte dette på spørsmålet ditt?
       </p>
@@ -44,10 +46,10 @@ export default function Feedback() {
             onClick={() => {
               va.track(`Help Center Feedback: ${label}`, {
                 slug: `/help/article/${slug}`,
-              })
-              Cookies.set(`feedback-help-${slug}`, label)
-              setReaction(label)
-              toast.success("Tilbakemelding registrert – takk skal du ha!")
+              });
+              Cookies.set(`feedback-help-${slug}`, label);
+              setReaction(label);
+              toast.success("Tilbakemelding registrert – takk skal du ha!");
             }}
             className={cn(
               "text-4xl transition-all duration-75 hover:scale-110 active:scale-100",
@@ -62,5 +64,5 @@ export default function Feedback() {
         ))}
       </div>
     </div>
-  )
+  );
 }

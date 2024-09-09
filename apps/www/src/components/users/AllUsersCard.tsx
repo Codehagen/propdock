@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { Badge } from "@propdock/ui/components/badge"
-import { Button } from "@propdock/ui/components/button"
+import { Badge } from "@propdock/ui/components/badge";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,37 +16,38 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Separator } from "@propdock/ui/components/separator"
-import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { CircleIcon, Tag, TrashIcon } from "lucide-react"
-import { toast } from "sonner"
+} from "@propdock/ui/components/dropdown-menu";
+import { Separator } from "@propdock/ui/components/separator";
+import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { CircleIcon, Tag, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-import { EditCustomerSheet } from "./EditCustomerSheet"
+import { EditCustomerSheet } from "./EditCustomerSheet";
 
 export function AllUsersCards({ customerDetails }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDelete = async (customerId) => {
     // Add logic to delete customer if needed
     try {
-      toast.success("The customer has been deleted successfully.")
-      router.refresh()
+      toast.success("The customer has been deleted successfully.");
+      router.refresh();
     } catch (error) {
-      toast.error("There was an error deleting the customer.")
-      console.error("Error deleting customer:", error)
+      toast.error("There was an error deleting the customer.");
+      console.error("Error deleting customer:", error);
     }
-  }
+  };
 
   const handleEdit = (customerId) => {
     // Display a toast message on edit click
-    toast.info(`Edit customer with ID: ${customerId}`)
-  }
+    toast.info(`Edit customer with ID: ${customerId}`);
+  };
 
   const handleRedirect = (customerId) => {
-    router.push(`/dashboard/users/${customerId}`)
-  }
+    router.push(`/dashboard/users/${customerId}`);
+  };
 
   return (
     <div>
@@ -96,7 +96,7 @@ export function AllUsersCards({ customerDetails }) {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex space-x-4 text-sm text-muted-foreground">
+            <div className="flex space-x-4 text-muted-foreground text-sm">
               <div className="flex items-center">
                 <Tag className="mr-1 h-3 w-3 " />
                 {customer.userId}
@@ -113,5 +113,5 @@ export function AllUsersCards({ customerDetails }) {
         </Card>
       ))}
     </div>
-  )
+  );
 }

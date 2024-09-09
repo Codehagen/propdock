@@ -5,16 +5,16 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
-import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons"
-import { BellIcon, MapIcon, Share2Icon } from "lucide-react"
+} from "@propdock/ui/components/command";
+import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons";
+import { BellIcon, MapIcon, Share2Icon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-import { AnimatedBeamMultipleOutputDemo } from "./animated-beam-multiple-outputs"
-import { AnimatedListLanding } from "./animated-list-landing"
-import { BentoCard, BentoGrid } from "./bento-grid"
-import Marquee from "./marquee"
+import { AnimatedBeamMultipleOutputDemo } from "./animated-beam-multiple-outputs";
+import { AnimatedListLanding } from "./animated-list-landing";
+import { BentoCard, BentoGrid } from "./bento-grid";
+import Marquee from "./marquee";
 
 const files = [
   {
@@ -37,14 +37,14 @@ const files = [
     name: "Rådhusgata 2",
     body: "Rådhusgata 2 er en eiendom som ligger i nærheten av Oslo rådhus. Denne eiendommen er kjent for sin nærhet til byens viktigste landemerker.",
   },
-]
+];
 
 interface Item {
-  name: string
-  description: string
-  icon: string
-  color: string
-  time: string
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  time: string;
 }
 
 const features = [
@@ -72,7 +72,7 @@ const features = [
           >
             <div className="flex flex-row items-center gap-2">
               <div className="flex flex-col">
-                <figcaption className="text-sm font-medium dark:text-white ">
+                <figcaption className="font-medium text-sm dark:text-white ">
                   {f.name}
                 </figcaption>
               </div>
@@ -91,7 +91,7 @@ const features = [
     cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
-      <Command className="absolute right-10 top-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
+      <Command className="group-hover:-translate-x-10 absolute top-10 right-10 w-[70%] origin-top translate-x-0 border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)]">
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>Ingen resultat.</CommandEmpty>
@@ -115,7 +115,7 @@ const features = [
     cta: "Les mer",
     className: "col-span-3 lg:col-span-2",
     background: (
-      <AnimatedBeamMultipleOutputDemo className="absolute right-2 top-4 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
+      <AnimatedBeamMultipleOutputDemo className="absolute top-4 right-2 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
     ),
   },
   {
@@ -126,10 +126,10 @@ const features = [
     href: "/help",
     cta: "Se mer",
     background: (
-      <AnimatedListLanding className="absolute right-2 top-4 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105 md:h-[150px] md:w-[300px]" />
+      <AnimatedListLanding className="absolute top-4 right-2 h-[300px] w-[600px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105 md:h-[150px] md:w-[300px]" />
     ),
   },
-]
+];
 
 export function BentoSectionLanding() {
   return (
@@ -138,5 +138,5 @@ export function BentoSectionLanding() {
         <BentoCard key={idx} {...feature} />
       ))}
     </BentoGrid>
-  )
+  );
 }

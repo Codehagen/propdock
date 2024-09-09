@@ -1,11 +1,11 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function getAnalysisDetails(analysisId: string) {
   try {
     if (!analysisId) {
-      throw new Error("Invalid analysis ID")
+      throw new Error("Invalid analysis ID");
     }
 
     const analysisDetails = await prisma.financialAnalysisBuilding.findUnique({
@@ -20,15 +20,15 @@ export async function getAnalysisDetails(analysisId: string) {
         incomeUnits: true,
         tenants: true,
       },
-    })
+    });
 
     if (!analysisDetails) {
-      throw new Error("Analysis not found")
+      throw new Error("Analysis not found");
     }
 
-    return { success: true, analysisDetails }
+    return { success: true, analysisDetails };
   } catch (error) {
-    console.error("Error fetching analysis details:", error)
-    return { success: false, error: error.message }
+    console.error("Error fetching analysis details:", error);
+    return { success: false, error: error.message };
   }
 }

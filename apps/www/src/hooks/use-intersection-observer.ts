@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { type RefObject, useEffect, useState } from "react";
 
 interface Args extends IntersectionObserverInit {
   freezeOnceVisible?: boolean;
@@ -25,7 +25,9 @@ function useIntersectionObserver(
     const node = elementRef?.current; // DOM Ref
     const hasIOSupport = !!window.IntersectionObserver;
 
-    if (!hasIOSupport || frozen || !node) return;
+    if (!hasIOSupport || frozen || !node) {
+      return;
+    }
 
     const observerParams = { threshold, root, rootMargin };
     const observer = new IntersectionObserver(updateEntry, observerParams);
@@ -33,8 +35,6 @@ function useIntersectionObserver(
     observer.observe(node);
 
     return () => observer.disconnect();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threshold, root, rootMargin, frozen]);
 
   return entry;

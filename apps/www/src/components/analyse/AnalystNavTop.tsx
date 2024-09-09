@@ -1,8 +1,6 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -11,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@propdock/ui/components/dialog"
+} from "@propdock/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,47 +17,49 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { BarChart, ChevronDown, File, PlusCircle } from "lucide-react"
-import { toast } from "sonner"
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { BarChart, ChevronDown, File, PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 export function AnalystNavTop({ analysisDetails }) {
-  const router = useRouter()
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [analysisName, setAnalysisName] = useState("")
-  const [analysisDescription, setAnalysisDescription] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [analysisName, setAnalysisName] = useState("");
+  const [analysisDescription, setAnalysisDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleExportClick = () => {
     // Placeholder for export functionality
-    toast.success("Export functionality to be implemented")
-  }
+    toast.success("Export functionality to be implemented");
+  };
 
   const handleChartClick = () => {
-    setIsDialogOpen(true)
-  }
+    setIsDialogOpen(true);
+  };
 
   const handleCreateNewAnalysis = () => {
     // Placeholder for creating new analysis
-    router.push("/analyse/new")
-  }
+    router.push("/analyse/new");
+  };
 
   const handleSubmit = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // Placeholder for submitting new chart
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      toast.success("Chart created successfully")
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      toast.success("Chart created successfully");
     } catch (error) {
-      toast.error("Failed to create chart")
+      toast.error("Failed to create chart");
     } finally {
-      setIsLoading(false)
-      setIsDialogOpen(false)
+      setIsLoading(false);
+      setIsDialogOpen(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center pb-2">
@@ -151,5 +151,5 @@ export function AnalystNavTop({ analysisDetails }) {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

@@ -1,33 +1,33 @@
-import { redirect } from "next/navigation"
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@propdock/ui/components/alert"
+} from "@propdock/ui/components/alert";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { getCurrentUser } from "@/lib/session"
-import { getUserSubscriptionPlan } from "@/lib/subscription"
-import { BillingInfo } from "@/components/billing-info"
-import { LanugageButton } from "@/components/buttons/LanguageButton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { Icons } from "@/components/shared/icons"
+import { BillingInfo } from "@/components/billing-info";
+import { LanugageButton } from "@/components/buttons/LanguageButton";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { Icons } from "@/components/shared/icons";
+import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/session";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 
 export const metadata = {
   title: "Dingity Billing - Subscription Management",
   description:
     "Access and manage your billing information, view subscription plans, and update payment methods on Dingity's Billing page.",
-}
+};
 
 export default async function BillingPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
-  const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+  const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
   return (
     <DashboardShell>
@@ -57,5 +57,5 @@ export default async function BillingPage() {
       </div>
       {/* <LanugageButton userId={user.id} /> */}
     </DashboardShell>
-  )
+  );
 }

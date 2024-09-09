@@ -1,50 +1,50 @@
-import Image from "next/image"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { Play, PlayCircle } from "lucide-react"
+import { Play, PlayCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { FEATURES_LIST } from "@/lib/blog/content"
-import { getBlurDataURL } from "@/lib/blog/images"
-import { cn } from "@/lib/utils"
-import Logos from "@/components/blog/logos"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
+import Logos from "@/components/blog/logos";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import BlurImage from "@/lib/blog/blur-image";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { FEATURES_LIST } from "@/lib/blog/content";
+import { getBlurDataURL } from "@/lib/blog/images";
+import { cn } from "@/lib/utils";
 
 export function generateMetadata({
   params,
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const data = FEATURES_LIST.find(({ slug }) => slug === params.slug)
+  const data = FEATURES_LIST.find(({ slug }) => slug === params.slug);
   if (!data) {
-    return
+    return;
   }
   return constructMetadata({
     title: `${data.title} - Propdock`,
     description: data.description,
     image: data.thumbnail,
-  })
+  });
 }
 
 export async function generateStaticParams() {
   return FEATURES_LIST.map(({ slug }) => ({
     slug,
-  }))
+  }));
 }
 
 export default async function FeaturePage({
   params,
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const feature = FEATURES_LIST.find(({ slug }) => slug === params.slug)
+  const feature = FEATURES_LIST.find(({ slug }) => slug === params.slug);
   if (!feature) {
-    notFound()
+    notFound();
   }
   const data = {
     ...feature,
@@ -59,18 +59,18 @@ export default async function FeaturePage({
           })),
         )
       : undefined,
-  }
+  };
 
   return (
     <>
       <div className="mx-auto mt-12 max-w-md px-2.5 text-center sm:max-w-lg sm:px-0">
-        <h1 className="font-display mt-5 text-3xl font-extrabold leading-[1.15] text-black [text-wrap:balance] sm:text-5xl sm:leading-[1.15]">
+        <h1 className="mt-5 font-display font-extrabold text-3xl text-black leading-[1.15] [text-wrap:balance] sm:text-5xl sm:leading-[1.15]">
           {data.title}
         </h1>
         <p className="mt-5 text-gray-600 sm:text-xl">{data.description}</p>
         <div className="mx-auto mt-5 flex max-w-fit space-x-4">
           <a
-            href={`https://www.propdock.no/`}
+            href={"https://www.propdock.no/"}
             className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black"
           >
             Start nå
@@ -84,7 +84,7 @@ export default async function FeaturePage({
           </PlayButton> */}
         </div>
       </div>
-      <div className="relative mx-auto mt-10 max-w-screen-lg overflow-hidden border border-b-0 border-gray-200 lg:rounded-t-lg">
+      <div className="relative mx-auto mt-10 max-w-screen-lg overflow-hidden border border-gray-200 border-b-0 lg:rounded-t-lg">
         {/* <PlayButton
           url={data.videoUrl}
           className="group absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-black bg-opacity-0 transition-all duration-300 hover:bg-opacity-5 focus:outline-none"
@@ -125,7 +125,7 @@ export default async function FeaturePage({
       </div> */}
       <MaxWidthWrapper className="py-20 text-center">
         <div className="mx-auto max-w-xl">
-          <h2 className="font-display text-3xl font-extrabold leading-[1.15] text-black [text-wrap:balance] sm:text-5xl sm:leading-[1.15]">
+          <h2 className="font-display font-extrabold text-3xl text-black leading-[1.15] [text-wrap:balance] sm:text-5xl sm:leading-[1.15]">
             {data.bentoTitle}
           </h2>
           <p className="mt-5 text-gray-600 sm:text-lg">
@@ -144,21 +144,21 @@ export default async function FeaturePage({
         ) : (
           <>
             <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {data.bentoFeatures
-                ?.slice(0, 2)
-                .map((feature, idx) => <BentoCard key={idx} {...feature} />)}
+              {data.bentoFeatures?.slice(0, 2).map((feature, idx) => (
+                <BentoCard key={idx} {...feature} />
+              ))}
             </div>
             <div className="mt-4 grid gap-4 md:grid-cols-3">
-              {data.bentoFeatures
-                ?.slice(2, 5)
-                .map((feature, idx) => <BentoCard key={idx} {...feature} />)}
+              {data.bentoFeatures?.slice(2, 5).map((feature, idx) => (
+                <BentoCard key={idx} {...feature} />
+              ))}
             </div>
           </>
         )}
       </MaxWidthWrapper>
       {/* <CTA /> */}
     </>
-  )
+  );
 }
 
 const BentoCard = ({
@@ -168,11 +168,11 @@ const BentoCard = ({
   imageBlurhash,
   href,
 }: {
-  title: string
-  description: string
-  image?: string
-  imageBlurhash?: string
-  href?: string
+  title: string;
+  description: string;
+  image?: string;
+  imageBlurhash?: string;
+  href?: string;
 }) => {
   const contents = (
     <div
@@ -201,13 +201,13 @@ const BentoCard = ({
         </div>
       )}
       <div className="relative h-full bg-white p-8">
-        <h3 className="text-xl font-semibold text-gray-700">{title}</h3>
+        <h3 className="font-semibold text-gray-700 text-xl">{title}</h3>
         <p className="mt-2 text-gray-500 [text-wrap:balance]">{description}</p>
       </div>
     </div>
-  )
+  );
   if (href) {
-    return <Link href={href}>{contents}</Link>
+    return <Link href={href}>{contents}</Link>;
   }
-  return contents
-}
+  return contents;
+};

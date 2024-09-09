@@ -57,8 +57,8 @@ export const MagicLinkEmail = ({
               it.
             </Text>
           ) : null}
-          <Hr className="my-4 border-t-2 border-gray-300" />
-          <Text className="text-sm text-gray-600">
+          <Hr className="my-4 border-gray-300 border-t-2" />
+          <Text className="text-gray-600 text-sm">
             123 Code Street, Suite 404, Devtown, CA 98765
           </Text>
         </Container>

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Area,
   AreaChart,
@@ -14,7 +14,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
 
 // Placeholder data for the past week
 const PREVIOUS_WEEK_DATA = [
@@ -24,20 +24,20 @@ const PREVIOUS_WEEK_DATA = [
   { name: "3rd Dec", users: 60 },
   { name: "4th Dec", users: 70 },
   { name: "5th Dec", users: 65 },
-]
+];
 
 export default function UserGrowthTrend() {
   return (
     <div className="mt-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="font-normal text-base">
             User Growth Trend
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">Estimated Growth of Users</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="font-bold text-2xl">Estimated Growth of Users</div>
+          <p className="text-muted-foreground text-xs">
             Growth trend over the past week.
           </p>
           <div className="mt-4 h-[300px]">
@@ -70,5 +70,5 @@ export default function UserGrowthTrend() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -7,21 +7,27 @@ export default function useCurrentAnchor() {
     const mdxContainer: HTMLElement | null = document.querySelector(
       "[data-mdx-container]",
     );
-    if (!mdxContainer) return;
+    if (!mdxContainer) {
+      return;
+    }
 
     const offsetTop = mdxContainer.offsetTop - 1;
 
     const observer = new IntersectionObserver(
       (entries) => {
         let currentEntry = entries[0];
-        if (!currentEntry) return;
+        if (!currentEntry) {
+          return;
+        }
 
         const offsetBottom =
           (currentEntry.rootBounds?.height || 0) * 0.3 + offsetTop;
 
         for (let i = 1; i < entries.length; i++) {
           const entry = entries[i];
-          if (!entry) break;
+          if (!entry) {
+            break;
+          }
 
           if (
             entry.boundingClientRect.top <
@@ -43,7 +49,9 @@ export default function useCurrentAnchor() {
         while (target && target.getBoundingClientRect().top > offsetBottom) {
           target = siblings.get(target)?.prev;
         }
-        if (target) setCurrentAnchor(target.getAttribute("href"));
+        if (target) {
+          setCurrentAnchor(target.getAttribute("href"));
+        }
       },
       {
         threshold: 1,

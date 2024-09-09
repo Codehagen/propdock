@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -19,13 +18,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Separator } from "@propdock/ui/components/separator"
-import { Switch } from "@propdock/ui/components/switch"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Separator } from "@propdock/ui/components/separator";
+import { Switch } from "@propdock/ui/components/switch";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   ownerCostsMethod: z.boolean().default(false),
@@ -40,22 +40,22 @@ const FormSchema = z.object({
   costConsultFees: z.number().nonnegative().nullable(),
   costAssetMgmt: z.number().nonnegative().nullable(),
   costSum: z.number().nonnegative().nullable(),
-})
+});
 
 interface EditOwnerCostsCardProps {
-  analysisId: string
-  initialOwnerCostsMethod: boolean
-  initialOwnerCostsManual?: number
-  initialCostMaintenance?: number
-  initialCostInsurance?: number
-  initialCostRevision?: number
-  initialCostAdm?: number
-  initialCostOther?: number
-  initialCostNegotiation?: number
-  initialCostLegalFees?: number
-  initialCostConsultFees?: number
-  initialCostAssetMgmt?: number
-  initialCostSum?: number
+  analysisId: string;
+  initialOwnerCostsMethod: boolean;
+  initialOwnerCostsManual?: number;
+  initialCostMaintenance?: number;
+  initialCostInsurance?: number;
+  initialCostRevision?: number;
+  initialCostAdm?: number;
+  initialCostOther?: number;
+  initialCostNegotiation?: number;
+  initialCostLegalFees?: number;
+  initialCostConsultFees?: number;
+  initialCostAssetMgmt?: number;
+  initialCostSum?: number;
 }
 
 export function EditOwnerCostsCard({
@@ -73,7 +73,7 @@ export function EditOwnerCostsCard({
   initialCostAssetMgmt,
   initialCostSum,
 }: EditOwnerCostsCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -90,7 +90,7 @@ export function EditOwnerCostsCard({
       costAssetMgmt: initialCostAssetMgmt ?? null,
       costSum: initialCostSum ?? null,
     },
-  })
+  });
 
   // Add this useEffect to calculate and update costSum
   useEffect(() => {
@@ -106,17 +106,17 @@ export function EditOwnerCostsCard({
           "costLegalFees",
           "costConsultFees",
           "costAssetMgmt",
-        ].reduce((acc, field) => acc + (value[field] || 0), 0)
+        ].reduce((acc, field) => acc + (value[field] || 0), 0);
 
-        form.setValue("costSum", sum)
+        form.setValue("costSum", sum);
       }
-    })
+    });
 
-    return () => subscription.unsubscribe()
-  }, [form])
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         costs: {
@@ -135,18 +135,18 @@ export function EditOwnerCostsCard({
             costSum: data.costSum,
           },
         },
-      })
+      });
 
       if (result.success) {
-        toast.success("Analysen ble oppdatert.")
+        toast.success("Analysen ble oppdatert.");
       } else {
-        throw new Error(result.error || "Kunne ikke oppdatere analysen.")
+        throw new Error(result.error || "Kunne ikke oppdatere analysen.");
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av analyse:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av analyse:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -196,7 +196,7 @@ export function EditOwnerCostsCard({
       label: "Forvaltningskostnader",
       description: "Årlige kostnader for eiendomsforvaltning",
     },
-  ]
+  ];
 
   return (
     <Card>
@@ -234,7 +234,7 @@ export function EditOwnerCostsCard({
             <Separator />
             {form.watch("ownerCostsMethod") ? (
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Detaljerte kostnader</h3>
+                <h3 className="font-medium text-lg">Detaljerte kostnader</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {costFields.map((cost) => (
                     <FormField
@@ -318,5 +318,5 @@ export function EditOwnerCostsCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

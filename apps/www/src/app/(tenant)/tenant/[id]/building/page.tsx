@@ -1,35 +1,35 @@
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { Button } from "@propdock/ui/components/button"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { format } from "date-fns"
-import { Building, Settings } from "lucide-react"
+} from "@propdock/ui/components/card";
+import { format } from "date-fns";
+import { Building, Settings } from "lucide-react";
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export default async function BuildingTenant({
   params,
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   if (!tenantId) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Tenant not found" text="Invalid tenant ID." />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     if (!tenantDetails || !tenantDetails.building || !tenantDetails.property) {
       return (
@@ -47,15 +47,15 @@ export default async function BuildingTenant({
             <Button variant="outline">Legg til bygning</Button>
           </EmptyPlaceholder>
         </DashboardShell>
-      )
+      );
     }
 
     const formattedCreationDate = tenantDetails.createdAt
       ? format(new Date(tenantDetails.createdAt), "dd.MM.yyyy")
-      : "N/A"
+      : "N/A";
     const formattedUpdatedDate = tenantDetails.updatedAt
       ? format(new Date(tenantDetails.updatedAt), "dd.MM.yyyy")
-      : "N/A"
+      : "N/A";
 
     return (
       <DashboardShell>
@@ -139,12 +139,12 @@ export default async function BuildingTenant({
           </Card>
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

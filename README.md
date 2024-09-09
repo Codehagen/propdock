@@ -7,7 +7,6 @@
   Start at full speed with Propdock !
 </p>
 
-
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#installation"><strong>Installation</strong></a> ·
@@ -22,6 +21,7 @@
 Welcome to Propdock, where we're revolutionizing property management and real estate analytics. Our platform offers comprehensive solutions for monitoring, tracking, and analyzing property-related data in real-time. Whether you're a property manager, real estate investor, or developer, Propdock provides the tools you need to make informed decisions and optimize your property portfolio.
 
 Key features of Propdock include:
+
 - Real-time property monitoring
 - Event tracking for property-related activities
 - Advanced data analytics for real estate insights
@@ -43,8 +43,6 @@ Propdock is a monorepo managed by [Turborepo](https://turbo.build/repo). The mon
     │    ├── db                      # Prisma DB connector
     │    └── ui                      # Shared UI components (Shadcn)
     ├── tooling                      # are the shared configuration that are used by the apps and packages
-    │    ├── eslint                  # Shared eslint presets
-    │    ├── prettier                # Shared prettier configuration
     │    ├── tailwind                # Shared tailwind configuration
     │    └── typescript              # Shared tsconfig you can extend from
     ├── LICENSE
@@ -98,6 +96,7 @@ If you want to use the REST-api you need to update the hono under `apps/api`
 ```
 
 If you want to deploy it on Cloudflare you need to go run
+
 ```bash
 pnpm run deploy
 ```

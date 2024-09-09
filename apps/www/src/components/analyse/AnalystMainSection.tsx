@@ -1,9 +1,9 @@
-import { UserChartActivity } from "../users/UserChartActivity"
-import { AnalysesChartDashboard } from "./AnalysesChartDashboard"
-import AnalysesRaitingBuilding from "./AnalysesRaitingBuilding"
-import AnalysesScoreBuilding from "./AnalysesScoreBuilding"
-import { PropertyValueTrendCard } from "./PropertyValueTrendCard"
-import { TenantDiversificationCard } from "./TenantDiversificationCard"
+import { UserChartActivity } from "../users/UserChartActivity";
+import { AnalysesChartDashboard } from "./AnalysesChartDashboard";
+import AnalysesRaitingBuilding from "./AnalysesRaitingBuilding";
+import AnalysesScoreBuilding from "./AnalysesScoreBuilding";
+import { PropertyValueTrendCard } from "./PropertyValueTrendCard";
+import { TenantDiversificationCard } from "./TenantDiversificationCard";
 
 export function AnalystMainSection({ analysisDetails }) {
   return (
@@ -23,5 +23,5 @@ export function AnalystMainSection({ analysisDetails }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

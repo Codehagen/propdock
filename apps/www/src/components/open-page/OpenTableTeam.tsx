@@ -1,14 +1,7 @@
-"use client"
+"use client";
 
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
-import * as React from "react"
-import { Button } from "@propdock/ui/components/button"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+import { Button } from "@propdock/ui/components/button";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -17,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/dropdown-menu";
+import { Input } from "@propdock/ui/components/input";
 import {
   Table,
   TableBody,
@@ -26,7 +19,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -34,8 +33,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import * as React from "react";
 
 const data: TeamMember[] = [
   {
@@ -56,16 +56,16 @@ const data: TeamMember[] = [
     location: "Fauske, Norge",
     joinDate: "20 Juni 2024",
   },
-]
+];
 
 export interface TeamMember {
-  id: string
-  name: string
-  role: string
-  salary: string
-  engagement: string
-  location: string
-  joinDate: string
+  id: string;
+  name: string;
+  role: string;
+  salary: string;
+  engagement: string;
+  location: string;
+  joinDate: string;
 }
 
 export const columns: ColumnDef<TeamMember>[] = [
@@ -99,16 +99,16 @@ export const columns: ColumnDef<TeamMember>[] = [
     header: "Join Date",
     cell: ({ row }) => <div>{row.getValue("joinDate")}</div>,
   },
-]
+];
 
 export function OpenTableTeam() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -127,7 +127,7 @@ export function OpenTableTeam() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,7 +150,7 @@ export function OpenTableTeam() {
                               header.getContext(),
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
@@ -187,5 +187,5 @@ export function OpenTableTeam() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import { Loader2 as Spinner } from "lucide-react";
+import React, { useState } from "react";
 
 export default function PricingPage() {
   const [imageUrl, setImageUrl] = useState("");

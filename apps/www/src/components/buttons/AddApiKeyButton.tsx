@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createApiKey } from "@/actions/create-api-key"
-import { Button } from "@propdock/ui/components/button"
+import { createApiKey } from "@/actions/create-api-key";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -11,62 +10,63 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
+} from "@propdock/ui/components/dialog";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@propdock/ui/components/tooltip"
-import { toast } from "sonner"
+} from "@propdock/ui/components/tooltip";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function AddApiKeyButton() {
-  const [apiKey, setApiKey] = useState("")
-  const [serviceName, setServiceName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasCopied, setHasCopied] = useState(false)
-  const [showKey, setShowKey] = useState(false)
+  const [apiKey, setApiKey] = useState("");
+  const [serviceName, setServiceName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
+  const [showKey, setShowKey] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setHasCopied(false)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [hasCopied])
+      setHasCopied(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [hasCopied]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const response = await createApiKey(serviceName)
+      const response = await createApiKey(serviceName);
       if (response.success) {
-        setApiKey(response.apiKey || "")
-        toast.success("Your new API key has been generated successfully.")
+        setApiKey(response.apiKey || "");
+        toast.success("Your new API key has been generated successfully.");
       } else {
-        console.error(response.error)
-        toast.error("There was an error generating the API key.")
+        console.error(response.error);
+        toast.error("There was an error generating the API key.");
       }
     } catch (error) {
-      console.error(error)
-      toast.error("An unexpected error occurred.")
+      console.error(error);
+      toast.error("An unexpected error occurred.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleCopy = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await navigator.clipboard.writeText(apiKey)
-      setHasCopied(true)
-      toast.success("API key has been copied to clipboard.")
+      await navigator.clipboard.writeText(apiKey);
+      setHasCopied(true);
+      toast.success("API key has been copied to clipboard.");
     } catch (error) {
-      console.error("Failed to copy API key to clipboard.", error)
-      toast.error("Failed to copy API key to clipboard.")
+      console.error("Failed to copy API key to clipboard.", error);
+      toast.error("Failed to copy API key to clipboard.");
     }
-  }
+  };
 
   return (
     <>
@@ -106,11 +106,11 @@ export function AddApiKeyButton() {
                     value={apiKey}
                   />
                   <Button
-                    className="absolute right-8 top-1/2 -translate-y-1/2"
+                    className="-translate-y-1/2 absolute top-1/2 right-8"
                     variant="ghost"
                     onClick={(e) => {
-                      e.preventDefault()
-                      setShowKey(!showKey)
+                      e.preventDefault();
+                      setShowKey(!showKey);
                     }}
                   >
                     {showKey ? (
@@ -123,7 +123,7 @@ export function AddApiKeyButton() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                        className="-translate-y-1/2 absolute top-1/2 right-2"
                         variant="ghost"
                         onClick={handleCopy}
                       >
@@ -162,11 +162,11 @@ export function AddApiKeyButton() {
               value={apiKey}
             />
             <Button
-              className="absolute right-8 top-1/2 -translate-y-1/2"
+              className="-translate-y-1/2 absolute top-1/2 right-8"
               variant="ghost"
               onClick={(e) => {
-                e.preventDefault()
-                setShowKey(!showKey)
+                e.preventDefault();
+                setShowKey(!showKey);
               }}
             >
               {showKey ? (
@@ -179,7 +179,7 @@ export function AddApiKeyButton() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="absolute right-2 top-1/2 -translate-y-1/2"
+                  className="-translate-y-1/2 absolute top-1/2 right-2"
                   variant="ghost"
                   onClick={handleCopy}
                 >
@@ -197,7 +197,7 @@ export function AddApiKeyButton() {
         </div>
       )}
     </>
-  )
+  );
 }
 
 function CopyIcon(props) {
@@ -217,7 +217,7 @@ function CopyIcon(props) {
       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
       <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
     </svg>
-  )
+  );
 }
 
 function CheckIcon(props) {
@@ -238,7 +238,7 @@ function CheckIcon(props) {
         d="m4.5 12.75 6 6 9-13.5"
       />
     </svg>
-  )
+  );
 }
 
 function EyeSlashIcon(props) {
@@ -259,7 +259,7 @@ function EyeSlashIcon(props) {
         d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
       />
     </svg>
-  )
+  );
 }
 
 function EyeIcon(props) {
@@ -285,5 +285,5 @@ function EyeIcon(props) {
         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
       />
     </svg>
-  )
+  );
 }

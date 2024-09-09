@@ -1,38 +1,37 @@
-"use client"
+"use client";
 
-import type { UserSubscriptionPlan } from "@/types"
-import { Suspense, useState } from "react"
-import Link from "next/link"
-import { Button, buttonVariants } from "@propdock/ui/components/button"
-import { Switch } from "@propdock/ui/components/switch"
-import Balancer from "react-wrap-balancer"
+import type { UserSubscriptionPlan } from "@/types";
+import { Button, buttonVariants } from "@propdock/ui/components/button";
+import { Switch } from "@propdock/ui/components/switch";
+import Link from "next/link";
+import { Suspense, useState } from "react";
+import Balancer from "react-wrap-balancer";
 
-import { pricingData } from "@/config/subscriptions"
-import { useSigninModal } from "@/hooks/use-signin-modal"
-import { BillingFormButton } from "@/components/forms/billing-form-button"
-import { Icons } from "@/components/shared/icons"
+import { BillingFormButton } from "@/components/forms/billing-form-button";
+import { Icons } from "@/components/shared/icons";
+import { pricingData } from "@/config/subscriptions";
+import { useSigninModal } from "@/hooks/use-signin-modal";
 
 interface PricingCardsProps {
-  userId?: string
-  subscriptionPlan?: UserSubscriptionPlan
+  userId?: string;
+  subscriptionPlan?: UserSubscriptionPlan;
 }
 
 export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
-  const isYearlyDefault =
+  const isYearlyDefault = !!(
     !subscriptionPlan?.interval || subscriptionPlan.interval === "year"
-      ? true
-      : false
-  const [isYearly, setIsYearly] = useState<boolean>(!!isYearlyDefault)
-  const signInModal = useSigninModal()
+  );
+  const [isYearly, setIsYearly] = useState<boolean>(!!isYearlyDefault);
+  const signInModal = useSigninModal();
 
   const toggleBilling = () => {
-    setIsYearly(!isYearly)
-  }
+    setIsYearly(!isYearly);
+  };
 
   return (
     <section className="container flex flex-col items-center text-center">
       <div className="mx-auto mb-10 flex w-full flex-col gap-5">
-        <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
+        <p className="font-medium text-muted-foreground text-sm uppercase tracking-widest">
           Pricing
         </p>
         <h2 className="font-heading text-3xl leading-[1.1] md:text-5xl">
@@ -58,13 +57,13 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
             key={offer.title}
           >
             <div className="min-h-[150px] items-start space-y-4 bg-secondary/70 p-6">
-              <p className="flex font-urban text-sm font-bold uppercase tracking-wider text-muted-foreground">
+              <p className="flex font-bold font-urban text-muted-foreground text-sm uppercase tracking-wider">
                 {offer.title}
               </p>
 
               <div className="flex flex-row">
                 <div className="flex items-end">
-                  <div className="flex text-left text-3xl font-semibold leading-6">
+                  <div className="flex text-left font-semibold text-3xl leading-6">
                     {isYearly && offer.prices.monthly > 0 ? (
                       <>
                         <span className="mr-2 text-muted-foreground line-through">
@@ -76,13 +75,13 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
                       `$${offer.prices.monthly}`
                     )}
                   </div>
-                  <div className="-mb-1 ml-2 text-left text-sm font-medium">
+                  <div className="-mb-1 ml-2 text-left font-medium text-sm">
                     <div>/mo</div>
                   </div>
                 </div>
               </div>
               {offer.prices.monthly > 0 ? (
-                <div className="text-left text-sm text-muted-foreground">
+                <div className="text-left text-muted-foreground text-sm">
                   {isYearly
                     ? `$${offer.prices.yearly} will be charged when annual`
                     : "when charged monthly"}
@@ -91,7 +90,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
             </div>
 
             <div className="flex h-full flex-col justify-between gap-16 p-6">
-              <ul className="space-y-2 text-left text-sm font-medium leading-normal">
+              <ul className="space-y-2 text-left font-medium text-sm leading-normal">
                 {offer.benefits.map((feature) => (
                   <li className="flex items-start" key={feature}>
                     <Icons.check className="mr-3 h-5 w-5 shrink-0" />
@@ -154,5 +153,5 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         </Balancer>
       </p>
     </section>
-  )
+  );
 }

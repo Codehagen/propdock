@@ -1,8 +1,8 @@
 // @ts-nocheck
 // TODO: The tailwind.d.ts declaration file isn't recognized by apps that consume this file
 
-import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
+import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
@@ -58,8 +58,8 @@ export default {
         },
       },
       borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
@@ -157,13 +157,11 @@ export default {
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 // @ts-expect-error TODO: fix typing
 function addVariablesForColors({ addBase, theme }) {
-  // eslint-disable-next-line
   const allColors = flattenColorPalette(theme("colors"));
   const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
 
-  // eslint-disable-next-line
   addBase({
     ":root": newVars,
   });

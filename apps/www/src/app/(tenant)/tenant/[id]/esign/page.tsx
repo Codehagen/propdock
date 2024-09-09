@@ -1,24 +1,24 @@
-import Link from "next/link"
-import { createEsignDocument } from "@/actions/create-esign-document"
-import { getTenantDetails } from "@/actions/get-tenant-details"
-import { getWsApiKeys } from "@/actions/get-ws-api-keys"
-import { getServerSession } from "next-auth/next"
+import { createEsignDocument } from "@/actions/create-esign-document";
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import { getWsApiKeys } from "@/actions/get-ws-api-keys";
+import { getServerSession } from "next-auth/next";
+import Link from "next/link";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { poweroffice } from "@/lib/poweroffice-sdk"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import ESignMainComponent from "@/components/esign/esignMainComponent"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import TenantSendInvoice from "@/components/tenant/TenantSendInvoice"
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import ESignMainComponent from "@/components/esign/esignMainComponent";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import TenantSendInvoice from "@/components/tenant/TenantSendInvoice";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { poweroffice } from "@/lib/poweroffice-sdk";
 
 export default async function EsignPage({
   params,
 }: {
-  params: { id: string }
+  params: { id: string };
 }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   if (!tenantId) {
     return (
@@ -28,18 +28,18 @@ export default async function EsignPage({
           text="Invalid contact person ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user.id },
     select: { workspaceId: true },
-  })
+  });
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -50,7 +50,7 @@ export default async function EsignPage({
           />
           <ESignMainComponent tenantDetails={tenantDetails} />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -61,13 +61,13 @@ export default async function EsignPage({
         />
         <ESignMainComponent tenantDetails={tenantDetails} />
       </DashboardShell>
-    )
+    );
   } catch (error) {
-    console.error("Error in InvoicePage:", error)
+    console.error("Error in InvoicePage:", error);
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

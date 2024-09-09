@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
+import { TooltipProvider } from "@propdock/ui/components/tooltip";
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import type { ThemeProviderProps } from "next-themes/dist/types";
 import {
-  createContext,
-  Dispatch,
+  type Dispatch,
   ReactNode,
-  SetStateAction,
+  type SetStateAction,
+  createContext,
   useContext,
   useState,
-} from "react"
-import { TooltipProvider } from "@propdock/ui/components/tooltip"
-import { SessionProvider } from "next-auth/react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { ThemeProviderProps } from "next-themes/dist/types"
-import { Provider as BalancerProvider } from "react-wrap-balancer"
+} from "react";
+import { Provider as BalancerProvider } from "react-wrap-balancer";
 
-import useCMDK from "./blog/cmdk"
+import useCMDK from "./blog/cmdk";
 
 // Create the context
 export const AppContext = createContext<{
-  setShowCMDK: Dispatch<SetStateAction<boolean>>
+  setShowCMDK: Dispatch<SetStateAction<boolean>>;
 }>({
   setShowCMDK: () => {},
-})
+});
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
-  const { CMDK, setShowCMDK } = useCMDK()
+  const { CMDK, setShowCMDK } = useCMDK();
 
   return (
     <NextThemesProvider {...props}>
@@ -41,5 +41,5 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
         </AppContext.Provider>
       </SessionProvider>
     </NextThemesProvider>
-  )
+  );
 }

@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createInvoice } from "@/actions/create-invoice"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { createInvoice } from "@/actions/create-invoice";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Command,
   CommandEmpty,
@@ -12,7 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
+} from "@propdock/ui/components/command";
 import {
   Form,
   FormControl,
@@ -21,29 +20,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@propdock/ui/components/popover"
-import { Separator } from "@propdock/ui/components/separator"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { addDays, differenceInCalendarDays, format } from "date-fns"
-import { nb } from "date-fns/locale"
+} from "@propdock/ui/components/popover";
+import { Separator } from "@propdock/ui/components/separator";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { addDays, differenceInCalendarDays, format } from "date-fns";
+import { nb } from "date-fns/locale";
 import {
   CalendarIcon,
   Check,
   ChevronsUpDown,
   PlusIcon,
   SendIcon,
-} from "lucide-react"
-import { useForm, useWatch } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const InvoiceSchema = z.object({
   customer: z.string().min(1, "Kunde er påkrevd"),
@@ -62,21 +62,21 @@ const InvoiceSchema = z.object({
   dueDate: z.date({ required_error: "Forfallsdato er påkrevd" }),
   accountNumber: z.string().min(1, "Kontonummer er påkrevd"),
   comment: z.string().optional(),
-})
+});
 
 export default function TenantSendInvoice({
   customers,
   products,
 }: {
-  customers: any
-  products: any
+  customers: any;
+  products: any;
 }) {
   // Extract the actual customer and product arrays
-  const customerArray = customers?.message || []
-  const productArray = products?.message || []
+  const customerArray = customers?.message || [];
+  const productArray = products?.message || [];
 
-  const today = new Date()
-  const fourteenDaysFromToday = addDays(today, 14)
+  const today = new Date();
+  const fourteenDaysFromToday = addDays(today, 14);
 
   const form = useForm({
     resolver: zodResolver(InvoiceSchema),
@@ -95,38 +95,38 @@ export default function TenantSendInvoice({
       accountNumber: "",
       comment: "",
     },
-  })
+  });
 
-  const quantity = useWatch({ control: form.control, name: "quantity" })
-  const price = useWatch({ control: form.control, name: "price" })
-  const date = useWatch({ control: form.control, name: "date" })
-  const dueDate = useWatch({ control: form.control, name: "dueDate" })
+  const quantity = useWatch({ control: form.control, name: "quantity" });
+  const price = useWatch({ control: form.control, name: "price" });
+  const date = useWatch({ control: form.control, name: "date" });
+  const dueDate = useWatch({ control: form.control, name: "dueDate" });
 
-  const totalPrice = quantity * price
-  const vat = totalPrice * 0.25
-  const totalPriceWithVat = totalPrice + vat
+  const totalPrice = quantity * price;
+  const vat = totalPrice * 0.25;
+  const totalPriceWithVat = totalPrice + vat;
 
   const formatNOK = (amount: number) => {
     return new Intl.NumberFormat("nb-NO", {
       style: "decimal",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(amount)
-  }
+    }).format(amount);
+  };
 
   const daysBetween =
-    date && dueDate ? differenceInCalendarDays(dueDate, date) : 0
+    date && dueDate ? differenceInCalendarDays(dueDate, date) : 0;
 
   const onSubmit = async (data) => {
     const invoiceData = {
       CurrencyCode: "NOK",
-      CustomerId: parseInt(data.customer),
+      CustomerId: Number.parseInt(data.customer),
       SalesOrderLines: [
         {
           Description:
             productArray.find((p) => p.Id.toString() === data.product)?.Name ||
             "",
-          ProductId: parseInt(data.product),
+          ProductId: Number.parseInt(data.product),
           Quantity: data.quantity,
           ProductUnitPrice: data.price,
         },
@@ -139,26 +139,26 @@ export default function TenantSendInvoice({
       InvoiceEmail: data.invoiceEmail,
       BankAccountNumber: data.accountNumber,
       Comments: data.comment,
-    }
+    };
 
     toast.promise(createInvoice(invoiceData), {
       loading: "Oppretter faktura...",
       success: (result) => {
-        console.log("Opprettet faktura:", result.data)
-        return "Faktura opprettet vellykket!"
+        console.log("Opprettet faktura:", result.data);
+        return "Faktura opprettet vellykket!";
       },
       error: (error) => {
-        console.error("Feil ved oppretting av faktura:", error)
-        return `Kunne ikke opprette faktura: ${error.message}`
+        console.error("Feil ved oppretting av faktura:", error);
+        return `Kunne ikke opprette faktura: ${error.message}`;
       },
-    })
-  }
+    });
+  };
 
   return (
     <div className="grid">
       <div className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4">
-          <h1 className="text-xl font-semibold">Lag faktura</h1>
+          <h1 className="font-semibold text-xl">Lag faktura</h1>
           <div className="ml-auto flex items-center gap-2">
             <Button
               variant="outline"
@@ -186,7 +186,7 @@ export default function TenantSendInvoice({
                 className="grid w-full items-start gap-6"
               >
                 <fieldset className="grid gap-6 rounded-lg border p-4">
-                  <legend className="-ml-1 px-1 text-sm font-medium">
+                  <legend className="-ml-1 px-1 font-medium text-sm">
                     Kunde
                   </legend>
                   <FormField
@@ -232,15 +232,15 @@ export default function TenantSendInvoice({
                                         form.setValue(
                                           "customer",
                                           customer.Id.toString(),
-                                        )
+                                        );
                                         form.setValue(
                                           "email",
                                           customer.EmailAddress,
-                                        )
+                                        );
                                         form.setValue(
                                           "invoiceEmail",
                                           customer.EmailAddress,
-                                        )
+                                        );
                                       }}
                                     >
                                       <Check
@@ -252,7 +252,7 @@ export default function TenantSendInvoice({
                                         )}
                                       />
                                       {customer.Name}
-                                      <span className="ml-2 text-sm text-muted-foreground">
+                                      <span className="ml-2 text-muted-foreground text-sm">
                                         {customer.OrganizationNumber}
                                       </span>
                                     </CommandItem>
@@ -338,7 +338,7 @@ export default function TenantSendInvoice({
                   />
                 </fieldset>
                 <fieldset className="grid gap-6 rounded-lg border p-4">
-                  <legend className="-ml-1 px-1 text-sm font-medium">
+                  <legend className="-ml-1 px-1 font-medium text-sm">
                     Produkter
                   </legend>
                   <FormField
@@ -384,11 +384,11 @@ export default function TenantSendInvoice({
                                         form.setValue(
                                           "product",
                                           product.Id.toString(),
-                                        )
+                                        );
                                         form.setValue(
                                           "price",
                                           product.SalesPrice,
-                                        )
+                                        );
                                       }}
                                     >
                                       <Check
@@ -400,7 +400,7 @@ export default function TenantSendInvoice({
                                         )}
                                       />
                                       {product.Name}
-                                      <span className="ml-2 text-sm text-muted-foreground">
+                                      <span className="ml-2 text-muted-foreground text-sm">
                                         {formatNOK(product.SalesPrice)} NOK
                                       </span>
                                     </CommandItem>
@@ -427,7 +427,7 @@ export default function TenantSendInvoice({
                             {...field}
                             value={field.value || ""}
                             onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
+                              field.onChange(Number.parseFloat(e.target.value))
                             }
                           />
                         </FormControl>
@@ -448,7 +448,7 @@ export default function TenantSendInvoice({
                             {...field}
                             value={field.value || ""}
                             onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
+                              field.onChange(Number.parseFloat(e.target.value))
                             }
                           />
                         </FormControl>
@@ -467,7 +467,7 @@ export default function TenantSendInvoice({
                 className="grid w-full items-start gap-6"
               >
                 <fieldset className="grid gap-6 rounded-lg border p-4">
-                  <legend className="-ml-1 px-1 text-sm font-medium">
+                  <legend className="-ml-1 px-1 font-medium text-sm">
                     Faktura
                   </legend>
                   <FormField
@@ -599,7 +599,7 @@ export default function TenantSendInvoice({
                   />
                 </fieldset>
                 <fieldset className="grid gap-6 rounded-lg border p-4">
-                  <legend className="-ml-1 px-1 text-sm font-medium">
+                  <legend className="-ml-1 px-1 font-medium text-sm">
                     Pris
                   </legend>
                   <div className="grid gap-2">
@@ -640,5 +640,5 @@ export default function TenantSendInvoice({
         </main>
       </div>
     </div>
-  )
+  );
 }

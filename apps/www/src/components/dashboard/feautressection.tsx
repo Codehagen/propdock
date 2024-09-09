@@ -52,21 +52,21 @@ export default function Featuressection() {
     <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+          <h2 className="font-semibold text-base text-indigo-600 leading-7">
             <span className="relative bg-gradient-to-r from-indigo-500 to-purple-500/80 bg-clip-text font-extrabold text-transparent">
               Propwrite
             </span>
           </h2>
 
           <h1
-            className="animate-fade-up font-urban text-3xl font-extrabold tracking-tight opacity-0 sm:text-4xl md:text-5xl lg:text-6xl"
+            className="animate-fade-up font-extrabold font-urban text-3xl tracking-tight opacity-0 sm:text-4xl md:text-5xl lg:text-6xl"
             style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
           >
             <Balancer>Streamlined Real Estate Efficiency</Balancer>
           </h1>
 
           <p
-            className="mt-4 max-w-[42rem] animate-fade-up leading-normal text-muted-foreground opacity-0 sm:text-xl sm:leading-8"
+            className="mt-4 max-w-[42rem] animate-fade-up text-muted-foreground leading-normal opacity-0 sm:text-xl sm:leading-8"
             style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
           >
             <Balancer>
@@ -89,7 +89,7 @@ export default function Featuressection() {
             height={1442}
           />
           <div className="relative" aria-hidden="true">
-            <div className="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]" />
+            <div className="-inset-x-20 absolute bottom-0 bg-gradient-to-t from-white pt-[7%]" />
           </div>
         </div>
       </div>
@@ -97,15 +97,15 @@ export default function Featuressection() {
         <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
           {features.map((feature) => (
             <div key={feature.name} className="relative pl-9">
-              <dt className="inline text-sm font-semibold">
+              <dt className="inline font-semibold text-sm">
                 <feature.icon
-                  className="absolute left-1 top-1 h-5 w-5 text-indigo-600"
+                  className="absolute top-1 left-1 h-5 w-5 text-indigo-600"
                   aria-hidden="true"
                 />
                 <Balancer>{feature.name}</Balancer>
               </dt>
               <dd
-                className="mt-2 animate-fade-up leading-normal text-muted-foreground opacity-0"
+                className="mt-2 animate-fade-up text-muted-foreground leading-normal opacity-0"
                 style={{
                   animationDelay: "0.35s",
                   animationFillMode: "forwards",

@@ -1,11 +1,11 @@
-import React from "react"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
+import React from "react";
 
 export function UserFinancialCard({ tenantDetails }) {
   return (
@@ -18,44 +18,44 @@ export function UserFinancialCard({ tenantDetails }) {
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">
+              <p className="font-medium text-sm leading-none">
                 Totalt betalt leie
               </p>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="font-medium text-muted-foreground text-sm">
               81.000,-
             </p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">Kostnader</p>
+              <p className="font-medium text-sm leading-none">Kostnader</p>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="font-medium text-muted-foreground text-sm">
               81.000,-
             </p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">
+              <p className="font-medium text-sm leading-none">
                 Betalt skatt og avgifter
               </p>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="font-medium text-muted-foreground text-sm">
               81.000,-
             </p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center ">
-              <p className="text-sm font-medium leading-none">Nettoinntekt</p>
+              <p className="font-medium text-sm leading-none">Nettoinntekt</p>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="font-medium text-muted-foreground text-sm">
               81.000,-
             </p>
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function DollarSignIcon(props) {
@@ -75,5 +75,5 @@ function DollarSignIcon(props) {
       <line x1="12" x2="12" y1="2" y2="22" />
       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
     </svg>
-  )
+  );
 }

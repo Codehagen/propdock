@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { ChartContainer } from "@propdock/ui/components/chart"
-import { Bar, BarChart, Rectangle, XAxis } from "recharts"
+} from "@propdock/ui/components/card";
+import { ChartContainer } from "@propdock/ui/components/chart";
+import { Bar, BarChart, Rectangle, XAxis } from "recharts";
 
 export function CapitalizationRateCard() {
   return (
@@ -18,9 +18,9 @@ export function CapitalizationRateCard() {
         <CardDescription>Kalkulert yield for denne eiendommen </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
-        <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
+        <div className="flex items-baseline gap-2 font-bold text-3xl tabular-nums leading-none">
           6.8%
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="font-normal text-muted-foreground text-sm">
             Yield
           </span>
         </div>
@@ -59,5 +59,5 @@ export function CapitalizationRateCard() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

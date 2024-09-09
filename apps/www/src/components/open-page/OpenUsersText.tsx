@@ -1,4 +1,4 @@
-import { Separator } from "@propdock/ui/components/separator"
+import { Separator } from "@propdock/ui/components/separator";
 
 export default function OpenUsersText() {
   return (
@@ -10,10 +10,10 @@ export default function OpenUsersText() {
         <h2 className="font-heading text-3xl leading-[1.1] md:text-5xl">
           Våre brukere
         </h2>
-        <p className="text-large font-medium text-muted-foreground">
+        <p className="font-medium text-large text-muted-foreground">
           Hvordan er veksten?
         </p>
       </div>
     </section>
-  )
+  );
 }

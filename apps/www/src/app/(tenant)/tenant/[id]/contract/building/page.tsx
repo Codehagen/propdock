@@ -1,19 +1,19 @@
-import React from "react"
-import { getTenantDetails } from "@/actions/get-tenant-details"
+import { getTenantDetails } from "@/actions/get-tenant-details";
+import React from "react";
 
-import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import { ContractCheck } from "@/components/tenant/ContractCheck"
+import { AddContactPersonSheet } from "@/components/buttons/AddContactPersonSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { ContractCheck } from "@/components/tenant/ContractCheck";
 
-import { BuildingFormContract } from "./_components/BuildingFormContract"
+import { BuildingFormContract } from "./_components/BuildingFormContract";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const tenantId = params.id
+  const tenantId = params.id;
 
   try {
-    const tenantDetails = await getTenantDetails(tenantId)
+    const tenantDetails = await getTenantDetails(tenantId);
 
     if (!tenantDetails || tenantDetails.contacts.length === 0) {
       return (
@@ -36,11 +36,11 @@ export default async function Home({ params }: { params: { id: string } }) {
             />
           </EmptyPlaceholder>
         </DashboardShell>
-      )
+      );
     }
 
     const hasContract =
-      tenantDetails.contracts && tenantDetails.contracts.length > 0
+      tenantDetails.contracts && tenantDetails.contracts.length > 0;
 
     return (
       <DashboardShell>
@@ -54,12 +54,12 @@ export default async function Home({ params }: { params: { id: string } }) {
           <ContractCheck tenantDetails={tenantDetails} />
         )}
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

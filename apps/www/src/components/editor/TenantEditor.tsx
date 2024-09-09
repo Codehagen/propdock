@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
-import React, { useEffect, useRef, useState } from "react"
-import { Button } from "@propdock/ui/components/button"
-import { FileDown, Loader2 } from "lucide-react"
-import { usePDF } from "react-to-pdf"
+import { Button } from "@propdock/ui/components/button";
+import { FileDown, Loader2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { usePDF } from "react-to-pdf";
 
-import Editor from "@/components/editor/editor"
+import Editor from "@/components/editor/editor";
 
 const TenantEditor = ({ contractContent }) => {
-  const [value, setValue] = useState(contractContent)
-  const [isExporting, setIsExporting] = useState(false)
-  const pdfContentRef = useRef(null)
+  const [value, setValue] = useState(contractContent);
+  const [isExporting, setIsExporting] = useState(false);
+  const pdfContentRef = useRef(null);
 
   const tenantName =
     contractContent.match(/2\.1 Navn\/Firma: (.*?) \(Leietaker\)/)?.[1] ||
-    "Leieavtale"
+    "Leieavtale";
 
   const { toPDF, targetRef } = usePDF({
     filename: `${tenantName.replace(/\s+/g, "_")}_kontrakt.pdf`,
     method: "save",
     page: { format: "A4" },
-  })
+  });
 
   useEffect(() => {
     if (pdfContentRef.current) {
-      pdfContentRef.current.innerHTML = value
+      pdfContentRef.current.innerHTML = value;
     }
-  }, [value])
+  }, [value]);
 
   const exportToPDF = async () => {
-    setIsExporting(true)
-    await toPDF()
-    setIsExporting(false)
-  }
+    setIsExporting(true);
+    await toPDF();
+    setIsExporting(false);
+  };
 
   return (
     <div className="space-y-4">
@@ -64,7 +64,7 @@ const TenantEditor = ({ contractContent }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TenantEditor
+export default TenantEditor;

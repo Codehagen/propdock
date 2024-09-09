@@ -1,16 +1,16 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { timeAgo } from "@/lib/utils"
+import BlurImage from "@/lib/blog/blur-image";
+import { timeAgo } from "@/lib/utils";
 
 export default async function Author({
   username,
   updatedAt,
   imageOnly,
 }: {
-  username: string
-  updatedAt?: string
-  imageOnly?: boolean
+  username: string;
+  updatedAt?: string;
+  imageOnly?: boolean;
 }) {
   const authors = {
     codehagen: {
@@ -23,11 +23,11 @@ export default async function Author({
       image:
         "https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/76037f97-384f-4681-176e-5b8a0ba71300/public",
     },
-  }
+  };
 
   if (!authors[username]) {
-    console.error(`Author not found: ${username}`)
-    return null
+    console.error(`Author not found: ${username}`);
+    return null;
   }
 
   return imageOnly ? (
@@ -48,10 +48,10 @@ export default async function Author({
         className="rounded-full"
       />
       <div className="flex flex-col">
-        <p className="text-sm text-gray-500">
+        <p className="text-gray-500 text-sm">
           Skrevet av {authors[username].name}
         </p>
-        <time dateTime={updatedAt} className="text-sm font-light text-gray-400">
+        <time dateTime={updatedAt} className="font-light text-gray-400 text-sm">
           Sist oppdatert {timeAgo(new Date(updatedAt))}
         </time>
       </div>
@@ -72,8 +72,8 @@ export default async function Author({
       />
       <div className="flex flex-col">
         <p className="font-semibold text-gray-700">{authors[username].name}</p>
-        <p className="text-sm text-gray-500">@{username}</p>
+        <p className="text-gray-500 text-sm">@{username}</p>
       </div>
     </Link>
-  )
+  );
 }

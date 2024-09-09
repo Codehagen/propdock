@@ -1,6 +1,6 @@
+import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { formatDate } from "@/lib/utils";
 import Balancer from "react-wrap-balancer";
 
 export function BlogPosts({ posts }) {
@@ -62,7 +62,7 @@ export function BlogPosts({ posts }) {
                 </p>
               )}
               {post.date && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {formatDate(post.date)}
                 </p>
               )}

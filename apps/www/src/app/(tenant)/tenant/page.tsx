@@ -1,29 +1,29 @@
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getTenants } from "@/actions/get-tenants"
+import { getTenants } from "@/actions/get-tenants";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import AddTenantDropdownButton from "@/components/buttons/AddTenantDropdownButton"
-import { AddTenantSheet } from "@/components/buttons/AddTenantSheet"
-import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import { DataTable } from "@/components/table/dashboard/data-table"
-import { TenantColumns } from "@/components/table/tenant/columns"
+import AddTenantDropdownButton from "@/components/buttons/AddTenantDropdownButton";
+import { AddTenantSheet } from "@/components/buttons/AddTenantSheet";
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { DataTable } from "@/components/table/dashboard/data-table";
+import { TenantColumns } from "@/components/table/tenant/columns";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Leietaker Dashboard - Din leietakeroversikt",
   description: "Se og administrer alle leietakere dine på Leietaker Dashboard.",
-}
+};
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login")
+    redirect(authOptions.pages?.signIn || "/login");
   }
 
   // Fetch workspace associated with the user
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
     select: {
       id: true,
     },
-  })
+  });
 
   if (!userWorkspace) {
     return (
@@ -56,19 +56,19 @@ export default async function DashboardPage() {
           <AddWorkspaceButton />
         </EmptyPlaceholder>
       </DashboardShell>
-    )
+    );
   }
 
   // Fetch tenants associated with the user's workspace
-  const { success, tenants = [], error } = await getTenants(userWorkspace.id)
-  console.log(tenants)
+  const { success, tenants = [], error } = await getTenants(userWorkspace.id);
+  console.log(tenants);
 
   if (!success) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error} />
       </DashboardShell>
-    )
+    );
   }
 
   return (
@@ -95,5 +95,5 @@ export default async function DashboardPage() {
         )}
       </div>
     </DashboardShell>
-  )
+  );
 }

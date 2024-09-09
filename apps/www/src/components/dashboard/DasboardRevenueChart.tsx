@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -7,15 +7,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 const chartData = [
   { month: "Jan", income: 310, expenses: 195 },
@@ -30,7 +30,7 @@ const chartData = [
   { month: "Okt", income: 490, expenses: 390 },
   { month: "Nov", income: 505, expenses: 400 },
   { month: "Des", income: 520, expenses: 410 },
-]
+];
 
 const chartConfig = {
   income: {
@@ -41,7 +41,7 @@ const chartConfig = {
     label: "Utgifter",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function DashboardRevenueChart() {
   return (
@@ -107,10 +107,10 @@ export function DashboardRevenueChart() {
           Inntekter øker med 5,2% denne måneden{" "}
           <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Viser totale inntekter og utgifter for de siste 12 måneder
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

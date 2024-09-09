@@ -1,5 +1,5 @@
 // import { Logo } from "#/ui/icons";
-import { allHelpPosts } from "content-collections"
+import { allHelpPosts } from "content-collections";
 import {
   Airplay,
   BarChart,
@@ -15,12 +15,12 @@ import {
   TrendingUp,
   Users,
   Webhook,
-} from "lucide-react"
+} from "lucide-react";
 
 export const BLOG_CATEGORIES: {
-  title: string
-  slug: "company" | "education"
-  description: string
+  title: string;
+  slug: "company" | "education";
+  description: string;
 }[] = [
   {
     title: "Selskapsnyheter",
@@ -33,19 +33,24 @@ export const BLOG_CATEGORIES: {
   //   description: "Educational content about link management.",
   // },
   // {
-]
+];
 
 export const POPULAR_ARTICLES = [
   "introduserer-propdock",
   "integrere-med-poweroffice",
   "legge-til-leietaker",
-]
+];
 
 export const HELP_CATEGORIES: {
-  title: string
-  slug: "oversikt" | "starter" | "eiendomsforvaltning" | "api" | "integrasjoner"
-  description: string
-  icon: JSX.Element
+  title: string;
+  slug:
+    | "oversikt"
+    | "starter"
+    | "eiendomsforvaltning"
+    | "api"
+    | "integrasjoner";
+  description: string;
+  icon: JSX.Element;
 }[] = [
   {
     title: "Propdock Oversikt",
@@ -78,19 +83,19 @@ export const HELP_CATEGORIES: {
     description: "Lær hvordan du bruker Propdock API.",
     icon: <Webhook className="h-6 w-6 text-gray-500" />,
   },
-]
+];
 
 export const getPopularArticles = () => {
   const popularArticles = POPULAR_ARTICLES.map((slug) => {
-    const post = allHelpPosts.find((post) => post.slug === slug)
+    const post = allHelpPosts.find((post) => post.slug === slug);
     if (!post) {
-      console.warn(`Popular article with slug "${slug}" not found`)
+      console.warn(`Popular article with slug "${slug}" not found`);
     }
-    return post
-  }).filter((post) => post != null)
+    return post;
+  }).filter((post) => post != null);
 
-  return popularArticles
-}
+  return popularArticles;
+};
 
 export const FEATURES_LIST = [
   {
@@ -212,4 +217,4 @@ export const FEATURES_LIST = [
     bentoDescription:
       "Create beautiful flyers and posters with QR codes for your links.",
   },
-]
+];

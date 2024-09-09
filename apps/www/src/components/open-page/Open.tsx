@@ -3,15 +3,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 
 export default function OpenCardSection() {
   return (
-    <section className="container -mt-10 flex flex-col items-center">
+    <section className="-mt-10 container flex flex-col items-center">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <CardTitle className="font-medium text-sm">Total Revenue</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -26,15 +26,15 @@ export default function OpenCardSection() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">$45,231.89</div>
+            <p className="text-muted-foreground text-xs">
               +20.1% from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+            <CardTitle className="font-medium text-sm">Subscriptions</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -51,15 +51,15 @@ export default function OpenCardSection() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">+2350</div>
+            <p className="text-muted-foreground text-xs">
               +180.1% from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <CardTitle className="font-medium text-sm">Sales</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -75,15 +75,15 @@ export default function OpenCardSection() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">+12,234</div>
+            <p className="text-muted-foreground text-xs">
               +19% from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <CardTitle className="font-medium text-sm">Active Now</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -98,13 +98,13 @@ export default function OpenCardSection() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="font-bold text-2xl">+573</div>
+            <p className="text-muted-foreground text-xs">
               +201 since last hour
             </p>
           </CardContent>
         </Card>
       </div>
     </section>
-  )
+  );
 }

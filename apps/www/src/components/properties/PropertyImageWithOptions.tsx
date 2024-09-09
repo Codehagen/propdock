@@ -30,7 +30,7 @@ const PropertyImageWithOptions = ({ image }) => {
   ].filter((option) => option.description); // Filter out options without a description
 
   return (
-    <div className="min-lg:flex-col justify-center gap-x-4 max-lg:space-y-4 lg:flex">
+    <div className="justify-center gap-x-4 max-lg:space-y-4 lg:flex min-lg:flex-col">
       <div className="lg:w-1/2">
         <PropertyPicture src={image.url} alt={image.description} />
       </div>

@@ -1,7 +1,5 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
 import {
   Table,
   TableBody,
@@ -9,12 +7,14 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
+import Link from "next/link";
+import { useState } from "react";
 
 const PropertiesTable = ({ properties }) => {
-  const [sortKey, setSortKey] = useState("createdAt") // default sort key
-  const [sortOrder, setSortOrder] = useState("desc") // default sort order
-  const [filter, setFilter] = useState("")
+  const [sortKey, setSortKey] = useState("createdAt"); // default sort key
+  const [sortOrder, setSortOrder] = useState("desc"); // default sort order
+  const [filter, setFilter] = useState("");
 
   // Sort and filter the properties
   const sortedFilteredProperties = properties
@@ -22,19 +22,23 @@ const PropertiesTable = ({ properties }) => {
       property.address.toLowerCase().includes(filter.toLowerCase()),
     )
     .sort((a, b) => {
-      if (a[sortKey] < b[sortKey]) return sortOrder === "asc" ? -1 : 1
-      if (a[sortKey] > b[sortKey]) return sortOrder === "asc" ? 1 : -1
-      return 0
-    })
+      if (a[sortKey] < b[sortKey]) {
+        return sortOrder === "asc" ? -1 : 1;
+      }
+      if (a[sortKey] > b[sortKey]) {
+        return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
 
   const toggleSort = (key) => {
     if (sortKey === key) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
-      setSortKey(key)
-      setSortOrder("asc")
+      setSortKey(key);
+      setSortOrder("asc");
     }
-  }
+  };
 
   return (
     <>
@@ -71,7 +75,7 @@ const PropertiesTable = ({ properties }) => {
         </TableBody>
       </Table>
     </>
-  )
-}
+  );
+};
 
-export default PropertiesTable
+export default PropertiesTable;

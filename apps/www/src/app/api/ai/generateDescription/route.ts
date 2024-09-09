@@ -1,6 +1,6 @@
-// app/api/ai/generateDescription/route.ts
-import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+// app/api/ai/generateDescription/route.ts
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();

@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { assignTenantToOfficeSpace } from "@/actions/create-tenant-to-office-space"
-import { getTenantsComboBox } from "@/actions/get-tenants-combo-box"
-import { Button } from "@propdock/ui/components/button"
+import { assignTenantToOfficeSpace } from "@/actions/create-tenant-to-office-space";
+import { getTenantsComboBox } from "@/actions/get-tenants-combo-box";
+import { Button } from "@propdock/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -11,58 +10,59 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@propdock/ui/components/command"
+} from "@propdock/ui/components/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@propdock/ui/components/popover"
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
-import { toast } from "sonner"
+} from "@propdock/ui/components/popover";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import * as React from "react";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface Tenant {
-  id: number
-  name: string
-  orgnr: number | null
-  numEmployees: number
-  building: { name: string }
-  floor: { number: number } | null
-  officeSpace: { name: string } | null
+  id: number;
+  name: string;
+  orgnr: number | null;
+  numEmployees: number;
+  building: { name: string };
+  floor: { number: number } | null;
+  officeSpace: { name: string } | null;
 }
 
 export function SeeTenantsComboBox({ officeSpaceId, workspaceId }) {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState<number | null>(null)
-  const [tenants, setTenants] = React.useState<Tenant[]>([])
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState<number | null>(null);
+  const [tenants, setTenants] = React.useState<Tenant[]>([]);
 
   React.useEffect(() => {
     async function fetchTenants() {
-      const response = await getTenantsComboBox(workspaceId)
+      const response = await getTenantsComboBox(workspaceId);
       if (response.success) {
-        setTenants(response.tenants || []) // Ensure tenants is always an array
+        setTenants(response.tenants || []); // Ensure tenants is always an array
       } else {
-        toast.error("Failed to fetch tenants.")
+        toast.error("Failed to fetch tenants.");
       }
     }
-    fetchTenants()
-  }, [workspaceId])
+    fetchTenants();
+  }, [workspaceId]);
 
   const handleSelect = async (tenantId: number) => {
     try {
-      const result = await assignTenantToOfficeSpace(officeSpaceId, tenantId)
+      const result = await assignTenantToOfficeSpace(officeSpaceId, tenantId);
       if (result.success) {
-        toast.success("Tenant assigned successfully.")
-        setValue(tenantId) // Set the selected tenant value
+        toast.success("Tenant assigned successfully.");
+        setValue(tenantId); // Set the selected tenant value
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
     } catch (error) {
-      toast.error(error.message || "Failed to assign tenant.")
+      toast.error(error.message || "Failed to assign tenant.");
     }
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -105,5 +105,5 @@ export function SeeTenantsComboBox({ officeSpaceId, workspaceId }) {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

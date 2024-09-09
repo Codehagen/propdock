@@ -1,10 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Card,
   CardContent,
@@ -12,8 +10,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Checkbox } from "@propdock/ui/components/checkbox"
+} from "@propdock/ui/components/card";
+import { Checkbox } from "@propdock/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -22,30 +20,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@propdock/ui/components/popover"
+} from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
-import { Switch } from "@propdock/ui/components/switch"
-import { Textarea } from "@propdock/ui/components/textarea"
-import { toast } from "@propdock/ui/components/use-toast"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+} from "@propdock/ui/components/select";
+import { Switch } from "@propdock/ui/components/switch";
+import { Textarea } from "@propdock/ui/components/textarea";
+import { toast } from "@propdock/ui/components/use-toast";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 // Define the validation schema
 const FormSchema = z.object({
@@ -59,10 +59,10 @@ const FormSchema = z.object({
   dob: z.date({
     required_error: "A date of birth is required.",
   }),
-})
+});
 
 export function ReusableFormTemplate() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -75,28 +75,28 @@ export function ReusableFormTemplate() {
       security_emails: true,
       mobile: true,
     },
-  })
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // Simulate form submission
-      const result = await submitForm(data)
+      const result = await submitForm(data);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to submit form.")
+        throw new Error(result.error || "Failed to submit form.");
       }
 
-      toast.success(`Form submitted successfully`)
-      form.reset()
+      toast.success("Form submitted successfully");
+      form.reset();
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card>
@@ -199,7 +199,7 @@ export function ReusableFormTemplate() {
               )}
             />
             <div>
-              <h3 className="mb-4 text-lg font-medium">Email Notifications</h3>
+              <h3 className="mb-4 font-medium text-lg">Email Notifications</h3>
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -280,7 +280,7 @@ export function ReusableFormTemplate() {
         </form>
       </Form>
     </Card>
-  )
+  );
 }
 
 // Dummy function to simulate form submission
@@ -288,7 +288,7 @@ async function submitForm(data) {
   // Simulate a delay
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ success: true })
-    }, 1000)
-  })
+      resolve({ success: true });
+    }, 1000);
+  });
 }

@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateContractDetails } from "@/actions/update-contract-details"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
-import { Calendar } from "@propdock/ui/components/calendar"
+import { updateContractDetails } from "@/actions/update-contract-details";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
+import { Calendar } from "@propdock/ui/components/calendar";
 import {
   Form,
   FormControl,
@@ -12,20 +11,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@propdock/ui/components/popover"
+} from "@propdock/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
+} from "@propdock/ui/components/select";
 import {
   Sheet,
   SheetClose,
@@ -35,16 +34,17 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format, parseISO } from "date-fns"
-import { nb } from "date-fns/locale"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/sheet";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format, parseISO } from "date-fns";
+import { nb } from "date-fns/locale";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { currencies } from "@/lib/currencies"
-import { cn } from "@/lib/utils"
+import { currencies } from "@/lib/currencies";
+import { cn } from "@/lib/utils";
 
 // Define the validation schema
 const ContractSchema = z.object({
@@ -53,26 +53,29 @@ const ContractSchema = z.object({
   endDate: z.date({ required_error: "Sluttdato påkrevd" }),
   baseRent: z
     .string()
-    .refine((val) => !isNaN(parseFloat(val.replace(/\s/g, ""))), {
+    .refine((val) => !Number.isNaN(Number.parseFloat(val.replace(/\s/g, ""))), {
       message: "Leieinntekter må være et positivt tall",
     })
-    .transform((val) => parseFloat(val.replace(/\s/g, ""))),
+    .transform((val) => Number.parseFloat(val.replace(/\s/g, ""))),
   indexationType: z.enum(["MARKET", "CPI", "MANUAL"]),
   indexValue: z
     .string()
     .optional()
     .nullable()
     .refine(
-      (val) => val === null || val === "" || !isNaN(parseFloat(val || "0")),
+      (val) =>
+        val === null ||
+        val === "" ||
+        !Number.isNaN(Number.parseFloat(val || "0")),
       {
         message: "KPI verdi må være et tall",
       },
     )
     .transform((val) =>
-      val === null || val === "" ? null : parseFloat(val || "0"),
+      val === null || val === "" ? null : Number.parseFloat(val || "0"),
     ),
   currencyIso: z.string().min(1, "Currency is required"),
-})
+});
 
 export function EditContractSheet({
   contractId,
@@ -81,11 +84,11 @@ export function EditContractSheet({
   children,
   tenantId,
 }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Convert dates to ISO strings if they are Date objects
-  const formatDateString = (date) => (date instanceof Date ? date : date)
+  const formatDateString = (date) => (date instanceof Date ? date : date);
 
   const form = useForm({
     resolver: zodResolver(ContractSchema),
@@ -98,49 +101,49 @@ export function EditContractSheet({
       indexValue: initialValues.indexValue?.toString() || undefined,
       currencyIso: initialValues.currencyIso || undefined,
     },
-  })
+  });
 
   const formatBaseRent = (value) => {
-    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-  }
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
 
   const handleBaseRentChange = (e) => {
-    const { value } = e.target
-    const formattedValue = formatBaseRent(value.replace(/\s/g, ""))
-    form.setValue("baseRent", formattedValue)
-  }
+    const { value } = e.target;
+    const formattedValue = formatBaseRent(value.replace(/\s/g, ""));
+    form.setValue("baseRent", formattedValue);
+  };
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     const parsedData = {
       ...data,
       startDate: new Date(data.startDate),
       endDate: new Date(data.endDate),
       tenantId,
-    }
+    };
 
     try {
       const result = await updateContractDetails(
         contractId,
         parsedData,
         currentPath,
-      )
+      );
 
       if (!result.success) {
-        throw new Error(result.error || "Kunne ikke oppdatere kontrakten.")
+        throw new Error(result.error || "Kunne ikke oppdatere kontrakten.");
       }
 
-      toast.success(`Kontrakten ble oppdatert.`)
-      form.reset()
-      setIsOpen(false) // Close the sheet on success
+      toast.success("Kontrakten ble oppdatert.");
+      form.reset();
+      setIsOpen(false); // Close the sheet on success
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -208,7 +211,7 @@ export function EditContractSheet({
                         locale={nb}
                         selected={field.value ? field.value : undefined}
                         onSelect={(date) => {
-                          field.onChange(date ? date : "")
+                          field.onChange(date ? date : "");
                         }}
                       />
                     </PopoverContent>
@@ -359,5 +362,5 @@ export function EditContractSheet({
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

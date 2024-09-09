@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { createBuilding } from "@/actions/create-building"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createBuilding } from "@/actions/create-building";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@propdock/ui/components/dropdown-menu"
+} from "@propdock/ui/components/dropdown-menu";
 import {
   Form,
   FormControl,
@@ -19,8 +18,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Sheet,
   SheetContent,
@@ -29,11 +28,12 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import fetchProperties from "src/lib/address-search"
-import { z } from "zod"
+} from "@propdock/ui/components/sheet";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import fetchProperties from "src/lib/address-search";
+import { z } from "zod";
 
 // Define the validation schema
 const BuildingSchema = z.object({
@@ -43,12 +43,12 @@ const BuildingSchema = z.object({
   bnr: z.coerce.string(),
   snr: z.coerce.string(),
   fnr: z.coerce.string(),
-})
+});
 
 export function AddBuildingSheet({ propertyId }) {
-  const [address, setAddress] = useState<any>([])
-  const [openSearch, setOpenSearch] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [address, setAddress] = useState<any>([]);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(BuildingSchema),
     defaultValues: {
@@ -59,90 +59,90 @@ export function AddBuildingSheet({ propertyId }) {
       snr: "",
       fnr: "",
     },
-  })
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Convert string inputs to numbers
     const convertedData = {
       ...data,
-      gnr: data.gnr ? parseInt(data.gnr, 10) : undefined,
-      bnr: data.bnr ? parseInt(data.bnr, 10) : undefined,
-      snr: data.snr ? parseInt(data.snr, 10) : undefined,
-      fnr: data.fnr ? parseInt(data.fnr, 10) : undefined,
-    }
+      gnr: data.gnr ? Number.parseInt(data.gnr, 10) : undefined,
+      bnr: data.bnr ? Number.parseInt(data.bnr, 10) : undefined,
+      snr: data.snr ? Number.parseInt(data.snr, 10) : undefined,
+      fnr: data.fnr ? Number.parseInt(data.fnr, 10) : undefined,
+    };
 
     try {
-      const result = await createBuilding(propertyId, convertedData)
+      const result = await createBuilding(propertyId, convertedData);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save building.")
+        throw new Error(result.error || "Failed to save building.");
       }
 
-      toast.success(`Byggningen "${data.name}" ble lagret.`)
-      form.reset()
+      toast.success(`Byggningen "${data.name}" ble lagret.`);
+      form.reset();
       // Optionally, refresh the page or update the state to show the new building
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   async function handleSearchProperty(address: string) {
-    const data = await fetchProperties(address)
+    const data = await fetchProperties(address);
     if (!address) {
-      setAddress([])
-      setOpenSearch(false)
+      setAddress([]);
+      setOpenSearch(false);
     }
     if (data?.adresser?.length) {
-      setAddress(data.adresser)
-      setOpenSearch(true)
+      setAddress(data.adresser);
+      setOpenSearch(true);
     }
   }
 
   function handleEnterKey(event: any, data: any) {
     if (event.key === "Enter") {
-      handleSelectAddress(data)
-      setOpenSearch(false)
+      handleSelectAddress(data);
+      setOpenSearch(false);
     }
     if (event.key === "Esc") {
-      setOpenSearch(false)
+      setOpenSearch(false);
     }
   }
 
   function handleSelectAddress(data: any) {
     // Reset the form if user selects a new address
-    const savedName = form.getValues("name")
-    form.reset()
-    form.setValue("name", savedName)
+    const savedName = form.getValues("name");
+    form.reset();
+    form.setValue("name", savedName);
     if (data) {
-      form.setValue("address", data.adressetekst)
-      form.setValue("gnr", data.gardsnummer)
-      form.setValue("bnr", data.bruksnummer)
-      form.setValue("fnr", data.festenummer)
+      form.setValue("address", data.adressetekst);
+      form.setValue("gnr", data.gardsnummer);
+      form.setValue("bnr", data.bruksnummer);
+      form.setValue("fnr", data.festenummer);
       // form.setValue("snr", data.??)  // There is no property called "snr/seksjonsnummer" - Could it be "bruksenhetsnummer" or "undernummer" (??)
     }
-    setOpenSearch(false)
+    setOpenSearch(false);
   }
 
-  const ulRef = useRef<HTMLUListElement>(null)
+  const ulRef = useRef<HTMLUListElement>(null);
 
   // Close the dropdown if user clicks outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ulRef.current && !ulRef.current.contains(event.target)) {
-        setOpenSearch(false)
+        setOpenSearch(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [ulRef])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ulRef]);
 
   return (
     <Sheet>
@@ -185,14 +185,16 @@ export function AddBuildingSheet({ propertyId }) {
                         // Close search if user presses "Esc"
                         onKeyDown={(event) => {
                           if (event.key === "Escape") {
-                            event.preventDefault()
-                            event.stopPropagation()
-                            setOpenSearch(false)
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setOpenSearch(false);
                           }
                         }}
                         onKeyUp={(e) => {
-                          if (e.key === "Escape") return
-                          void handleSearchProperty(e.currentTarget.value)
+                          if (e.key === "Escape") {
+                            return;
+                          }
+                          void handleSearchProperty(e.currentTarget.value);
                         }}
                         placeholder="Address..."
                         {...field}
@@ -212,21 +214,20 @@ export function AddBuildingSheet({ propertyId }) {
                                   onKeyDown={(event) => {
                                     // Close search if user presses "Esc"
                                     if (event.key === "Escape") {
-                                      event.preventDefault()
-                                      event.stopPropagation()
-                                      setOpenSearch(false)
+                                      event.preventDefault();
+                                      event.stopPropagation();
+                                      setOpenSearch(false);
                                     }
-                                    handleEnterKey(event, adr)
+                                    handleEnterKey(event, adr);
                                   }}
                                   onClick={() => handleSelectAddress(adr)}
-                                  tabIndex={0}
                                   key={`${adr.adressetekst} - ${adr.oppateringsdato} - ${adr?.representasjonspunkt?.lat}`}
                                   className="px-2 py-1.5 text-sm outline-none hover:cursor-default hover:bg-accent focus:bg-accent"
                                 >
                                   {adr.adressetekst} - {adr.postnummer}{" "}
                                   {adr.poststed}
                                 </li>
-                              )
+                              );
                             })
                           : null}
                       </ul>
@@ -301,5 +302,5 @@ export function AddBuildingSheet({ propertyId }) {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

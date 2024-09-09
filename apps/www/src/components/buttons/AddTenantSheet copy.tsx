@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createTenant } from "@/actions/create-tenant"
-import { getProperties } from "@/actions/get-properties"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { createTenant } from "@/actions/create-tenant";
+import { getProperties } from "@/actions/get-properties";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,15 +11,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
+} from "@propdock/ui/components/select";
 import {
   Sheet,
   SheetContent,
@@ -29,10 +28,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@propdock/ui/components/sheet"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/sheet";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const TenantSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),
@@ -42,11 +42,11 @@ const TenantSchema = z.object({
     .regex(/^\d+$/, "Organisasjonsnummer må være et tall"),
   numEmployees: z.number().min(1, "Antall ansatte er påkrevd"),
   propertyId: z.string().optional(),
-})
+});
 
 export function AddTenantSheet() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [properties, setProperties] = useState<Property[]>([])
+  const [isLoading, setIsLoading] = useState(false);
+  const [properties, setProperties] = useState<Property[]>([]);
 
   const form = useForm({
     resolver: zodResolver(TenantSchema),
@@ -56,45 +56,45 @@ export function AddTenantSheet() {
       numEmployees: 1, // Default value set to 1
       propertyId: "",
     },
-  })
+  });
 
   useEffect(() => {
     async function fetchProperties() {
-      const properties = await getProperties()
-      setProperties(properties)
+      const properties = await getProperties();
+      setProperties(properties);
     }
-    fetchProperties()
-  }, [])
+    fetchProperties();
+  }, []);
 
   const onSubmit = async (data: z.infer<typeof TenantSchema>) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const tenantData = {
         name: data.name,
-        orgnr: parseInt(data.orgnr, 10), // Ensure orgnr is an integer
+        orgnr: Number.parseInt(data.orgnr, 10), // Ensure orgnr is an integer
         numEmployees: Number(data.numEmployees), // Ensure numEmployees is a number
         property: data.propertyId
-          ? { connect: { id: parseInt(data.propertyId, 10) } }
+          ? { connect: { id: Number.parseInt(data.propertyId, 10) } }
           : undefined,
-      }
+      };
 
-      const result = await createTenant(tenantData)
+      const result = await createTenant(tenantData);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to save tenant.")
+        throw new Error(result.error || "Failed to save tenant.");
       }
 
-      toast.success(`Leietaker ${data.name} ble lagret.`)
-      form.reset()
+      toast.success(`Leietaker ${data.name} ble lagret.`);
+      form.reset();
       // Optionally, refresh the page or update the state to show the new tenant
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Sheet>
@@ -162,7 +162,7 @@ export function AddTenantSheet() {
                   <FormLabel>Eiendom</FormLabel>
                   <Select
                     onValueChange={(value) => {
-                      field.onChange(value)
+                      field.onChange(value);
                     }}
                     value={field.value}
                   >
@@ -297,5 +297,5 @@ export function AddTenantSheet() {
         </Form>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

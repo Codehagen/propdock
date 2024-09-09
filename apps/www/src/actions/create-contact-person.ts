@@ -1,14 +1,14 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 interface ContactPersonData {
-  name: string
-  email: string
-  phone?: string
+  name: string;
+  email: string;
+  phone?: string;
 }
 
 export async function createContactPerson(
@@ -16,12 +16,12 @@ export async function createContactPerson(
   data: ContactPersonData,
   currentPath: string,
 ) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return { success: false, error: "User not authenticated" }
+    console.error("No user is currently logged in.");
+    return { success: false, error: "User not authenticated" };
   }
 
   try {
@@ -32,22 +32,22 @@ export async function createContactPerson(
         phone: data.phone,
         tenantId: tenantId,
       },
-    })
+    });
 
-    revalidatePath(currentPath)
+    revalidatePath(currentPath);
 
     console.log(
       `Created contact person with ID: ${newContactPerson.id} for tenant ID: ${tenantId}.`,
-    )
+    );
 
-    revalidatePath("/tenant") // Updates the cache for the tenant page
+    revalidatePath("/tenant"); // Updates the cache for the tenant page
 
-    return { success: true, contactPerson: newContactPerson }
+    return { success: true, contactPerson: newContactPerson };
   } catch (error) {
     console.error(
       `Error creating contact person for tenant ID: ${tenantId}`,
       error,
-    )
-    return { success: false, error: error.message }
+    );
+    return { success: false, error: error.message };
   }
 }

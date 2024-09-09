@@ -1,15 +1,15 @@
-import { OpenAPIHono, z } from "@hono/zod-openapi"
-import * as yaml from "yaml"
+import { OpenAPIHono, z } from "@hono/zod-openapi";
+import * as yaml from "yaml";
 import {
+  type ZodOpenApiOperationObject,
   createDocument,
   extendZodWithOpenApi,
-  ZodOpenApiOperationObject,
-} from "zod-openapi"
+} from "zod-openapi";
 
-extendZodWithOpenApi(z)
+extendZodWithOpenApi(z);
 
-const app = new OpenAPIHono()
-const registry = app.openAPIRegistry
+const app = new OpenAPIHono();
+const registry = app.openAPIRegistry;
 
 // User Schema
 const UserSchema = z
@@ -19,7 +19,7 @@ const UserSchema = z
     workspaceId: z.string().nullable(),
     apiKey: z.string(),
   })
-  .openapi({ ref: "User" })
+  .openapi({ ref: "User" });
 
 // Property Schema
 const PropertySchema = z
@@ -29,7 +29,7 @@ const PropertySchema = z
     type: z.string(),
     workspaceId: z.string(),
   })
-  .openapi({ ref: "Property" })
+  .openapi({ ref: "Property" });
 
 // Building Schema
 const BuildingSchema = z
@@ -38,7 +38,7 @@ const BuildingSchema = z
     propertyId: z.string(),
     // Add other relevant fields based on your application's needs
   })
-  .openapi({ ref: "Building" })
+  .openapi({ ref: "Building" });
 
 // Property Create Schema
 const PropertyCreateSchema = z
@@ -46,7 +46,7 @@ const PropertyCreateSchema = z
     name: z.string(),
     type: z.string(),
   })
-  .openapi({ ref: "PropertyCreate" })
+  .openapi({ ref: "PropertyCreate" });
 
 // Building Create Schema
 const BuildingCreateSchema = z
@@ -54,7 +54,7 @@ const BuildingCreateSchema = z
     propertyId: z.string(),
     // Add other relevant fields based on your application's needs
   })
-  .openapi({ ref: "BuildingCreate" })
+  .openapi({ ref: "BuildingCreate" });
 
 // CRUD operations for Properties
 const createProperty: ZodOpenApiOperationObject = {
@@ -83,7 +83,7 @@ const createProperty: ZodOpenApiOperationObject = {
       description: "Server error.",
     },
   },
-}
+};
 
 const getAllProperties: ZodOpenApiOperationObject = {
   operationId: "getAllProperties",
@@ -101,7 +101,7 @@ const getAllProperties: ZodOpenApiOperationObject = {
       description: "Server error.",
     },
   },
-}
+};
 
 // CRUD operations for Buildings
 const createBuilding: ZodOpenApiOperationObject = {
@@ -130,7 +130,7 @@ const createBuilding: ZodOpenApiOperationObject = {
       description: "Server error.",
     },
   },
-}
+};
 
 const getAllBuildings: ZodOpenApiOperationObject = {
   operationId: "getAllBuildings",
@@ -148,7 +148,7 @@ const getAllBuildings: ZodOpenApiOperationObject = {
       description: "Server error.",
     },
   },
-}
+};
 
 // Generate an OpenAPI document
 export function generateOpenAPIDocument() {
@@ -191,5 +191,5 @@ export function generateOpenAPIDocument() {
       },
     },
     security: [{ Bearer: [] }],
-  })
+  });
 }

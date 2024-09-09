@@ -1,21 +1,21 @@
-import { getDashboardData } from "@/actions/get-dashboard-data"
+import { getDashboardData } from "@/actions/get-dashboard-data";
 
-import { DashboardRevenueChart } from "./DasboardRevenueChart"
-import DashboardCardsTop from "./DashboardCardsTop"
-import { DashboardRentedChart } from "./DashboardRentedChart"
-import DashboardTableBestProperties from "./DashboardTableBestProperties"
-import DashboardTableLeaseExpiration from "./DashboardTableLeaseExpiration"
+import { DashboardRevenueChart } from "./DasboardRevenueChart";
+import DashboardCardsTop from "./DashboardCardsTop";
+import { DashboardRentedChart } from "./DashboardRentedChart";
+import DashboardTableBestProperties from "./DashboardTableBestProperties";
+import DashboardTableLeaseExpiration from "./DashboardTableLeaseExpiration";
 
 export default async function DashboardMainDashboard() {
-  const { success, data, error } = await getDashboardData()
+  const { success, data, error } = await getDashboardData();
 
   if (!success) {
-    console.error("Failed to fetch dashboard data:", error)
-    return <div>Error loading dashboard data</div>
+    console.error("Failed to fetch dashboard data:", error);
+    return <div>Error loading dashboard data</div>;
   }
 
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 pl-0 pr-0 sm:px-0 sm:py-0 md:gap-8">
+    <main className="grid flex-1 items-start gap-4 p-4 pr-0 pl-0 sm:px-0 sm:py-0 md:gap-8">
       <div className="col-span-full">
         <DashboardCardsTop dashboardData={data} />
       </div>
@@ -35,7 +35,7 @@ export default async function DashboardMainDashboard() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
 //ALTERNATIV 2

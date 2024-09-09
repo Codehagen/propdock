@@ -1,17 +1,17 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import BlurImage from "@/lib/blog/blur-image"
-import { formatDate } from "@/lib/utils"
+import BlurImage from "@/lib/blog/blur-image";
+import { formatDate } from "@/lib/utils";
 
-import Author from "./author"
+import Author from "./author";
 
 interface BlogPost {
-  title: string
-  summary: string
-  publishedAt: string
-  image: string
-  author: string
-  slug: string
+  title: string;
+  summary: string;
+  publishedAt: string;
+  image: string;
+  author: string;
+  slug: string;
 }
 
 export default function BlogCard({
@@ -19,9 +19,9 @@ export default function BlogCard({
   priority,
 }: {
   data: BlogPost & {
-    blurDataURL: string
-  }
-  priority?: boolean
+    blurDataURL: string;
+  };
+  priority?: boolean;
 }) {
   return (
     <Link
@@ -39,7 +39,7 @@ export default function BlogCard({
       />
       <div className="flex flex-1 flex-col justify-between rounded-b-lg p-6">
         <div>
-          <h2 className="font-display line-clamp-1 text-2xl font-bold">
+          <h2 className="line-clamp-1 font-bold font-display text-2xl">
             {data.title}
           </h2>
           <p className="mt-2 line-clamp-2 text-muted-foreground">
@@ -50,12 +50,12 @@ export default function BlogCard({
           <Author username={data.author} imageOnly />
           <time
             dateTime={data.publishedAt}
-            className="text-sm text-muted-foreground"
+            className="text-muted-foreground text-sm"
           >
             {formatDate(data.publishedAt)}
           </time>
         </div>
       </div>
     </Link>
-  )
+  );
 }

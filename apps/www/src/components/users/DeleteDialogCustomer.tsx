@@ -1,9 +1,8 @@
 // components/DeleteCustomerDialog.tsx
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { deleteCustomer } from "@/actions/Dingify/delete-customer"
-import { Button } from "@propdock/ui/components/button"
+import { deleteCustomer } from "@/actions/Dingify/delete-customer";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,25 +11,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { toast } from "sonner"
+} from "@propdock/ui/components/dialog";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function DeleteCustomerDialog({ customerId }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDelete = async () => {
     try {
-      const result = await deleteCustomer(customerId)
+      const result = await deleteCustomer(customerId);
       if (result.success) {
-        router.refresh()
+        router.refresh();
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
     } catch (error) {
-      toast.error("There was an error deleting the customer.")
-      console.error("Error deleting customer:", error)
+      toast.error("There was an error deleting the customer.");
+      console.error("Error deleting customer:", error);
     }
-  }
+  };
 
   return (
     <Dialog>
@@ -55,5 +55,5 @@ export function DeleteCustomerDialog({ customerId }) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

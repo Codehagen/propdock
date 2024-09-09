@@ -1,38 +1,37 @@
-import { Context } from "hono";
-import { prisma } from "../../lib/db";
-import { Env } from "../../env";
-import { CustomContext } from "../../types";
+import type { User } from "@prisma/client";
+import type { Context } from "hono";
 import { verifyApiKey } from "../../auth/handler";
-import { User } from "@prisma/client";
+import type { Env } from "../../env";
+import { prisma } from "../../lib/db";
+import type { CustomContext } from "../../types";
 
 //const ENV_DEBUG: string | undefined = process.env?.DEBUG_MODE; // TODO: investigate if this can be made to work with wrangler
 const DEBUG: boolean = false; // NB! Change to false before committing.
 
 // Routes that should be exempt from auth entirely
 const AUTH_EXCEPT_ROUTES: string[][] = [
-  ['/api/users', 'POST'],
-  ['/api/external/esign/webhook', "*"]
-]
+  ["/api/users", "POST"],
+  ["/api/external/esign/webhook", "*"],
+];
 
 // Routes that need auth but not a user
-const AUTH_WITHOUT_USER_ROUTES: string[][] = [
-
-]
+const AUTH_WITHOUT_USER_ROUTES: string[][] = [];
 
 // Routes that need auth and a user, but not a workspace
-const AUTH_WITHOUT_WORKSPACE_ROUTES: string[][] = [
+const AUTH_WITHOUT_WORKSPACE_ROUTES: string[][] = [];
 
-]
-
-
-function isExceptedRoute(route_list: string[][], path: string, method: string): boolean {
+function isExceptedRoute(
+  route_list: string[][],
+  path: string,
+  method: string,
+): boolean {
   return route_list.some(([routePath, routeMethod]) => {
-    const pathMatch = routePath.endsWith('/') ? 
-      path.startsWith(routePath) : path === routePath;
-    return pathMatch && (routeMethod === '*' || routeMethod === method);
+    const pathMatch = routePath.endsWith("/")
+      ? path.startsWith(routePath)
+      : path === routePath;
+    return pathMatch && (routeMethod === "*" || routeMethod === method);
   });
 }
-
 
 export default async function authMiddleware(
   c: Context<{
@@ -42,9 +41,13 @@ export default async function authMiddleware(
   next: any,
 ) {
   // Skip all checks for the test endpoint
-  if (c.req.path === '/api/external/test') {
-    if (DEBUG) { console.debug("Middleware debug - inserting test variable into request context") }
-    c.set("test", true)
+  if (c.req.path === "/api/external/test") {
+    if (DEBUG) {
+      console.debug(
+        "Middleware debug - inserting test variable into request context",
+      );
+    }
+    c.set("test", true);
     return next();
   }
 
@@ -55,7 +58,9 @@ export default async function authMiddleware(
 
   // Extract API key from headers & verify that it exists
   const apiKey = c.req.header("x-api-key");
-  if (DEBUG) { console.debug("Middleware debug - API key header:", apiKey) }
+  if (DEBUG) {
+    console.debug("Middleware debug - API key header:", apiKey);
+  }
 
   if (!apiKey) {
     return c.json({ ok: false, message: "API key is required" }, 400);
@@ -63,10 +68,12 @@ export default async function authMiddleware(
 
   // Verify API key
   const apiKeyVerified = await verifyApiKey(apiKey);
-  if (DEBUG) { console.debug("Middleware debug - API key was verified:", apiKeyVerified) }
+  if (DEBUG) {
+    console.debug("Middleware debug - API key was verified:", apiKeyVerified);
+  }
 
   if (!apiKeyVerified) {
-    return c.json({ ok: false, message: "Invalid API key" }, 401)
+    return c.json({ ok: false, message: "Invalid API key" }, 401);
   }
 
   // Paths that require an API key but not a user
@@ -77,34 +84,49 @@ export default async function authMiddleware(
   // User look-up
   const res = await prisma(c.env).userApiKey.findUnique({
     where: { secret: apiKey },
-    include: { user: true }
+    include: { user: true },
   });
 
   if (!res) {
     return c.json({ ok: false, message: "API key did not exist" }, 401);
   }
 
-  const user: User = res.user
-  if (DEBUG) { console.debug("Middleware debug - user:", user.id, user.email, user.workspaceId) }
+  const user: User = res.user;
+  if (DEBUG) {
+    console.debug(
+      "Middleware debug - user:",
+      user.id,
+      user.email,
+      user.workspaceId,
+    );
+  }
 
   if (!user) {
     return c.json({ ok: false, message: "User did not exist" }, 401);
   }
 
   // Insert the user object into request context
-  c.set("user", user) 
+  c.set("user", user);
 
   // Paths that require a user but not a workspace
-  if (isExceptedRoute(AUTH_WITHOUT_WORKSPACE_ROUTES, c.req.path, c.req.method)) {
+  if (
+    isExceptedRoute(AUTH_WITHOUT_WORKSPACE_ROUTES, c.req.path, c.req.method)
+  ) {
     return next();
   }
 
   // Require the user to have a workspace before giving access
-  const workspaceId = user.workspaceId
-  if (workspaceId == null || workspaceId == undefined) {
-    return c.json({ ok: false, message: "You must belong to a workspace in order to access this endpoint." }, 400);
+  const workspaceId = user.workspaceId;
+  if (workspaceId == null || workspaceId === undefined) {
+    return c.json(
+      {
+        ok: false,
+        message:
+          "You must belong to a workspace in order to access this endpoint.",
+      },
+      400,
+    );
   }
-
 
   // Proceed to the route handler
   return next();

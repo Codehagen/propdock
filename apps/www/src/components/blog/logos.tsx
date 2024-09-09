@@ -1,6 +1,6 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import BlurImage from "@/lib/blog/blur-image"
+import BlurImage from "@/lib/blog/blur-image";
 
 const logos = [
   "vercel",
@@ -15,12 +15,12 @@ const logos = [
   "attio",
   "crowd",
   "checkly",
-]
+];
 
 export default function Logos({
   copy = "Giving superpowers to marketing teams at world-class companies",
 }: {
-  copy?: string
+  copy?: string;
 }) {
   return (
     <div className="my-10">
@@ -56,5 +56,5 @@ export default function Logos({
         ))}
       </Link>
     </div>
-  )
+  );
 }

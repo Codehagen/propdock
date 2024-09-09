@@ -1,18 +1,18 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function generateDefaultAnalysis(propertyData: any) {
   try {
-    const user = await getCurrentUser()
-    const userId = user?.id
+    const user = await getCurrentUser();
+    const userId = user?.id;
 
     if (!userId) {
-      console.error("No user is currently logged in.")
-      return { success: false, error: "User not authenticated" }
+      console.error("No user is currently logged in.");
+      return { success: false, error: "User not authenticated" };
     }
 
     const userWorkspace = await prisma.workspace.findFirst({
@@ -26,16 +26,16 @@ export async function generateDefaultAnalysis(propertyData: any) {
       select: {
         id: true,
       },
-    })
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return { success: false, error: "No workspace found" }
+      console.error("No workspace found for this user.");
+      return { success: false, error: "No workspace found" };
     }
 
-    const bra = propertyData.rentableArea || 0
-    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0
-    const ownerCostsManual = propertyData.ownerCostsManual || 0
+    const bra = propertyData.rentableArea || 0;
+    const sumDriftsinntekter = propertyData.sumDriftsinntekter || 0;
+    const ownerCostsManual = propertyData.ownerCostsManual || 0;
 
     const newAnalysis = await prisma.financialAnalysisBuilding.create({
       data: {
@@ -127,16 +127,16 @@ export async function generateDefaultAnalysis(propertyData: any) {
           ],
         },
       },
-    })
+    });
 
-    console.log(`Generated new analysis with ID: ${newAnalysis.id}`)
+    console.log(`Generated new analysis with ID: ${newAnalysis.id}`);
 
     // Update the revalidatePath call
     // revalidatePath(`/analytics/${newAnalysis.id}`)
 
-    return { success: true, analysis: newAnalysis }
+    return { success: true, analysis: newAnalysis };
   } catch (error) {
-    console.error("Error generating default analysis:", error)
-    return { success: false, error: error.message }
+    console.error("Error generating default analysis:", error);
+    return { success: false, error: error.message };
   }
 }

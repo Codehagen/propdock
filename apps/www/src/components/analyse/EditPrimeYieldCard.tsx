@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { updateAnalysis } from "@/actions/update-analysis"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateAnalysis } from "@/actions/update-analysis";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -19,12 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
-import { Switch } from "@propdock/ui/components/switch"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
+import { Switch } from "@propdock/ui/components/switch";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   usePrimeYield: z.boolean().default(false),
@@ -32,15 +32,15 @@ const FormSchema = z.object({
   manYieldMerch: z.string().optional(),
   manYieldMisc: z.string().optional(),
   manYieldWeighted: z.string().optional(),
-})
+});
 
 interface EditPrimeYieldCardProps {
-  analysisId: string
-  initialUsePrimeYield: boolean
-  initialManYieldOffice?: number
-  initialManYieldMerch?: number
-  initialManYieldMisc?: number
-  initialManYieldWeighted?: number
+  analysisId: string;
+  initialUsePrimeYield: boolean;
+  initialManYieldOffice?: number;
+  initialManYieldMerch?: number;
+  initialManYieldMisc?: number;
+  initialManYieldWeighted?: number;
 }
 
 export function EditPrimeYieldCard({
@@ -51,7 +51,7 @@ export function EditPrimeYieldCard({
   initialManYieldMisc,
   initialManYieldWeighted,
 }: EditPrimeYieldCardProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,10 +62,10 @@ export function EditPrimeYieldCard({
       manYieldMisc: initialManYieldMisc?.toString() || "",
       manYieldWeighted: initialManYieldWeighted?.toString() || "",
     },
-  })
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await updateAnalysis(analysisId, {
         usePrimeYield: data.usePrimeYield,
@@ -79,19 +79,19 @@ export function EditPrimeYieldCard({
         manYieldWeighted: data.manYieldWeighted
           ? Number(data.manYieldWeighted)
           : undefined,
-      })
+      });
       if (result.success) {
-        toast.success("Prime yield data ble oppdatert.")
+        toast.success("Prime yield data ble oppdatert.");
       } else {
         throw new Error(
           result.error || "Kunne ikke oppdatere prime yield data.",
-        )
+        );
       }
     } catch (error) {
-      toast.error(error.message)
-      console.error("Feil ved oppdatering av prime yield data:", error)
+      toast.error(error.message);
+      console.error("Feil ved oppdatering av prime yield data:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -116,7 +116,7 @@ export function EditPrimeYieldCard({
       label: "Vektet yield",
       description: "Vektet prime yield for alle arealer (i prosent)",
     },
-  ]
+  ];
 
   return (
     <Card>
@@ -184,5 +184,5 @@ export function EditPrimeYieldCard({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,26 +1,23 @@
-"use client"
+"use client";
 
-import React, { useEffect, useRef, useState } from "react"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/navigation"
-import { generateDefaultAnalysis } from "@/actions/create-default-analysis"
-import { Button } from "@propdock/ui/components/button"
+import { generateDefaultAnalysis } from "@/actions/create-default-analysis";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Input } from "@propdock/ui/components/input"
-import { Separator } from "@propdock/ui/components/separator"
-import { Skeleton } from "@propdock/ui/components/skeleton"
+} from "@propdock/ui/components/card";
+import { Input } from "@propdock/ui/components/input";
+import { Separator } from "@propdock/ui/components/separator";
+import { Skeleton } from "@propdock/ui/components/skeleton";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@propdock/ui/components/tabs"
+} from "@propdock/ui/components/tabs";
 import {
   Building,
   Calendar,
@@ -31,30 +28,35 @@ import {
   Search,
   Users,
   Warehouse,
-} from "lucide-react"
-import { useMap, useMapEvents } from "react-leaflet"
-import { toast } from "sonner"
+} from "lucide-react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import { useMap, useMapEvents } from "react-leaflet";
+import { toast } from "sonner";
 
-import "leaflet/dist/leaflet.css"
+import "leaflet/dist/leaflet.css";
 
-import fetchProperties from "@/lib/address-search"
+import fetchProperties from "@/lib/address-search";
 
 // Dynamic imports for react-leaflet components
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
   { ssr: false },
-)
+);
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
   { ssr: false },
-)
+);
 const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false },
-)
+  {
+    ssr: false,
+  },
+);
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
   ssr: false,
-})
+});
 
 // Updated properties array
 const properties = [
@@ -71,29 +73,29 @@ const properties = [
     longitude: 14.379180886149735,
   },
   // Add more properties as needed
-]
+];
 
 const MapClickHandler = ({ onMapClick }) => {
   useMapEvents({
     click: (e) => {
-      onMapClick(e.latlng)
+      onMapClick(e.latlng);
     },
-  })
-  return null
-}
+  });
+  return null;
+};
 
 export default function PropertyMap() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(true)
-  const [L, setL] = useState<any>(null)
-  const [searchQuery, setSearchQuery] = useState("")
-  const mapRef = useRef<L.Map | null>(null)
-  const [selectedLocation, setSelectedLocation] = useState(null)
-  const [propertyData, setPropertyData] = useState(null)
-  const [nearbyAddresses, setNearbyAddresses] = useState([])
-  const initialPosition = [67.2802, 14.405] // Bodø coordinates
-  const [orgnr, setOrgnr] = useState("")
-  const [mockCompanyData, setMockCompanyData] = useState(null)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const [L, setL] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const mapRef = useRef<L.Map | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [propertyData, setPropertyData] = useState(null);
+  const [nearbyAddresses, setNearbyAddresses] = useState([]);
+  const initialPosition = [67.2802, 14.405]; // Bodø coordinates
+  const [orgnr, setOrgnr] = useState("");
+  const [mockCompanyData, setMockCompanyData] = useState(null);
   const [propertyDetails, setPropertyDetails] = useState({
     tomtetype: "Selveier tomt",
     tomteareal: "5 268 m²",
@@ -102,11 +104,11 @@ export default function PropertyMap() {
     bygningstype: "Kjøpesenter",
     byggeaar: 2014,
     bra: "24591 m²",
-  })
-  const [isPropertyDataLoading, setIsPropertyDataLoading] = useState(false)
+  });
+  const [isPropertyDataLoading, setIsPropertyDataLoading] = useState(false);
 
   const handleOrgnrSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Mock data - in a real scenario, this would be fetched from an API
     setMockCompanyData({
       eier: "Eiendom AS",
@@ -118,12 +120,12 @@ export default function PropertyMap() {
       resultatForSkatt: "1.800.000 NOK",
       aarsresultat: "1.400.000 NOK",
       sumEiendeler: "25.000.000 NOK",
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     const loadLeaflet = async () => {
-      const leaflet = await import("leaflet")
+      const leaflet = await import("leaflet");
       leaflet.Icon.Default.mergeOptions({
         iconRetinaUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon-2x.png",
@@ -131,25 +133,25 @@ export default function PropertyMap() {
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
         shadowUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
-      })
-      setL(leaflet)
-      setIsLoading(false)
-    }
-    loadLeaflet()
-  }, [])
+      });
+      setL(leaflet);
+      setIsLoading(false);
+    };
+    loadLeaflet();
+  }, []);
 
   const handleMapClick = async (latlng) => {
-    setSelectedLocation(latlng)
-    setPropertyData(null)
-    setNearbyAddresses([])
-    setIsPropertyDataLoading(true)
+    setSelectedLocation(latlng);
+    setPropertyData(null);
+    setNearbyAddresses([]);
+    setIsPropertyDataLoading(true);
 
     try {
-      const response = await fetchNearbyAddresses(latlng.lat, latlng.lng)
-      setNearbyAddresses(response.adresser)
+      const response = await fetchNearbyAddresses(latlng.lat, latlng.lng);
+      setNearbyAddresses(response.adresser);
 
       if (response.adresser.length > 0) {
-        const nearestAddress = response.adresser[0]
+        const nearestAddress = response.adresser[0];
         setPropertyData({
           name: nearestAddress.adressetekst,
           address: `${nearestAddress.adressetekst}, ${nearestAddress.postnummer} ${nearestAddress.poststed}`,
@@ -163,39 +165,39 @@ export default function PropertyMap() {
           undernummer: nearestAddress.undernummer,
           objtype: nearestAddress.objtype,
           // Add any other fields you find useful
-        })
+        });
       }
-      setIsPropertyDataLoading(false)
+      setIsPropertyDataLoading(false);
     } catch (error) {
-      console.error("Error fetching nearby addresses:", error)
-      setIsPropertyDataLoading(false)
+      console.error("Error fetching nearby addresses:", error);
+      setIsPropertyDataLoading(false);
     }
-  }
+  };
 
   const handlePropertyClick = (property) => {
-    setSelectedLocation({ lat: property.latitude, lng: property.longitude })
-    setPropertyData(property)
-    mapRef.current?.setView([property.latitude, property.longitude], 15)
-  }
+    setSelectedLocation({ lat: property.latitude, lng: property.longitude });
+    setPropertyData(property);
+    mapRef.current?.setView([property.latitude, property.longitude], 15);
+  };
 
   const fetchNearbyAddresses = async (lat, lon) => {
-    const radius = 100 // Search radius in meters
-    const url = `https://ws.geonorge.no/adresser/v1/punktsok?lat=${lat}&lon=${lon}&radius=${radius}&treffPerSide=5`
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-  }
+    const radius = 100; // Search radius in meters
+    const url = `https://ws.geonorge.no/adresser/v1/punktsok?lat=${lat}&lon=${lon}&radius=${radius}&treffPerSide=5`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  };
 
   const handleCreateAnalysis = async () => {
     if (!propertyData) {
-      toast.error("No property selected. Please select a property first.")
-      return
+      toast.error("No property selected. Please select a property first.");
+      return;
     }
 
     const analysisData = {
       name: propertyData.name || "Ukjent eiendom",
       rentableArea: propertyDetails.bra
-        ? parseInt(propertyDetails.bra.replace(/[^\d]/g, ""))
+        ? Number.parseInt(propertyDetails.bra.replace(/[^\d]/g, ""))
         : undefined,
       address: propertyData.address,
       gardsnummer: propertyData.gardsnummer,
@@ -203,38 +205,39 @@ export default function PropertyMap() {
       kommunenummer: propertyData.kommunenummer,
       kommunenavn: propertyData.kommunenavn,
       sumDriftsinntekter: mockCompanyData?.sumDriftsinntekter
-        ? parseFloat(mockCompanyData.sumDriftsinntekter.replace(/[^\d.]/g, ""))
+        ? Number.parseFloat(
+            mockCompanyData.sumDriftsinntekter.replace(/[^\d.]/g, ""),
+          )
         : undefined,
       // Add any other fields you want to pass from the frontend
-    }
+    };
 
     toast.promise(generateDefaultAnalysis(analysisData), {
       loading: "Creating new analysis...",
       success: (result) => {
         if (result.success) {
-          router.push(`/analytics/${result.analysis.id}/dashboard`)
-          return `Ny analyse opprettet for ${analysisData.name}`
-        } else {
-          throw new Error(result.error)
+          router.push(`/analytics/${result.analysis.id}/dashboard`);
+          return `Ny analyse opprettet for ${analysisData.name}`;
         }
+        throw new Error(result.error);
       },
       error: (err) => `Failed to create analysis: ${err.message}`,
-    })
-  }
+    });
+  };
 
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-4rem)] w-full items-center justify-center">
         <div className="text-center">
           <Loader2 className="mx-auto h-8 w-8 animate-spin" />
-          <p className="mt-2 text-sm text-gray-500">Laster kart...</p>
+          <p className="mt-2 text-gray-500 text-sm">Laster kart...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!L) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -253,7 +256,7 @@ export default function PropertyMap() {
               zoom={13}
               style={{ height: "100%", width: "100%" }}
               whenCreated={(map) => {
-                mapRef.current = map
+                mapRef.current = map;
               }}
             >
               <TileLayer
@@ -330,8 +333,8 @@ export default function PropertyMap() {
                 ? `Valgt lokasjon: ${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
                 : "Velg en lokasjon på kartet"}
             </CardDescription>
-            {propertyData && propertyData.address && (
-              <div className="mt-2 flex items-center space-x-2 text-sm text-muted-foreground">
+            {propertyData?.address && (
+              <div className="mt-2 flex items-center space-x-2 text-muted-foreground text-sm">
                 <MapPin className="h-4 w-4" />
                 <span>{propertyData.address}</span>
               </div>
@@ -363,29 +366,29 @@ export default function PropertyMap() {
                           <MapPin className="h-5 w-5" />
                           <div>
                             <p className="font-semibold">{propertyData.name}</p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-gray-500 text-sm">
                               {propertyData.address}
                             </p>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="text-sm font-medium">Kommune</p>
+                            <p className="font-medium text-sm">Kommune</p>
                             <p>
                               {propertyData.kommunenavn} (
                               {propertyData.kommunenummer})
                             </p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">Type</p>
+                            <p className="font-medium text-sm">Type</p>
                             <p>{propertyData.objtype}</p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">Gårdsnummer</p>
+                            <p className="font-medium text-sm">Gårdsnummer</p>
                             <p>{propertyData.gardsnummer}</p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">Bruksnummer</p>
+                            <p className="font-medium text-sm">Bruksnummer</p>
                             <p>{propertyData.bruksnummer}</p>
                           </div>
                           {/* {propertyData.festenummer && (
@@ -396,7 +399,7 @@ export default function PropertyMap() {
                           )} */}
                           {propertyData.undernummer && (
                             <div>
-                              <p className="text-sm font-medium">Undernummer</p>
+                              <p className="font-medium text-sm">Undernummer</p>
                               <p>{propertyData.undernummer}</p>
                             </div>
                           )}
@@ -411,7 +414,7 @@ export default function PropertyMap() {
                           <div className="flex items-center space-x-2">
                             <Home className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">
+                              <p className="font-medium text-sm">
                                 {propertyDetails.tomtetype}
                               </p>
                               <p>{propertyDetails.tomteareal}</p>
@@ -420,18 +423,18 @@ export default function PropertyMap() {
                           <div className="flex items-center space-x-2">
                             <Building className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">Bygninger</p>
+                              <p className="font-medium text-sm">Bygninger</p>
                               <p>{propertyDetails.antallBygninger}</p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Warehouse className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">
+                              <p className="font-medium text-sm">
                                 Bygningstyper
                               </p>
                               {/* <p>{propertyDetails.antallBygningstyper}</p> */}
-                              <p className="text-xs text-gray-500">
+                              <p className="text-gray-500 text-xs">
                                 {propertyDetails.bygningstype}
                               </p>
                             </div>
@@ -439,7 +442,7 @@ export default function PropertyMap() {
                           <div className="flex items-center space-x-2">
                             <Calendar className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">Byggeår</p>
+                              <p className="font-medium text-sm">Byggeår</p>
                               {/* <p>
                                 {propertyDetails.antallBygninger} av{" "}
                                 {propertyDetails.antallBygninger} bygning
@@ -450,7 +453,7 @@ export default function PropertyMap() {
                           <div className="col-span-2 flex items-center space-x-2">
                             <Building className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">
+                              <p className="font-medium text-sm">
                                 BRA Matrikkel
                               </p>
                               {/* <p>
@@ -500,21 +503,21 @@ export default function PropertyMap() {
                           <div className="flex items-center space-x-2">
                             <DollarSign className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">Inntekter</p>
+                              <p className="font-medium text-sm">Inntekter</p>
                               <p>{mockCompanyData.inntekter}</p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
                             <DollarSign className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">Kostnader</p>
+                              <p className="font-medium text-sm">Kostnader</p>
                               <p>{mockCompanyData.kostnader}</p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Users className="h-5 w-5" />
                             <div>
-                              <p className="text-sm font-medium">
+                              <p className="font-medium text-sm">
                                 Antall Leietakere
                               </p>
                               <p>{mockCompanyData.antallLeietakere}</p>
@@ -528,29 +531,29 @@ export default function PropertyMap() {
                         </h3>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="text-sm font-medium">
+                            <p className="font-medium text-sm">
                               Sum driftsinntekter
                             </p>
                             <p>{mockCompanyData.sumDriftsinntekter}</p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">
+                            <p className="font-medium text-sm">
                               Driftsresultat
                             </p>
                             <p>{mockCompanyData.driftsResultat}</p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">
+                            <p className="font-medium text-sm">
                               Resultat før skatt
                             </p>
                             <p>{mockCompanyData.resultatForSkatt}</p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">Årsresultat</p>
+                            <p className="font-medium text-sm">Årsresultat</p>
                             <p>{mockCompanyData.aarsresultat}</p>
                           </div>
                           <div className="col-span-2">
-                            <p className="text-sm font-medium">Sum eiendeler</p>
+                            <p className="font-medium text-sm">Sum eiendeler</p>
                             <p>{mockCompanyData.sumEiendeler}</p>
                           </div>
                         </div>
@@ -568,5 +571,5 @@ export default function PropertyMap() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

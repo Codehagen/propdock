@@ -1,22 +1,22 @@
-import { Suspense } from "react"
+import { Suspense } from "react";
 
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { Integration } from "@/components/blog/integrations"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import Testimonials from "@/components/blog/testimonials"
+import { Integration } from "@/components/blog/integrations";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import Testimonials from "@/components/blog/testimonials";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata = constructMetadata({
   title: "Integrasjoner - Propdock",
   description:
     "Utforsk våre integrasjoner og se hvordan de kan forbedre din eiendomsforvaltning.",
-})
+});
 
 export default function Integrations() {
   return (
     <>
-      <MaxWidthWrapper className="mb-8 mt-16 text-center">
+      <MaxWidthWrapper className="mt-16 mb-8 text-center">
         <div className="mx-auto mb-10 sm:max-w-lg">
-          <h1 className="font-display text-4xl font-extrabold text-black sm:text-5xl">
+          <h1 className="font-display font-extrabold text-4xl text-black sm:text-5xl">
             Våre{" "}
             <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               integrasjoner
@@ -36,7 +36,7 @@ export default function Integrations() {
       <Suspense>{/* <Testimonials /> */}</Suspense>
       {/* <CTA /> */}
     </>
-  )
+  );
 }
 
 const integrations = [
@@ -87,4 +87,4 @@ const integrations = [
   },
 
   // Add more integrations as needed
-]
+];

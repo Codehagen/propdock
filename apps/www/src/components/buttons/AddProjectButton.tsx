@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { createProjectAndChannel } from "@/actions/Dingify/create-project-and-channel"
-import { Button } from "@propdock/ui/components/button"
+import { createProjectAndChannel } from "@/actions/Dingify/create-project-and-channel";
+import { Button } from "@propdock/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,37 +10,39 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@propdock/ui/components/dialog"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { toast } from "sonner"
+} from "@propdock/ui/components/dialog";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function AddProjectButton() {
-  const [projectName, setProjectName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [projectName, setProjectName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
 
     try {
-      const result = await createProjectAndChannel(projectName)
+      const result = await createProjectAndChannel(projectName);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to add project")
+        throw new Error(result.error || "Failed to add project");
       }
 
-      toast.success(`Project "${projectName}" created successfully.`)
+      toast.success(`Project "${projectName}" created successfully.`);
 
       // router.push(`/project/${result.project?.id}`);
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog>
@@ -89,5 +89,5 @@ export function AddProjectButton() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

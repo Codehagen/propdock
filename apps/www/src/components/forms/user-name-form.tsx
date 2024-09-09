@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import type { FormData } from "@/actions/update-user-name"
-import type { User } from "@prisma/client"
-import { useTransition } from "react"
-import { updateUserName } from "@/actions/update-user-name"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { buttonVariants } from "@propdock/ui/components/button"
+import type { FormData } from "@/actions/update-user-name";
+import { updateUserName } from "@/actions/update-user-name";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { User } from "@prisma/client";
+import { buttonVariants } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -13,23 +12,24 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Input } from "@propdock/ui/components/input"
-import { Label } from "@propdock/ui/components/label"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+} from "@propdock/ui/components/card";
+import { Input } from "@propdock/ui/components/input";
+import { Label } from "@propdock/ui/components/label";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils"
-import { userNameSchema } from "@/lib/validations/user"
-import { Icons } from "@/components/shared/icons"
+import { Icons } from "@/components/shared/icons";
+import { cn } from "@/lib/utils";
+import { userNameSchema } from "@/lib/validations/user";
 
 interface UserNameFormProps {
-  user: Pick<User, "id" | "name">
+  user: Pick<User, "id" | "name">;
 }
 
 export function UserNameForm({ user }: UserNameFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const updateUserNameWithId = updateUserName.bind(null, user.id)
+  const [isPending, startTransition] = useTransition();
+  const updateUserNameWithId = updateUserName.bind(null, user.id);
 
   const {
     handleSubmit,
@@ -40,19 +40,19 @@ export function UserNameForm({ user }: UserNameFormProps) {
     defaultValues: {
       name: user.name || "",
     },
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
-      const { status } = await updateUserNameWithId(data)
+      const { status } = await updateUserNameWithId(data);
 
       if (status !== "success") {
-        toast.error("Your name was not updated. Please try again.")
+        toast.error("Your name was not updated. Please try again.");
       } else {
-        toast.success("Your name has been updated.")
+        toast.success("Your name has been updated.");
       }
-    })
-  })
+    });
+  });
 
   return (
     <form onSubmit={onSubmit}>
@@ -75,7 +75,7 @@ export function UserNameForm({ user }: UserNameFormProps) {
               {...register("name")}
             />
             {errors.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
+              <p className="px-1 text-red-600 text-xs">{errors.name.message}</p>
             )}
           </div>
         </CardContent>
@@ -93,5 +93,5 @@ export function UserNameForm({ user }: UserNameFormProps) {
         </CardFooter>
       </Card>
     </form>
-  )
+  );
 }

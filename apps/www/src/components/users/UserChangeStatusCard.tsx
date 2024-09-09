@@ -4,17 +4,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
-import { Label } from "@propdock/ui/components/label"
+} from "@propdock/ui/components/card";
+import { Label } from "@propdock/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
+} from "@propdock/ui/components/select";
 
-import EmailButton from "./EmailButton" // Adjust the import path as necessary
+import EmailButton from "./EmailButton"; // Adjust the import path as necessary
 
 export default function UserChangeStatusCard({ tenantDetails }) {
   return (
@@ -40,5 +40,5 @@ export default function UserChangeStatusCard({ tenantDetails }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

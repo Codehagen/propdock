@@ -1,34 +1,34 @@
-import { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allHelpPosts } from "content-collections"
-import { ChevronRight } from "lucide-react"
+import { allHelpPosts } from "content-collections";
+import { ChevronRight } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content"
-import HelpArticleLink from "@/components/blog/help-article-link"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import SearchButton from "@/components/blog/search-button"
+import HelpArticleLink from "@/components/blog/help-article-link";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import SearchButton from "@/components/blog/search-button";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content";
 
 export async function generateStaticParams() {
   return HELP_CATEGORIES.map((category) => ({
     slug: category.slug,
-  }))
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Promise<Metadata | undefined> {
   const category = HELP_CATEGORIES.find(
     (category) => category.slug === params.slug,
-  )
+  );
   if (!category) {
-    return
+    return;
   }
 
-  const { title, description } = category
+  const { title, description } = category;
 
   return constructMetadata({
     title: `${title} – Propdock Hjelpesenter`,
@@ -36,19 +36,21 @@ export async function generateMetadata({
     image: `/api/og/help?title=${encodeURIComponent(
       title,
     )}&summary=${encodeURIComponent(description)}`,
-  })
+  });
 }
 
 export default function HelpCategory({
   params,
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const data = HELP_CATEGORIES.find((category) => category.slug === params.slug)
+  const data = HELP_CATEGORIES.find(
+    (category) => category.slug === params.slug,
+  );
   if (!data) {
-    notFound()
+    notFound();
   }
   const articles = allHelpPosts
     .filter((post) => post.categories.includes(data.slug))
@@ -56,14 +58,14 @@ export default function HelpCategory({
     .reduce(
       (acc, curr) => {
         if (POPULAR_ARTICLES.includes(curr.slug)) {
-          acc.unshift(curr)
+          acc.unshift(curr);
         } else {
-          acc.push(curr)
+          acc.push(curr);
         }
-        return acc
+        return acc;
       },
       [] as typeof allHelpPosts,
-    )
+    );
 
   return (
     <>
@@ -76,21 +78,21 @@ export default function HelpCategory({
           <div className="flex items-center space-x-2">
             <Link
               href="/help"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              className="font-medium text-muted-foreground text-sm hover:text-foreground"
             >
               Alle kategorier
             </Link>
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
             <Link
               href={`/help/category/${data.slug}`}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              className="font-medium text-muted-foreground text-sm hover:text-foreground"
             >
               {data.title}
             </Link>
           </div>
           <div className="my-8 flex flex-col space-y-4">
             <Link href={`/help/category/${data.slug}`}>
-              <h1 className="font-display text-2xl font-bold text-foreground sm:text-4xl">
+              <h1 className="font-bold font-display text-2xl text-foreground sm:text-4xl">
                 {data.title}
               </h1>
             </Link>
@@ -104,5 +106,5 @@ export default function HelpCategory({
         </MaxWidthWrapper>
       </div>
     </>
-  )
+  );
 }

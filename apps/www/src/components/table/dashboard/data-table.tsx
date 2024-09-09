@@ -1,20 +1,13 @@
-"use client"
+"use client";
 
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
-import { useState } from "react"
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
@@ -22,7 +15,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@propdock/ui/components/table"
+} from "@propdock/ui/components/table";
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -30,23 +29,24 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { format } from "date-fns"
-import { nb } from "date-fns/locale"
+} from "@tanstack/react-table";
+import { format } from "date-fns";
+import { nb } from "date-fns/locale";
+import { useState } from "react";
 
-import InfoCard from "../info-card"
-import { DataTableToolbar } from "./data-table-toolbar"
+import InfoCard from "../info-card";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  type: "property" | "tenant"
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  type: "property" | "tenant";
 }
 
 interface selectedProp {
-  id: string
-  index: number
-  original: any
+  id: string;
+  index: number;
+  original: any;
 }
 
 export function DataTable<TData, TValue>({
@@ -54,10 +54,10 @@ export function DataTable<TData, TValue>({
   data,
   type,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -76,9 +76,9 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
-  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"))
+  const [selected, setSelected] = useState<selectedProp>(table.getRow("0"));
 
   return (
     <div className="grid gap-8 lg:grid-cols-4">
@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
                               header.getContext(),
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
@@ -166,5 +166,5 @@ export function DataTable<TData, TValue>({
         }}
       />
     </div>
-  )
+  );
 }

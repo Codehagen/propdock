@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Card,
@@ -7,14 +7,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@propdock/ui/components/chart"
-import { TrendingUp } from "lucide-react"
+} from "@propdock/ui/components/chart";
+import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -23,13 +23,13 @@ import {
   ReferenceLine,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
 
 interface AnalysisDiagramDCFProps {
   details: {
-    name: string
+    name: string;
     // Add other necessary properties
-  }
+  };
 }
 
 const chartConfig = {
@@ -37,7 +37,7 @@ const chartConfig = {
     label: "Netto inntekt",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
   // Mock data - replace this with actual data from your analysis
@@ -51,10 +51,10 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
     { year: "2030", netIncome: 1340095 },
     { year: "2031", netIncome: 1407100 },
     { year: "2032", netIncome: 1477455 },
-  ]
+  ];
 
   const averageNetIncome =
-    chartData.reduce((sum, item) => sum + item.netIncome, 0) / chartData.length
+    chartData.reduce((sum, item) => sum + item.netIncome, 0) / chartData.length;
 
   return (
     <Card className="w-full">
@@ -137,11 +137,11 @@ export function AnalysisDiagramDCF({ details }: AnalysisDiagramDCFProps) {
           </span>
           <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground leading-none">
           Gjennomsnittlig netto inntekt over prognoseperioden:{" "}
           {averageNetIncome.toLocaleString()} NOK
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

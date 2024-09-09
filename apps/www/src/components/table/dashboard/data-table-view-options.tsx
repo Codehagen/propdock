@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { Button } from "@propdock/ui/components/button"
+import { Button } from "@propdock/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@propdock/ui/components/dropdown-menu"
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { Table } from "@tanstack/react-table"
+} from "@propdock/ui/components/dropdown-menu";
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { MixerHorizontalIcon } from "@radix-ui/react-icons";
+import type { Table } from "@tanstack/react-table";
 
 interface DataTableViewOptionsProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTableViewOptions<TData>({
@@ -50,9 +50,9 @@ export function DataTableViewOptions<TData>({
               >
                 {column.id}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

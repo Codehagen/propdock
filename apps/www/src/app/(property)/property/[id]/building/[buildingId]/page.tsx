@@ -1,16 +1,16 @@
 // src/app/(property)/property/[id]/building/[buildingId]/page.tsx
 
-import { getBuildingDetails } from "@/actions/get-building-details"
+import { getBuildingDetails } from "@/actions/get-building-details";
 
-import { AddFloorSheet } from "@/components/buttons/AddFloorSheet"
-import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
-import FloorsTable from "@/components/table/floors/floors-table"
+import { AddFloorSheet } from "@/components/buttons/AddFloorSheet";
+import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import FloorsTable from "@/components/table/floors/floors-table";
 
 export default async function BuildingPage({ params }) {
-  const { buildingId } = params
+  const { buildingId } = params;
 
   if (!buildingId) {
     return (
@@ -20,12 +20,12 @@ export default async function BuildingPage({ params }) {
           text="Invalid building ID."
         />
       </DashboardShell>
-    )
+    );
   }
 
   try {
-    const buildingDetails = await getBuildingDetails(buildingId)
-    console.log(buildingDetails)
+    const buildingDetails = await getBuildingDetails(buildingId);
+    console.log(buildingDetails);
 
     if (!buildingDetails) {
       return (
@@ -35,7 +35,7 @@ export default async function BuildingPage({ params }) {
             text="We couldn't find the building you're looking for."
           />
         </DashboardShell>
-      )
+      );
     }
 
     return (
@@ -63,12 +63,12 @@ export default async function BuildingPage({ params }) {
           )}
         </div>
       </DashboardShell>
-    )
+    );
   } catch (error) {
     return (
       <DashboardShell>
         <DashboardHeader heading="Error" text={error.message} />
       </DashboardShell>
-    )
+    );
   }
 }

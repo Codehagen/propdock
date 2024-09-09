@@ -4,14 +4,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 
-import EmailButton from "./EmailButton" // Adjust the import path as necessary
+import EmailButton from "./EmailButton"; // Adjust the import path as necessary
 
 export default function UserEmailCard({ tenantDetails }) {
-  const email = tenantDetails.email || "example@example.com"
-  const name = tenantDetails.name || "[Customer Name]"
-  const subject = "Checking In: How's Your Experience with [Your Product]?"
+  const email = tenantDetails.email || "example@example.com";
+  const name = tenantDetails.name || "[Customer Name]";
+  const subject = "Checking In: How's Your Experience with [Your Product]?";
   const body = `
   Hi ${name},
   
@@ -25,7 +25,7 @@ export default function UserEmailCard({ tenantDetails }) {
   [Your Name]
   
   [Your Contact Information]
-  `
+  `;
 
   return (
     <Card>
@@ -36,9 +36,9 @@ export default function UserEmailCard({ tenantDetails }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div></div>
+        <div />
         <EmailButton email={email} subject={subject} body={body} />
       </CardContent>
     </Card>
-  )
+  );
 }

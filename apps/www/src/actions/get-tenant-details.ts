@@ -1,17 +1,17 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { prisma } from "@/lib/db";
+import { getCurrentUser } from "@/lib/session";
 
 export async function getTenantDetails(tenantId) {
-  const user = await getCurrentUser()
-  const userId = user?.id
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   if (!userId) {
-    console.error("No user is currently logged in.")
-    return null
+    console.error("No user is currently logged in.");
+    return null;
   }
 
   try {
@@ -27,11 +27,11 @@ export async function getTenantDetails(tenantId) {
       select: {
         id: true,
       },
-    })
+    });
 
     if (!userWorkspace) {
-      console.error("No workspace found for this user.")
-      return null
+      console.error("No workspace found for this user.");
+      return null;
     }
 
     // Fetch tenant details
@@ -45,10 +45,10 @@ export async function getTenantDetails(tenantId) {
         contacts: true,
         contracts: true,
       },
-    })
+    });
 
     if (!tenant) {
-      return null
+      return null;
     }
 
     // Verify tenant's property and building belong to the current user's workspace
@@ -57,20 +57,20 @@ export async function getTenantDetails(tenantId) {
         id: tenant.propertyId,
         workspaceId: userWorkspace.id,
       },
-    })
+    });
 
     const building = await prisma.building.findFirst({
       where: {
         id: tenant.buildingId,
         workspaceId: userWorkspace.id,
       },
-    })
+    });
 
     if (!property || !building) {
       console.error(
         "Tenant's property or building does not belong to the user's workspace.",
-      )
-      return null
+      );
+      return null;
     }
 
     // Fetch available floors and office spaces
@@ -85,11 +85,11 @@ export async function getTenantDetails(tenantId) {
           },
         },
       },
-    })
+    });
 
-    return { ...tenant, floors }
+    return { ...tenant, floors };
   } catch (error) {
-    console.error("Error fetching tenant details:", error)
-    return null
+    console.error("Error fetching tenant details:", error);
+    return null;
   }
 }

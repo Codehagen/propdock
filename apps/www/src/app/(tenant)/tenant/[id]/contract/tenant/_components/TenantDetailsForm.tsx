@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { updateContract } from "@/actions/update-contract" // Import the update function
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@propdock/ui/components/button"
+import { updateContract } from "@/actions/update-contract"; // Import the update function
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@propdock/ui/components/button";
 import {
   Card,
   CardContent,
@@ -11,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Form,
   FormControl,
@@ -19,18 +18,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@propdock/ui/components/form"
-import { Input } from "@propdock/ui/components/input"
+} from "@propdock/ui/components/form";
+import { Input } from "@propdock/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@propdock/ui/components/select"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from "@propdock/ui/components/select";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Define validation schema
 const ContactSchema = z.object({
@@ -38,10 +38,10 @@ const ContactSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),
   email: z.string().min(1, "E-post er påkrevd").email("Ugyldig e-postadresse"),
   phone: z.string().min(1, "Telefon er påkrevd"),
-})
+});
 
 export function TenantDetailsForm({ tenantDetails }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ContactSchema),
@@ -50,43 +50,43 @@ export function TenantDetailsForm({ tenantDetails }) {
       email: tenantDetails.contracts[0]?.contactEmail || "",
       phone: tenantDetails.contracts[0]?.contactPhone || "",
     },
-  })
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const result = await updateContract(tenantDetails.contracts[0].id, {
-        contactId: data.contactId ? parseInt(data.contactId) : undefined,
+        contactId: data.contactId ? Number.parseInt(data.contactId) : undefined,
         contactName: data.name,
         contactEmail: data.email,
         contactPhone: data.phone,
-      })
+      });
 
       if (!result.success) {
         throw new Error(
           result.error || "Kunne ikke oppdatere kontaktinformasjonen.",
-        )
+        );
       }
 
-      toast.success("Kontaktinformasjon oppdatert")
+      toast.success("Kontaktinformasjon oppdatert");
     } catch (error) {
-      toast.error(error.message)
-      console.error(error)
+      toast.error(error.message);
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleContactChange = (value) => {
     const contact = tenantDetails.contacts.find(
       (contact) => contact.id.toString() === value,
-    )
-    form.setValue("contactId", value)
-    form.setValue("name", contact?.name || "")
-    form.setValue("email", contact?.email || "")
-    form.setValue("phone", contact?.phone || "")
-  }
+    );
+    form.setValue("contactId", value);
+    form.setValue("name", contact?.name || "");
+    form.setValue("email", contact?.email || "");
+    form.setValue("phone", contact?.phone || "");
+  };
 
   return (
     <Card>
@@ -108,8 +108,8 @@ export function TenantDetailsForm({ tenantDetails }) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => {
-                        field.onChange(value)
-                        handleContactChange(value)
+                        field.onChange(value);
+                        handleContactChange(value);
                       }}
                       value={field.value}
                     >
@@ -180,5 +180,5 @@ export function TenantDetailsForm({ tenantDetails }) {
         </form>
       </Form>
     </Card>
-  )
+  );
 }

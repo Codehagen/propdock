@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import {
   AnimatePresence,
   cubicBezier,
@@ -8,6 +7,7 @@ import {
   useAnimation,
   useInView,
 } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 import { Confetti } from "../ui/confetti";
 
@@ -86,23 +86,23 @@ export function IntegrationsSectionLanding() {
   };
 
   return (
-    <div className="flex h-full transform-gpu  flex-col items-center justify-between gap-5 rounded-lg border border-neutral-200 bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] xl:flex-row">
+    <div className="flex h-full transform-gpu flex-col items-center justify-between gap-5 rounded-lg border border-neutral-200 bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] xl:flex-row dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]">
       <div className="flex w-full flex-col items-start justify-between gap-y-10 p-10 xl:h-full xl:w-1/2">
-        <h2 className="text-3xl font-semibold">
+        <h2 className="font-semibold text-3xl">
           Propdock gjør det enkelt å ha finasiell oversikt over dine eiendommer{" "}
         </h2>
         <a
           href="/dashboard"
-          className="text-base font-normal text-gray-500 underline-offset-4 transition-all hover:underline"
+          className="font-normal text-base text-gray-500 underline-offset-4 transition-all hover:underline"
         >
           Start gratis nå
         </a>
       </div>
       <div className="relative w-full overflow-hidden xl:w-1/2">
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/3 bg-gradient-to-b from-white dark:from-black"></div>
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/3 bg-gradient-to-b from-white dark:from-black" />
         <div
           ref={containerRef}
-          className="relative -right-[50px] -top-[100px] grid max-h-[450px] grid-cols-3 gap-5 [transform:rotate(-15deg)translateZ(10px);]"
+          className="-right-[50px] -top-[100px] relative grid max-h-[450px] grid-cols-3 gap-5 [transform:rotate(-15deg)translateZ(10px);]"
         >
           <AnimatePresence>
             {cardImage.map((card, index) => (

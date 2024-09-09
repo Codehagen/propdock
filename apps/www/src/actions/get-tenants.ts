@@ -1,6 +1,6 @@
-"use server"
+"use server";
 
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
 
 export async function getTenants(workspaceId: string) {
   try {
@@ -53,7 +53,7 @@ export async function getTenants(workspaceId: string) {
       orderBy: {
         name: "asc",
       },
-    })
+    });
 
     return {
       success: true,
@@ -65,9 +65,9 @@ export async function getTenants(workspaceId: string) {
         contractEndDate: tenant.contracts[0]?.endDate ?? null,
         contactPerson: tenant.contracts[0]?.contact ?? null,
       })),
-    }
+    };
   } catch (error) {
-    console.error("Error fetching tenants:", error)
-    return { success: false, error: error.message }
+    console.error("Error fetching tenants:", error);
+    return { success: false, error: error.message };
   }
 }

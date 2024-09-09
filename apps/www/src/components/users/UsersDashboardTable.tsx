@@ -1,19 +1,19 @@
-import { Badge } from "@propdock/ui/components/badge"
+import { Badge } from "@propdock/ui/components/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@propdock/ui/components/card"
+} from "@propdock/ui/components/card";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "@propdock/ui/components/table"
-import { format } from "date-fns"
+} from "@propdock/ui/components/table";
+import { format } from "date-fns";
 
 // Sample transaction data
 const transactions = [
@@ -57,7 +57,7 @@ const transactions = [
     paymentMethod: "Tripletex",
     paid: true,
   },
-]
+];
 
 export default function UsersDashboardTable({ tenantDetails }) {
   return (
@@ -99,5 +99,5 @@ export default function UsersDashboardTable({ tenantDetails }) {
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }
