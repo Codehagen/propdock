@@ -237,7 +237,7 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
       const result = await updateOfficeSpace(officeId, { [field]: parsedValue })
 
       if (result.success) {
-        toast.success("Kontorlokale oppdatert.")
+        toast.success("Kontorlokalet er oppdatert.")
       } else {
         throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
       }
@@ -275,17 +275,23 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
       let result
 
       if (field === "tenants") {
-        // Use the new assignTenantToOffice action
-        const tenantId =
-          value === "none"
-            ? null
-            : state.tenants.find((t) => t.name === value)?.id
-        if (value !== "none" && !tenantId) {
-          throw new Error("Selected tenant not found")
+        const tenantId = value === "none" ? null : value
+
+        // Check if the tenant is already assigned to another office
+        if (tenantId) {
+          const isTenantAssigned = state.floors.some((floor) =>
+            floor.officeSpaces.some((office) =>
+              office.tenants.some((tenant) => tenant.id === tenantId),
+            ),
+          )
+
+          if (isTenantAssigned) {
+            throw new Error("Denne leietakeren er allerede tildelt et kontor.")
+          }
         }
+
         result = await assignTenantToOffice(officeId, tenantId, pathname)
       } else {
-        // For other fields, use the existing updateOfficeSpace action
         result = await updateOfficeSpace(officeId, { [field]: value }, pathname)
       }
 
@@ -295,10 +301,9 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
           type: "UPDATE_OFFICE",
           floorId,
           officeId,
-          field: field as keyof OfficeSpace,
-          value: result.office[field as keyof OfficeSpace],
+          field: "tenants",
+          value: result.office.tenants,
         })
-        // Also update the isRented status
         dispatch({
           type: "UPDATE_OFFICE",
           floorId,
@@ -683,7 +688,7 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
                         <Select
                           value={
                             office.tenants && office.tenants.length > 0
-                              ? office.tenants[0].name
+                              ? office.tenants[0].id
                               : "none"
                           }
                           onValueChange={(value) =>
@@ -703,7 +708,7 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
                               Ingen leietaker
                             </SelectItem>
                             {state.tenants.map((tenant) => (
-                              <SelectItem key={tenant.id} value={tenant.name}>
+                              <SelectItem key={tenant.id} value={tenant.id}>
                                 {tenant.name}
                               </SelectItem>
                             ))}

@@ -17,35 +17,32 @@ export async function assignTenantToOffice(
   }
 
   try {
-    // First, check if the office space exists
-    const officeSpace = await prisma.officeSpace.findUnique({
-      where: { id: officeId },
-      include: { tenants: true },
-    })
-
-    if (!officeSpace) {
-      return { success: false, error: "Office space not found" }
-    }
-
     let updateData: any = {}
 
-    if (tenantId === null) {
-      // Remove all tenants from office
+    if (tenantId === null || tenantId === "none") {
       updateData = {
-        tenants: { set: [] },
+        tenants: { disconnect: true },
         isRented: false,
       }
     } else {
-      // Check if the tenant exists
-      const tenant = await prisma.tenant.findUnique({
-        where: { id: tenantId },
+      // Check if the tenant is already assigned to another office
+      const existingAssignment = await prisma.officeSpace.findFirst({
+        where: {
+          tenants: {
+            some: {
+              id: tenantId,
+            },
+          },
+        },
       })
 
-      if (!tenant) {
-        return { success: false, error: "Tenant not found" }
+      if (existingAssignment) {
+        return {
+          success: false,
+          error: "Denne leietakeren er allerede tildelt et kontor.",
+        }
       }
 
-      // Assign tenant to office
       updateData = {
         tenants: { connect: { id: tenantId } },
         isRented: true,
