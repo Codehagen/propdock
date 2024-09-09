@@ -242,15 +242,23 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
         throw new Error(result.error || "Kunne ikke oppdatere kontorlokale.")
       }
     } catch (error) {
-      // Revert the local state update if there's an error
-      dispatch({
-        type: "UPDATE_OFFICE",
-        floorId,
-        officeId,
-        field: field as keyof OfficeSpace,
-        value: office[field as keyof OfficeSpace],
-      })
-      toast.error(error.message)
+      // Find the current office in the state
+      const currentFloor = state.floors.find((f) => f.id === floorId)
+      const currentOffice = currentFloor?.officeSpaces.find(
+        (o) => o.id === officeId,
+      )
+
+      if (currentOffice) {
+        // Revert the local state update if there's an error
+        dispatch({
+          type: "UPDATE_OFFICE",
+          floorId,
+          officeId,
+          field: field as keyof OfficeSpace,
+          value: currentOffice[field as keyof OfficeSpace],
+        })
+      }
+      toast.error(error.message || "Feil ved oppdatering av kontorlokale")
       console.error("Feil ved oppdatering av kontorlokale:", error)
     } finally {
       setEditingCell(null)
@@ -337,14 +345,19 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
         throw new Error(result.error || "Kunne ikke oppdatere etasje.")
       }
     } catch (error) {
-      // Revert the local state update if there's an error
-      dispatch({
-        type: "UPDATE_FLOOR",
-        floorId,
-        field: field as keyof Floor,
-        value: floor[field as keyof Floor],
-      })
-      toast.error(error.message)
+      // Find the current floor in the state
+      const currentFloor = state.floors.find((f) => f.id === floorId)
+
+      if (currentFloor) {
+        // Revert the local state update if there's an error
+        dispatch({
+          type: "UPDATE_FLOOR",
+          floorId,
+          field: field as keyof Floor,
+          value: currentFloor[field as keyof Floor],
+        })
+      }
+      toast.error(error.message || "Feil ved oppdatering av etasje")
       console.error("Feil ved oppdatering av etasje:", error)
     } finally {
       setEditingCell(null)

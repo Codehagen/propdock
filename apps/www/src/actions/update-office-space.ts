@@ -1,7 +1,5 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
-
 import { prisma } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 
@@ -46,7 +44,6 @@ export async function updateOfficeSpace(
     })
 
     console.log(`Updated office space with ID: ${updatedOfficeSpace.id}.`)
-    revalidatePath(currentPath)
 
     return { success: true, officeSpace: updatedOfficeSpace }
   } catch (error) {
