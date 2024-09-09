@@ -1,13 +1,16 @@
 // src/app/(property)/property/[id]/building/[buildingId]/page.tsx
 
+import { Suspense } from "react"
 import { getBuildingDetails } from "@/actions/get-building-details"
+import { getWorkspaceTenants } from "@/actions/get-workspace-tenants"
 
 import { AddFloorSheet } from "@/components/buttons/AddFloorSheet"
-import { AddOfficeSpaceSheet } from "@/components/buttons/AddOfficeSpaceSheet"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 import FloorsTable from "@/components/table/floors/floors-table"
+import FloorsTable2 from "@/components/table/floors/floors-table-2"
+import FloorsTable2Loading from "@/components/table/floors/floors-table-loading"
 
 export default async function BuildingPage({ params }) {
   const { buildingId } = params
@@ -25,7 +28,6 @@ export default async function BuildingPage({ params }) {
 
   try {
     const buildingDetails = await getBuildingDetails(buildingId)
-    console.log(buildingDetails)
 
     if (!buildingDetails) {
       return (
@@ -38,13 +40,22 @@ export default async function BuildingPage({ params }) {
       )
     }
 
+    // Fetch tenants for the workspace
+    const workspaceId = buildingDetails.workspaceId
+    const { success, tenants } = await getWorkspaceTenants(workspaceId)
+    console.log("tenants", tenants)
+
+    if (!success) {
+      console.error("Failed to fetch tenants")
+    }
+
     return (
       <DashboardShell>
         <DashboardHeader
           heading={buildingDetails.name}
           text="Bygningsdetaljer og administrasjon."
         >
-          <AddFloorSheet buildingId={buildingId} />
+          {/* <AddFloorSheet buildingId={buildingId} /> */}
         </DashboardHeader>
         <div>
           {buildingDetails.floors.length === 0 ? (
@@ -56,10 +67,23 @@ export default async function BuildingPage({ params }) {
               <EmptyPlaceholder.Description>
                 La oss legge til areal for eiendommen
               </EmptyPlaceholder.Description>
-              <AddFloorSheet buildingId={buildingId} />
+              {/* <AddFloorSheet buildingId={buildingId} /> */}
+              <FloorsTable2
+                floors={buildingDetails.floors}
+                tenants={
+                  tenants?.map((t) => ({ id: t.id, name: t.name })) || []
+                }
+              />
             </EmptyPlaceholder>
           ) : (
-            <FloorsTable floors={buildingDetails.floors} />
+            <Suspense fallback={<FloorsTable2Loading />}>
+              <FloorsTable2
+                floors={buildingDetails.floors}
+                tenants={
+                  tenants?.map((t) => ({ id: t.id, name: t.name })) || []
+                }
+              />
+            </Suspense>
           )}
         </div>
       </DashboardShell>

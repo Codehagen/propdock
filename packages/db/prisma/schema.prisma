@@ -161,16 +161,18 @@ model Floor {
 }
 
 model OfficeSpace {
-  id        String     @id @default(cuid())
-  name      String
-  sizeKvm   Float
-  floorId   String
-  isRented  Boolean
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @default(now()) @map("updated_at")
-  floor     Floor      @relation(fields: [floorId], references: [id])
-  tenants   Tenant[]
-  contracts Contract[] @relation("ContractToOfficeSpace")
+  id               String     @id @default(cuid())
+  name             String
+  sizeKvm          Float
+  exclusiveAreaKvm Int
+  commonAreaKvm    Int
+  floorId          String
+  isRented         Boolean
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @default(now()) @map("updated_at")
+  floor            Floor      @relation(fields: [floorId], references: [id])
+  tenants          Tenant[]
+  contracts        Contract[] @relation("ContractToOfficeSpace")
 }
 
 model CommonArea {
