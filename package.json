@@ -22,7 +22,7 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint . --write",
     "lint:ws": "pnpm dlx sherif@latest",
-    "sort-packages": "sort-package-json \"**/package.json\"",
+    "sort-packages": "sort-package-json \"**/package.json\" \"!**/node_modules/**\"",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
