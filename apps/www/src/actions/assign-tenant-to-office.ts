@@ -20,9 +20,25 @@ export async function assignTenantToOffice(
     let updateData: any = {}
 
     if (tenantId === null || tenantId === "none") {
-      updateData = {
-        tenants: { disconnect: true },
-        isRented: false,
+      // Fetch current tenants of the office
+      const currentOffice = await prisma.officeSpace.findUnique({
+        where: { id: officeId },
+        include: { tenants: true },
+      })
+
+      if (currentOffice && currentOffice.tenants.length > 0) {
+        // Disconnect all current tenants
+        updateData = {
+          tenants: {
+            disconnect: currentOffice.tenants.map((tenant) => ({
+              id: tenant.id,
+            })),
+          },
+          isRented: false,
+        }
+      } else {
+        // If there are no tenants, just update isRented
+        updateData = { isRented: false }
       }
     } else {
       // Check if the tenant is already assigned to another office

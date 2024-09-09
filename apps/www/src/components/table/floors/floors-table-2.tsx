@@ -56,6 +56,7 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 
+// Interfaces
 interface OfficeSpace {
   id: string
   name: string
@@ -82,6 +83,7 @@ interface State {
   }
 }
 
+// Action types
 type Action =
   | { type: "SET_FLOORS"; floors: Floor[] }
   | { type: "UPDATE_FLOOR"; floorId: string; field: keyof Floor; value: any }
@@ -96,6 +98,7 @@ type Action =
   | { type: "SORT"; key: keyof OfficeSpace }
   | { type: "DELETE_OFFICE"; officeId: string }
 
+// Reducer function
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_FLOORS":
@@ -121,12 +124,11 @@ function reducer(state: State, action: Action): State {
                     ? {
                         ...office,
                         [action.field]: action.value,
-                        // Update isRented based on tenants
-                        ...(action.field === "tenants" && {
-                          isRented:
-                            Array.isArray(action.value) &&
-                            action.value.length > 0,
-                        }),
+                        isRented:
+                          action.field === "tenants"
+                            ? Array.isArray(action.value) &&
+                              action.value.length > 0
+                            : office.isRented,
                       }
                     : office,
                 ),
@@ -139,10 +141,7 @@ function reducer(state: State, action: Action): State {
         ...state,
         floors: state.floors.map((floor) =>
           floor.id === action.floorId
-            ? {
-                ...floor,
-                officeSpaces: [...floor.officeSpaces, action.office],
-              }
+            ? { ...floor, officeSpaces: [...floor.officeSpaces, action.office] }
             : floor,
         ),
       }
@@ -173,23 +172,22 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+// Initial state
 const initialState: State = {
   floors: [],
   tenants: [],
   sortConfig: { key: null, direction: "ascending" },
 }
 
+// Props interface
 interface FloorsTable2Props {
   floors: Floor[]
   tenants: { id: string; name: string }[]
 }
 
+// Main component
 export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
-  const [state, dispatch] = useReducer(reducer, {
-    floors: [],
-    tenants: tenants,
-    sortConfig: { key: null, direction: "ascending" },
-  })
+  const [state, dispatch] = useReducer(reducer, { ...initialState, tenants })
   const [editingCell, setEditingCell] = useState<{
     floorId: string
     officeId: string
@@ -205,6 +203,7 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
     dispatch({ type: "SET_FLOORS", floors })
   }, [floors])
 
+  // Handler functions
   const handleCellEdit = async (
     floorId: string,
     officeId: string,
@@ -377,124 +376,6 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
     }
   }
 
-  const EditableCell = ({ floor, office, field, type = "text" }) => {
-    const isEditing =
-      editingCell?.floorId === floor.id &&
-      editingCell?.officeId === office.id &&
-      editingCell?.field === field
-    const value = office[field]
-
-    return (
-      <TableCell
-        onClick={() =>
-          setEditingCell({ floorId: floor.id, officeId: office.id, field })
-        }
-        className="relative cursor-pointer p-4"
-      >
-        {isEditing ? (
-          <Input
-            type={type}
-            defaultValue={value}
-            autoFocus
-            onBlur={(e) =>
-              handleCellEdit(floor.id, office.id, field, e.target.value)
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleCellEdit(
-                  floor.id,
-                  office.id,
-                  field,
-                  e.currentTarget.value,
-                )
-              }
-            }}
-            className="absolute inset-0 h-full w-full border-none bg-white p-4 focus:ring-1 focus:ring-blue-500"
-          />
-        ) : (
-          <div className={type === "number" ? "text-right" : ""}>
-            {type === "number" && value != null
-              ? Number(value).toLocaleString()
-              : value || ""}
-          </div>
-        )}
-      </TableCell>
-    )
-  }
-
-  const EditableFloorCell = ({ floor, field, type = "text" }) => {
-    const isEditing =
-      editingCell?.floorId === floor.id &&
-      editingCell?.officeId === null &&
-      editingCell?.field === field
-    const value = floor[field]
-
-    return (
-      <div
-        onClick={() =>
-          setEditingCell({ floorId: floor.id, officeId: null, field })
-        }
-        className="relative cursor-pointer p-2"
-      >
-        {isEditing ? (
-          <Input
-            type={type}
-            defaultValue={value}
-            autoFocus
-            onBlur={(e) =>
-              handleFloorEdit(floor.id, field, Number(e.target.value))
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleFloorEdit(floor.id, field, Number(e.currentTarget.value))
-              }
-            }}
-            className="absolute inset-0 h-full w-full border-2 border-blue-500 bg-white p-2 text-lg font-semibold focus:ring-2 focus:ring-blue-500"
-          />
-        ) : (
-          <div className="text-right text-lg font-semibold">
-            {type === "number" && value != null
-              ? Number(value).toLocaleString()
-              : value || ""}
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  const sortedOffices = (offices: OfficeSpace[]) => {
-    if (!state.sortConfig.key) return offices
-
-    return [...offices].sort((a, b) => {
-      if (a[state.sortConfig.key!] < b[state.sortConfig.key!]) {
-        return state.sortConfig.direction === "ascending" ? -1 : 1
-      }
-      if (a[state.sortConfig.key!] > b[state.sortConfig.key!]) {
-        return state.sortConfig.direction === "ascending" ? 1 : -1
-      }
-      return 0
-    })
-  }
-
-  const renderSortIcon = (key: keyof OfficeSpace) => {
-    if (state.sortConfig.key !== key) {
-      return <ArrowUpDown className="ml-2 h-4 w-4" />
-    }
-    return state.sortConfig.direction === "ascending" ? (
-      <ArrowUpDown className="ml-2 h-4 w-4 text-blue-500" />
-    ) : (
-      <ArrowUpDown className="ml-2 h-4 w-4 rotate-180 transform text-blue-500" />
-    )
-  }
-
-  const calculateTotalOfficeArea = (offices: OfficeSpace[]) => {
-    return offices.reduce(
-      (total, office) =>
-        total + Number(office.sizeKvm) + Number(office.commonAreaKvm),
-      0,
-    )
-  }
-
   const handleAddFloor = async () => {
     if (!buildingId) {
       toast.error("Bygnings-ID mangler")
@@ -583,195 +464,145 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
     }
   }
 
+  // Helper functions
+  const calculateTotalOfficeArea = (offices: OfficeSpace[]) => {
+    return offices.reduce(
+      (total, office) =>
+        total + Number(office.sizeKvm) + Number(office.commonAreaKvm),
+      0,
+    )
+  }
+
+  const sortedOffices = (offices: OfficeSpace[]) => {
+    if (!state.sortConfig.key) return offices
+
+    return [...offices].sort((a, b) => {
+      if (a[state.sortConfig.key!] < b[state.sortConfig.key!]) {
+        return state.sortConfig.direction === "ascending" ? -1 : 1
+      }
+      if (a[state.sortConfig.key!] > b[state.sortConfig.key!]) {
+        return state.sortConfig.direction === "ascending" ? 1 : -1
+      }
+      return 0
+    })
+  }
+
+  // Render functions
+  const renderSortIcon = (key: keyof OfficeSpace) => {
+    if (state.sortConfig.key !== key) {
+      return <ArrowUpDown className="ml-2 h-4 w-4" />
+    }
+    return state.sortConfig.direction === "ascending" ? (
+      <ArrowUpDown className="ml-2 h-4 w-4 text-blue-500" />
+    ) : (
+      <ArrowUpDown className="ml-2 h-4 w-4 rotate-180 transform text-blue-500" />
+    )
+  }
+
+  const EditableCell = ({ floor, office, field, type = "text" }) => {
+    const isEditing =
+      editingCell?.floorId === floor.id &&
+      editingCell?.officeId === office.id &&
+      editingCell?.field === field
+    const value = office[field]
+
+    return (
+      <TableCell
+        onClick={() =>
+          setEditingCell({ floorId: floor.id, officeId: office.id, field })
+        }
+        className="relative cursor-pointer p-4"
+      >
+        {isEditing ? (
+          <Input
+            type={type}
+            defaultValue={value}
+            autoFocus
+            onBlur={(e) =>
+              handleCellEdit(floor.id, office.id, field, e.target.value)
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCellEdit(
+                  floor.id,
+                  office.id,
+                  field,
+                  e.currentTarget.value,
+                )
+              }
+            }}
+            className="absolute inset-0 h-full w-full border-none bg-white p-4 focus:ring-1 focus:ring-blue-500"
+          />
+        ) : (
+          <div className={type === "number" ? "text-right" : ""}>
+            {type === "number" && value != null
+              ? Number(value).toLocaleString()
+              : value || ""}
+          </div>
+        )}
+      </TableCell>
+    )
+  }
+
+  const EditableFloorCell = ({ floor, field, type = "text" }) => {
+    const isEditing =
+      editingCell?.floorId === floor.id &&
+      editingCell?.officeId === null &&
+      editingCell?.field === field
+    const value = floor[field]
+
+    return (
+      <div
+        onClick={() =>
+          setEditingCell({ floorId: floor.id, officeId: null, field })
+        }
+        className="relative cursor-pointer p-2"
+      >
+        {isEditing ? (
+          <Input
+            type={type}
+            defaultValue={value}
+            autoFocus
+            onBlur={(e) =>
+              handleFloorEdit(floor.id, field, Number(e.target.value))
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleFloorEdit(floor.id, field, Number(e.currentTarget.value))
+              }
+            }}
+            className="absolute inset-0 h-full w-full border-2 border-blue-500 bg-white p-2 text-lg font-semibold focus:ring-2 focus:ring-blue-500"
+          />
+        ) : (
+          <div className="text-right text-lg font-semibold">
+            {type === "number" && value != null
+              ? Number(value).toLocaleString()
+              : value || ""}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Main render
   return (
     <div className="container mx-auto space-y-8 p-4">
-      {state.floors.map((floor) => {
-        const totalOfficeArea = calculateTotalOfficeArea(floor.officeSpaces)
-        const areaDiscrepancy = floor.maxTotalKvm - totalOfficeArea
-
-        return (
-          <Card key={floor.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-2xl font-bold">
-                Etasje {floor.number}
-              </CardTitle>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Totalt etasjeareal:</span>
-                <div className="w-24">
-                  <EditableFloorCell
-                    floor={floor}
-                    field="maxTotalKvm"
-                    type="number"
-                  />
-                </div>
-                <span>kvm</span>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickAddOffice(floor.id)}
-              >
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Legg til kontor
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead
-                      onClick={() => dispatch({ type: "SORT", key: "name" })}
-                      className="cursor-pointer"
-                    >
-                      <div className="flex items-center">
-                        <Building2 className="mr-2 h-4 w-4" />
-                        Kontor
-                        {renderSortIcon("name")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      onClick={() => dispatch({ type: "SORT", key: "sizeKvm" })}
-                      className="cursor-pointer"
-                    >
-                      Eksklusivt areal (kvm) {renderSortIcon("sizeKvm")}
-                    </TableHead>
-                    <TableHead
-                      onClick={() =>
-                        dispatch({ type: "SORT", key: "commonAreaKvm" })
-                      }
-                      className="cursor-pointer"
-                    >
-                      Fellesareal (kvm) {renderSortIcon("commonAreaKvm")}
-                    </TableHead>
-                    <TableHead>Totalt areal (kvm)</TableHead>
-                    <TableHead
-                      onClick={() =>
-                        dispatch({ type: "SORT", key: "isRented" })
-                      }
-                      className="cursor-pointer"
-                    >
-                      Leietaker {renderSortIcon("isRented")}
-                    </TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Slett</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sortedOffices(floor.officeSpaces).map((office) => (
-                    <TableRow
-                      key={office.id}
-                      className={office.isRented ? "bg-green-50" : "bg-red-50"}
-                    >
-                      <EditableCell
-                        floor={floor}
-                        office={office}
-                        field="name"
-                      />
-                      <EditableCell
-                        floor={floor}
-                        office={office}
-                        field="sizeKvm"
-                        type="number"
-                      />
-                      <EditableCell
-                        floor={floor}
-                        office={office}
-                        field="commonAreaKvm"
-                        type="number"
-                      />
-                      <TableCell className="text-right">
-                        {(
-                          Number(office.sizeKvm) + Number(office.commonAreaKvm)
-                        ).toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        <Select
-                          value={
-                            office.tenants && office.tenants.length > 0
-                              ? office.tenants[0].id
-                              : "none"
-                          }
-                          onValueChange={(value) =>
-                            handleCellChange(
-                              floor.id,
-                              office.id,
-                              "tenants",
-                              value,
-                            )
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Velg leietaker" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="none">
-                              Ingen leietaker
-                            </SelectItem>
-                            {state.tenants.map((tenant) => (
-                              <SelectItem key={tenant.id} value={tenant.id}>
-                                {tenant.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                      <TableCell>
-                        {office.isRented ? (
-                          <Badge
-                            variant="outline"
-                            className="flex items-center gap-1 bg-green-100 text-green-800"
-                          >
-                            <CheckCircle2 className="h-4 w-4" />
-                            Utleid
-                          </Badge>
-                        ) : (
-                          <Badge
-                            variant="destructive"
-                            className="flex items-center gap-1"
-                          >
-                            <XCircle className="h-4 w-4" />
-                            Ledig
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              onClick={() => handleQuickDelete(office.id)}
-                              variant="ghost"
-                              size="icon"
-                            >
-                              <MinusCircle className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>Slett kontor</TooltipContent>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-            <CardFooter>
-              {areaDiscrepancy !== 0 && (
-                <Alert variant="destructive">
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Arealavvik</AlertTitle>
-                  <AlertDescription>
-                    Det totale arealet av kontorer ({totalOfficeArea} kvm)
-                    samsvarer ikke med det totale etasjearealet (
-                    {floor.maxTotalKvm} kvm).
-                    {areaDiscrepancy > 0
-                      ? ` Det er ${areaDiscrepancy} kvm uallokert areal.`
-                      : ` Kontorene overstiger etasjearealet med ${Math.abs(areaDiscrepancy)} kvm.`}
-                  </AlertDescription>
-                </Alert>
-              )}
-            </CardFooter>
-          </Card>
-        )
-      })}
+      {state.floors.map((floor) => (
+        <FloorCard
+          key={floor.id}
+          floor={floor}
+          state={state}
+          dispatch={dispatch}
+          handleQuickAddOffice={handleQuickAddOffice}
+          handleQuickDelete={handleQuickDelete}
+          handleCellChange={handleCellChange}
+          EditableCell={EditableCell}
+          EditableFloorCell={EditableFloorCell}
+          renderSortIcon={renderSortIcon}
+          sortedOffices={sortedOffices}
+          calculateTotalOfficeArea={calculateTotalOfficeArea}
+        />
+      ))}
       <div className="flex justify-center">
         <Button onClick={handleAddFloor} size="lg">
           <PlusCircle className="mr-2 h-5 w-5" />
@@ -779,5 +610,190 @@ export default function FloorsTable2({ floors, tenants }: FloorsTable2Props) {
         </Button>
       </div>
     </div>
+  )
+}
+
+// FloorCard component
+function FloorCard({
+  floor,
+  state,
+  dispatch,
+  handleQuickAddOffice,
+  handleQuickDelete,
+  handleCellChange,
+  EditableCell,
+  EditableFloorCell,
+  renderSortIcon,
+  sortedOffices,
+  calculateTotalOfficeArea,
+}) {
+  const totalOfficeArea = calculateTotalOfficeArea(floor.officeSpaces)
+  const areaDiscrepancy = floor.maxTotalKvm - totalOfficeArea
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-2xl font-bold">
+          Etasje {floor.number}
+        </CardTitle>
+        <div className="flex items-center space-x-2">
+          <span className="font-semibold">Totalt etasjeareal:</span>
+          <div className="w-24">
+            <EditableFloorCell
+              floor={floor}
+              field="maxTotalKvm"
+              type="number"
+            />
+          </div>
+          <span>kvm</span>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleQuickAddOffice(floor.id)}
+        >
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Legg til kontor
+        </Button>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead
+                onClick={() => dispatch({ type: "SORT", key: "name" })}
+                className="cursor-pointer"
+              >
+                <div className="flex items-center">
+                  <Building2 className="mr-2 h-4 w-4" />
+                  Kontor
+                  {renderSortIcon("name")}
+                </div>
+              </TableHead>
+              <TableHead
+                onClick={() => dispatch({ type: "SORT", key: "sizeKvm" })}
+                className="cursor-pointer"
+              >
+                Eksklusivt areal (kvm) {renderSortIcon("sizeKvm")}
+              </TableHead>
+              <TableHead
+                onClick={() => dispatch({ type: "SORT", key: "commonAreaKvm" })}
+                className="cursor-pointer"
+              >
+                Fellesareal (kvm) {renderSortIcon("commonAreaKvm")}
+              </TableHead>
+              <TableHead>Totalt areal (kvm)</TableHead>
+              <TableHead
+                onClick={() => dispatch({ type: "SORT", key: "isRented" })}
+                className="cursor-pointer"
+              >
+                Leietaker {renderSortIcon("isRented")}
+              </TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Slett</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sortedOffices(floor.officeSpaces).map((office) => (
+              <TableRow
+                key={office.id}
+                className={office.isRented ? "bg-green-50" : "bg-red-50"}
+              >
+                <EditableCell floor={floor} office={office} field="name" />
+                <EditableCell
+                  floor={floor}
+                  office={office}
+                  field="sizeKvm"
+                  type="number"
+                />
+                <EditableCell
+                  floor={floor}
+                  office={office}
+                  field="commonAreaKvm"
+                  type="number"
+                />
+                <TableCell className="text-right">
+                  {(
+                    Number(office.sizeKvm) + Number(office.commonAreaKvm)
+                  ).toLocaleString()}
+                </TableCell>
+                <TableCell>
+                  <Select
+                    value={
+                      office.tenants && office.tenants.length > 0
+                        ? office.tenants[0].id
+                        : "none"
+                    }
+                    onValueChange={(value) =>
+                      handleCellChange(floor.id, office.id, "tenants", value)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Velg leietaker" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">Ingen leietaker</SelectItem>
+                      {state.tenants.map((tenant) => (
+                        <SelectItem key={tenant.id} value={tenant.id}>
+                          {tenant.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  {office.isRented ? (
+                    <Badge
+                      variant="outline"
+                      className="flex items-center gap-1 bg-green-100 text-green-800"
+                    >
+                      <CheckCircle2 className="h-4 w-4" />
+                      Utleid
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="destructive"
+                      className="flex items-center gap-1"
+                    >
+                      <XCircle className="h-4 w-4" />
+                      Ledig
+                    </Badge>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() => handleQuickDelete(office.id)}
+                        variant="ghost"
+                        size="icon"
+                      >
+                        <MinusCircle className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Slett kontor</TooltipContent>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+      <CardFooter>
+        {areaDiscrepancy !== 0 && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Arealavvik</AlertTitle>
+            <AlertDescription>
+              Det totale arealet av kontorer ({totalOfficeArea} kvm) samsvarer
+              ikke med det totale etasjearealet ({floor.maxTotalKvm} kvm).
+              {areaDiscrepancy > 0
+                ? ` Det er ${areaDiscrepancy} kvm uallokert areal.`
+                : ` Kontorene overstiger etasjearealet med ${Math.abs(areaDiscrepancy)} kvm.`}
+            </AlertDescription>
+          </Alert>
+        )}
+      </CardFooter>
+    </Card>
   )
 }
