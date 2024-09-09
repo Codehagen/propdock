@@ -54,7 +54,7 @@ export default async function BuildingPage({ params }) {
           heading={buildingDetails.name}
           text="Bygningsdetaljer og administrasjon."
         >
-          <AddFloorSheet buildingId={buildingId} />
+          {/* <AddFloorSheet buildingId={buildingId} /> */}
         </DashboardHeader>
         <div>
           {buildingDetails.floors.length === 0 ? (
@@ -66,7 +66,13 @@ export default async function BuildingPage({ params }) {
               <EmptyPlaceholder.Description>
                 La oss legge til areal for eiendommen
               </EmptyPlaceholder.Description>
-              <AddFloorSheet buildingId={buildingId} />
+              {/* <AddFloorSheet buildingId={buildingId} /> */}
+              <FloorsTable2
+                floors={buildingDetails.floors}
+                tenants={
+                  tenants?.map((t) => ({ id: t.id, name: t.name })) || []
+                }
+              />
             </EmptyPlaceholder>
           ) : (
             <Suspense fallback={<FloorsTable2Loading />}>
