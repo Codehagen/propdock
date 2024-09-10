@@ -6,9 +6,9 @@ import { PricingCards } from "@/components/pricing-cards"
 import { PricingFaq } from "@/components/pricing-faq"
 
 export const metadata = {
-  title: "Dingify Pricing - Tailored Plans for Your Monitoring Needs",
+  title: "Propdock Priser",
   description:
-    "Explore competitive pricing plans for Dingify. Find the perfect package to enhance your real-time monitoring, event tracking, and data analytics.",
+    "Utforsk konkurransedyktige prisplaner for Propdock. Finn den perfekte pakken for å forbedre din eiendomsforvaltning, leietakersporing og eiendomsanalyse.",
 }
 
 export default async function PricingPage() {

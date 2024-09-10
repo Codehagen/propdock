@@ -9,39 +9,41 @@ import Balancer from "react-wrap-balancer"
 const pricingFaqData = [
   {
     id: "item-1",
-    question: "How does Dingify help with real-time monitoring and analytics?",
+    question:
+      "Hvordan hjelper Propdock med sanntidsovervåking og analyse av eiendomsporteføljen?",
     answer:
-      "Dingify provides comprehensive real-time monitoring and analytics by capturing critical business events, tracking user journeys, and offering detailed KPIs and insights. Make data-driven decisions to optimize your business performance.",
+      "Propdock tilbyr omfattende sanntidsovervåking og analyse ved å fange opp kritiske forretningshendelser, spore leietakernes reiser, og tilby detaljerte KPIer og innsikt. Ta datadrevne beslutninger for å optimalisere ytelsen til din eiendomsportefølje.",
   },
   {
     id: "item-2",
-    question: "Can I integrate Dingify with my existing business tools?",
+    question:
+      "Kan jeg integrere Propdock med mine eksisterende forretningsverktøy?",
     answer:
-      "Absolutely! Dingify is built with integration in mind. Our comprehensive API allows you to seamlessly connect with your existing business tools, ensuring a smooth addition to your current workflow.",
+      "Absolutt! Propdock er bygget med integrasjon i tankene. Vår omfattende API tillater deg å koble sømløst til dine eksisterende forretningsverktøy, som Poweroffice, Fiken, og Tripletex, og sikrer en smidig tilføyelse til din nåværende arbeidsflyt.",
   },
   {
     id: "item-3",
-    question: "What kind of support can I expect with Dingify?",
+    question: "Hvilken type support kan jeg forvente med Propdock?",
     answer:
-      "We offer dedicated support for all our users. Whether you're on a free or paid plan, our team is ready to assist you with any questions or issues you may encounter. Premium support options are available for our Pro plan subscribers.",
+      "Vi tilbyr dedikert support for alle våre brukere. Uansett om du er på en gratis eller betalt plan, er vårt team klart til å hjelpe deg med eventuelle spørsmål eller problemer du måtte støte på. Premium supportalternativer er tilgjengelige for våre Pro-planabonnenter.",
   },
   {
     id: "item-4",
-    question: "Is my data secure with Dingify?",
+    question: "Er dataene mine sikre med Propdock?",
     answer:
-      "Data security is our top priority. We employ SSL encryption and adhere to industry best practices to ensure that all your data, from event tracking to customer information, is securely stored and protected.",
+      "Datasikkerhet er vår høyeste prioritet. Vi bruker SSL-kryptering og følger bransjens beste praksis for å sikre at alle dine data, fra hendelsesporing til kundeinformasjon, er sikkert lagret og beskyttet.",
   },
   {
     id: "item-5",
-    question: "How does the free plan differ from the paid plans?",
+    question: "Hvordan skiller gratisplanen seg fra de betalte planene?",
     answer:
-      "The free plan offers basic features that allow you to experience the advantages of Dingify's real-time monitoring. Our paid plans provide access to more advanced features, including detailed analytics, priority support, and increased event volume.",
+      "Gratisplanen tilbyr grunnleggende funksjoner som lar deg oppleve fordelene med Propdocks sanntidsovervåking av eiendomsporteføljen. Våre betalte planer gir tilgang til mer avanserte funksjoner, inkludert detaljert analyse, prioritert support, og økt hendelsesvolum.",
   },
   {
     id: "item-6",
-    question: "What additional features does the Pro plan include?",
+    question: "Hvilke tilleggsfunksjoner inkluderer Pro-planen?",
     answer:
-      "The Pro plan includes everything in the Basic plan plus advanced analytics, priority support, higher event volume, custom API integrations, and access to new features before they're publicly released.",
+      "Pro-planen inkluderer alt i Basic-planen pluss avansert analyse, prioritert support, høyere hendelsesvolum, tilpassede API-integrasjoner, og tilgang til nye funksjoner før de blir offentlig tilgjengelige.",
   },
 ]
 

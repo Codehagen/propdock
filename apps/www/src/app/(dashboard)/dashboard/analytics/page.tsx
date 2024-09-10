@@ -1,27 +1,27 @@
-import { redirect } from "next/navigation";
-import { getAnalyticsStats } from "@/actions/stats/get-analytics-stats";
-import { getUserStats } from "@/actions/stats/get-users-stats";
+import { redirect } from "next/navigation"
+import { getAnalyticsStats } from "@/actions/stats/get-analytics-stats"
+import { getUserStats } from "@/actions/stats/get-users-stats"
 
-import { authOptions } from "@/lib/auth";
-import { getCurrentUser } from "@/lib/session";
-import CardSection from "@/components/analytics/CardSection";
-import EventsTrendOverTimeChart from "@/components/dashboard/charts/EventsTrendOverTime";
-import UserGrowthTrend from "@/components/dashboard/charts/UserGrowthChart";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { authOptions } from "@/lib/auth"
+import { getCurrentUser } from "@/lib/session"
+import CardSection from "@/components/analytics/CardSection"
+import EventsTrendOverTimeChart from "@/components/dashboard/charts/EventsTrendOverTime"
+import UserGrowthTrend from "@/components/dashboard/charts/UserGrowthChart"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 export const metadata = {
-  title: "Dingify Analytics - Your Alerts Overview",
+  title: "Propdock Analyse - Din Eiendomsoversikt",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
-};
+    "Overvåk og analyser alle dine kritiske eiendomshendelser i sanntid. Få tilgang til nøkkelmetrikker, spor viktige leietakerreiser, og ta datadrevne beslutninger for å optimalisere ytelsen til din eiendomsportefølje på Propdock-dashbordet.",
+}
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions.pages?.signIn || "/login");
+    redirect(authOptions.pages?.signIn || "/login")
   }
 
   //TODO Make these calls dynamic
@@ -56,5 +56,5 @@ export default async function DashboardPage() {
         <UserGrowthTrend />
       </div>
     </DashboardShell>
-  );
+  )
 }
