@@ -1,27 +1,27 @@
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/session";
-import { AddPropertyButton } from "@/components/buttons/AddPropertyButton";
-import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
-import { PropertyColumns } from "@/components/table/dashboard/columns";
-import { DataTable } from "@/components/table/dashboard/data-table";
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/db"
+import { getCurrentUser } from "@/lib/session"
+import { AddPropertyButton } from "@/components/buttons/AddPropertyButton"
+import { AddWorkspaceButton } from "@/components/buttons/AddWorkspaceButton"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { DashboardShell } from "@/components/dashboard/shell"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+import { PropertyColumns } from "@/components/table/dashboard/columns"
+import { DataTable } from "@/components/table/dashboard/data-table"
 
 export const metadata = {
-  title: "Dingify Dashboard - Your Alerts Overview",
+  title: "Propdock Dashbord - Din Eiendomsoversikt",
   description:
-    "Monitor and analyze all your critical events in real-time. Access key metrics, track important journeys, and make data-driven decisions to optimize your business performance on the Dingify Dashboard.",
-};
+    "Overvåk og analyser alle dine eiendommer i sanntid. Få tilgang til nøkkelmetrikk, spor viktige hendelser, og ta datadrevne beslutninger for å optimalisere din eiendomsforvaltning med Propdock Dashbord.",
+}
 
 export default async function PropertyPage() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions.pages?.signIn ?? "/login");
+    redirect(authOptions.pages?.signIn ?? "/login")
   }
 
   // Fetch workspace associated with the user
@@ -36,7 +36,7 @@ export default async function PropertyPage() {
     select: {
       id: true,
     },
-  });
+  })
 
   if (!userWorkspace) {
     return (
@@ -54,7 +54,7 @@ export default async function PropertyPage() {
           <AddWorkspaceButton />
         </EmptyPlaceholder>
       </DashboardShell>
-    );
+    )
   }
 
   //TODO - Make function to fetch properties somewhere else
@@ -103,7 +103,7 @@ export default async function PropertyPage() {
     orderBy: {
       createdAt: "desc",
     },
-  });
+  })
 
   return (
     <DashboardShell>
@@ -131,5 +131,5 @@ export default async function PropertyPage() {
         )}
       </div>
     </DashboardShell>
-  );
+  )
 }
